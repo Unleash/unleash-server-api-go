@@ -9,8 +9,8 @@
 package swagger
 
 type VersionSchema struct {
-	Current *VersionSchemaCurrent `json:"current"`
-	Latest *VersionSchemaCurrent `json:"latest"`
-	IsLatest bool `json:"isLatest"`
-	InstanceId string `json:"instanceId"`
+	Current    *VersionSchemaCurrent `json:"current"`
+	Latest     *VersionSchemaCurrent `json:"latest"`
+	IsLatest   bool                  `json:"isLatest"`
+	InstanceId string                `json:"instanceId"`
 }

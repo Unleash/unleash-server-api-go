@@ -9,7 +9,7 @@
 package swagger
 
 type VariantFlagSchema struct {
-	Name string `json:"name,omitempty"`
-	Enabled bool `json:"enabled,omitempty"`
+	Name    string                    `json:"name,omitempty"`
+	Enabled bool                      `json:"enabled,omitempty"`
 	Payload *VariantFlagSchemaPayload `json:"payload,omitempty"`
 }

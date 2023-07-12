@@ -10,7 +10,7 @@ package swagger
 
 type CreateInvitedUserSchema struct {
 	Username string `json:"username,omitempty"`
-	Email string `json:"email"`
-	Name string `json:"name"`
+	Email    string `json:"email"`
+	Name     string `json:"name"`
 	Password string `json:"password"`
 }

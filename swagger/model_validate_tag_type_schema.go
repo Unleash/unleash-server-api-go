@@ -11,6 +11,6 @@ package swagger
 // The result of validating a tag type.
 type ValidateTagTypeSchema struct {
 	// Whether or not the tag type is valid.
-	Valid bool `json:"valid"`
+	Valid   bool           `json:"valid"`
 	TagType *TagTypeSchema `json:"tagType"`
 }

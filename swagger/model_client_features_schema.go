@@ -15,6 +15,6 @@ type ClientFeaturesSchema struct {
 	// A list of feature toggles with their configuration
 	Features []ClientFeatureSchema `json:"features"`
 	// A list of [Segments](https://docs.getunleash.io/reference/segments) configured for this Unleash instance
-	Segments []SegmentSchema `json:"segments,omitempty"`
-	Query *ClientFeaturesQuerySchema `json:"query,omitempty"`
+	Segments []SegmentSchema            `json:"segments,omitempty"`
+	Query    *ClientFeaturesQuerySchema `json:"query,omitempty"`
 }

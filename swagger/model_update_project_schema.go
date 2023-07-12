@@ -9,6 +9,6 @@
 package swagger
 
 type UpdateProjectSchema struct {
-	Name string `json:"name"`
+	Name        string `json:"name"`
 	Description string `json:"description,omitempty"`
 }

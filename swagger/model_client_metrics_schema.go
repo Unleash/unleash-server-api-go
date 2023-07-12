@@ -15,6 +15,6 @@ type ClientMetricsSchema struct {
 	// A [(somewhat) unique identifier](https://docs.getunleash.io/reference/sdks/node#advanced-usage) for the application
 	InstanceId string `json:"instanceId,omitempty"`
 	// Which environment the application is running in
-	Environment string `json:"environment,omitempty"`
-	Bucket *ClientMetricsSchemaBucket `json:"bucket"`
+	Environment string                     `json:"environment,omitempty"`
+	Bucket      *ClientMetricsSchemaBucket `json:"bucket"`
 }

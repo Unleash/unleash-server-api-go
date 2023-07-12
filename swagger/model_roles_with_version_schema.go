@@ -9,6 +9,6 @@
 package swagger
 
 type RolesWithVersionSchema struct {
-	Version float64 `json:"version"`
-	Roles []RoleSchema `json:"roles"`
+	Version float64      `json:"version"`
+	Roles   []RoleSchema `json:"roles"`
 }

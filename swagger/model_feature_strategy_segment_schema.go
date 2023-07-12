@@ -9,6 +9,6 @@
 package swagger
 
 type FeatureStrategySegmentSchema struct {
-	SegmentId int32 `json:"segmentId"`
+	SegmentId         int32  `json:"segmentId"`
 	FeatureStrategyId string `json:"featureStrategyId"`
 }

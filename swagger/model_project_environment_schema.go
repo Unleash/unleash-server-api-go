@@ -13,6 +13,6 @@ type ProjectEnvironmentSchema struct {
 	// The environment to add to the project
 	Environment string `json:"environment"`
 	// Whether change requests should be enabled or for this environment on the project or not
-	ChangeRequestsEnabled bool `json:"changeRequestsEnabled,omitempty"`
-	DefaultStrategy *CreateFeatureStrategySchema `json:"defaultStrategy,omitempty"`
+	ChangeRequestsEnabled bool                         `json:"changeRequestsEnabled,omitempty"`
+	DefaultStrategy       *CreateFeatureStrategySchema `json:"defaultStrategy,omitempty"`
 }

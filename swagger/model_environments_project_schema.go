@@ -10,6 +10,6 @@ package swagger
 
 // Environments defined for a given project
 type EnvironmentsProjectSchema struct {
-	Version int32 `json:"version"`
+	Version      int32                      `json:"version"`
 	Environments []EnvironmentProjectSchema `json:"environments"`
 }

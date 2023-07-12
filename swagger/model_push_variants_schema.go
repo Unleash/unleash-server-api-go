@@ -9,6 +9,6 @@
 package swagger
 
 type PushVariantsSchema struct {
-	Variants []VariantSchema `json:"variants,omitempty"`
-	Environments []string `json:"environments,omitempty"`
+	Variants     []VariantSchema `json:"variants,omitempty"`
+	Environments []string        `json:"environments,omitempty"`
 }

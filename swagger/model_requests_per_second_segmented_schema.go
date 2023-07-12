@@ -11,5 +11,5 @@ package swagger
 // Get usage metrics separated by client and admin paths
 type RequestsPerSecondSegmentedSchema struct {
 	ClientMetrics *RequestsPerSecondSchema `json:"clientMetrics,omitempty"`
-	AdminMetrics *RequestsPerSecondSchema `json:"adminMetrics,omitempty"`
+	AdminMetrics  *RequestsPerSecondSchema `json:"adminMetrics,omitempty"`
 }

@@ -11,7 +11,7 @@ package swagger
 // A detailed description of the feature environment
 type FeatureEnvironmentSchema struct {
 	// The name of the environment
-	Name string `json:"name"`
+	Name        string `json:"name"`
 	FeatureName string `json:"featureName,omitempty"`
 	Environment string `json:"environment,omitempty"`
 	// The type of the environment

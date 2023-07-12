@@ -9,8 +9,8 @@
 package swagger
 
 type UpsertSegmentSchema struct {
-	Name string `json:"name"`
-	Description string `json:"description,omitempty"`
-	Project string `json:"project,omitempty"`
+	Name        string             `json:"name"`
+	Description string             `json:"description,omitempty"`
+	Project     string             `json:"project,omitempty"`
 	Constraints []ConstraintSchema `json:"constraints"`
 }

@@ -23,6 +23,6 @@ type EnvironmentProjectSchema struct {
 	// The number of client and front-end API tokens that have access to this project
 	ProjectApiTokenCount int32 `json:"projectApiTokenCount,omitempty"`
 	// The number of features enabled in this environment for this project
-	ProjectEnabledToggleCount int32 `json:"projectEnabledToggleCount,omitempty"`
-	DefaultStrategy *CreateFeatureStrategySchema `json:"defaultStrategy,omitempty"`
+	ProjectEnabledToggleCount int32                        `json:"projectEnabledToggleCount,omitempty"`
+	DefaultStrategy           *CreateFeatureStrategySchema `json:"defaultStrategy,omitempty"`
 }

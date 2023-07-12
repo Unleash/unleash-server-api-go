@@ -8,7 +8,7 @@
  */
 package swagger
 
-//          Search for events by type, project, feature, free-text query,         or a combination thereof. Pass an empty object to fetch all events.     
+//          Search for events by type, project, feature, free-text query,         or a combination thereof. Pass an empty object to fetch all events.
 type SearchEventsSchema struct {
 	// Find events by event type (case-sensitive).
 	Type_ string `json:"type,omitempty"`
@@ -16,7 +16,7 @@ type SearchEventsSchema struct {
 	Project string `json:"project,omitempty"`
 	// Find events by feature toggle name (case-sensitive).
 	Feature string `json:"feature,omitempty"`
-	//                  Find events by a free-text search query.                 The query will be matched against the event type,                 the username or email that created the event (if any),                 and the event data payload (if any).             
+	//                  Find events by a free-text search query.                 The query will be matched against the event type,                 the username or email that created the event (if any),                 and the event data payload (if any).
 	Query string `json:"query,omitempty"`
 	// The maximum amount of events to return in the search result
 	Limit int32 `json:"limit,omitempty"`

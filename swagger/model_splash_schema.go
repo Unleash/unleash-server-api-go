@@ -9,7 +9,7 @@
 package swagger
 
 type SplashSchema struct {
-	UserId float64 `json:"userId"`
-	SplashId string `json:"splashId"`
-	Seen bool `json:"seen"`
+	UserId   float64 `json:"userId"`
+	SplashId string  `json:"splashId"`
+	Seen     bool    `json:"seen"`
 }

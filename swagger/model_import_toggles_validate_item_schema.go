@@ -12,6 +12,6 @@ package swagger
 type ImportTogglesValidateItemSchema struct {
 	// The validation error message
 	Message string `json:"message"`
-	// The items affected by this error message 
+	// The items affected by this error message
 	AffectedItems []string `json:"affectedItems"`
 }

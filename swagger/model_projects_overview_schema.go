@@ -9,7 +9,7 @@
 package swagger
 
 type ProjectsOverviewSchema struct {
-	FeatureCount float64 `json:"featureCount"`
-	MemberCount float64 `json:"memberCount"`
-	Projects []ProjectSchema `json:"projects"`
+	FeatureCount float64         `json:"featureCount"`
+	MemberCount  float64         `json:"memberCount"`
+	Projects     []ProjectSchema `json:"projects"`
 }

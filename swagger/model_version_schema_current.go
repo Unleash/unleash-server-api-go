@@ -9,6 +9,6 @@
 package swagger
 
 type VersionSchemaCurrent struct {
-	Oss string `json:"oss,omitempty"`
+	Oss        string `json:"oss,omitempty"`
 	Enterprise string `json:"enterprise,omitempty"`
 }

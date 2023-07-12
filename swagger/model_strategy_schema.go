@@ -19,7 +19,7 @@ type StrategySchema struct {
 	// A short description of the strategy
 	Description string `json:"description"`
 	// Whether the strategy can be edited or not. Strategies bundled with Unleash cannot be edited.
-	Editable bool `json:"editable"`
+	Editable   bool `json:"editable"`
 	Deprecated bool `json:"deprecated"`
 	// A list of relevant parameters for each strategy
 	Parameters []StrategySchemaParameters `json:"parameters"`

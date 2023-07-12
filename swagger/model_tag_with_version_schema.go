@@ -11,6 +11,6 @@ package swagger
 // A tag with a version number representing the schema used to model the tag.
 type TagWithVersionSchema struct {
 	// The version of the schema used to model the tag.
-	Version int32 `json:"version"`
-	Tag *TagSchema `json:"tag"`
+	Version int32      `json:"version"`
+	Tag     *TagSchema `json:"tag"`
 }

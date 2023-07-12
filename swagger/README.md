@@ -127,7 +127,6 @@ Class | Method | HTTP request | Description
 *FrontendAPIApi* | [**RegisterFrontendMetrics**](docs/FrontendAPIApi.md#registerfrontendmetrics) | **Post** /api/frontend/client/metrics | Register client usage metrics
 *ImportExportApi* | [**CallImport**](docs/ImportExportApi.md#callimport) | **Post** /api/admin/state/import | Import state (deprecated)
 *ImportExportApi* | [**Export**](docs/ImportExportApi.md#export) | **Get** /api/admin/state/export | Export state (deprecated)
-*ImportExportApi* | [**ExportFeatures**](docs/ImportExportApi.md#exportfeatures) | **Post** /api/admin/features-batch/export | Export feature toggles from an environment
 *ImportExportApi* | [**ImportToggles**](docs/ImportExportApi.md#importtoggles) | **Post** /api/admin/features-batch/import | Import feature toggles
 *ImportExportApi* | [**ValidateImport**](docs/ImportExportApi.md#validateimport) | **Post** /api/admin/features-batch/validate | Validate feature import data
 *InstanceAdminApi* | [**GetInstanceAdminStats**](docs/InstanceAdminApi.md#getinstanceadminstats) | **Get** /api/admin/instance-admin/statistics | Instance usage statistics

@@ -9,8 +9,8 @@
 package swagger
 
 type CreateFeatureSchema struct {
-	Name string `json:"name"`
-	Type_ string `json:"type,omitempty"`
-	Description string `json:"description,omitempty"`
-	ImpressionData bool `json:"impressionData,omitempty"`
+	Name           string `json:"name"`
+	Type_          string `json:"type,omitempty"`
+	Description    string `json:"description,omitempty"`
+	ImpressionData bool   `json:"impressionData,omitempty"`
 }

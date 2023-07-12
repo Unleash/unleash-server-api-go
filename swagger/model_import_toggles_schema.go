@@ -13,6 +13,6 @@ type ImportTogglesSchema struct {
 	// The exported [project](https://docs.getunleash.io/reference/projects)
 	Project string `json:"project"`
 	// The exported [environment](https://docs.getunleash.io/reference/environments)
-	Environment string `json:"environment"`
-	Data *ExportResultSchema `json:"data"`
+	Environment string              `json:"environment"`
+	Data        *ExportResultSchema `json:"data"`
 }

@@ -9,6 +9,6 @@
 package swagger
 
 type SetStrategySortOrderSchemaInner struct {
-	Id string `json:"id"`
+	Id        string  `json:"id"`
 	SortOrder float64 `json:"sortOrder"`
 }

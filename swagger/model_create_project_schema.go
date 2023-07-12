@@ -9,8 +9,8 @@
 package swagger
 
 type CreateProjectSchema struct {
-	Id string `json:"id"`
-	Name string `json:"name"`
+	Id          string `json:"id"`
+	Name        string `json:"name"`
 	Description string `json:"description,omitempty"`
 	// A mode of the project affecting what actions are possible in this project
 	Mode string `json:"mode,omitempty"`

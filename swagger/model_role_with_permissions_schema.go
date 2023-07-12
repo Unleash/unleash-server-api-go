@@ -9,9 +9,9 @@
 package swagger
 
 type RoleWithPermissionsSchema struct {
-	Id float64 `json:"id"`
-	Type_ string `json:"type"`
-	Name string `json:"name"`
-	Description string `json:"description,omitempty"`
+	Id          float64                 `json:"id"`
+	Type_       string                  `json:"type"`
+	Name        string                  `json:"name"`
+	Description string                  `json:"description,omitempty"`
 	Permissions []AdminPermissionSchema `json:"permissions"`
 }

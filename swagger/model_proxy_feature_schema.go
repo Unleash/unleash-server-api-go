@@ -15,6 +15,6 @@ type ProxyFeatureSchema struct {
 	// Always set to `true`.
 	Enabled bool `json:"enabled"`
 	// `true` if the impression data collection is enabled for the feature, otherwise `false`.
-	ImpressionData bool `json:"impressionData"`
-	Variant *ProxyFeatureSchemaVariant `json:"variant,omitempty"`
+	ImpressionData bool                       `json:"impressionData"`
+	Variant        *ProxyFeatureSchemaVariant `json:"variant,omitempty"`
 }

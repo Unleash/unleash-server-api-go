@@ -9,6 +9,6 @@
 package swagger
 
 type FeaturesSchema struct {
-	Version int32 `json:"version"`
+	Version  int32           `json:"version"`
 	Features []FeatureSchema `json:"features"`
 }

@@ -9,6 +9,6 @@
 package swagger
 
 type CreateRoleWithPermissionsSchemaPermissions struct {
-	Id float64 `json:"id"`
-	Environment string `json:"environment,omitempty"`
+	Id          float64 `json:"id"`
+	Environment string  `json:"environment,omitempty"`
 }

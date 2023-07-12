@@ -9,8 +9,8 @@
 package swagger
 
 type StrategySchemaParameters struct {
-	Name string `json:"name,omitempty"`
-	Type_ string `json:"type,omitempty"`
+	Name        string `json:"name,omitempty"`
+	Type_       string `json:"type,omitempty"`
 	Description string `json:"description,omitempty"`
-	Required bool `json:"required,omitempty"`
+	Required    bool   `json:"required,omitempty"`
 }

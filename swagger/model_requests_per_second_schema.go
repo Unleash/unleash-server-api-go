@@ -11,6 +11,6 @@ package swagger
 // Statistics for usage of Unleash, formatted so it can easily be used in a graph
 type RequestsPerSecondSchema struct {
 	// Whether the query against prometheus succeeded or failed
-	Status string `json:"status,omitempty"`
-	Data *RequestsPerSecondSchemaData `json:"data,omitempty"`
+	Status string                       `json:"status,omitempty"`
+	Data   *RequestsPerSecondSchemaData `json:"data,omitempty"`
 }

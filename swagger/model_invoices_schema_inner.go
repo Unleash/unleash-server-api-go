@@ -10,9 +10,9 @@ package swagger
 
 type InvoicesSchemaInner struct {
 	AmountFormatted string `json:"amountFormatted"`
-	Paid bool `json:"paid"`
-	Status string `json:"status"`
-	DueDate string `json:"dueDate,omitempty"`
-	InvoiceURL string `json:"invoiceURL"`
-	InvoicePDF string `json:"invoicePDF"`
+	Paid            bool   `json:"paid"`
+	Status          string `json:"status"`
+	DueDate         string `json:"dueDate,omitempty"`
+	InvoiceURL      string `json:"invoiceURL"`
+	InvoicePDF      string `json:"invoicePDF"`
 }

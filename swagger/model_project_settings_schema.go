@@ -11,5 +11,5 @@ package swagger
 type ProjectSettingsSchema struct {
 	// Default stickiness for project
 	DefaultStickiness string `json:"defaultStickiness"`
-	Mode string `json:"mode"`
+	Mode              string `json:"mode"`
 }

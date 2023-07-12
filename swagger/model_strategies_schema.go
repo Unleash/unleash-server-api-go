@@ -9,6 +9,6 @@
 package swagger
 
 type StrategiesSchema struct {
-	Version int32 `json:"version"`
+	Version    int32            `json:"version"`
 	Strategies []StrategySchema `json:"strategies"`
 }

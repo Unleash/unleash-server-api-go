@@ -9,9 +9,9 @@
 package swagger
 
 type UpsertContextFieldSchema struct {
-	Name string `json:"name"`
-	Description string `json:"description,omitempty"`
-	Stickiness bool `json:"stickiness,omitempty"`
-	SortOrder float64 `json:"sortOrder,omitempty"`
+	Name        string             `json:"name"`
+	Description string             `json:"description,omitempty"`
+	Stickiness  bool               `json:"stickiness,omitempty"`
+	SortOrder   float64            `json:"sortOrder,omitempty"`
 	LegalValues []LegalValueSchema `json:"legalValues,omitempty"`
 }

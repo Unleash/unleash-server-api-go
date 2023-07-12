@@ -10,5 +10,5 @@ package swagger
 
 type ProjectUsersSchema struct {
 	Users []UserWithProjectRoleSchema `json:"users"`
-	Roles []RoleSchema `json:"roles"`
+	Roles []RoleSchema                `json:"roles"`
 }

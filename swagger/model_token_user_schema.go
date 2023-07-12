@@ -19,6 +19,6 @@ type TokenUserSchema struct {
 	// A token uniquely identifying a user
 	Token string `json:"token"`
 	// A username or email identifying which user created this token
-	CreatedBy string `json:"createdBy"`
-	Role *RoleSchema `json:"role"`
+	CreatedBy string      `json:"createdBy"`
+	Role      *RoleSchema `json:"role"`
 }

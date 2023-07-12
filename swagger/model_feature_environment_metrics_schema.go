@@ -15,8 +15,8 @@ type FeatureEnvironmentMetricsSchema struct {
 	// The name of the application the SDK is being used in
 	AppName string `json:"appName,omitempty"`
 	// Which environment the SDK is being used in
-	Environment string `json:"environment"`
-	Timestamp *DateSchema `json:"timestamp"`
+	Environment string      `json:"environment"`
+	Timestamp   *DateSchema `json:"timestamp"`
 	// How many times the toggle evaluated to true
 	Yes int32 `json:"yes"`
 	// How many times the toggle evaluated to false

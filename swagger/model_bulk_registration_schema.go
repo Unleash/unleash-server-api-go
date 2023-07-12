@@ -19,8 +19,8 @@ type BulkRegistrationSchema struct {
 	// A [(somewhat) unique identifier](https://docs.getunleash.io/reference/sdks/node#advanced-usage) for the application
 	InstanceId string `json:"instanceId"`
 	// How often (in seconds) the application refreshes its features
-	Interval float64 `json:"interval,omitempty"`
-	Started *DateSchema `json:"started,omitempty"`
+	Interval float64     `json:"interval,omitempty"`
+	Started  *DateSchema `json:"started,omitempty"`
 	// Enabled [strategies](https://docs.getunleash.io/reference/activation-strategies) in the application
 	Strategies []string `json:"strategies,omitempty"`
 	// The version the sdk is running. Typically <client>:<version>

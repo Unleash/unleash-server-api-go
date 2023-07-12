@@ -13,6 +13,6 @@ type ProxyFeatureSchemaVariant struct {
 	// The variants name. Is unique for this feature toggle
 	Name string `json:"name"`
 	// Whether the variant is enabled or not.
-	Enabled bool `json:"enabled"`
+	Enabled bool                              `json:"enabled"`
 	Payload *ProxyFeatureSchemaVariantPayload `json:"payload,omitempty"`
 }

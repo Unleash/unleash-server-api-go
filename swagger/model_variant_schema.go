@@ -17,8 +17,8 @@ type VariantSchema struct {
 	// Set to fix if this variant must have exactly the weight allocated to it. If the type is variable, the weight will adjust so that the total weight of all variants adds up to 1000
 	WeightType string `json:"weightType,omitempty"`
 	// [Stickiness](https://docs.getunleash.io/reference/feature-toggle-variants#variant-stickiness) is how Unleash guarantees that the same user gets the same variant every time
-	Stickiness string `json:"stickiness,omitempty"`
-	Payload *VariantSchemaPayload `json:"payload,omitempty"`
+	Stickiness string                `json:"stickiness,omitempty"`
+	Payload    *VariantSchemaPayload `json:"payload,omitempty"`
 	// Overrides assigning specific variants to specific users. The weighting system automatically assigns users to specific groups for you, but any overrides in this list will take precedence.
 	Overrides []OverrideSchema `json:"overrides,omitempty"`
 }

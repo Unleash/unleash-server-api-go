@@ -9,6 +9,6 @@
 package swagger
 
 type ChangeRequestStateSchema struct {
-	State string `json:"state"`
+	State   string `json:"state"`
 	Comment string `json:"comment,omitempty"`
 }

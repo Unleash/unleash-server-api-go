@@ -9,6 +9,6 @@
 package swagger
 
 type EnvironmentsSchema struct {
-	Version int32 `json:"version"`
+	Version      int32               `json:"version"`
 	Environments []EnvironmentSchema `json:"environments"`
 }

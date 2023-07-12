@@ -11,6 +11,6 @@ package swagger
 // Represents tag changes to be applied to a list of features.
 type TagsBulkAddSchema struct {
 	// The list of features that will be affected by the tag changes.
-	Features []string `json:"features"`
-	Tags *UpdateTagsSchema `json:"tags"`
+	Features []string          `json:"features"`
+	Tags     *UpdateTagsSchema `json:"tags"`
 }

@@ -13,6 +13,6 @@ type AdvancedPlaygroundEnvironmentFeatureSchemaVariant struct {
 	// The variant's name. If there is no variant or if the toggle is disabled, this will be `disabled`
 	Name string `json:"name"`
 	// Whether the variant is enabled or not. If the feature is disabled or if it doesn't have variants, this property will be `false`
-	Enabled bool `json:"enabled"`
+	Enabled bool                                                      `json:"enabled"`
 	Payload *AdvancedPlaygroundEnvironmentFeatureSchemaVariantPayload `json:"payload,omitempty"`
 }

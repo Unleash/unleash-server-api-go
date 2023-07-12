@@ -9,6 +9,6 @@
 package swagger
 
 type BulkRegistrationSchemaConnectVia struct {
-	AppName string `json:"appName"`
+	AppName    string `json:"appName"`
 	InstanceId string `json:"instanceId"`
 }

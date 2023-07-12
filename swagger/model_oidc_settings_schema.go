@@ -26,7 +26,7 @@ type OidcSettingsSchema struct {
 	DefaultRootRole string `json:"defaultRootRole,omitempty"`
 	// Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`
 	EmailDomains string `json:"emailDomains,omitempty"`
-	// Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated.   Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information  
+	// Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated.   Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information
 	AcrValues string `json:"acrValues,omitempty"`
 	// The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.
 	IdTokenSigningAlgorithm string `json:"idTokenSigningAlgorithm,omitempty"`

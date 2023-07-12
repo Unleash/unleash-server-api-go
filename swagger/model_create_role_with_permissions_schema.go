@@ -9,8 +9,8 @@
 package swagger
 
 type CreateRoleWithPermissionsSchema struct {
-	Name string `json:"name"`
-	Description string `json:"description,omitempty"`
-	Type_ string `json:"type,omitempty"`
+	Name        string                                       `json:"name"`
+	Description string                                       `json:"description,omitempty"`
+	Type_       string                                       `json:"type,omitempty"`
 	Permissions []CreateRoleWithPermissionsSchemaPermissions `json:"permissions,omitempty"`
 }

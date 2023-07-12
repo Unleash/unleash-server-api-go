@@ -9,6 +9,6 @@
 package swagger
 
 type CloneFeatureSchema struct {
-	Name string `json:"name"`
-	ReplaceGroupId bool `json:"replaceGroupId,omitempty"`
+	Name           string `json:"name"`
+	ReplaceGroupId bool   `json:"replaceGroupId,omitempty"`
 }

@@ -9,6 +9,6 @@
 package swagger
 
 type ExportResultSchemaSegments struct {
-	Id float64 `json:"id"`
-	Name string `json:"name,omitempty"`
+	Id   float64 `json:"id"`
+	Name string  `json:"name,omitempty"`
 }

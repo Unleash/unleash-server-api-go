@@ -11,7 +11,7 @@ package swagger
 // Holds all metrics gathered over a window of time. Typically 1 hour wide
 type ClientMetricsSchemaBucket struct {
 	Start *DateSchema `json:"start"`
-	Stop *DateSchema `json:"stop"`
+	Stop  *DateSchema `json:"stop"`
 	// an object containing feature names with yes/no plus variant usage
 	Toggles map[string]ClientMetricsSchemaBucketToggles `json:"toggles"`
 }
