@@ -10,3 +10,9 @@ find swagger -name "*.go" | xargs sed -i 's/Object/interface{}/g'
 # then run
 gofmt -w swagger
 ```
+
+After generating the code you can use `main.go` to test it works (remember updating unleash servere host and API token)
+
+```bash
+go run main.go --debug-http
+```

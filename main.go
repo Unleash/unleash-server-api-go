@@ -26,13 +26,16 @@ func main() {
 	}
 
 	cfg.AddDefaultHeader("Authorization", "user:a3c8e3e76e7361c0bc79070accf70409d03fbaef4c2b6b90bff466e8")
-	cfg.BasePath = "http://localhost:3000"
+	cfg.BasePath = "http://localhost:4242"
 	apiClient := swagger.NewAPIClient(cfg)
 
 	ctx := context.Background()
 	projects, _, err := apiClient.ProjectsApi.GetProjects(ctx)
 	fmt.Println(err)
+	users, _, err := apiClient.UsersApi.GetUsers(ctx)
+	fmt.Println(err)
 	fmt.Println(projects)
+	fmt.Println(users)
 }
 
 // Custom transport for request and response logging
