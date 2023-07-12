@@ -11,6 +11,8 @@ import (
 )
 
 func main() {
+	unleashApiUrl := flag.String("unleash-api", "", "Specifies the Unleash API URL (e.g. http://localhost:4242 if you're running Unleash locally)")
+	authorization := flag.String("authorization", "", "Token to use on Authorization header")
 	enableDebug := flag.Bool("debug-http", false, "Enable HTTP debug logging")
 
 	flag.Parse()
@@ -25,8 +27,8 @@ func main() {
 		},
 	}
 
-	cfg.AddDefaultHeader("Authorization", "user:a3c8e3e76e7361c0bc79070accf70409d03fbaef4c2b6b90bff466e8")
-	cfg.BasePath = "http://localhost:4242"
+	cfg.AddDefaultHeader("Authorization", *authorization)
+	cfg.BasePath = *unleashApiUrl
 	apiClient := swagger.NewAPIClient(cfg)
 
 	ctx := context.Background()
