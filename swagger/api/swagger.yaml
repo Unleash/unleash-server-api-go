@@ -18,6 +18,8 @@ tags:
   description: Revive or permanently delete [archived feature toggles](https://docs.getunleash.io/advanced/archived_toggles).
 - name: Auth
   description: Manage logins, passwords, etc.
+- name: Change Requests
+  description: API for managing [change requests](https://docs.getunleash.io/reference/change-requests).
 - name: Client
   description: Endpoints for [Unleash server-side clients](https://docs.getunleash.io/reference/sdks).
 - name: Context
@@ -900,6 +902,442 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_401'
+  /api/admin/projects/{projectId}/environments/{environment}/change-requests:
+    post:
+      tags:
+      - Unstable
+      summary: Create/Add change to a change request
+      description: |-
+        Given a change request exists, this endpoint will attempt to add a change to
+                                 an existing change request for the user. If a change request does not exist.
+                                 It will attempt to create it.
+      operationId: changeRequest
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: environment
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: changeRequestOneOrManyCreateSchema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/changeRequestOneOrManyCreateSchema'
+        required: true
+      responses:
+        "200":
+          description: changeRequestSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestSchema'
+  /api/admin/projects/{projectId}/change-requests/config:
+    get:
+      tags:
+      - Unstable
+      summary: Retrieves change request configuration for a project
+      description: Given a projectId, this endpoint will retrieve change request configuration
+        for the project
+      operationId: getProjectChangeRequestConfig
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: changeRequestConfigSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestConfigSchema'
+  /api/admin/projects/{projectId}/environments/{environment}/change-requests/config:
+    put:
+      tags:
+      - Unstable
+      summary: Updates change request configuration for an environment in the project
+      description: This endpoint will change the change request             configuration
+        for a given environment, set it to either on/off and optionally configure
+        the number of approvals needed.
+      operationId: updateProjectChangeRequestConfig
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: environment
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: updateChangeRequestEnvironmentConfigSchema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateChangeRequestEnvironmentConfigSchema'
+        required: true
+      responses:
+        "200":
+          description: This response has no body.
+  /api/admin/projects/{projectId}/change-requests/open:
+    get:
+      tags:
+      - Unstable
+      summary: Retrieves pending change requests in configured environments
+      description: This endpoint will retrieve the pending change requests in the
+        configured environments for the project, for the current user performing the
+        request.
+      operationId: getOpenChangeRequestsForUser
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: changeRequestsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestsSchema'
+  /api/admin/projects/{projectId}/change-requests/pending:
+    get:
+      tags:
+      - Unstable
+      summary: Retrieves pending change requests in configured environments
+      description: This endpoint will retrieve the pending change requests in the
+        configured environments for the project, for the current user performing the
+        request.
+      operationId: getPendingChangeRequestsForUser
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: changeRequestsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestsSchema'
+  /api/admin/projects/{projectId}/change-requests:
+    get:
+      tags:
+      - Unstable
+      summary: Retrieves all change requests for a project
+      description: This endpoint will retrieve all change requests regardless of status
+        for a given project. There's an upper limit of last 300 change requests ordered
+        by creation date.
+      operationId: getChangeRequestsForProject
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: changeRequestsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestsSchema'
+  /api/admin/projects/{projectId}/change-requests/pending/{featureName}:
+    get:
+      tags:
+      - Unstable
+      summary: Retrieves all pending change requests referencing a feature in the
+        project
+      description: This endpoint will retrieve all pending change requests (change
+        requests with a status of Draft | In review | Approved) referencing the given
+        feature toggle name.
+      operationId: getPendingChangeRequestsForFeature
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: featureName
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: changeRequestsSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestsSchema'
+  /api/admin/projects/{projectId}/change-requests/{id}:
+    get:
+      tags:
+      - Unstable
+      summary: Retrieves one change request by id
+      description: This endpoint will retrieve one change request if it matches the
+        provided id.
+      operationId: getChangeRequest
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: changeRequestSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestSchema'
+        "404":
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+    delete:
+      tags:
+      - Unstable
+      summary: Deletes a change request by id
+      description: This endpoint will delete one change request if it matches the
+        provided id.
+      operationId: deleteChangeRequest
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: This response has no body.
+  /api/admin/projects/{projectId}/change-requests/{changeRequestId}/changes/{changeId}:
+    put:
+      tags:
+      - Unstable
+      summary: Edits a single change in a change request
+      description: |-
+        This endpoint will edit one change from a change request if it matches the provided id. The edit removes previous change and inserts a new one. You
+                            should not rely on the changeId for subsequent edits and always check the most recent changeId.
+      operationId: editChange
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: changeRequestId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: changeId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: changeRequestCreateSchema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/changeRequestCreateSchema'
+        required: true
+      responses:
+        "200":
+          description: changeRequestSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestSchema'
+        "404":
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+    delete:
+      tags:
+      - Unstable
+      summary: Discards a change from a change request by change id
+      description: This endpoint will discard one change from a change request if
+        it matches the provided id.
+      operationId: deleteChange
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: changeRequestId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: changeId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: This response has no body.
+  /api/admin/projects/{projectId}/change-requests/{id}/state:
+    put:
+      tags:
+      - Unstable
+      summary: This endpoint will update the state of a change request
+      description: |-
+        This endpoint will update the state of a change request if the business rules allow it. The state can be one of the following: Draft, In review, Approved, Cancelled, Applied. In order to be approved, the change request must have at least one change and the number of approvals must be greater than or equal to the number of approvals required for the environment.
+
+                            Once a change request has been approved, it can be applied. Once a change request has been applied, it cannot be changed. Once a change request has been cancelled, it cannot be changed. Any change to a change request in the state of Approved will result in the state being set to In Review and the number of approvals will be reset.
+      operationId: updateChangeRequestState
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: changeRequestStateSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestStateSchema'
+  /api/admin/projects/{projectId}/change-requests/{id}/title:
+    put:
+      tags:
+      - Unstable
+      summary: This endpoint will update the custom title of a change request
+      description: |-
+        Change requests get a default title e.g. Change Request #1. This endpoint allows to make the title
+                            more meaningful and describe the intent behind the Change Request
+      operationId: updateChangeRequestTitle
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: This response has no body.
+  /api/admin/projects/{projectId}/change-requests/{id}/comments:
+    post:
+      tags:
+      - Unstable
+      summary: This endpoint will add a comment to a change request
+      description: This endpoint will add a comment to a change request for the user
+        making the request.
+      operationId: addChangeRequestComment
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: changeRequestAddCommentSchema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/changeRequestAddCommentSchema'
+        required: true
+      responses:
+        "204":
+          description: This response has no body.
   /api/admin/service-account:
     get:
       tags:
@@ -1250,6 +1688,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_403'
+        "404":
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+  /api/admin/features-batch/export:
+    post:
+      tags:
+      - Import/Export
+      summary: Export feature toggles from an environment
+      description: Exports all features listed in the `features` property from the
+        environment specified in the request body. If set to `true`, the `downloadFile`
+        property will let you download a file with the exported data. Otherwise, the
+        export data is returned directly as JSON. Refer to the documentation for more
+        information about [Unleash's export functionality](https://docs.getunleash.io/reference/deploy/environment-import-export#export).
+      operationId: exportFeatures
+      requestBody:
+        description: exportQuerySchema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/exportQuerySchema'
+        required: true
+      responses:
+        "200":
+          description: exportResultSchema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/exportResultSchema'
         "404":
           description: The requested resource was not found.
           content:
@@ -8042,7 +8511,7 @@ components:
       properties:
         password:
           type: number
-          description: Total number of admins thatº have a password set.
+          description: Total number of admins that have a password set.
         noPassword:
           type: number
           description: Total number of admins that do not have a password set. May
@@ -8351,8 +8820,15 @@ components:
             - feature-project-change
             - feature-tagged
             - feature-untagged
+            - change-request-created
+            - change-request-discarded
             - change-added
             - change-discarded
+            - change-request-approved
+            - change-request-approval-added
+            - change-request-cancelled
+            - change-request-sent-to-review
+            - change-request-applied
           - name: slack
             displayName: Slack
             description: Allows Unleash to post updates to Slack.
@@ -8573,8 +9049,15 @@ components:
           - feature-project-change
           - feature-tagged
           - feature-untagged
+          - change-request-created
+          - change-request-discarded
           - change-added
           - change-discarded
+          - change-request-approved
+          - change-request-approval-added
+          - change-request-cancelled
+          - change-request-sent-to-review
+          - change-request-applied
         - name: slack
           displayName: Slack
           description: Allows Unleash to post updates to Slack.
@@ -11850,9 +12333,16 @@ components:
           - public-signup-token-created
           - public-signup-token-user-added
           - public-signup-token-updated
+          - change-request-created
+          - change-request-discarded
           - change-added
           - change-discarded
           - change-edited
+          - change-request-approved
+          - change-request-approval-added
+          - change-request-cancelled
+          - change-request-sent-to-review
+          - change-request-applied
           - api-token-created
           - api-token-updated
           - api-token-deleted
@@ -12077,6 +12567,61 @@ components:
       description: The result of the export operation, providing you with the feature
         toggle definitions, strategy definitions and the rest of the elements relevant
         to the features (tags, environments etc.)
+      example:
+        contextFields:
+        - name: appName
+          description: Allows you to constrain on application name
+          stickiness: false
+          sortOrder: 2
+          legalValues: []
+        features:
+        - name: my-feature
+          description: best feature ever
+          type: release
+          project: default
+          stale: false
+          impressionData: false
+          archived: false
+        featureEnvironments:
+        - enabled: true
+          featureName: my-feature
+          environment: development
+          variants:
+          - name: a
+            weight: 500
+            overrides: []
+            stickiness: random
+            weightType: variable
+          - name: b
+            weight: 500
+            overrides: []
+            stickiness: random
+            weightType: variable
+          name: variant-testing
+        featureTags:
+        - featureName: my-feature
+          tagType: simple
+          tagValue: user-facing
+        featureStrategies:
+        - name: flexibleRollout
+          id: 924974d7-8003-43ee-87eb-c5f887c06fd1
+          featureName: my-feature
+          title: Rollout 50%
+          parameters:
+            groupId: default
+            rollout: "50"
+            stickiness: random
+          constraints: []
+          disabled: false
+          segments:
+          - 1
+        segments:
+        - id: 1
+          name: new-segment-name
+        tagTypes:
+        - name: simple
+          description: Used to simplify filtering of features
+          icon: '#'
     exportQuerySchema:
       required:
       - environment
@@ -16496,9 +17041,16 @@ components:
           - public-signup-token-created
           - public-signup-token-user-added
           - public-signup-token-updated
+          - change-request-created
+          - change-request-discarded
           - change-added
           - change-discarded
           - change-edited
+          - change-request-approved
+          - change-request-approval-added
+          - change-request-cancelled
+          - change-request-sent-to-review
+          - change-request-applied
           - api-token-created
           - api-token-updated
           - api-token-deleted
@@ -20332,6 +20884,432 @@ components:
             value: my-app
             operator: IN
           usedInProjects: 2
+    changeRequestCreateSchema:
+      required:
+      - feature
+      type: object
+      properties:
+        feature:
+          type: string
+          example: my-best-feature
+      oneOf:
+      - required:
+        - action
+        - payload
+        type: object
+        properties:
+          action:
+            type: string
+            enum:
+            - updateEnabled
+          payload:
+            required:
+            - enabled
+            type: object
+            properties:
+              enabled:
+                type: boolean
+      - required:
+        - action
+        - payload
+        type: object
+        properties:
+          action:
+            type: string
+            enum:
+            - addStrategy
+          payload:
+            $ref: '#/components/schemas/createFeatureStrategySchema'
+      - required:
+        - action
+        - payload
+        type: object
+        properties:
+          action:
+            type: string
+            enum:
+            - updateStrategy
+          payload:
+            $ref: '#/components/schemas/updateFeatureStrategySchema'
+      - required:
+        - action
+        - payload
+        type: object
+        properties:
+          action:
+            type: string
+            enum:
+            - deleteStrategy
+          payload:
+            required:
+            - id
+            type: object
+            properties:
+              id:
+                type: string
+      - required:
+        - action
+        - payload
+        type: object
+        properties:
+          action:
+            type: string
+            enum:
+            - patchVariant
+          payload:
+            required:
+            - variants
+            type: object
+            properties:
+              variants:
+                type: array
+                items:
+                  $ref: '#/components/schemas/variantSchema'
+    changeRequestOneOrManyCreateSchema:
+      anyOf:
+      - $ref: '#/components/schemas/changeRequestCreateSchema'
+      - type: array
+        items:
+          $ref: '#/components/schemas/changeRequestCreateSchema'
+    changeRequestFeatureSchema:
+      required:
+      - changes
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: my-feature
+        conflict:
+          type: string
+        changes:
+          type: array
+          description: List of changes inside change request. This list may be empty
+            when listing all change requests for a project.
+          items:
+            $ref: '#/components/schemas/changeRequestEventSchema'
+        defaultChange:
+          $ref: '#/components/schemas/changeRequestDefaultEventSchema'
+      additionalProperties: false
+      example:
+        name: my-feature
+        changes:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          updatedBy: updatedBy
+          payload: ""
+          createdBy:
+            imageUrl: imageUrl
+            username: username
+          action: updateStrategy
+          id: 33
+          conflict: conflict
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          updatedBy: updatedBy
+          payload: ""
+          createdBy:
+            imageUrl: imageUrl
+            username: username
+          action: updateStrategy
+          id: 33
+          conflict: conflict
+        defaultChange:
+          payload: {}
+          action: addStrategy
+        conflict: conflict
+    changeRequestApprovalSchema:
+      required:
+      - createdAt
+      - createdBy
+      type: object
+      properties:
+        createdBy:
+          $ref: '#/components/schemas/changeRequestApprovalSchema_createdBy'
+        createdAt:
+          type: string
+          format: date-time
+          example: 2022-12-12T12:13:24.218Z
+      additionalProperties: false
+      example:
+        createdAt: 2022-12-12T12:13:24.218Z
+        createdBy:
+          imageUrl: imageUrl
+          id: 33
+          username: unleash-user
+    changeRequestConfigSchema:
+      type: array
+      items:
+        $ref: '#/components/schemas/changeRequestEnvironmentConfigSchema'
+    changeRequestEnvironmentConfigSchema:
+      required:
+      - changeRequestEnabled
+      - environment
+      - requiredApprovals
+      - type
+      type: object
+      properties:
+        environment:
+          type: string
+          example: development
+        type:
+          type: string
+          example: development
+        changeRequestEnabled:
+          type: boolean
+        requiredApprovals:
+          type: number
+          nullable: true
+          example: 2
+      additionalProperties: false
+      example:
+        environment: development
+        changeRequestEnabled: true
+        requiredApprovals: 2
+        type: development
+    changeRequestAddCommentSchema:
+      required:
+      - text
+      type: object
+      properties:
+        text:
+          type: string
+          example: This is a comment
+      additionalProperties: false
+    changeRequestCommentSchema:
+      required:
+      - createdAt
+      - createdBy
+      - text
+      type: object
+      properties:
+        id:
+          type: number
+          example: 33
+        text:
+          type: string
+          example: This is a comment
+        createdBy:
+          $ref: '#/components/schemas/changeRequestCommentSchema_createdBy'
+        createdAt:
+          type: string
+          format: date-time
+          example: 2022-12-12T12:13:24.218Z
+      additionalProperties: false
+      example:
+        createdAt: 2022-12-12T12:13:24.218Z
+        createdBy:
+          imageUrl: imageUrl
+          username: unleash-user
+        id: 33
+        text: This is a comment
+    updateChangeRequestEnvironmentConfigSchema:
+      required:
+      - changeRequestsEnabled
+      type: object
+      properties:
+        changeRequestsEnabled:
+          type: boolean
+        requiredApprovals:
+          type: number
+      additionalProperties: false
+    changeRequestEventSchema:
+      required:
+      - action
+      - id
+      - payload
+      type: object
+      properties:
+        id:
+          type: number
+          example: 33
+        action:
+          type: string
+          example: updateStrategy
+        conflict:
+          type: string
+        payload:
+          oneOf:
+          - type: string
+          - type: boolean
+          - type: object
+          - type: number
+        updatedBy:
+          type: string
+        createdBy:
+          $ref: '#/components/schemas/changeRequestEventSchema_createdBy'
+        createdAt:
+          type: string
+          format: date-time
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        updatedBy: updatedBy
+        payload: ""
+        createdBy:
+          imageUrl: imageUrl
+          username: username
+        action: updateStrategy
+        id: 33
+        conflict: conflict
+    changeRequestDefaultEventSchema:
+      required:
+      - action
+      - payload
+      type: object
+      properties:
+        action:
+          type: string
+          example: addStrategy
+        payload:
+          type: object
+      additionalProperties: false
+      example:
+        payload: {}
+        action: addStrategy
+    changeRequestSchema:
+      required:
+      - createdAt
+      - createdBy
+      - environment
+      - features
+      - id
+      - minApprovals
+      - project
+      - state
+      type: object
+      properties:
+        id:
+          type: number
+          example: 3
+        title:
+          type: string
+          example: Increasing gradual rollout
+        environment:
+          type: string
+          example: development
+        state:
+          type: string
+          enum:
+          - Draft
+          - In review
+          - Approved
+          - Applied
+          - Cancelled
+        minApprovals:
+          type: number
+          example: 2
+        project:
+          type: string
+          example: unleash-project
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/changeRequestFeatureSchema'
+        approvals:
+          type: array
+          items:
+            $ref: '#/components/schemas/changeRequestApprovalSchema'
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/changeRequestCommentSchema'
+        createdBy:
+          $ref: '#/components/schemas/changeRequestEventSchema_createdBy'
+        createdAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+      example:
+        features:
+        - name: my-feature
+          changes:
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            updatedBy: updatedBy
+            payload: ""
+            createdBy:
+              imageUrl: imageUrl
+              username: username
+            action: updateStrategy
+            id: 33
+            conflict: conflict
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            updatedBy: updatedBy
+            payload: ""
+            createdBy:
+              imageUrl: imageUrl
+              username: username
+            action: updateStrategy
+            id: 33
+            conflict: conflict
+          defaultChange:
+            payload: {}
+            action: addStrategy
+          conflict: conflict
+        - name: my-feature
+          changes:
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            updatedBy: updatedBy
+            payload: ""
+            createdBy:
+              imageUrl: imageUrl
+              username: username
+            action: updateStrategy
+            id: 33
+            conflict: conflict
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            updatedBy: updatedBy
+            payload: ""
+            createdBy:
+              imageUrl: imageUrl
+              username: username
+            action: updateStrategy
+            id: 33
+            conflict: conflict
+          defaultChange:
+            payload: {}
+            action: addStrategy
+          conflict: conflict
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        environment: development
+        comments:
+        - createdAt: 2022-12-12T12:13:24.218Z
+          createdBy:
+            imageUrl: imageUrl
+            username: unleash-user
+          id: 33
+          text: This is a comment
+        - createdAt: 2022-12-12T12:13:24.218Z
+          createdBy:
+            imageUrl: imageUrl
+            username: unleash-user
+          id: 33
+          text: This is a comment
+        minApprovals: 2
+        approvals:
+        - createdAt: 2022-12-12T12:13:24.218Z
+          createdBy:
+            imageUrl: imageUrl
+            id: 33
+            username: unleash-user
+        - createdAt: 2022-12-12T12:13:24.218Z
+          createdBy:
+            imageUrl: imageUrl
+            id: 33
+            username: unleash-user
+        project: unleash-project
+        id: 3
+        state: Draft
+        title: Increasing gradual rollout
+    changeRequestsSchema:
+      type: array
+      items:
+        $ref: '#/components/schemas/changeRequestSchema'
+    changeRequestUpdateTitleSchema:
+      required:
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+          example: Increasing gradual rollout
     updateEnvironmentSchema:
       type: object
       properties:
@@ -20470,6 +21448,9 @@ components:
           type: string
           example: This is a comment for my change request
       additionalProperties: false
+      example:
+        comment: This is a comment for my change request
+        state: Draft
     serviceAccountSchema:
       required:
       - id
@@ -21844,6 +22825,46 @@ components:
         featureName: new-signup-flow
         id: e465c813-cffb-4232-b184-82b1d6fe9d3d
         projectId: red-vista
+    changeRequestApprovalSchema_createdBy:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 33
+        username:
+          type: string
+          example: unleash-user
+        imageUrl:
+          type: string
+      example:
+        imageUrl: imageUrl
+        id: 33
+        username: unleash-user
+    changeRequestCommentSchema_createdBy:
+      type: object
+      properties:
+        username:
+          type: string
+          nullable: true
+          example: unleash-user
+        imageUrl:
+          type: string
+          nullable: true
+      example:
+        imageUrl: imageUrl
+        username: unleash-user
+    changeRequestEventSchema_createdBy:
+      type: object
+      properties:
+        username:
+          type: string
+          nullable: true
+        imageUrl:
+          type: string
+          nullable: true
+      example:
+        imageUrl: imageUrl
+        username: username
     notificationsSchema_inner:
       required:
       - createdAt
@@ -21872,6 +22893,7 @@ components:
           type: string
           description: The type of the notification used e.g. for the graphical hints
           enum:
+          - change-request
           - toggle
         createdBy:
           type: object

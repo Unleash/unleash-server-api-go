@@ -127,6 +127,7 @@ Class | Method | HTTP request | Description
 *FrontendAPIApi* | [**RegisterFrontendMetrics**](docs/FrontendAPIApi.md#registerfrontendmetrics) | **Post** /api/frontend/client/metrics | Register client usage metrics
 *ImportExportApi* | [**CallImport**](docs/ImportExportApi.md#callimport) | **Post** /api/admin/state/import | Import state (deprecated)
 *ImportExportApi* | [**Export**](docs/ImportExportApi.md#export) | **Get** /api/admin/state/export | Export state (deprecated)
+*ImportExportApi* | [**ExportFeatures**](docs/ImportExportApi.md#exportfeatures) | **Post** /api/admin/features-batch/export | Export feature toggles from an environment
 *ImportExportApi* | [**ImportToggles**](docs/ImportExportApi.md#importtoggles) | **Post** /api/admin/features-batch/import | Import feature toggles
 *ImportExportApi* | [**ValidateImport**](docs/ImportExportApi.md#validateimport) | **Post** /api/admin/features-batch/validate | Validate feature import data
 *InstanceAdminApi* | [**GetInstanceAdminStats**](docs/InstanceAdminApi.md#getinstanceadminstats) | **Get** /api/admin/instance-admin/statistics | Instance usage statistics
@@ -210,10 +211,24 @@ Class | Method | HTTP request | Description
 *TagsApi* | [**UpdateTagType**](docs/TagsApi.md#updatetagtype) | **Put** /api/admin/tag-types/{name} | Update a tag type
 *TagsApi* | [**ValidateTagType**](docs/TagsApi.md#validatetagtype) | **Post** /api/admin/tag-types/validate | Validate a tag type
 *TelemetryApi* | [**GetTelemetrySettings**](docs/TelemetryApi.md#gettelemetrysettings) | **Get** /api/admin/telemetry/settings | Get telemetry settings
+*UnstableApi* | [**AddChangeRequestComment**](docs/UnstableApi.md#addchangerequestcomment) | **Post** /api/admin/projects/{projectId}/change-requests/{id}/comments | This endpoint will add a comment to a change request
+*UnstableApi* | [**ChangeRequest**](docs/UnstableApi.md#changerequest) | **Post** /api/admin/projects/{projectId}/environments/{environment}/change-requests | Create/Add change to a change request
+*UnstableApi* | [**DeleteChange**](docs/UnstableApi.md#deletechange) | **Delete** /api/admin/projects/{projectId}/change-requests/{changeRequestId}/changes/{changeId} | Discards a change from a change request by change id
+*UnstableApi* | [**DeleteChangeRequest**](docs/UnstableApi.md#deletechangerequest) | **Delete** /api/admin/projects/{projectId}/change-requests/{id} | Deletes a change request by id
+*UnstableApi* | [**EditChange**](docs/UnstableApi.md#editchange) | **Put** /api/admin/projects/{projectId}/change-requests/{changeRequestId}/changes/{changeId} | Edits a single change in a change request
 *UnstableApi* | [**GetAdvancedPlayground**](docs/UnstableApi.md#getadvancedplayground) | **Post** /api/admin/playground/advanced | Batch evaluate an Unleash context against a set of environments and projects.
+*UnstableApi* | [**GetChangeRequest**](docs/UnstableApi.md#getchangerequest) | **Get** /api/admin/projects/{projectId}/change-requests/{id} | Retrieves one change request by id
+*UnstableApi* | [**GetChangeRequestsForProject**](docs/UnstableApi.md#getchangerequestsforproject) | **Get** /api/admin/projects/{projectId}/change-requests | Retrieves all change requests for a project
 *UnstableApi* | [**GetLoginHistory**](docs/UnstableApi.md#getloginhistory) | **Get** /api/admin/logins | Get all login events.
 *UnstableApi* | [**GetNotifications**](docs/UnstableApi.md#getnotifications) | **Get** /api/admin/notifications | Retrieves a list of notifications
+*UnstableApi* | [**GetOpenChangeRequestsForUser**](docs/UnstableApi.md#getopenchangerequestsforuser) | **Get** /api/admin/projects/{projectId}/change-requests/open | Retrieves pending change requests in configured environments
+*UnstableApi* | [**GetPendingChangeRequestsForFeature**](docs/UnstableApi.md#getpendingchangerequestsforfeature) | **Get** /api/admin/projects/{projectId}/change-requests/pending/{featureName} | Retrieves all pending change requests referencing a feature in the project
+*UnstableApi* | [**GetPendingChangeRequestsForUser**](docs/UnstableApi.md#getpendingchangerequestsforuser) | **Get** /api/admin/projects/{projectId}/change-requests/pending | Retrieves pending change requests in configured environments
+*UnstableApi* | [**GetProjectChangeRequestConfig**](docs/UnstableApi.md#getprojectchangerequestconfig) | **Get** /api/admin/projects/{projectId}/change-requests/config | Retrieves change request configuration for a project
 *UnstableApi* | [**MarkNotificationsAsRead**](docs/UnstableApi.md#marknotificationsasread) | **Post** /api/admin/notifications/read | Mark notifications as read
+*UnstableApi* | [**UpdateChangeRequestState**](docs/UnstableApi.md#updatechangerequeststate) | **Put** /api/admin/projects/{projectId}/change-requests/{id}/state | This endpoint will update the state of a change request
+*UnstableApi* | [**UpdateChangeRequestTitle**](docs/UnstableApi.md#updatechangerequesttitle) | **Put** /api/admin/projects/{projectId}/change-requests/{id}/title | This endpoint will update the custom title of a change request
+*UnstableApi* | [**UpdateProjectChangeRequestConfig**](docs/UnstableApi.md#updateprojectchangerequestconfig) | **Put** /api/admin/projects/{projectId}/environments/{environment}/change-requests/config | Updates change request configuration for an environment in the project
 *UsersApi* | [**ChangeMyPassword**](docs/UsersApi.md#changemypassword) | **Post** /api/admin/user/change-password | Change your own password
 *UsersApi* | [**ChangeUserPassword**](docs/UsersApi.md#changeuserpassword) | **Post** /api/admin/user-admin/{id}/change-password | Change password for a user
 *UsersApi* | [**CreateGroup**](docs/UsersApi.md#creategroup) | **Post** /api/admin/groups | 
@@ -264,6 +279,7 @@ Class | Method | HTTP request | Description
  - [AdvancedPlaygroundRequestSchema](docs/AdvancedPlaygroundRequestSchema.md)
  - [AdvancedPlaygroundResponseSchema](docs/AdvancedPlaygroundResponseSchema.md)
  - [AnyOfadvancedPlaygroundEnvironmentFeatureSchemaStrategiesResult](docs/AnyOfadvancedPlaygroundEnvironmentFeatureSchemaStrategiesResult.md)
+ - [AnyOfchangeRequestOneOrManyCreateSchema](docs/AnyOfchangeRequestOneOrManyCreateSchema.md)
  - [AnyOfdownload](docs/AnyOfdownload.md)
  - [AnyOfenvironments](docs/AnyOfenvironments.md)
  - [AnyOffeatureToggles](docs/AnyOffeatureToggles.md)
@@ -284,7 +300,21 @@ Class | Method | HTTP request | Description
  - [BulkToggleFeaturesSchema](docs/BulkToggleFeaturesSchema.md)
  - [ChangePasswordSchema](docs/ChangePasswordSchema.md)
  - [ChangeProjectSchema](docs/ChangeProjectSchema.md)
+ - [ChangeRequestAddCommentSchema](docs/ChangeRequestAddCommentSchema.md)
+ - [ChangeRequestApprovalSchema](docs/ChangeRequestApprovalSchema.md)
+ - [ChangeRequestApprovalSchemaCreatedBy](docs/ChangeRequestApprovalSchemaCreatedBy.md)
+ - [ChangeRequestCommentSchema](docs/ChangeRequestCommentSchema.md)
+ - [ChangeRequestCommentSchemaCreatedBy](docs/ChangeRequestCommentSchemaCreatedBy.md)
+ - [ChangeRequestCreateSchema](docs/ChangeRequestCreateSchema.md)
+ - [ChangeRequestDefaultEventSchema](docs/ChangeRequestDefaultEventSchema.md)
+ - [ChangeRequestEnvironmentConfigSchema](docs/ChangeRequestEnvironmentConfigSchema.md)
+ - [ChangeRequestEventSchema](docs/ChangeRequestEventSchema.md)
+ - [ChangeRequestEventSchemaCreatedBy](docs/ChangeRequestEventSchemaCreatedBy.md)
+ - [ChangeRequestFeatureSchema](docs/ChangeRequestFeatureSchema.md)
+ - [ChangeRequestOneOrManyCreateSchema](docs/ChangeRequestOneOrManyCreateSchema.md)
+ - [ChangeRequestSchema](docs/ChangeRequestSchema.md)
  - [ChangeRequestStateSchema](docs/ChangeRequestStateSchema.md)
+ - [ChangeRequestUpdateTitleSchema](docs/ChangeRequestUpdateTitleSchema.md)
  - [ClientApplicationSchema](docs/ClientApplicationSchema.md)
  - [ClientFeatureSchema](docs/ClientFeatureSchema.md)
  - [ClientFeaturesQuerySchema](docs/ClientFeaturesQuerySchema.md)
@@ -371,6 +401,8 @@ Class | Method | HTTP request | Description
  - [NotificationsSchemaInner](docs/NotificationsSchemaInner.md)
  - [OidcSettingsSchema](docs/OidcSettingsSchema.md)
  - [OneOfadvancedPlaygroundRequestSchemaProjects](docs/OneOfadvancedPlaygroundRequestSchemaProjects.md)
+ - [OneOfchangeRequestCreateSchema](docs/OneOfchangeRequestCreateSchema.md)
+ - [OneOfchangeRequestEventSchemaPayload](docs/OneOfchangeRequestEventSchemaPayload.md)
  - [OneOfclientApplicationSchemaStarted](docs/OneOfclientApplicationSchemaStarted.md)
  - [OneOfcreateApiTokenSchema](docs/OneOfcreateApiTokenSchema.md)
  - [OneOfcreateUserResponseSchemaRootRole](docs/OneOfcreateUserResponseSchemaRootRole.md)
@@ -452,6 +484,7 @@ Class | Method | HTTP request | Description
  - [TokenUserSchema](docs/TokenUserSchema.md)
  - [UiConfigSchema](docs/UiConfigSchema.md)
  - [UpdateApiTokenSchema](docs/UpdateApiTokenSchema.md)
+ - [UpdateChangeRequestEnvironmentConfigSchema](docs/UpdateChangeRequestEnvironmentConfigSchema.md)
  - [UpdateEnvironmentSchema](docs/UpdateEnvironmentSchema.md)
  - [UpdateFeatureSchema](docs/UpdateFeatureSchema.md)
  - [UpdateFeatureStrategySchema](docs/UpdateFeatureStrategySchema.md)

@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CallImport**](ImportExportApi.md#CallImport) | **Post** /api/admin/state/import | Import state (deprecated)
 [**Export**](ImportExportApi.md#Export) | **Get** /api/admin/state/export | Export state (deprecated)
+[**ExportFeatures**](ImportExportApi.md#ExportFeatures) | **Post** /api/admin/features-batch/export | Export feature toggles from an environment
 [**ImportToggles**](ImportExportApi.md#ImportToggles) | **Post** /api/admin/features-batch/import | Import feature toggles
 [**ValidateImport**](ImportExportApi.md#ValidateImport) | **Post** /api/admin/features-batch/validate | Validate feature import data
 
@@ -73,6 +74,34 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **ExportFeatures**
+> ExportResultSchema ExportFeatures(ctx, body)
+Export feature toggles from an environment
+
+Exports all features listed in the `features` property from the environment specified in the request body. If set to `true`, the `downloadFile` property will let you download a file with the exported data. Otherwise, the export data is returned directly as JSON. Refer to the documentation for more information about [Unleash's export functionality](https://docs.getunleash.io/reference/deploy/environment-import-export#export).
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **body** | [**ExportQuerySchema**](ExportQuerySchema.md)| exportQuerySchema | 
+
+### Return type
+
+[**ExportResultSchema**](exportResultSchema.md)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

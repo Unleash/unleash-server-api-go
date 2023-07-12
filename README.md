@@ -1,13 +1,13 @@
 # Generating swagger folder:
 
 ```bash
-java -jar swagger-codegen-cli-3.0.20.jar generate -i openapi.json -l go -o swagger
+java -jar swagger-codegen-cli-3.0.20.jar generate -i https://us.app.unleash-hosted.com/ushosted/docs/openapi.json -l go -o swagger
 
+# these are structures that are not defined and throw a compilation issue. With this we can still move forward and figure it out later
 find swagger -name "*.go" | xargs sed -i 's/Array/[]interface{}/g'
-find swagger -name "*.go" | xargs sed -i 's/ModelMap/interface{}/g'
-find swagger -name "*.go" | xargs sed -i 's/Object/interface{}/g'
+find swagger -name "*.go" | xargs sed -ir 's/(Object|ModelMap|ExportQuerySchema)/interface{}/g'
 
-# then run
+# lint
 gofmt -w swagger
 ```
 
