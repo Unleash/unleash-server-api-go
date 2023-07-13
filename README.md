@@ -5,7 +5,7 @@ java -jar swagger-codegen-cli-3.0.20.jar generate -i https://us.app.unleash-host
 
 # these are structures that are not defined and throw a compilation issue. With this we can still move forward and figure it out later
 find swagger -name "*.go" | xargs sed -i 's/Array/[]interface{}/g'
-find swagger -name "*.go" | xargs sed -ir 's/(Object|ModelMap|ExportQuerySchema)/interface{}/g'
+find swagger -name "*.go" | xargs sed -i -r 's/(Object|ModelMap|ExportQuerySchema)/interface{}/g'
 
 # lint
 gofmt -w swagger
