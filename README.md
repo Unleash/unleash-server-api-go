@@ -1,14 +1,14 @@
 # Generating swagger folder:
 
 ```bash
-java -jar swagger-codegen-cli-3.0.20.jar generate -i https://us.app.unleash-hosted.com/ushosted/docs/openapi.json -l go -o swagger
+openapi-generator-cli generate --git-user-id Unleash --git-repo-id unleash-server-api-go -i openapi.json -o client -g go -c openapi-config.yaml
 
 # these are structures that are not defined and throw a compilation issue. With this we can still move forward and figure it out later
-find swagger -name "*.go" | xargs sed -i 's/Array/[]interface{}/g'
-find swagger -name "*.go" | xargs sed -i -r 's/(Object|ModelMap|ExportQuerySchema)/interface{}/g'
+# find swagger -name "*.go" | xargs sed -i 's/Array/[]interface{}/g'
+# find swagger -name "*.go" | xargs sed -i -r 's/(Object|ModelMap|ExportQuerySchema)/interface{}/g'
 
 # lint
-gofmt -w swagger
+gofmt -w client
 ```
 
 After generating the code you can use `main.go` to test it works (remember updating unleash servere host and API token)

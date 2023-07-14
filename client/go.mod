@@ -1,4 +1,4 @@
-module github.com/GIT_USER_ID/GIT_REPO_ID/openapi
+module github.com/Unleash/unleash-server-api-go/client
 
 go 1.18
 
