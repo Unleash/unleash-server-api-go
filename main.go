@@ -1,43 +1,51 @@
 package main
 
-import "fmt"
-
-import "github.com/Unleash/unleash-server-api-go/swagger"
 import (
 	"context"
-	"flag"
+	"fmt"
+	openapiclient "github.com/Unleash/unleash-server-api-go/client"
 	"net/http"
 	"net/http/httputil"
+	"os"
 )
 
 func main() {
-	unleashApiUrl := flag.String("unleash-api", "", "Specifies the Unleash API URL (e.g. http://localhost:4242 if you're running Unleash locally)")
-	authorization := flag.String("authorization", "", "Token to use on Authorization header")
-	enableDebug := flag.Bool("debug-http", false, "Enable HTTP debug logging")
+	name := "A name"
+	email := "test@getunleash.io"
+	username := "myusername"
+	sendEmail := false
+	rootRoleId := int32(1)
+	rootRole := openapiclient.Int32AsCreateUserSchemaRootRole(&rootRoleId)
 
-	flag.Parse()
+	createUserSchema := *openapiclient.NewCreateUserSchemaWithDefaults()
+	createUserSchema.Name = &name
+	createUserSchema.Email = &email
+	createUserSchema.Username = &username
+	createUserSchema.RootRole = rootRole
+	createUserSchema.SendEmail = &sendEmail
+	fmt.Println(createUserSchema)
 
-	cfg := swagger.NewConfiguration()
-
-	// Initialize the HTTP client transport request and response logging
-	cfg.HTTPClient = &http.Client{
+	configuration := openapiclient.NewConfiguration()
+	configuration.HTTPClient = &http.Client{
 		Transport: &debugTransport{
 			Transport:   http.DefaultTransport,
-			EnableDebug: *enableDebug,
+			EnableDebug: true,
 		},
 	}
-
-	cfg.AddDefaultHeader("Authorization", *authorization)
-	cfg.BasePath = *unleashApiUrl
-	apiClient := swagger.NewAPIClient(cfg)
-
-	ctx := context.Background()
-	projects, _, err := apiClient.ProjectsApi.GetProjects(ctx)
-	fmt.Println(err)
-	users, _, err := apiClient.UsersApi.GetUsers(ctx)
-	fmt.Println(err)
-	fmt.Println(projects)
-	fmt.Println(users)
+	configuration.Servers = openapiclient.ServerConfigurations{
+		{
+			URL: "http://localhost:3000",
+		},
+	}
+	configuration.AddDefaultHeader("Authorization", "*:*.964a287e1b728cb5f4f3e0120df92cb5")
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.UsersApi.CreateUser(context.Background()).CreateUserSchema(createUserSchema).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `UsersApi.CreateUser``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateUser`: CreateUserResponseSchema
+	fmt.Fprintf(os.Stdout, "Response from `UsersApi.CreateUser`: %v\n", resp)
 }
 
 // Custom transport for request and response logging
@@ -56,7 +64,8 @@ func (t *debugTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	// Make the actual request
 	resp, err := t.Transport.RoundTrip(req)
 
-	if t.EnableDebug {
+	fmt.Printf("Err:\n%s\n\n", err)
+	if t.EnableDebug && resp != nil {
 		// Log the response details
 		responseDump, _ := httputil.DumpResponse(resp, true)
 		fmt.Printf("Response:\n%s\n\n", responseDump)

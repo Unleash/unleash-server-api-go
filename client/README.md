@@ -381,8 +381,6 @@ Class | Method | HTTP request | Description
  - [EventsSchema](docs/EventsSchema.md)
  - [ExportDownloadParameter](docs/ExportDownloadParameter.md)
  - [ExportQuerySchema](docs/ExportQuerySchema.md)
- - [ExportQuerySchemaOneOf](docs/ExportQuerySchemaOneOf.md)
- - [ExportQuerySchemaOneOf1](docs/ExportQuerySchemaOneOf1.md)
  - [ExportResultSchema](docs/ExportResultSchema.md)
  - [ExportResultSchemaSegmentsInner](docs/ExportResultSchemaSegmentsInner.md)
  - [ExportStrategiesParameter](docs/ExportStrategiesParameter.md)

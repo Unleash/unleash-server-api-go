@@ -12,100 +12,133 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
-// ExportQuerySchema - Available query parameters for  the [deprecated export/import](https://docs.getunleash.io/reference/deploy/import-export) functionality.
+// checks if the ExportQuerySchema type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ExportQuerySchema{}
+
+// ExportQuerySchema Available query parameters for  the [deprecated export/import](https://docs.getunleash.io/reference/deploy/import-export) functionality.
 type ExportQuerySchema struct {
-	ExportQuerySchemaOneOf  *ExportQuerySchemaOneOf
-	ExportQuerySchemaOneOf1 *ExportQuerySchemaOneOf1
+	// The environment to export from
+	Environment string `json:"environment"`
+	// Whether to return a downloadable file
+	DownloadFile         *bool `json:"downloadFile,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
-// ExportQuerySchemaOneOfAsExportQuerySchema is a convenience function that returns ExportQuerySchemaOneOf wrapped in ExportQuerySchema
-func ExportQuerySchemaOneOfAsExportQuerySchema(v *ExportQuerySchemaOneOf) ExportQuerySchema {
-	return ExportQuerySchema{
-		ExportQuerySchemaOneOf: v,
-	}
+type _ExportQuerySchema ExportQuerySchema
+
+// NewExportQuerySchema instantiates a new ExportQuerySchema object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewExportQuerySchema(environment string) *ExportQuerySchema {
+	this := ExportQuerySchema{}
+	return &this
 }
 
-// ExportQuerySchemaOneOf1AsExportQuerySchema is a convenience function that returns ExportQuerySchemaOneOf1 wrapped in ExportQuerySchema
-func ExportQuerySchemaOneOf1AsExportQuerySchema(v *ExportQuerySchemaOneOf1) ExportQuerySchema {
-	return ExportQuerySchema{
-		ExportQuerySchemaOneOf1: v,
-	}
+// NewExportQuerySchemaWithDefaults instantiates a new ExportQuerySchema object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewExportQuerySchemaWithDefaults() *ExportQuerySchema {
+	this := ExportQuerySchema{}
+	return &this
 }
 
-// Unmarshal JSON data into one of the pointers in the struct
-func (dst *ExportQuerySchema) UnmarshalJSON(data []byte) error {
-	var err error
-	match := 0
-	// try to unmarshal data into ExportQuerySchemaOneOf
-	err = newStrictDecoder(data).Decode(&dst.ExportQuerySchemaOneOf)
-	if err == nil {
-		jsonExportQuerySchemaOneOf, _ := json.Marshal(dst.ExportQuerySchemaOneOf)
-		if string(jsonExportQuerySchemaOneOf) == "{}" { // empty struct
-			dst.ExportQuerySchemaOneOf = nil
-		} else {
-			match++
-		}
-	} else {
-		dst.ExportQuerySchemaOneOf = nil
+// GetEnvironment returns the Environment field value
+func (o *ExportQuerySchema) GetEnvironment() string {
+	if o == nil {
+		var ret string
+		return ret
 	}
 
-	// try to unmarshal data into ExportQuerySchemaOneOf1
-	err = newStrictDecoder(data).Decode(&dst.ExportQuerySchemaOneOf1)
-	if err == nil {
-		jsonExportQuerySchemaOneOf1, _ := json.Marshal(dst.ExportQuerySchemaOneOf1)
-		if string(jsonExportQuerySchemaOneOf1) == "{}" { // empty struct
-			dst.ExportQuerySchemaOneOf1 = nil
-		} else {
-			match++
-		}
-	} else {
-		dst.ExportQuerySchemaOneOf1 = nil
-	}
-
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.ExportQuerySchemaOneOf = nil
-		dst.ExportQuerySchemaOneOf1 = nil
-
-		return fmt.Errorf("data matches more than one schema in oneOf(ExportQuerySchema)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("data failed to match schemas in oneOf(ExportQuerySchema)")
-	}
+	return o.Environment
 }
 
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src ExportQuerySchema) MarshalJSON() ([]byte, error) {
-	if src.ExportQuerySchemaOneOf != nil {
-		return json.Marshal(&src.ExportQuerySchemaOneOf)
+// GetEnvironmentOk returns a tuple with the Environment field value
+// and a boolean to check if the value has been set.
+func (o *ExportQuerySchema) GetEnvironmentOk() (*string, bool) {
+	if o == nil {
+		return nil, false
 	}
-
-	if src.ExportQuerySchemaOneOf1 != nil {
-		return json.Marshal(&src.ExportQuerySchemaOneOf1)
-	}
-
-	return nil, nil // no data in oneOf schemas
+	return &o.Environment, true
 }
 
-// Get the actual instance
-func (obj *ExportQuerySchema) GetActualInstance() interface{} {
-	if obj == nil {
-		return nil
+// SetEnvironment sets field value
+func (o *ExportQuerySchema) SetEnvironment(v string) {
+	o.Environment = v
+}
+
+// GetDownloadFile returns the DownloadFile field value if set, zero value otherwise.
+func (o *ExportQuerySchema) GetDownloadFile() bool {
+	if o == nil || IsNil(o.DownloadFile) {
+		var ret bool
+		return ret
 	}
-	if obj.ExportQuerySchemaOneOf != nil {
-		return obj.ExportQuerySchemaOneOf
+	return *o.DownloadFile
+}
+
+// GetDownloadFileOk returns a tuple with the DownloadFile field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ExportQuerySchema) GetDownloadFileOk() (*bool, bool) {
+	if o == nil || IsNil(o.DownloadFile) {
+		return nil, false
+	}
+	return o.DownloadFile, true
+}
+
+// HasDownloadFile returns a boolean if a field has been set.
+func (o *ExportQuerySchema) HasDownloadFile() bool {
+	if o != nil && !IsNil(o.DownloadFile) {
+		return true
 	}
 
-	if obj.ExportQuerySchemaOneOf1 != nil {
-		return obj.ExportQuerySchemaOneOf1
+	return false
+}
+
+// SetDownloadFile gets a reference to the given bool and assigns it to the DownloadFile field.
+func (o *ExportQuerySchema) SetDownloadFile(v bool) {
+	o.DownloadFile = &v
+}
+
+func (o ExportQuerySchema) MarshalJSON() ([]byte, error) {
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o ExportQuerySchema) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["environment"] = o.Environment
+	if !IsNil(o.DownloadFile) {
+		toSerialize["downloadFile"] = o.DownloadFile
 	}
 
-	// all schemas are nil
-	return nil
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
+	return toSerialize, nil
+}
+
+func (o *ExportQuerySchema) UnmarshalJSON(bytes []byte) (err error) {
+	varExportQuerySchema := _ExportQuerySchema{}
+
+	if err = json.Unmarshal(bytes, &varExportQuerySchema); err == nil {
+		*o = ExportQuerySchema(varExportQuerySchema)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "environment")
+		delete(additionalProperties, "downloadFile")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableExportQuerySchema struct {

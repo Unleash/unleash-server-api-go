@@ -32,7 +32,7 @@ import (
 )
 
 func main() {
-    createApiTokenSchema := openapiclient.createApiTokenSchema{Interface{}: new(interface{})} // CreateApiTokenSchema | createApiTokenSchema
+    createApiTokenSchema := *openapiclient.NewCreateApiTokenSchema() // CreateApiTokenSchema | createApiTokenSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

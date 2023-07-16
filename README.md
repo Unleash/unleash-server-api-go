@@ -1,14 +1,7 @@
-# Generating swagger folder:
+# Generating the client:
 
 ```bash
-openapi-generator-cli generate --git-user-id Unleash --git-repo-id unleash-server-api-go -i openapi.json -o client -g go -c openapi-config.yaml
-
-# these are structures that are not defined and throw a compilation issue. With this we can still move forward and figure it out later
-# find swagger -name "*.go" | xargs sed -i 's/Array/[]interface{}/g'
-# find swagger -name "*.go" | xargs sed -i -r 's/(Object|ModelMap|ExportQuerySchema)/interface{}/g'
-
-# lint
-gofmt -w client
+./generate.sh
 ```
 
 After generating the code you can use `main.go` to test it works (remember updating unleash servere host and API token)

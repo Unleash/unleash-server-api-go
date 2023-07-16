@@ -12,71 +12,81 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
+	"time"
 )
 
-// CreateApiTokenSchema - The data required to create an [Unleash API token](https://docs.getunleash.io/reference/api-tokens-and-client-keys).
+// checks if the CreateApiTokenSchema type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &CreateApiTokenSchema{}
+
+// CreateApiTokenSchema The data required to create an [Unleash API token](https://docs.getunleash.io/reference/api-tokens-and-client-keys).
 type CreateApiTokenSchema struct {
-	Interface{} *interface{}
+	// The time when this token should expire.
+	ExpiresAt *time.Time `json:"expiresAt,omitempty"`
 }
 
-// interface{}AsCreateApiTokenSchema is a convenience function that returns interface{} wrapped in CreateApiTokenSchema
-func Interface{}AsCreateApiTokenSchema(v *interface{}) CreateApiTokenSchema {
-	return CreateApiTokenSchema{
-		Interface{}: v,
-	}
+// NewCreateApiTokenSchema instantiates a new CreateApiTokenSchema object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewCreateApiTokenSchema() *CreateApiTokenSchema {
+	this := CreateApiTokenSchema{}
+	return &this
 }
 
-
-// Unmarshal JSON data into one of the pointers in the struct
-func (dst *CreateApiTokenSchema) UnmarshalJSON(data []byte) error {
-	var err error
-	match := 0
-	// try to unmarshal data into Interface{}
-	err = newStrictDecoder(data).Decode(&dst.Interface{})
-	if err == nil {
-		jsonInterface{}, _ := json.Marshal(dst.Interface{})
-		if string(jsonInterface{}) == "{}" { // empty struct
-			dst.Interface{} = nil
-		} else {
-			match++
-		}
-	} else {
-		dst.Interface{} = nil
-	}
-
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.Interface{} = nil
-
-		return fmt.Errorf("data matches more than one schema in oneOf(CreateApiTokenSchema)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("data failed to match schemas in oneOf(CreateApiTokenSchema)")
-	}
+// NewCreateApiTokenSchemaWithDefaults instantiates a new CreateApiTokenSchema object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewCreateApiTokenSchemaWithDefaults() *CreateApiTokenSchema {
+	this := CreateApiTokenSchema{}
+	return &this
 }
 
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src CreateApiTokenSchema) MarshalJSON() ([]byte, error) {
-	if src.Interface{} != nil {
-		return json.Marshal(&src.Interface{})
+// GetExpiresAt returns the ExpiresAt field value if set, zero value otherwise.
+func (o *CreateApiTokenSchema) GetExpiresAt() time.Time {
+	if o == nil || IsNil(o.ExpiresAt) {
+		var ret time.Time
+		return ret
 	}
-
-	return nil, nil // no data in oneOf schemas
+	return *o.ExpiresAt
 }
 
-// Get the actual instance
-func (obj *CreateApiTokenSchema) GetActualInstance() (interface{}) {
-	if obj == nil {
-		return nil
+// GetExpiresAtOk returns a tuple with the ExpiresAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateApiTokenSchema) GetExpiresAtOk() (*time.Time, bool) {
+	if o == nil || IsNil(o.ExpiresAt) {
+		return nil, false
 	}
-	if obj.Interface{} != nil {
-		return obj.Interface{}
+	return o.ExpiresAt, true
+}
+
+// HasExpiresAt returns a boolean if a field has been set.
+func (o *CreateApiTokenSchema) HasExpiresAt() bool {
+	if o != nil && !IsNil(o.ExpiresAt) {
+		return true
 	}
 
-	// all schemas are nil
-	return nil
+	return false
+}
+
+// SetExpiresAt gets a reference to the given time.Time and assigns it to the ExpiresAt field.
+func (o *CreateApiTokenSchema) SetExpiresAt(v time.Time) {
+	o.ExpiresAt = &v
+}
+
+func (o CreateApiTokenSchema) MarshalJSON() ([]byte, error) {
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o CreateApiTokenSchema) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.ExpiresAt) {
+		toSerialize["expiresAt"] = o.ExpiresAt
+	}
+	return toSerialize, nil
 }
 
 type NullableCreateApiTokenSchema struct {
@@ -114,5 +124,3 @@ func (v *NullableCreateApiTokenSchema) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -545,7 +545,7 @@ import (
 
 func main() {
     projectId := "projectId_example" // string | 
-    createApiTokenSchema := openapiclient.createApiTokenSchema{Interface{}: new(interface{})} // CreateApiTokenSchema | createApiTokenSchema
+    createApiTokenSchema := *openapiclient.NewCreateApiTokenSchema() // CreateApiTokenSchema | createApiTokenSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

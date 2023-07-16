@@ -125,8 +125,6 @@ docs/EventsApi.md
 docs/EventsSchema.md
 docs/ExportDownloadParameter.md
 docs/ExportQuerySchema.md
-docs/ExportQuerySchemaOneOf.md
-docs/ExportQuerySchemaOneOf1.md
 docs/ExportResultSchema.md
 docs/ExportResultSchemaSegmentsInner.md
 docs/ExportStrategiesParameter.md
@@ -384,8 +382,6 @@ model_event_schema_pre_data.go
 model_events_schema.go
 model_export_download_parameter.go
 model_export_query_schema.go
-model_export_query_schema_one_of.go
-model_export_query_schema_one_of_1.go
 model_export_result_schema.go
 model_export_result_schema_segments_inner.go
 model_export_strategies_parameter.go
