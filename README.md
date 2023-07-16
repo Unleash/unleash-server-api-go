@@ -1,3 +1,21 @@
+# Client documentation
+
+[Client docs](./client/README.md)
+
+# OpenAPI generator used
+
+Instalation instructions: https://openapi-generator.tech/docs/installation#bash-launcher-script
+
+Version used:
+
+```
+openapi-generator-cli 6.6.0
+  commit : 7f8b853
+  built  : -999999999-01-01T00:00:00+18:00
+  source : https://github.com/openapitools/openapi-generator
+  docs   : https://openapi-generator.tech/
+```
+
 # Generating the client:
 
 ```bash
