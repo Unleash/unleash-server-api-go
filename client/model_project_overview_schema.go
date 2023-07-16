@@ -30,6 +30,8 @@ type ProjectOverviewSchema struct {
 	DefaultStickiness *string `json:"defaultStickiness,omitempty"`
 	// The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not.
 	Mode *string `json:"mode,omitempty"`
+	// A limit on the number of features allowed in the project. Null if no limit.
+	FeatureLimit NullableFloat32 `json:"featureLimit,omitempty"`
 	// The number of members this project has
 	Members *float32 `json:"members,omitempty"`
 	// An indicator of the [project's health](https://docs.getunleash.io/reference/technical-debt#health-rating) on a scale from 0 to 100
@@ -248,6 +250,49 @@ func (o *ProjectOverviewSchema) HasMode() bool {
 // SetMode gets a reference to the given string and assigns it to the Mode field.
 func (o *ProjectOverviewSchema) SetMode(v string) {
 	o.Mode = &v
+}
+
+// GetFeatureLimit returns the FeatureLimit field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ProjectOverviewSchema) GetFeatureLimit() float32 {
+	if o == nil || IsNil(o.FeatureLimit.Get()) {
+		var ret float32
+		return ret
+	}
+	return *o.FeatureLimit.Get()
+}
+
+// GetFeatureLimitOk returns a tuple with the FeatureLimit field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ProjectOverviewSchema) GetFeatureLimitOk() (*float32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.FeatureLimit.Get(), o.FeatureLimit.IsSet()
+}
+
+// HasFeatureLimit returns a boolean if a field has been set.
+func (o *ProjectOverviewSchema) HasFeatureLimit() bool {
+	if o != nil && o.FeatureLimit.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetFeatureLimit gets a reference to the given NullableFloat32 and assigns it to the FeatureLimit field.
+func (o *ProjectOverviewSchema) SetFeatureLimit(v float32) {
+	o.FeatureLimit.Set(&v)
+}
+
+// SetFeatureLimitNil sets the value for FeatureLimit to be an explicit nil
+func (o *ProjectOverviewSchema) SetFeatureLimitNil() {
+	o.FeatureLimit.Set(nil)
+}
+
+// UnsetFeatureLimit ensures that no value is present for FeatureLimit, not even an explicit nil
+func (o *ProjectOverviewSchema) UnsetFeatureLimit() {
+	o.FeatureLimit.Unset()
 }
 
 // GetMembers returns the Members field value if set, zero value otherwise.
@@ -519,6 +564,9 @@ func (o ProjectOverviewSchema) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Mode) {
 		toSerialize["mode"] = o.Mode
+	}
+	if o.FeatureLimit.IsSet() {
+		toSerialize["featureLimit"] = o.FeatureLimit.Get()
 	}
 	if !IsNil(o.Members) {
 		toSerialize["members"] = o.Members

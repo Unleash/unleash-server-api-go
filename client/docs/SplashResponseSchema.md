@@ -1,88 +1,88 @@
-# SplashSchema
+# SplashResponseSchema
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**UserId** | **float32** |  | 
-**SplashId** | **string** |  | 
-**Seen** | **bool** |  | 
+**UserId** | **int32** | The ID of the user that was shown the splash screen. | 
+**SplashId** | **string** | The ID of the splash screen that was shown. | 
+**Seen** | **bool** | Indicates whether the user has seen the splash screen or not. | 
 
 ## Methods
 
-### NewSplashSchema
+### NewSplashResponseSchema
 
-`func NewSplashSchema(userId float32, splashId string, seen bool, ) *SplashSchema`
+`func NewSplashResponseSchema(userId int32, splashId string, seen bool, ) *SplashResponseSchema`
 
-NewSplashSchema instantiates a new SplashSchema object
+NewSplashResponseSchema instantiates a new SplashResponseSchema object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewSplashSchemaWithDefaults
+### NewSplashResponseSchemaWithDefaults
 
-`func NewSplashSchemaWithDefaults() *SplashSchema`
+`func NewSplashResponseSchemaWithDefaults() *SplashResponseSchema`
 
-NewSplashSchemaWithDefaults instantiates a new SplashSchema object
+NewSplashResponseSchemaWithDefaults instantiates a new SplashResponseSchema object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetUserId
 
-`func (o *SplashSchema) GetUserId() float32`
+`func (o *SplashResponseSchema) GetUserId() int32`
 
 GetUserId returns the UserId field if non-nil, zero value otherwise.
 
 ### GetUserIdOk
 
-`func (o *SplashSchema) GetUserIdOk() (*float32, bool)`
+`func (o *SplashResponseSchema) GetUserIdOk() (*int32, bool)`
 
 GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserId
 
-`func (o *SplashSchema) SetUserId(v float32)`
+`func (o *SplashResponseSchema) SetUserId(v int32)`
 
 SetUserId sets UserId field to given value.
 
 
 ### GetSplashId
 
-`func (o *SplashSchema) GetSplashId() string`
+`func (o *SplashResponseSchema) GetSplashId() string`
 
 GetSplashId returns the SplashId field if non-nil, zero value otherwise.
 
 ### GetSplashIdOk
 
-`func (o *SplashSchema) GetSplashIdOk() (*string, bool)`
+`func (o *SplashResponseSchema) GetSplashIdOk() (*string, bool)`
 
 GetSplashIdOk returns a tuple with the SplashId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSplashId
 
-`func (o *SplashSchema) SetSplashId(v string)`
+`func (o *SplashResponseSchema) SetSplashId(v string)`
 
 SetSplashId sets SplashId field to given value.
 
 
 ### GetSeen
 
-`func (o *SplashSchema) GetSeen() bool`
+`func (o *SplashResponseSchema) GetSeen() bool`
 
 GetSeen returns the Seen field if non-nil, zero value otherwise.
 
 ### GetSeenOk
 
-`func (o *SplashSchema) GetSeenOk() (*bool, bool)`
+`func (o *SplashResponseSchema) GetSeenOk() (*bool, bool)`
 
 GetSeenOk returns a tuple with the Seen field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSeen
 
-`func (o *SplashSchema) SetSeen(v bool)`
+`func (o *SplashResponseSchema) SetSeen(v bool)`
 
 SetSeen sets Seen field to given value.
 

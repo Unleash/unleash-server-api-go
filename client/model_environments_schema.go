@@ -17,9 +17,11 @@ import (
 // checks if the EnvironmentsSchema type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &EnvironmentsSchema{}
 
-// EnvironmentsSchema struct for EnvironmentsSchema
+// EnvironmentsSchema A versioned list of environments
 type EnvironmentsSchema struct {
-	Version      int32               `json:"version"`
+	// Version of the environments schema
+	Version int32 `json:"version"`
+	// List of environments
 	Environments []EnvironmentSchema `json:"environments"`
 }
 

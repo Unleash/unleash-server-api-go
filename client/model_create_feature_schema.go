@@ -19,10 +19,14 @@ var _ MappedNullable = &CreateFeatureSchema{}
 
 // CreateFeatureSchema struct for CreateFeatureSchema
 type CreateFeatureSchema struct {
-	Name           string  `json:"name"`
-	Type           *string `json:"type,omitempty"`
-	Description    *string `json:"description,omitempty"`
-	ImpressionData *bool   `json:"impressionData,omitempty"`
+	// Unique feature name
+	Name string `json:"name"`
+	// The feature toggle's [type](https://docs.getunleash.io/reference/feature-toggle-types). One of experiment, kill-switch, release, operational, or permission
+	Type *string `json:"type,omitempty"`
+	// Detailed description of the feature
+	Description NullableString `json:"description,omitempty"`
+	// `true` if the impression data collection is enabled for the feature, otherwise `false`.
+	ImpressionData *bool `json:"impressionData,omitempty"`
 }
 
 // NewCreateFeatureSchema instantiates a new CreateFeatureSchema object
@@ -99,36 +103,47 @@ func (o *CreateFeatureSchema) SetType(v string) {
 	o.Type = &v
 }
 
-// GetDescription returns the Description field value if set, zero value otherwise.
+// GetDescription returns the Description field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *CreateFeatureSchema) GetDescription() string {
-	if o == nil || IsNil(o.Description) {
+	if o == nil || IsNil(o.Description.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Description
+	return *o.Description.Get()
 }
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *CreateFeatureSchema) GetDescriptionOk() (*string, bool) {
-	if o == nil || IsNil(o.Description) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Description, true
+	return o.Description.Get(), o.Description.IsSet()
 }
 
 // HasDescription returns a boolean if a field has been set.
 func (o *CreateFeatureSchema) HasDescription() bool {
-	if o != nil && !IsNil(o.Description) {
+	if o != nil && o.Description.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetDescription gets a reference to the given string and assigns it to the Description field.
+// SetDescription gets a reference to the given NullableString and assigns it to the Description field.
 func (o *CreateFeatureSchema) SetDescription(v string) {
-	o.Description = &v
+	o.Description.Set(&v)
+}
+
+// SetDescriptionNil sets the value for Description to be an explicit nil
+func (o *CreateFeatureSchema) SetDescriptionNil() {
+	o.Description.Set(nil)
+}
+
+// UnsetDescription ensures that no value is present for Description, not even an explicit nil
+func (o *CreateFeatureSchema) UnsetDescription() {
+	o.Description.Unset()
 }
 
 // GetImpressionData returns the ImpressionData field value if set, zero value otherwise.
@@ -177,8 +192,8 @@ func (o CreateFeatureSchema) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Type) {
 		toSerialize["type"] = o.Type
 	}
-	if !IsNil(o.Description) {
-		toSerialize["description"] = o.Description
+	if o.Description.IsSet() {
+		toSerialize["description"] = o.Description.Get()
 	}
 	if !IsNil(o.ImpressionData) {
 		toSerialize["impressionData"] = o.ImpressionData

@@ -45,6 +45,18 @@ func Test_client_ImportExportApiService(t *testing.T) {
 
 	})
 
+	t.Run("Test ImportExportApiService ExportFeatures", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		resp, httpRes, err := apiClient.ImportExportApi.ExportFeatures(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test ImportExportApiService ImportToggles", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test

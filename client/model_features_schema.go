@@ -17,9 +17,11 @@ import (
 // checks if the FeaturesSchema type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &FeaturesSchema{}
 
-// FeaturesSchema struct for FeaturesSchema
+// FeaturesSchema A list of features
 type FeaturesSchema struct {
-	Version  int32           `json:"version"`
+	// The version of the feature's schema
+	Version int32 `json:"version"`
+	// A list of features
 	Features []FeatureSchema `json:"features"`
 }
 

@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Id** | **string** | The project&#39;s identifier. | 
 **Name** | **string** | The project&#39;s name. | 
 **Description** | Pointer to **NullableString** | The project&#39;s description. | [optional] 
+**FeatureLimit** | Pointer to **NullableInt32** | A limit on the number of features allowed in the project. &#x60;null&#x60; if no limit. | [optional] 
 **Mode** | Pointer to **string** | A mode of the project affecting what actions are possible in this project | [optional] 
 **DefaultStickiness** | Pointer to **string** | A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy | [optional] 
 
@@ -104,6 +105,41 @@ HasDescription returns a boolean if a field has been set.
 `func (o *ProjectCreatedSchema) UnsetDescription()`
 
 UnsetDescription ensures that no value is present for Description, not even an explicit nil
+### GetFeatureLimit
+
+`func (o *ProjectCreatedSchema) GetFeatureLimit() int32`
+
+GetFeatureLimit returns the FeatureLimit field if non-nil, zero value otherwise.
+
+### GetFeatureLimitOk
+
+`func (o *ProjectCreatedSchema) GetFeatureLimitOk() (*int32, bool)`
+
+GetFeatureLimitOk returns a tuple with the FeatureLimit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFeatureLimit
+
+`func (o *ProjectCreatedSchema) SetFeatureLimit(v int32)`
+
+SetFeatureLimit sets FeatureLimit field to given value.
+
+### HasFeatureLimit
+
+`func (o *ProjectCreatedSchema) HasFeatureLimit() bool`
+
+HasFeatureLimit returns a boolean if a field has been set.
+
+### SetFeatureLimitNil
+
+`func (o *ProjectCreatedSchema) SetFeatureLimitNil(b bool)`
+
+ SetFeatureLimitNil sets the value for FeatureLimit to be an explicit nil
+
+### UnsetFeatureLimit
+`func (o *ProjectCreatedSchema) UnsetFeatureLimit()`
+
+UnsetFeatureLimit ensures that no value is present for FeatureLimit, not even an explicit nil
 ### GetMode
 
 `func (o *ProjectCreatedSchema) GetMode() string`

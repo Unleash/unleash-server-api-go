@@ -17,9 +17,11 @@ import (
 // checks if the SetStrategySortOrderSchemaInner type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &SetStrategySortOrderSchemaInner{}
 
-// SetStrategySortOrderSchemaInner struct for SetStrategySortOrderSchemaInner
+// SetStrategySortOrderSchemaInner A strategy with its new sort order
 type SetStrategySortOrderSchemaInner struct {
-	Id        string  `json:"id"`
+	// The ID of the strategy
+	Id string `json:"id"`
+	// The new sort order of the strategy
 	SortOrder float32 `json:"sortOrder"`
 }
 

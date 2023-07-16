@@ -4,7 +4,7 @@ All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AddTagToFeatures**](TagsApi.md#AddTagToFeatures) | **Put** /api/admin/projects/{projectId}/tags | 
+[**AddTagToFeatures**](TagsApi.md#AddTagToFeatures) | **Put** /api/admin/projects/{projectId}/tags | Adds a tag to the specified features
 [**CreateTag**](TagsApi.md#CreateTag) | **Post** /api/admin/tags | Create a new tag.
 [**CreateTagType**](TagsApi.md#CreateTagType) | **Post** /api/admin/tag-types | Create a tag type
 [**DeleteTag**](TagsApi.md#DeleteTag) | **Delete** /api/admin/tags/{type}/{value} | Delete a tag.
@@ -22,6 +22,8 @@ Method | HTTP request | Description
 ## AddTagToFeatures
 
 > AddTagToFeatures(ctx, projectId).TagsBulkAddSchema(tagsBulkAddSchema).Execute()
+
+Adds a tag to the specified features
 
 
 
@@ -80,7 +82,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

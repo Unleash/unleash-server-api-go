@@ -17,10 +17,12 @@ import (
 // checks if the CloneFeatureSchema type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &CloneFeatureSchema{}
 
-// CloneFeatureSchema struct for CloneFeatureSchema
+// CloneFeatureSchema Copy of a feature with a new name
 type CloneFeatureSchema struct {
-	Name           string `json:"name"`
-	ReplaceGroupId *bool  `json:"replaceGroupId,omitempty"`
+	// The name of the new feature
+	Name string `json:"name"`
+	// Whether to use the new feature name as its group ID or not. Group ID is used for calculating [stickiness](https://docs.getunleash.io/reference/stickiness#calculation). Defaults to true.
+	ReplaceGroupId *bool `json:"replaceGroupId,omitempty"`
 }
 
 // NewCloneFeatureSchema instantiates a new CloneFeatureSchema object

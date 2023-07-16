@@ -24,7 +24,7 @@ type ClientFeaturesSchema struct {
 	// A list of feature toggles with their configuration
 	Features []ClientFeatureSchema `json:"features"`
 	// A list of [Segments](https://docs.getunleash.io/reference/segments) configured for this Unleash instance
-	Segments []SegmentSchema            `json:"segments,omitempty"`
+	Segments []ClientSegmentSchema      `json:"segments,omitempty"`
 	Query    *ClientFeaturesQuerySchema `json:"query,omitempty"`
 }
 
@@ -96,9 +96,9 @@ func (o *ClientFeaturesSchema) SetFeatures(v []ClientFeatureSchema) {
 }
 
 // GetSegments returns the Segments field value if set, zero value otherwise.
-func (o *ClientFeaturesSchema) GetSegments() []SegmentSchema {
+func (o *ClientFeaturesSchema) GetSegments() []ClientSegmentSchema {
 	if o == nil || IsNil(o.Segments) {
-		var ret []SegmentSchema
+		var ret []ClientSegmentSchema
 		return ret
 	}
 	return o.Segments
@@ -106,7 +106,7 @@ func (o *ClientFeaturesSchema) GetSegments() []SegmentSchema {
 
 // GetSegmentsOk returns a tuple with the Segments field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClientFeaturesSchema) GetSegmentsOk() ([]SegmentSchema, bool) {
+func (o *ClientFeaturesSchema) GetSegmentsOk() ([]ClientSegmentSchema, bool) {
 	if o == nil || IsNil(o.Segments) {
 		return nil, false
 	}
@@ -122,8 +122,8 @@ func (o *ClientFeaturesSchema) HasSegments() bool {
 	return false
 }
 
-// SetSegments gets a reference to the given []SegmentSchema and assigns it to the Segments field.
-func (o *ClientFeaturesSchema) SetSegments(v []SegmentSchema) {
+// SetSegments gets a reference to the given []ClientSegmentSchema and assigns it to the Segments field.
+func (o *ClientFeaturesSchema) SetSegments(v []ClientSegmentSchema) {
 	o.Segments = v
 }
 

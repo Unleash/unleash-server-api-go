@@ -14,40 +14,43 @@ import (
 	"encoding/json"
 )
 
-// checks if the SplashSchema type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &SplashSchema{}
+// checks if the SplashResponseSchema type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &SplashResponseSchema{}
 
-// SplashSchema struct for SplashSchema
-type SplashSchema struct {
-	UserId   float32 `json:"userId"`
-	SplashId string  `json:"splashId"`
-	Seen     bool    `json:"seen"`
+// SplashResponseSchema Data related to a user having seen a splash screen.
+type SplashResponseSchema struct {
+	// The ID of the user that was shown the splash screen.
+	UserId int32 `json:"userId"`
+	// The ID of the splash screen that was shown.
+	SplashId string `json:"splashId"`
+	// Indicates whether the user has seen the splash screen or not.
+	Seen bool `json:"seen"`
 }
 
-// NewSplashSchema instantiates a new SplashSchema object
+// NewSplashResponseSchema instantiates a new SplashResponseSchema object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSplashSchema(userId float32, splashId string, seen bool) *SplashSchema {
-	this := SplashSchema{}
+func NewSplashResponseSchema(userId int32, splashId string, seen bool) *SplashResponseSchema {
+	this := SplashResponseSchema{}
 	this.UserId = userId
 	this.SplashId = splashId
 	this.Seen = seen
 	return &this
 }
 
-// NewSplashSchemaWithDefaults instantiates a new SplashSchema object
+// NewSplashResponseSchemaWithDefaults instantiates a new SplashResponseSchema object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewSplashSchemaWithDefaults() *SplashSchema {
-	this := SplashSchema{}
+func NewSplashResponseSchemaWithDefaults() *SplashResponseSchema {
+	this := SplashResponseSchema{}
 	return &this
 }
 
 // GetUserId returns the UserId field value
-func (o *SplashSchema) GetUserId() float32 {
+func (o *SplashResponseSchema) GetUserId() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -56,7 +59,7 @@ func (o *SplashSchema) GetUserId() float32 {
 
 // GetUserIdOk returns a tuple with the UserId field value
 // and a boolean to check if the value has been set.
-func (o *SplashSchema) GetUserIdOk() (*float32, bool) {
+func (o *SplashResponseSchema) GetUserIdOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -64,12 +67,12 @@ func (o *SplashSchema) GetUserIdOk() (*float32, bool) {
 }
 
 // SetUserId sets field value
-func (o *SplashSchema) SetUserId(v float32) {
+func (o *SplashResponseSchema) SetUserId(v int32) {
 	o.UserId = v
 }
 
 // GetSplashId returns the SplashId field value
-func (o *SplashSchema) GetSplashId() string {
+func (o *SplashResponseSchema) GetSplashId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -80,7 +83,7 @@ func (o *SplashSchema) GetSplashId() string {
 
 // GetSplashIdOk returns a tuple with the SplashId field value
 // and a boolean to check if the value has been set.
-func (o *SplashSchema) GetSplashIdOk() (*string, bool) {
+func (o *SplashResponseSchema) GetSplashIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -88,12 +91,12 @@ func (o *SplashSchema) GetSplashIdOk() (*string, bool) {
 }
 
 // SetSplashId sets field value
-func (o *SplashSchema) SetSplashId(v string) {
+func (o *SplashResponseSchema) SetSplashId(v string) {
 	o.SplashId = v
 }
 
 // GetSeen returns the Seen field value
-func (o *SplashSchema) GetSeen() bool {
+func (o *SplashResponseSchema) GetSeen() bool {
 	if o == nil {
 		var ret bool
 		return ret
@@ -104,7 +107,7 @@ func (o *SplashSchema) GetSeen() bool {
 
 // GetSeenOk returns a tuple with the Seen field value
 // and a boolean to check if the value has been set.
-func (o *SplashSchema) GetSeenOk() (*bool, bool) {
+func (o *SplashResponseSchema) GetSeenOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -112,11 +115,11 @@ func (o *SplashSchema) GetSeenOk() (*bool, bool) {
 }
 
 // SetSeen sets field value
-func (o *SplashSchema) SetSeen(v bool) {
+func (o *SplashResponseSchema) SetSeen(v bool) {
 	o.Seen = v
 }
 
-func (o SplashSchema) MarshalJSON() ([]byte, error) {
+func (o SplashResponseSchema) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -124,7 +127,7 @@ func (o SplashSchema) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o SplashSchema) ToMap() (map[string]interface{}, error) {
+func (o SplashResponseSchema) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["userId"] = o.UserId
 	toSerialize["splashId"] = o.SplashId
@@ -132,38 +135,38 @@ func (o SplashSchema) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-type NullableSplashSchema struct {
-	value *SplashSchema
+type NullableSplashResponseSchema struct {
+	value *SplashResponseSchema
 	isSet bool
 }
 
-func (v NullableSplashSchema) Get() *SplashSchema {
+func (v NullableSplashResponseSchema) Get() *SplashResponseSchema {
 	return v.value
 }
 
-func (v *NullableSplashSchema) Set(val *SplashSchema) {
+func (v *NullableSplashResponseSchema) Set(val *SplashResponseSchema) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableSplashSchema) IsSet() bool {
+func (v NullableSplashResponseSchema) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableSplashSchema) Unset() {
+func (v *NullableSplashResponseSchema) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableSplashSchema(val *SplashSchema) *NullableSplashSchema {
-	return &NullableSplashSchema{value: val, isSet: true}
+func NewNullableSplashResponseSchema(val *SplashResponseSchema) *NullableSplashResponseSchema {
+	return &NullableSplashResponseSchema{value: val, isSet: true}
 }
 
-func (v NullableSplashSchema) MarshalJSON() ([]byte, error) {
+func (v NullableSplashResponseSchema) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableSplashSchema) UnmarshalJSON(src []byte) error {
+func (v *NullableSplashResponseSchema) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

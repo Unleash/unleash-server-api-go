@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **Description** | Pointer to **NullableString** | The project&#39;s description | [optional] 
 **DefaultStickiness** | **string** | A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy | 
 **Mode** | **string** | The project&#39;s [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not. | 
+**FeatureLimit** | Pointer to **NullableFloat32** | A limit on the number of features allowed in the project. Null if no limit. | [optional] 
 **Members** | **int32** | The number of users/members in the project. | 
 **Health** | **int32** | The overall [health rating](https://docs.getunleash.io/reference/technical-debt#health-rating) of the project. | 
 **Environments** | [**[]ProjectEnvironmentSchema**](ProjectEnvironmentSchema.md) | An array containing the names of all the environments configured for the project. | 
@@ -155,6 +156,41 @@ and a boolean to check if the value has been set.
 SetMode sets Mode field to given value.
 
 
+### GetFeatureLimit
+
+`func (o *HealthReportSchema) GetFeatureLimit() float32`
+
+GetFeatureLimit returns the FeatureLimit field if non-nil, zero value otherwise.
+
+### GetFeatureLimitOk
+
+`func (o *HealthReportSchema) GetFeatureLimitOk() (*float32, bool)`
+
+GetFeatureLimitOk returns a tuple with the FeatureLimit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFeatureLimit
+
+`func (o *HealthReportSchema) SetFeatureLimit(v float32)`
+
+SetFeatureLimit sets FeatureLimit field to given value.
+
+### HasFeatureLimit
+
+`func (o *HealthReportSchema) HasFeatureLimit() bool`
+
+HasFeatureLimit returns a boolean if a field has been set.
+
+### SetFeatureLimitNil
+
+`func (o *HealthReportSchema) SetFeatureLimitNil(b bool)`
+
+ SetFeatureLimitNil sets the value for FeatureLimit to be an explicit nil
+
+### UnsetFeatureLimit
+`func (o *HealthReportSchema) UnsetFeatureLimit()`
+
+UnsetFeatureLimit ensures that no value is present for FeatureLimit, not even an explicit nil
 ### GetMembers
 
 `func (o *HealthReportSchema) GetMembers() int32`

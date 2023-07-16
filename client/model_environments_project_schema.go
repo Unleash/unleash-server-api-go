@@ -19,7 +19,9 @@ var _ MappedNullable = &EnvironmentsProjectSchema{}
 
 // EnvironmentsProjectSchema Environments defined for a given project
 type EnvironmentsProjectSchema struct {
-	Version      int32                      `json:"version"`
+	// Version of the environments schema
+	Version int32 `json:"version"`
+	// List of environments
 	Environments []EnvironmentProjectSchema `json:"environments"`
 }
 

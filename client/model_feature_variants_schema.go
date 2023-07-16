@@ -17,9 +17,11 @@ import (
 // checks if the FeatureVariantsSchema type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &FeatureVariantsSchema{}
 
-// FeatureVariantsSchema struct for FeatureVariantsSchema
+// FeatureVariantsSchema A versioned collection of feature toggle variants.
 type FeatureVariantsSchema struct {
-	Version  int32           `json:"version"`
+	// The version of the feature variants schema.
+	Version int32 `json:"version"`
+	// All variants defined for a specific feature toggle.
 	Variants []VariantSchema `json:"variants"`
 }
 

@@ -19,7 +19,9 @@ var _ MappedNullable = &VariantSchemaPayload{}
 
 // VariantSchemaPayload Extra data configured for this variant
 type VariantSchemaPayload struct {
-	Type  string `json:"type"`
+	// The type of the value. Commonly used types are string, json and csv.
+	Type string `json:"type"`
+	// The actual value of payload
 	Value string `json:"value"`
 }
 

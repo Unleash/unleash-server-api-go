@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Version** | **int32** |  | 
-**Variants** | [**[]VariantSchema**](VariantSchema.md) |  | 
+**Version** | **int32** | The version of the feature variants schema. | 
+**Variants** | [**[]VariantSchema**](VariantSchema.md) | All variants defined for a specific feature toggle. | 
 
 ## Methods
 

@@ -12,31 +12,31 @@ package client
 
 import (
 	"encoding/json"
-	"time"
 )
 
 // checks if the UpdateFeatureSchema type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &UpdateFeatureSchema{}
 
-// UpdateFeatureSchema struct for UpdateFeatureSchema
+// UpdateFeatureSchema Data used for updating a feature toggle
 type UpdateFeatureSchema struct {
-	Name           string             `json:"name"`
-	Description    *string            `json:"description,omitempty"`
-	Type           *string            `json:"type,omitempty"`
-	Stale          *bool              `json:"stale,omitempty"`
-	Archived       *bool              `json:"archived,omitempty"`
-	CreatedAt      *time.Time         `json:"createdAt,omitempty"`
-	ImpressionData *bool              `json:"impressionData,omitempty"`
-	Constraints    []ConstraintSchema `json:"constraints,omitempty"`
+	// Detailed description of the feature
+	Description *string `json:"description,omitempty"`
+	// Type of the toggle e.g. experiment, kill-switch, release, operational, permission
+	Type *string `json:"type,omitempty"`
+	// `true` if the feature is archived
+	Stale *bool `json:"stale,omitempty"`
+	// If `true` the feature toggle will be moved to the [archive](https://docs.getunleash.io/reference/archived-toggles) with a property `archivedAt` set to current time
+	Archived *bool `json:"archived,omitempty"`
+	// `true` if the impression data collection is enabled for the feature
+	ImpressionData *bool `json:"impressionData,omitempty"`
 }
 
 // NewUpdateFeatureSchema instantiates a new UpdateFeatureSchema object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUpdateFeatureSchema(name string) *UpdateFeatureSchema {
+func NewUpdateFeatureSchema() *UpdateFeatureSchema {
 	this := UpdateFeatureSchema{}
-	this.Name = name
 	return &this
 }
 
@@ -46,30 +46,6 @@ func NewUpdateFeatureSchema(name string) *UpdateFeatureSchema {
 func NewUpdateFeatureSchemaWithDefaults() *UpdateFeatureSchema {
 	this := UpdateFeatureSchema{}
 	return &this
-}
-
-// GetName returns the Name field value
-func (o *UpdateFeatureSchema) GetName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Name
-}
-
-// GetNameOk returns a tuple with the Name field value
-// and a boolean to check if the value has been set.
-func (o *UpdateFeatureSchema) GetNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Name, true
-}
-
-// SetName sets field value
-func (o *UpdateFeatureSchema) SetName(v string) {
-	o.Name = v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
@@ -200,38 +176,6 @@ func (o *UpdateFeatureSchema) SetArchived(v bool) {
 	o.Archived = &v
 }
 
-// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
-func (o *UpdateFeatureSchema) GetCreatedAt() time.Time {
-	if o == nil || IsNil(o.CreatedAt) {
-		var ret time.Time
-		return ret
-	}
-	return *o.CreatedAt
-}
-
-// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *UpdateFeatureSchema) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.CreatedAt) {
-		return nil, false
-	}
-	return o.CreatedAt, true
-}
-
-// HasCreatedAt returns a boolean if a field has been set.
-func (o *UpdateFeatureSchema) HasCreatedAt() bool {
-	if o != nil && !IsNil(o.CreatedAt) {
-		return true
-	}
-
-	return false
-}
-
-// SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
-func (o *UpdateFeatureSchema) SetCreatedAt(v time.Time) {
-	o.CreatedAt = &v
-}
-
 // GetImpressionData returns the ImpressionData field value if set, zero value otherwise.
 func (o *UpdateFeatureSchema) GetImpressionData() bool {
 	if o == nil || IsNil(o.ImpressionData) {
@@ -264,38 +208,6 @@ func (o *UpdateFeatureSchema) SetImpressionData(v bool) {
 	o.ImpressionData = &v
 }
 
-// GetConstraints returns the Constraints field value if set, zero value otherwise.
-func (o *UpdateFeatureSchema) GetConstraints() []ConstraintSchema {
-	if o == nil || IsNil(o.Constraints) {
-		var ret []ConstraintSchema
-		return ret
-	}
-	return o.Constraints
-}
-
-// GetConstraintsOk returns a tuple with the Constraints field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *UpdateFeatureSchema) GetConstraintsOk() ([]ConstraintSchema, bool) {
-	if o == nil || IsNil(o.Constraints) {
-		return nil, false
-	}
-	return o.Constraints, true
-}
-
-// HasConstraints returns a boolean if a field has been set.
-func (o *UpdateFeatureSchema) HasConstraints() bool {
-	if o != nil && !IsNil(o.Constraints) {
-		return true
-	}
-
-	return false
-}
-
-// SetConstraints gets a reference to the given []ConstraintSchema and assigns it to the Constraints field.
-func (o *UpdateFeatureSchema) SetConstraints(v []ConstraintSchema) {
-	o.Constraints = v
-}
-
 func (o UpdateFeatureSchema) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -306,7 +218,6 @@ func (o UpdateFeatureSchema) MarshalJSON() ([]byte, error) {
 
 func (o UpdateFeatureSchema) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["name"] = o.Name
 	if !IsNil(o.Description) {
 		toSerialize["description"] = o.Description
 	}
@@ -319,14 +230,8 @@ func (o UpdateFeatureSchema) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Archived) {
 		toSerialize["archived"] = o.Archived
 	}
-	if !IsNil(o.CreatedAt) {
-		toSerialize["createdAt"] = o.CreatedAt
-	}
 	if !IsNil(o.ImpressionData) {
 		toSerialize["impressionData"] = o.ImpressionData
-	}
-	if !IsNil(o.Constraints) {
-		toSerialize["constraints"] = o.Constraints
 	}
 	return toSerialize, nil
 }

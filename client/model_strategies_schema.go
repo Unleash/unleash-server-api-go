@@ -17,9 +17,11 @@ import (
 // checks if the StrategiesSchema type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &StrategiesSchema{}
 
-// StrategiesSchema struct for StrategiesSchema
+// StrategiesSchema List of strategies
 type StrategiesSchema struct {
-	Version    int32            `json:"version"`
+	// Version of the strategies schema
+	Version int32 `json:"version"`
+	// List of strategies
 	Strategies []StrategySchema `json:"strategies"`
 }
 

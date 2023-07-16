@@ -19,7 +19,7 @@ var _ MappedNullable = &AdminCountSchema{}
 
 // AdminCountSchema Contains total admin counts for an Unleash instance.
 type AdminCountSchema struct {
-	// Total number of admins thatº have a password set.
+	// Total number of admins that have a password set.
 	Password float32 `json:"password"`
 	// Total number of admins that do not have a password set. May be SSO, but may also be users that did not set a password yet.
 	NoPassword float32 `json:"noPassword"`

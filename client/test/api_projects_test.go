@@ -218,20 +218,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test ProjectsApiService GetProjectSettings", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		var projectId string
-
-		resp, httpRes, err := apiClient.ProjectsApi.GetProjectSettings(context.Background(), projectId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 	t.Run("Test ProjectsApiService GetProjectUsers", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test

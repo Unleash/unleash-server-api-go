@@ -23,7 +23,7 @@ type MeSchema struct {
 	// User permissions for projects and environments
 	Permissions []PermissionSchema `json:"permissions"`
 	// User feedback information
-	Feedback []FeedbackSchema `json:"feedback"`
+	Feedback []FeedbackResponseSchema `json:"feedback"`
 	// Splash screen configuration
 	Splash map[string]bool `json:"splash"`
 }
@@ -32,7 +32,7 @@ type MeSchema struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMeSchema(user UserSchema, permissions []PermissionSchema, feedback []FeedbackSchema, splash map[string]bool) *MeSchema {
+func NewMeSchema(user UserSchema, permissions []PermissionSchema, feedback []FeedbackResponseSchema, splash map[string]bool) *MeSchema {
 	this := MeSchema{}
 	this.User = user
 	this.Permissions = permissions
@@ -98,9 +98,9 @@ func (o *MeSchema) SetPermissions(v []PermissionSchema) {
 }
 
 // GetFeedback returns the Feedback field value
-func (o *MeSchema) GetFeedback() []FeedbackSchema {
+func (o *MeSchema) GetFeedback() []FeedbackResponseSchema {
 	if o == nil {
-		var ret []FeedbackSchema
+		var ret []FeedbackResponseSchema
 		return ret
 	}
 
@@ -109,7 +109,7 @@ func (o *MeSchema) GetFeedback() []FeedbackSchema {
 
 // GetFeedbackOk returns a tuple with the Feedback field value
 // and a boolean to check if the value has been set.
-func (o *MeSchema) GetFeedbackOk() ([]FeedbackSchema, bool) {
+func (o *MeSchema) GetFeedbackOk() ([]FeedbackResponseSchema, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -117,7 +117,7 @@ func (o *MeSchema) GetFeedbackOk() ([]FeedbackSchema, bool) {
 }
 
 // SetFeedback sets field value
-func (o *MeSchema) SetFeedback(v []FeedbackSchema) {
+func (o *MeSchema) SetFeedback(v []FeedbackResponseSchema) {
 	o.Feedback = v
 }
 

@@ -15,40 +15,38 @@ import (
 	"time"
 )
 
-// checks if the FeedbackSchema type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &FeedbackSchema{}
+// checks if the FeedbackUpdateSchema type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &FeedbackUpdateSchema{}
 
-// FeedbackSchema User feedback information
-type FeedbackSchema struct {
-	// Identifier of the current user giving feedback
+// FeedbackUpdateSchema User feedback information to be updated.
+type FeedbackUpdateSchema struct {
+	// The ID of the user that gave the feedback.
 	UserId *int32 `json:"userId,omitempty"`
-	// The name of the feedback session
-	FeedbackId *string `json:"feedbackId,omitempty"`
-	// `true` when user opts-in to never show the feedback again.
+	// `true` if the user has asked never to see this feedback questionnaire again.
 	NeverShow *bool `json:"neverShow,omitempty"`
 	// When this feedback was given
 	Given NullableTime `json:"given,omitempty"`
 }
 
-// NewFeedbackSchema instantiates a new FeedbackSchema object
+// NewFeedbackUpdateSchema instantiates a new FeedbackUpdateSchema object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFeedbackSchema() *FeedbackSchema {
-	this := FeedbackSchema{}
+func NewFeedbackUpdateSchema() *FeedbackUpdateSchema {
+	this := FeedbackUpdateSchema{}
 	return &this
 }
 
-// NewFeedbackSchemaWithDefaults instantiates a new FeedbackSchema object
+// NewFeedbackUpdateSchemaWithDefaults instantiates a new FeedbackUpdateSchema object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewFeedbackSchemaWithDefaults() *FeedbackSchema {
-	this := FeedbackSchema{}
+func NewFeedbackUpdateSchemaWithDefaults() *FeedbackUpdateSchema {
+	this := FeedbackUpdateSchema{}
 	return &this
 }
 
 // GetUserId returns the UserId field value if set, zero value otherwise.
-func (o *FeedbackSchema) GetUserId() int32 {
+func (o *FeedbackUpdateSchema) GetUserId() int32 {
 	if o == nil || IsNil(o.UserId) {
 		var ret int32
 		return ret
@@ -58,7 +56,7 @@ func (o *FeedbackSchema) GetUserId() int32 {
 
 // GetUserIdOk returns a tuple with the UserId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FeedbackSchema) GetUserIdOk() (*int32, bool) {
+func (o *FeedbackUpdateSchema) GetUserIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.UserId) {
 		return nil, false
 	}
@@ -66,7 +64,7 @@ func (o *FeedbackSchema) GetUserIdOk() (*int32, bool) {
 }
 
 // HasUserId returns a boolean if a field has been set.
-func (o *FeedbackSchema) HasUserId() bool {
+func (o *FeedbackUpdateSchema) HasUserId() bool {
 	if o != nil && !IsNil(o.UserId) {
 		return true
 	}
@@ -75,44 +73,12 @@ func (o *FeedbackSchema) HasUserId() bool {
 }
 
 // SetUserId gets a reference to the given int32 and assigns it to the UserId field.
-func (o *FeedbackSchema) SetUserId(v int32) {
+func (o *FeedbackUpdateSchema) SetUserId(v int32) {
 	o.UserId = &v
 }
 
-// GetFeedbackId returns the FeedbackId field value if set, zero value otherwise.
-func (o *FeedbackSchema) GetFeedbackId() string {
-	if o == nil || IsNil(o.FeedbackId) {
-		var ret string
-		return ret
-	}
-	return *o.FeedbackId
-}
-
-// GetFeedbackIdOk returns a tuple with the FeedbackId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *FeedbackSchema) GetFeedbackIdOk() (*string, bool) {
-	if o == nil || IsNil(o.FeedbackId) {
-		return nil, false
-	}
-	return o.FeedbackId, true
-}
-
-// HasFeedbackId returns a boolean if a field has been set.
-func (o *FeedbackSchema) HasFeedbackId() bool {
-	if o != nil && !IsNil(o.FeedbackId) {
-		return true
-	}
-
-	return false
-}
-
-// SetFeedbackId gets a reference to the given string and assigns it to the FeedbackId field.
-func (o *FeedbackSchema) SetFeedbackId(v string) {
-	o.FeedbackId = &v
-}
-
 // GetNeverShow returns the NeverShow field value if set, zero value otherwise.
-func (o *FeedbackSchema) GetNeverShow() bool {
+func (o *FeedbackUpdateSchema) GetNeverShow() bool {
 	if o == nil || IsNil(o.NeverShow) {
 		var ret bool
 		return ret
@@ -122,7 +88,7 @@ func (o *FeedbackSchema) GetNeverShow() bool {
 
 // GetNeverShowOk returns a tuple with the NeverShow field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FeedbackSchema) GetNeverShowOk() (*bool, bool) {
+func (o *FeedbackUpdateSchema) GetNeverShowOk() (*bool, bool) {
 	if o == nil || IsNil(o.NeverShow) {
 		return nil, false
 	}
@@ -130,7 +96,7 @@ func (o *FeedbackSchema) GetNeverShowOk() (*bool, bool) {
 }
 
 // HasNeverShow returns a boolean if a field has been set.
-func (o *FeedbackSchema) HasNeverShow() bool {
+func (o *FeedbackUpdateSchema) HasNeverShow() bool {
 	if o != nil && !IsNil(o.NeverShow) {
 		return true
 	}
@@ -139,12 +105,12 @@ func (o *FeedbackSchema) HasNeverShow() bool {
 }
 
 // SetNeverShow gets a reference to the given bool and assigns it to the NeverShow field.
-func (o *FeedbackSchema) SetNeverShow(v bool) {
+func (o *FeedbackUpdateSchema) SetNeverShow(v bool) {
 	o.NeverShow = &v
 }
 
 // GetGiven returns the Given field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *FeedbackSchema) GetGiven() time.Time {
+func (o *FeedbackUpdateSchema) GetGiven() time.Time {
 	if o == nil || IsNil(o.Given.Get()) {
 		var ret time.Time
 		return ret
@@ -155,7 +121,7 @@ func (o *FeedbackSchema) GetGiven() time.Time {
 // GetGivenOk returns a tuple with the Given field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *FeedbackSchema) GetGivenOk() (*time.Time, bool) {
+func (o *FeedbackUpdateSchema) GetGivenOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -163,7 +129,7 @@ func (o *FeedbackSchema) GetGivenOk() (*time.Time, bool) {
 }
 
 // HasGiven returns a boolean if a field has been set.
-func (o *FeedbackSchema) HasGiven() bool {
+func (o *FeedbackUpdateSchema) HasGiven() bool {
 	if o != nil && o.Given.IsSet() {
 		return true
 	}
@@ -172,21 +138,21 @@ func (o *FeedbackSchema) HasGiven() bool {
 }
 
 // SetGiven gets a reference to the given NullableTime and assigns it to the Given field.
-func (o *FeedbackSchema) SetGiven(v time.Time) {
+func (o *FeedbackUpdateSchema) SetGiven(v time.Time) {
 	o.Given.Set(&v)
 }
 
 // SetGivenNil sets the value for Given to be an explicit nil
-func (o *FeedbackSchema) SetGivenNil() {
+func (o *FeedbackUpdateSchema) SetGivenNil() {
 	o.Given.Set(nil)
 }
 
 // UnsetGiven ensures that no value is present for Given, not even an explicit nil
-func (o *FeedbackSchema) UnsetGiven() {
+func (o *FeedbackUpdateSchema) UnsetGiven() {
 	o.Given.Unset()
 }
 
-func (o FeedbackSchema) MarshalJSON() ([]byte, error) {
+func (o FeedbackUpdateSchema) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -194,13 +160,10 @@ func (o FeedbackSchema) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o FeedbackSchema) ToMap() (map[string]interface{}, error) {
+func (o FeedbackUpdateSchema) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.UserId) {
 		toSerialize["userId"] = o.UserId
-	}
-	if !IsNil(o.FeedbackId) {
-		toSerialize["feedbackId"] = o.FeedbackId
 	}
 	if !IsNil(o.NeverShow) {
 		toSerialize["neverShow"] = o.NeverShow
@@ -211,38 +174,38 @@ func (o FeedbackSchema) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-type NullableFeedbackSchema struct {
-	value *FeedbackSchema
+type NullableFeedbackUpdateSchema struct {
+	value *FeedbackUpdateSchema
 	isSet bool
 }
 
-func (v NullableFeedbackSchema) Get() *FeedbackSchema {
+func (v NullableFeedbackUpdateSchema) Get() *FeedbackUpdateSchema {
 	return v.value
 }
 
-func (v *NullableFeedbackSchema) Set(val *FeedbackSchema) {
+func (v *NullableFeedbackUpdateSchema) Set(val *FeedbackUpdateSchema) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableFeedbackSchema) IsSet() bool {
+func (v NullableFeedbackUpdateSchema) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableFeedbackSchema) Unset() {
+func (v *NullableFeedbackUpdateSchema) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableFeedbackSchema(val *FeedbackSchema) *NullableFeedbackSchema {
-	return &NullableFeedbackSchema{value: val, isSet: true}
+func NewNullableFeedbackUpdateSchema(val *FeedbackUpdateSchema) *NullableFeedbackUpdateSchema {
+	return &NullableFeedbackUpdateSchema{value: val, isSet: true}
 }
 
-func (v NullableFeedbackSchema) MarshalJSON() ([]byte, error) {
+func (v NullableFeedbackUpdateSchema) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableFeedbackSchema) UnmarshalJSON(src []byte) error {
+func (v *NullableFeedbackUpdateSchema) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

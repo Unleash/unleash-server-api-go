@@ -20,8 +20,10 @@ var _ MappedNullable = &FeatureEnvironmentSchema{}
 // FeatureEnvironmentSchema A detailed description of the feature environment
 type FeatureEnvironmentSchema struct {
 	// The name of the environment
-	Name        string  `json:"name"`
+	Name string `json:"name"`
+	// The name of the feature
 	FeatureName *string `json:"featureName,omitempty"`
+	// The name of the environment
 	Environment *string `json:"environment,omitempty"`
 	// The type of the environment
 	Type *string `json:"type,omitempty"`

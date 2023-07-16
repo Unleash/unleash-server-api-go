@@ -19,9 +19,14 @@ var _ MappedNullable = &CreateProjectSchema{}
 
 // CreateProjectSchema struct for CreateProjectSchema
 type CreateProjectSchema struct {
-	Id          string  `json:"id"`
-	Name        string  `json:"name"`
-	Description *string `json:"description,omitempty"`
+	// The project's identifier.
+	Id string `json:"id"`
+	// The project's name.
+	Name string `json:"name"`
+	// The project's description.
+	Description NullableString `json:"description,omitempty"`
+	// A limit on the number of features allowed in the project. `null` if no limit.
+	FeatureLimit NullableInt32 `json:"featureLimit,omitempty"`
 	// A mode of the project affecting what actions are possible in this project
 	Mode *string `json:"mode,omitempty"`
 	// A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy
@@ -95,36 +100,90 @@ func (o *CreateProjectSchema) SetName(v string) {
 	o.Name = v
 }
 
-// GetDescription returns the Description field value if set, zero value otherwise.
+// GetDescription returns the Description field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *CreateProjectSchema) GetDescription() string {
-	if o == nil || IsNil(o.Description) {
+	if o == nil || IsNil(o.Description.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Description
+	return *o.Description.Get()
 }
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *CreateProjectSchema) GetDescriptionOk() (*string, bool) {
-	if o == nil || IsNil(o.Description) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Description, true
+	return o.Description.Get(), o.Description.IsSet()
 }
 
 // HasDescription returns a boolean if a field has been set.
 func (o *CreateProjectSchema) HasDescription() bool {
-	if o != nil && !IsNil(o.Description) {
+	if o != nil && o.Description.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetDescription gets a reference to the given string and assigns it to the Description field.
+// SetDescription gets a reference to the given NullableString and assigns it to the Description field.
 func (o *CreateProjectSchema) SetDescription(v string) {
-	o.Description = &v
+	o.Description.Set(&v)
+}
+
+// SetDescriptionNil sets the value for Description to be an explicit nil
+func (o *CreateProjectSchema) SetDescriptionNil() {
+	o.Description.Set(nil)
+}
+
+// UnsetDescription ensures that no value is present for Description, not even an explicit nil
+func (o *CreateProjectSchema) UnsetDescription() {
+	o.Description.Unset()
+}
+
+// GetFeatureLimit returns the FeatureLimit field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CreateProjectSchema) GetFeatureLimit() int32 {
+	if o == nil || IsNil(o.FeatureLimit.Get()) {
+		var ret int32
+		return ret
+	}
+	return *o.FeatureLimit.Get()
+}
+
+// GetFeatureLimitOk returns a tuple with the FeatureLimit field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateProjectSchema) GetFeatureLimitOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.FeatureLimit.Get(), o.FeatureLimit.IsSet()
+}
+
+// HasFeatureLimit returns a boolean if a field has been set.
+func (o *CreateProjectSchema) HasFeatureLimit() bool {
+	if o != nil && o.FeatureLimit.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetFeatureLimit gets a reference to the given NullableInt32 and assigns it to the FeatureLimit field.
+func (o *CreateProjectSchema) SetFeatureLimit(v int32) {
+	o.FeatureLimit.Set(&v)
+}
+
+// SetFeatureLimitNil sets the value for FeatureLimit to be an explicit nil
+func (o *CreateProjectSchema) SetFeatureLimitNil() {
+	o.FeatureLimit.Set(nil)
+}
+
+// UnsetFeatureLimit ensures that no value is present for FeatureLimit, not even an explicit nil
+func (o *CreateProjectSchema) UnsetFeatureLimit() {
+	o.FeatureLimit.Unset()
 }
 
 // GetMode returns the Mode field value if set, zero value otherwise.
@@ -203,8 +262,11 @@ func (o CreateProjectSchema) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["id"] = o.Id
 	toSerialize["name"] = o.Name
-	if !IsNil(o.Description) {
-		toSerialize["description"] = o.Description
+	if o.Description.IsSet() {
+		toSerialize["description"] = o.Description.Get()
+	}
+	if o.FeatureLimit.IsSet() {
+		toSerialize["featureLimit"] = o.FeatureLimit.Get()
 	}
 	if !IsNil(o.Mode) {
 		toSerialize["mode"] = o.Mode

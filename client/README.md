@@ -86,11 +86,11 @@ Class | Method | HTTP request | Description
 *AddonsApi* | [**GetAddon**](docs/AddonsApi.md#getaddon) | **Get** /api/admin/addons/{id} | Get a specific addon
 *AddonsApi* | [**GetAddons**](docs/AddonsApi.md#getaddons) | **Get** /api/admin/addons | Get all addons and providers
 *AddonsApi* | [**UpdateAddon**](docs/AddonsApi.md#updateaddon) | **Put** /api/admin/addons/{id} | Update an addon
-*AdminUIApi* | [**CreateFeedback**](docs/AdminUIApi.md#createfeedback) | **Post** /api/admin/feedback | 
+*AdminUIApi* | [**CreateFeedback**](docs/AdminUIApi.md#createfeedback) | **Post** /api/admin/feedback | Send Unleash feedback
 *AdminUIApi* | [**GetUiConfig**](docs/AdminUIApi.md#getuiconfig) | **Get** /api/admin/ui-config | 
 *AdminUIApi* | [**SetUiConfig**](docs/AdminUIApi.md#setuiconfig) | **Post** /api/admin/ui-config | 
-*AdminUIApi* | [**UpdateFeedback**](docs/AdminUIApi.md#updatefeedback) | **Put** /api/admin/feedback/{id} | 
-*AdminUIApi* | [**UpdateSplashSettings**](docs/AdminUIApi.md#updatesplashsettings) | **Post** /api/admin/splash/{id} | 
+*AdminUIApi* | [**UpdateFeedback**](docs/AdminUIApi.md#updatefeedback) | **Put** /api/admin/feedback/{id} | Update Unleash feedback
+*AdminUIApi* | [**UpdateSplashSettings**](docs/AdminUIApi.md#updatesplashsettings) | **Post** /api/admin/splash/{id} | Update splash settings
 *ArchiveApi* | [**DeleteFeature**](docs/ArchiveApi.md#deletefeature) | **Delete** /api/admin/archive/{featureName} | Archives a feature
 *ArchiveApi* | [**DeleteFeatures**](docs/ArchiveApi.md#deletefeatures) | **Post** /api/admin/projects/{projectId}/delete | Deletes a list of features
 *ArchiveApi* | [**GetArchivedFeatures**](docs/ArchiveApi.md#getarchivedfeatures) | **Get** /api/admin/archive/features | 
@@ -139,50 +139,51 @@ Class | Method | HTTP request | Description
 *EventsApi* | [**SearchEvents**](docs/EventsApi.md#searchevents) | **Post** /api/admin/events/search | Search for events
 *FeaturesApi* | [**AddFavoriteFeature**](docs/FeaturesApi.md#addfavoritefeature) | **Post** /api/admin/projects/{projectId}/features/{featureName}/favorites | Add feature to favorites
 *FeaturesApi* | [**AddFavoriteProject**](docs/FeaturesApi.md#addfavoriteproject) | **Post** /api/admin/projects/{projectId}/favorites | Add project to favorites
-*FeaturesApi* | [**AddFeatureStrategy**](docs/FeaturesApi.md#addfeaturestrategy) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies | Add a strategy to a feature toggle.
+*FeaturesApi* | [**AddFeatureStrategy**](docs/FeaturesApi.md#addfeaturestrategy) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies | Add a strategy to a feature toggle
 *FeaturesApi* | [**AddTag**](docs/FeaturesApi.md#addtag) | **Post** /api/admin/features/{featureName}/tags | Adds a tag to a feature.
-*FeaturesApi* | [**ArchiveFeature**](docs/FeaturesApi.md#archivefeature) | **Delete** /api/admin/projects/{projectId}/features/{featureName} | Archive a feature.
+*FeaturesApi* | [**ArchiveFeature**](docs/FeaturesApi.md#archivefeature) | **Delete** /api/admin/projects/{projectId}/features/{featureName} | Archive a feature toggle
 *FeaturesApi* | [**ArchiveFeatures**](docs/FeaturesApi.md#archivefeatures) | **Post** /api/admin/projects/{projectId}/archive | Archives a list of features
-*FeaturesApi* | [**BulkToggleFeaturesEnvironmentOff**](docs/FeaturesApi.md#bulktogglefeaturesenvironmentoff) | **Post** /api/admin/projects/{projectId}/bulk_features/environments/{environment}/off | Bulk disabled a list of features.
-*FeaturesApi* | [**BulkToggleFeaturesEnvironmentOn**](docs/FeaturesApi.md#bulktogglefeaturesenvironmenton) | **Post** /api/admin/projects/{projectId}/bulk_features/environments/{environment}/on | Bulk enable a list of features.
+*FeaturesApi* | [**BulkToggleFeaturesEnvironmentOff**](docs/FeaturesApi.md#bulktogglefeaturesenvironmentoff) | **Post** /api/admin/projects/{projectId}/bulk_features/environments/{environment}/off | Bulk disable a list of features
+*FeaturesApi* | [**BulkToggleFeaturesEnvironmentOn**](docs/FeaturesApi.md#bulktogglefeaturesenvironmenton) | **Post** /api/admin/projects/{projectId}/bulk_features/environments/{environment}/on | Bulk enable a list of features
 *FeaturesApi* | [**ChangeProject**](docs/FeaturesApi.md#changeproject) | **Post** /api/admin/projects/{projectId}/features/{featureName}/changeProject | Move feature to project
-*FeaturesApi* | [**CloneFeature**](docs/FeaturesApi.md#clonefeature) | **Post** /api/admin/projects/{projectId}/features/{featureName}/clone | 
-*FeaturesApi* | [**CreateFeature**](docs/FeaturesApi.md#createfeature) | **Post** /api/admin/projects/{projectId}/features | 
-*FeaturesApi* | [**DeleteFeatureStrategy**](docs/FeaturesApi.md#deletefeaturestrategy) | **Delete** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | Delete a strategy from a feature toggle.
+*FeaturesApi* | [**CloneFeature**](docs/FeaturesApi.md#clonefeature) | **Post** /api/admin/projects/{projectId}/features/{featureName}/clone | Clone a feature toggle
+*FeaturesApi* | [**CreateFeature**](docs/FeaturesApi.md#createfeature) | **Post** /api/admin/projects/{projectId}/features | Add a new feature toggle
+*FeaturesApi* | [**DeleteFeatureStrategy**](docs/FeaturesApi.md#deletefeaturestrategy) | **Delete** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | Delete a strategy from a feature toggle
 *FeaturesApi* | [**GetAllFeatureTypes**](docs/FeaturesApi.md#getallfeaturetypes) | **Get** /api/admin/feature-types | Get all feature types
-*FeaturesApi* | [**GetAllToggles**](docs/FeaturesApi.md#getalltoggles) | **Get** /api/admin/features | Get all features (deprecated)
+*FeaturesApi* | [**GetAllToggles**](docs/FeaturesApi.md#getalltoggles) | **Get** /api/admin/features | Get all feature toggles (deprecated)
 *FeaturesApi* | [**GetEnvironmentFeatureVariants**](docs/FeaturesApi.md#getenvironmentfeaturevariants) | **Get** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/variants | Get variants for a feature in an environment
-*FeaturesApi* | [**GetFeature**](docs/FeaturesApi.md#getfeature) | **Get** /api/admin/projects/{projectId}/features/{featureName} | Get a feature.
-*FeaturesApi* | [**GetFeatureEnvironment**](docs/FeaturesApi.md#getfeatureenvironment) | **Get** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment} | Get a feature environment.
-*FeaturesApi* | [**GetFeatureStrategies**](docs/FeaturesApi.md#getfeaturestrategies) | **Get** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies | Get feature toggle strategies.
-*FeaturesApi* | [**GetFeatureStrategy**](docs/FeaturesApi.md#getfeaturestrategy) | **Get** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | Get a strategy configuration.
+*FeaturesApi* | [**GetFeature**](docs/FeaturesApi.md#getfeature) | **Get** /api/admin/projects/{projectId}/features/{featureName} | Get a feature
+*FeaturesApi* | [**GetFeatureEnvironment**](docs/FeaturesApi.md#getfeatureenvironment) | **Get** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment} | Get a feature environment
+*FeaturesApi* | [**GetFeatureStrategies**](docs/FeaturesApi.md#getfeaturestrategies) | **Get** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies | Get feature toggle strategies
+*FeaturesApi* | [**GetFeatureStrategy**](docs/FeaturesApi.md#getfeaturestrategy) | **Get** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | Get a strategy configuration
 *FeaturesApi* | [**GetFeatureVariants**](docs/FeaturesApi.md#getfeaturevariants) | **Get** /api/admin/projects/{projectId}/features/{featureName}/variants | Retrieve variants for a feature (deprecated) 
-*FeaturesApi* | [**GetFeatures**](docs/FeaturesApi.md#getfeatures) | **Get** /api/admin/projects/{projectId}/features | 
+*FeaturesApi* | [**GetFeatures**](docs/FeaturesApi.md#getfeatures) | **Get** /api/admin/projects/{projectId}/features | Get all features in a project
 *FeaturesApi* | [**ListTags**](docs/FeaturesApi.md#listtags) | **Get** /api/admin/features/{featureName}/tags | Get all tags for a feature.
 *FeaturesApi* | [**OverwriteEnvironmentFeatureVariants**](docs/FeaturesApi.md#overwriteenvironmentfeaturevariants) | **Put** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/variants | Create (overwrite) variants for a feature in an environment
 *FeaturesApi* | [**OverwriteFeatureVariants**](docs/FeaturesApi.md#overwritefeaturevariants) | **Put** /api/admin/projects/{projectId}/features/{featureName}/variants | Create (overwrite) variants for a feature toggle in all environments
-*FeaturesApi* | [**OverwriteFeatureVariantsOnEnvironments**](docs/FeaturesApi.md#overwritefeaturevariantsonenvironments) | **Put** /api/admin/projects/{projectId}/features/{featureName}/variants-batch | 
+*FeaturesApi* | [**OverwriteFeatureVariantsOnEnvironments**](docs/FeaturesApi.md#overwritefeaturevariantsonenvironments) | **Put** /api/admin/projects/{projectId}/features/{featureName}/variants-batch | Create (overwrite) variants for a feature toggle in multiple environments
 *FeaturesApi* | [**PatchEnvironmentsFeatureVariants**](docs/FeaturesApi.md#patchenvironmentsfeaturevariants) | **Patch** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/variants | Patch a feature&#39;s variants in an environment
-*FeaturesApi* | [**PatchFeature**](docs/FeaturesApi.md#patchfeature) | **Patch** /api/admin/projects/{projectId}/features/{featureName} | 
-*FeaturesApi* | [**PatchFeatureStrategy**](docs/FeaturesApi.md#patchfeaturestrategy) | **Patch** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | Change specific properties of a strategy.
+*FeaturesApi* | [**PatchFeature**](docs/FeaturesApi.md#patchfeature) | **Patch** /api/admin/projects/{projectId}/features/{featureName} | Modify a feature toggle
+*FeaturesApi* | [**PatchFeatureStrategy**](docs/FeaturesApi.md#patchfeaturestrategy) | **Patch** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | Change specific properties of a strategy
 *FeaturesApi* | [**PatchFeatureVariants**](docs/FeaturesApi.md#patchfeaturevariants) | **Patch** /api/admin/projects/{projectId}/features/{featureName}/variants | Apply a patch to a feature&#39;s variants (in all environments).
 *FeaturesApi* | [**RemoveFavoriteFeature**](docs/FeaturesApi.md#removefavoritefeature) | **Delete** /api/admin/projects/{projectId}/features/{featureName}/favorites | Remove feature from favorites
 *FeaturesApi* | [**RemoveFavoriteProject**](docs/FeaturesApi.md#removefavoriteproject) | **Delete** /api/admin/projects/{projectId}/favorites | Remove project from favorites
 *FeaturesApi* | [**RemoveTag**](docs/FeaturesApi.md#removetag) | **Delete** /api/admin/features/{featureName}/tags/{type}/{value} | Removes a tag from a feature.
-*FeaturesApi* | [**SetStrategySortOrder**](docs/FeaturesApi.md#setstrategysortorder) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/set-sort-order | Set the order of strategies on the list.
+*FeaturesApi* | [**SetStrategySortOrder**](docs/FeaturesApi.md#setstrategysortorder) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/set-sort-order | Set the order of strategies on the list
 *FeaturesApi* | [**StaleFeatures**](docs/FeaturesApi.md#stalefeatures) | **Post** /api/admin/projects/{projectId}/stale | Mark features as stale / not stale
-*FeaturesApi* | [**ToggleFeatureEnvironmentOff**](docs/FeaturesApi.md#togglefeatureenvironmentoff) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/off | Disable a feature toggle.
-*FeaturesApi* | [**ToggleFeatureEnvironmentOn**](docs/FeaturesApi.md#togglefeatureenvironmenton) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/on | Enable a feature toggle.
-*FeaturesApi* | [**UpdateFeature**](docs/FeaturesApi.md#updatefeature) | **Put** /api/admin/projects/{projectId}/features/{featureName} | 
-*FeaturesApi* | [**UpdateFeatureStrategy**](docs/FeaturesApi.md#updatefeaturestrategy) | **Put** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | Update a strategy.
+*FeaturesApi* | [**ToggleFeatureEnvironmentOff**](docs/FeaturesApi.md#togglefeatureenvironmentoff) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/off | Disable a feature toggle
+*FeaturesApi* | [**ToggleFeatureEnvironmentOn**](docs/FeaturesApi.md#togglefeatureenvironmenton) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/on | Enable a feature toggle
+*FeaturesApi* | [**UpdateFeature**](docs/FeaturesApi.md#updatefeature) | **Put** /api/admin/projects/{projectId}/features/{featureName} | Update a feature toggle
+*FeaturesApi* | [**UpdateFeatureStrategy**](docs/FeaturesApi.md#updatefeaturestrategy) | **Put** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | Update a strategy
 *FeaturesApi* | [**UpdateTags**](docs/FeaturesApi.md#updatetags) | **Put** /api/admin/features/{featureName}/tags | Updates multiple tags for a feature.
 *FeaturesApi* | [**ValidateConstraint**](docs/FeaturesApi.md#validateconstraint) | **Post** /api/admin/constraints/validate | Validate constraint
-*FeaturesApi* | [**ValidateFeature**](docs/FeaturesApi.md#validatefeature) | **Post** /api/admin/features/validate | Validate feature name
+*FeaturesApi* | [**ValidateFeature**](docs/FeaturesApi.md#validatefeature) | **Post** /api/admin/features/validate | Validate a feature toggle name.
 *FrontendAPIApi* | [**GetFrontendFeatures**](docs/FrontendAPIApi.md#getfrontendfeatures) | **Get** /api/frontend | Retrieve enabled feature toggles for the provided context.
 *FrontendAPIApi* | [**RegisterFrontendClient**](docs/FrontendAPIApi.md#registerfrontendclient) | **Post** /api/frontend/client/register | Register a client SDK
 *FrontendAPIApi* | [**RegisterFrontendMetrics**](docs/FrontendAPIApi.md#registerfrontendmetrics) | **Post** /api/frontend/client/metrics | Register client usage metrics
 *ImportExportApi* | [**CallImport**](docs/ImportExportApi.md#callimport) | **Post** /api/admin/state/import | Import state (deprecated)
 *ImportExportApi* | [**Export**](docs/ImportExportApi.md#export) | **Get** /api/admin/state/export | Export state (deprecated)
+*ImportExportApi* | [**ExportFeatures**](docs/ImportExportApi.md#exportfeatures) | **Post** /api/admin/features-batch/export | Export feature toggles from an environment
 *ImportExportApi* | [**ImportToggles**](docs/ImportExportApi.md#importtoggles) | **Post** /api/admin/features-batch/import | Import feature toggles
 *ImportExportApi* | [**ValidateImport**](docs/ImportExportApi.md#validateimport) | **Post** /api/admin/features-batch/validate | Validate feature import data
 *InstanceAdminApi* | [**GetInstanceAdminStats**](docs/InstanceAdminApi.md#getinstanceadminstats) | **Get** /api/admin/instance-admin/statistics | Instance usage statistics
@@ -215,7 +216,6 @@ Class | Method | HTTP request | Description
 *ProjectsApi* | [**GetProjectApiTokens**](docs/ProjectsApi.md#getprojectapitokens) | **Get** /api/admin/projects/{projectId}/api-tokens | Get api tokens for project.
 *ProjectsApi* | [**GetProjectHealthReport**](docs/ProjectsApi.md#getprojecthealthreport) | **Get** /api/admin/projects/{projectId}/health-report | Get a health report for a project.
 *ProjectsApi* | [**GetProjectOverview**](docs/ProjectsApi.md#getprojectoverview) | **Get** /api/admin/projects/{projectId} | Get an overview of a project.
-*ProjectsApi* | [**GetProjectSettings**](docs/ProjectsApi.md#getprojectsettings) | **Get** /api/admin/projects/{projectId}/settings | 
 *ProjectsApi* | [**GetProjectUsers**](docs/ProjectsApi.md#getprojectusers) | **Get** /api/admin/projects/{projectId}/users | 
 *ProjectsApi* | [**GetProjects**](docs/ProjectsApi.md#getprojects) | **Get** /api/admin/projects | Get a list of all projects.
 *ProjectsApi* | [**RemoveEnvironmentFromProject**](docs/ProjectsApi.md#removeenvironmentfromproject) | **Delete** /api/admin/projects/{projectId}/environments/{environment} | Remove an environment from a project.
@@ -253,7 +253,7 @@ Class | Method | HTTP request | Description
 *StrategiesApi* | [**RemoveStrategy**](docs/StrategiesApi.md#removestrategy) | **Delete** /api/admin/strategies/{name} | Delete a strategy
 *StrategiesApi* | [**UpdateFeatureStrategySegments**](docs/StrategiesApi.md#updatefeaturestrategysegments) | **Post** /api/admin/segments/strategies | Update strategy segments
 *StrategiesApi* | [**UpdateStrategy**](docs/StrategiesApi.md#updatestrategy) | **Put** /api/admin/strategies/{strategyName} | Update a strategy type
-*TagsApi* | [**AddTagToFeatures**](docs/TagsApi.md#addtagtofeatures) | **Put** /api/admin/projects/{projectId}/tags | 
+*TagsApi* | [**AddTagToFeatures**](docs/TagsApi.md#addtagtofeatures) | **Put** /api/admin/projects/{projectId}/tags | Adds a tag to the specified features
 *TagsApi* | [**CreateTag**](docs/TagsApi.md#createtag) | **Post** /api/admin/tags | Create a new tag.
 *TagsApi* | [**CreateTagType**](docs/TagsApi.md#createtagtype) | **Post** /api/admin/tag-types | Create a tag type
 *TagsApi* | [**DeleteTag**](docs/TagsApi.md#deletetag) | **Delete** /api/admin/tags/{type}/{value} | Delete a tag.
@@ -266,10 +266,24 @@ Class | Method | HTTP request | Description
 *TagsApi* | [**UpdateTagType**](docs/TagsApi.md#updatetagtype) | **Put** /api/admin/tag-types/{name} | Update a tag type
 *TagsApi* | [**ValidateTagType**](docs/TagsApi.md#validatetagtype) | **Post** /api/admin/tag-types/validate | Validate a tag type
 *TelemetryApi* | [**GetTelemetrySettings**](docs/TelemetryApi.md#gettelemetrysettings) | **Get** /api/admin/telemetry/settings | Get telemetry settings
+*UnstableApi* | [**AddChangeRequestComment**](docs/UnstableApi.md#addchangerequestcomment) | **Post** /api/admin/projects/{projectId}/change-requests/{id}/comments | This endpoint will add a comment to a change request
+*UnstableApi* | [**ChangeRequest**](docs/UnstableApi.md#changerequest) | **Post** /api/admin/projects/{projectId}/environments/{environment}/change-requests | Create/Add change to a change request
+*UnstableApi* | [**DeleteChange**](docs/UnstableApi.md#deletechange) | **Delete** /api/admin/projects/{projectId}/change-requests/{changeRequestId}/changes/{changeId} | Discards a change from a change request by change id
+*UnstableApi* | [**DeleteChangeRequest**](docs/UnstableApi.md#deletechangerequest) | **Delete** /api/admin/projects/{projectId}/change-requests/{id} | Deletes a change request by id
+*UnstableApi* | [**EditChange**](docs/UnstableApi.md#editchange) | **Put** /api/admin/projects/{projectId}/change-requests/{changeRequestId}/changes/{changeId} | Edits a single change in a change request
 *UnstableApi* | [**GetAdvancedPlayground**](docs/UnstableApi.md#getadvancedplayground) | **Post** /api/admin/playground/advanced | Batch evaluate an Unleash context against a set of environments and projects.
+*UnstableApi* | [**GetChangeRequest**](docs/UnstableApi.md#getchangerequest) | **Get** /api/admin/projects/{projectId}/change-requests/{id} | Retrieves one change request by id
+*UnstableApi* | [**GetChangeRequestsForProject**](docs/UnstableApi.md#getchangerequestsforproject) | **Get** /api/admin/projects/{projectId}/change-requests | Retrieves all change requests for a project
 *UnstableApi* | [**GetLoginHistory**](docs/UnstableApi.md#getloginhistory) | **Get** /api/admin/logins | Get all login events.
 *UnstableApi* | [**GetNotifications**](docs/UnstableApi.md#getnotifications) | **Get** /api/admin/notifications | Retrieves a list of notifications
+*UnstableApi* | [**GetOpenChangeRequestsForUser**](docs/UnstableApi.md#getopenchangerequestsforuser) | **Get** /api/admin/projects/{projectId}/change-requests/open | Retrieves pending change requests in configured environments
+*UnstableApi* | [**GetPendingChangeRequestsForFeature**](docs/UnstableApi.md#getpendingchangerequestsforfeature) | **Get** /api/admin/projects/{projectId}/change-requests/pending/{featureName} | Retrieves all pending change requests referencing a feature in the project
+*UnstableApi* | [**GetPendingChangeRequestsForUser**](docs/UnstableApi.md#getpendingchangerequestsforuser) | **Get** /api/admin/projects/{projectId}/change-requests/pending | Retrieves pending change requests in configured environments
+*UnstableApi* | [**GetProjectChangeRequestConfig**](docs/UnstableApi.md#getprojectchangerequestconfig) | **Get** /api/admin/projects/{projectId}/change-requests/config | Retrieves change request configuration for a project
 *UnstableApi* | [**MarkNotificationsAsRead**](docs/UnstableApi.md#marknotificationsasread) | **Post** /api/admin/notifications/read | Mark notifications as read
+*UnstableApi* | [**UpdateChangeRequestState**](docs/UnstableApi.md#updatechangerequeststate) | **Put** /api/admin/projects/{projectId}/change-requests/{id}/state | This endpoint will update the state of a change request
+*UnstableApi* | [**UpdateChangeRequestTitle**](docs/UnstableApi.md#updatechangerequesttitle) | **Put** /api/admin/projects/{projectId}/change-requests/{id}/title | This endpoint will update the custom title of a change request
+*UnstableApi* | [**UpdateProjectChangeRequestConfig**](docs/UnstableApi.md#updateprojectchangerequestconfig) | **Put** /api/admin/projects/{projectId}/environments/{environment}/change-requests/config | Updates change request configuration for an environment in the project
 *UsersApi* | [**ChangeMyPassword**](docs/UsersApi.md#changemypassword) | **Post** /api/admin/user/change-password | Change your own password
 *UsersApi* | [**ChangeUserPassword**](docs/UsersApi.md#changeuserpassword) | **Post** /api/admin/user-admin/{id}/change-password | Change password for a user
 *UsersApi* | [**CreateGroup**](docs/UsersApi.md#creategroup) | **Post** /api/admin/groups | 
@@ -303,6 +317,8 @@ Class | Method | HTTP request | Description
  - [AddonParameterSchema](docs/AddonParameterSchema.md)
  - [AddonSchema](docs/AddonSchema.md)
  - [AddonTypeSchema](docs/AddonTypeSchema.md)
+ - [AddonTypeSchemaAlertsInner](docs/AddonTypeSchemaAlertsInner.md)
+ - [AddonTypeSchemaInstallation](docs/AddonTypeSchemaInstallation.md)
  - [AddonsSchema](docs/AddonsSchema.md)
  - [AdminCountSchema](docs/AdminCountSchema.md)
  - [AdminFeaturesQuerySchema](docs/AdminFeaturesQuerySchema.md)
@@ -334,7 +350,21 @@ Class | Method | HTTP request | Description
  - [BulkToggleFeaturesSchema](docs/BulkToggleFeaturesSchema.md)
  - [ChangePasswordSchema](docs/ChangePasswordSchema.md)
  - [ChangeProjectSchema](docs/ChangeProjectSchema.md)
+ - [ChangeRequestAddCommentSchema](docs/ChangeRequestAddCommentSchema.md)
+ - [ChangeRequestApprovalSchema](docs/ChangeRequestApprovalSchema.md)
+ - [ChangeRequestApprovalSchemaCreatedBy](docs/ChangeRequestApprovalSchemaCreatedBy.md)
+ - [ChangeRequestCommentSchema](docs/ChangeRequestCommentSchema.md)
+ - [ChangeRequestCommentSchemaCreatedBy](docs/ChangeRequestCommentSchemaCreatedBy.md)
+ - [ChangeRequestCreateSchema](docs/ChangeRequestCreateSchema.md)
+ - [ChangeRequestDefaultEventSchema](docs/ChangeRequestDefaultEventSchema.md)
+ - [ChangeRequestEnvironmentConfigSchema](docs/ChangeRequestEnvironmentConfigSchema.md)
+ - [ChangeRequestEventSchema](docs/ChangeRequestEventSchema.md)
+ - [ChangeRequestEventSchemaCreatedBy](docs/ChangeRequestEventSchemaCreatedBy.md)
+ - [ChangeRequestEventSchemaPayload](docs/ChangeRequestEventSchemaPayload.md)
+ - [ChangeRequestFeatureSchema](docs/ChangeRequestFeatureSchema.md)
+ - [ChangeRequestSchema](docs/ChangeRequestSchema.md)
  - [ChangeRequestStateSchema](docs/ChangeRequestStateSchema.md)
+ - [ChangeRequestUpdateTitleSchema](docs/ChangeRequestUpdateTitleSchema.md)
  - [ClientApplicationSchema](docs/ClientApplicationSchema.md)
  - [ClientApplicationSchemaStarted](docs/ClientApplicationSchemaStarted.md)
  - [ClientFeatureSchema](docs/ClientFeatureSchema.md)
@@ -344,6 +374,7 @@ Class | Method | HTTP request | Description
  - [ClientMetricsSchema](docs/ClientMetricsSchema.md)
  - [ClientMetricsSchemaBucket](docs/ClientMetricsSchemaBucket.md)
  - [ClientMetricsSchemaBucketTogglesValue](docs/ClientMetricsSchemaBucketTogglesValue.md)
+ - [ClientSegmentSchema](docs/ClientSegmentSchema.md)
  - [CloneEnvironmentSchema](docs/CloneEnvironmentSchema.md)
  - [CloneFeatureSchema](docs/CloneFeatureSchema.md)
  - [ConstraintSchema](docs/ConstraintSchema.md)
@@ -363,6 +394,7 @@ Class | Method | HTTP request | Description
  - [CreateServiceAccountSchema](docs/CreateServiceAccountSchema.md)
  - [CreateStrategySchema](docs/CreateStrategySchema.md)
  - [CreateStrategySchemaParametersInner](docs/CreateStrategySchemaParametersInner.md)
+ - [CreateStrategyVariantSchema](docs/CreateStrategyVariantSchema.md)
  - [CreateUserResponseSchema](docs/CreateUserResponseSchema.md)
  - [CreateUserResponseSchemaRootRole](docs/CreateUserResponseSchemaRootRole.md)
  - [CreateUserSchema](docs/CreateUserSchema.md)
@@ -397,7 +429,9 @@ Class | Method | HTTP request | Description
  - [FeatureUsageSchema](docs/FeatureUsageSchema.md)
  - [FeatureVariantsSchema](docs/FeatureVariantsSchema.md)
  - [FeaturesSchema](docs/FeaturesSchema.md)
- - [FeedbackSchema](docs/FeedbackSchema.md)
+ - [FeedbackCreateSchema](docs/FeedbackCreateSchema.md)
+ - [FeedbackResponseSchema](docs/FeedbackResponseSchema.md)
+ - [FeedbackUpdateSchema](docs/FeedbackUpdateSchema.md)
  - [GetEnvironment404Response](docs/GetEnvironment404Response.md)
  - [GetGoogleSettings400Response](docs/GetGoogleSettings400Response.md)
  - [GetGoogleSettings403Response](docs/GetGoogleSettings403Response.md)
@@ -490,11 +524,13 @@ Class | Method | HTTP request | Description
  - [SetStrategySortOrderSchemaInner](docs/SetStrategySortOrderSchemaInner.md)
  - [SetUiConfigSchema](docs/SetUiConfigSchema.md)
  - [SetUiConfigSchemaFrontendSettings](docs/SetUiConfigSchemaFrontendSettings.md)
- - [SplashSchema](docs/SplashSchema.md)
+ - [SplashRequestSchema](docs/SplashRequestSchema.md)
+ - [SplashResponseSchema](docs/SplashResponseSchema.md)
  - [StateSchema](docs/StateSchema.md)
  - [StrategiesSchema](docs/StrategiesSchema.md)
  - [StrategySchema](docs/StrategySchema.md)
  - [StrategySchemaParametersInner](docs/StrategySchemaParametersInner.md)
+ - [StrategyVariantSchema](docs/StrategyVariantSchema.md)
  - [TagSchema](docs/TagSchema.md)
  - [TagTypeSchema](docs/TagTypeSchema.md)
  - [TagTypesSchema](docs/TagTypesSchema.md)
@@ -508,6 +544,7 @@ Class | Method | HTTP request | Description
  - [UiConfigSchema](docs/UiConfigSchema.md)
  - [UiConfigSchemaFlagsValue](docs/UiConfigSchemaFlagsValue.md)
  - [UpdateApiTokenSchema](docs/UpdateApiTokenSchema.md)
+ - [UpdateChangeRequestEnvironmentConfigSchema](docs/UpdateChangeRequestEnvironmentConfigSchema.md)
  - [UpdateEnvironmentSchema](docs/UpdateEnvironmentSchema.md)
  - [UpdateFeatureSchema](docs/UpdateFeatureSchema.md)
  - [UpdateFeatureStrategySchema](docs/UpdateFeatureStrategySchema.md)

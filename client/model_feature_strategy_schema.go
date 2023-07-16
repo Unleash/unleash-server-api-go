@@ -35,6 +35,8 @@ type FeatureStrategySchema struct {
 	Segments []float32 `json:"segments,omitempty"`
 	// A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/strategy-constraints
 	Constraints []ConstraintSchema `json:"constraints,omitempty"`
+	// Strategy level variants
+	Variants []StrategyVariantSchema `json:"variants,omitempty"`
 	// A list of parameters for a strategy
 	Parameters *map[string]string `json:"parameters,omitempty"`
 }
@@ -327,6 +329,38 @@ func (o *FeatureStrategySchema) SetConstraints(v []ConstraintSchema) {
 	o.Constraints = v
 }
 
+// GetVariants returns the Variants field value if set, zero value otherwise.
+func (o *FeatureStrategySchema) GetVariants() []StrategyVariantSchema {
+	if o == nil || IsNil(o.Variants) {
+		var ret []StrategyVariantSchema
+		return ret
+	}
+	return o.Variants
+}
+
+// GetVariantsOk returns a tuple with the Variants field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FeatureStrategySchema) GetVariantsOk() ([]StrategyVariantSchema, bool) {
+	if o == nil || IsNil(o.Variants) {
+		return nil, false
+	}
+	return o.Variants, true
+}
+
+// HasVariants returns a boolean if a field has been set.
+func (o *FeatureStrategySchema) HasVariants() bool {
+	if o != nil && !IsNil(o.Variants) {
+		return true
+	}
+
+	return false
+}
+
+// SetVariants gets a reference to the given []StrategyVariantSchema and assigns it to the Variants field.
+func (o *FeatureStrategySchema) SetVariants(v []StrategyVariantSchema) {
+	o.Variants = v
+}
+
 // GetParameters returns the Parameters field value if set, zero value otherwise.
 func (o *FeatureStrategySchema) GetParameters() map[string]string {
 	if o == nil || IsNil(o.Parameters) {
@@ -390,6 +424,9 @@ func (o FeatureStrategySchema) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Constraints) {
 		toSerialize["constraints"] = o.Constraints
+	}
+	if !IsNil(o.Variants) {
+		toSerialize["variants"] = o.Variants
 	}
 	if !IsNil(o.Parameters) {
 		toSerialize["parameters"] = o.Parameters

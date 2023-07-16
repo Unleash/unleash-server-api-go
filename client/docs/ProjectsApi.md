@@ -18,7 +18,6 @@ Method | HTTP request | Description
 [**GetProjectApiTokens**](ProjectsApi.md#GetProjectApiTokens) | **Get** /api/admin/projects/{projectId}/api-tokens | Get api tokens for project.
 [**GetProjectHealthReport**](ProjectsApi.md#GetProjectHealthReport) | **Get** /api/admin/projects/{projectId}/health-report | Get a health report for a project.
 [**GetProjectOverview**](ProjectsApi.md#GetProjectOverview) | **Get** /api/admin/projects/{projectId} | Get an overview of a project.
-[**GetProjectSettings**](ProjectsApi.md#GetProjectSettings) | **Get** /api/admin/projects/{projectId}/settings | 
 [**GetProjectUsers**](ProjectsApi.md#GetProjectUsers) | **Get** /api/admin/projects/{projectId}/users | 
 [**GetProjects**](ProjectsApi.md#GetProjects) | **Get** /api/admin/projects | Get a list of all projects.
 [**RemoveEnvironmentFromProject**](ProjectsApi.md#RemoveEnvironmentFromProject) | **Delete** /api/admin/projects/{projectId}/environments/{environment} | Remove an environment from a project.
@@ -478,7 +477,7 @@ import (
 )
 
 func main() {
-    createProjectSchema := *openapiclient.NewCreateProjectSchema("Id_example", "Name_example") // CreateProjectSchema | createProjectSchema
+    createProjectSchema := *openapiclient.NewCreateProjectSchema("pet-shop", "Pet shop") // CreateProjectSchema | createProjectSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -995,74 +994,6 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ProjectOverviewSchema**](ProjectOverviewSchema.md)
-
-### Authorization
-
-[apiKey](../README.md#apiKey)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## GetProjectSettings
-
-> ProjectSettingsSchema GetProjectSettings(ctx, projectId).Execute()
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
-)
-
-func main() {
-    projectId := "projectId_example" // string | 
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ProjectsApi.GetProjectSettings(context.Background(), projectId).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ProjectsApi.GetProjectSettings``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `GetProjectSettings`: ProjectSettingsSchema
-    fmt.Fprintf(os.Stdout, "Response from `ProjectsApi.GetProjectSettings`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**projectId** | **string** |  | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiGetProjectSettingsRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
-### Return type
-
-[**ProjectSettingsSchema**](ProjectSettingsSchema.md)
 
 ### Authorization
 

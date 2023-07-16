@@ -35,7 +35,7 @@
         "properties": {
           "password": {
             "type": "number",
-            "description": "Total number of admins thatº have a password set."
+            "description": "Total number of admins that have a password set."
           },
           "noPassword": {
             "type": "number",
@@ -339,8 +339,15 @@
                   "feature-project-change",
                   "feature-tagged",
                   "feature-untagged",
+                  "change-request-created",
+                  "change-request-discarded",
                   "change-added",
-                  "change-discarded"
+                  "change-discarded",
+                  "change-request-approved",
+                  "change-request-approval-added",
+                  "change-request-cancelled",
+                  "change-request-sent-to-review",
+                  "change-request-applied"
                 ]
               },
               {
@@ -605,6 +612,66 @@
               "feature-variants-updated",
               "feature-project-change"
             ]
+          },
+          "installation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "url"
+            ],
+            "description": "The installation configuration for this addon type.",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "A URL to where the addon configuration should redirect to install addons of this type.",
+                "example": "https://unleash-slack-app.vercel.app/install"
+              },
+              "title": {
+                "type": "string",
+                "description": "The title of the installation configuration. This will be displayed to the user when installing addons of this type.",
+                "example": "Slack App installation"
+              },
+              "helpText": {
+                "type": "string",
+                "description": "The help text of the installation configuration. This will be displayed to the user when installing addons of this type.",
+                "example": "Clicking the Install button will send you to Slack to initiate the installation procedure for the Unleash Slack app for your workspace"
+              }
+            }
+          },
+          "alerts": {
+            "type": "array",
+            "description": "A list of alerts to display to the user when installing addons of this type.",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "type",
+                "text"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "success",
+                    "info",
+                    "warning",
+                    "error"
+                  ],
+                  "description": "The type of alert. This determines the color of the alert.",
+                  "example": "info"
+                },
+                "text": {
+                  "type": "string",
+                  "description": "The text of the alert. This is what will be displayed to the user.",
+                  "example": "Please ensure you have the Unleash Slack App installed in your Slack workspace if you haven't installed it already. If you want the Unleash Slack App bot to post messages to private channels, you'll need to invite it to those channels."
+                }
+              }
+            }
+          },
+          "deprecated": {
+            "type": "string",
+            "description": "This should be used to inform the user that this addon type is deprecated and should not be used. Deprecated addons will show a badge with this information on the UI.",
+            "example": "This addon is deprecated. Please try the new addon instead."
           }
         }
       },
@@ -1409,7 +1476,7 @@
             "description": "A list of [Segments](https://docs.getunleash.io/reference/segments) configured for this Unleash instance",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/segmentSchema"
+              "$ref": "#/components/schemas/clientSegmentSchema"
             }
           },
           "query": {
@@ -1575,12 +1642,17 @@
         "required": [
           "name"
         ],
+        "description": "Copy of a feature with a new name",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "The name of the new feature",
+            "example": "new-feature"
           },
           "replaceGroupId": {
-            "type": "boolean"
+            "type": "boolean",
+            "example": true,
+            "description": "Whether to use the new feature name as its group ID or not. Group ID is used for calculating [stickiness](https://docs.getunleash.io/reference/stickiness#calculation). Defaults to true."
           }
         }
       },
@@ -1947,16 +2019,25 @@
         ],
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "disable-comments",
+            "description": "Unique feature name"
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "example": "release",
+            "description": "The feature toggle's [type](https://docs.getunleash.io/reference/feature-toggle-types). One of experiment, kill-switch, release, operational, or permission"
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "nullable": true,
+            "example": "Controls disabling of the comments section in case of an incident",
+            "description": "Detailed description of the feature"
           },
           "impressionData": {
-            "type": "boolean"
+            "type": "boolean",
+            "example": false,
+            "description": "`true` if the impression data collection is enabled for the feature, otherwise `false`."
           }
         }
       },
@@ -2006,6 +2087,13 @@
             ],
             "items": {
               "$ref": "#/components/schemas/constraintSchema"
+            }
+          },
+          "variants": {
+            "type": "array",
+            "description": "Strategy level variants",
+            "items": {
+              "$ref": "#/components/schemas/createStrategyVariantSchema"
             }
           },
           "parameters": {
@@ -2295,15 +2383,19 @@
           "version",
           "environments"
         ],
+        "description": "A versioned list of environments",
         "properties": {
           "version": {
-            "type": "integer"
+            "type": "integer",
+            "example": 1,
+            "description": "Version of the environments schema"
           },
           "environments": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/environmentSchema"
-            }
+            },
+            "description": "List of environments"
           }
         }
       },
@@ -2317,13 +2409,16 @@
         "description": "Environments defined for a given project",
         "properties": {
           "version": {
-            "type": "integer"
+            "type": "integer",
+            "example": 1,
+            "description": "Version of the environments schema"
           },
           "environments": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/environmentProjectSchema"
-            }
+            },
+            "description": "List of environments"
           }
         }
       },
@@ -2431,9 +2526,16 @@
               "public-signup-token-created",
               "public-signup-token-user-added",
               "public-signup-token-updated",
+              "change-request-created",
+              "change-request-discarded",
               "change-added",
               "change-discarded",
               "change-edited",
+              "change-request-approved",
+              "change-request-approval-added",
+              "change-request-cancelled",
+              "change-request-sent-to-review",
+              "change-request-applied",
               "api-token-created",
               "api-token-updated",
               "api-token-deleted",
@@ -2933,10 +3035,13 @@
           },
           "featureName": {
             "type": "string",
-            "example": "disable-comments"
+            "example": "disable-comments",
+            "description": "The name of the feature"
           },
           "environment": {
-            "type": "string"
+            "type": "string",
+            "example": "development",
+            "description": "The name of the environment"
           },
           "type": {
             "type": "string",
@@ -3154,15 +3259,19 @@
           "version",
           "features"
         ],
+        "description": "A list of features",
+        "deprecated": true,
         "properties": {
           "version": {
-            "type": "integer"
+            "type": "integer",
+            "description": "The version of the feature's schema"
           },
           "features": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/featureSchema"
-            }
+            },
+            "description": "A list of features"
           }
         }
       },
@@ -3222,6 +3331,13 @@
             "description": "A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/strategy-constraints",
             "items": {
               "$ref": "#/components/schemas/constraintSchema"
+            }
+          },
+          "variants": {
+            "type": "array",
+            "description": "Strategy level variants",
+            "items": {
+              "$ref": "#/components/schemas/strategyVariantSchema"
             }
           },
           "parameters": {
@@ -3429,35 +3545,52 @@
           "version",
           "variants"
         ],
+        "description": "A versioned collection of feature toggle variants.",
         "properties": {
           "version": {
-            "type": "integer"
+            "type": "integer",
+            "example": 1,
+            "description": "The version of the feature variants schema."
           },
           "variants": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/variantSchema"
-            }
+            },
+            "description": "All variants defined for a specific feature toggle."
           }
         }
       },
-      "feedbackSchema": {
+      "feedbackCreateSchema": {
+        "required": [
+          "feedbackId"
+        ],
         "type": "object",
-        "additionalProperties": false,
-        "description": "User feedback information",
+        "description": "User feedback information to be created.",
         "properties": {
-          "userId": {
-            "description": "Identifier of the current user giving feedback",
-            "type": "integer",
-            "example": 2
+          "neverShow": {
+            "description": "`true` if the user has asked never to see this feedback questionnaire again. Defaults to `false`.",
+            "type": "boolean",
+            "example": false
           },
           "feedbackId": {
             "description": "The name of the feedback session",
             "type": "string",
             "example": "pnps"
+          }
+        }
+      },
+      "feedbackUpdateSchema": {
+        "type": "object",
+        "description": "User feedback information to be updated.",
+        "properties": {
+          "userId": {
+            "description": "The ID of the user that gave the feedback.",
+            "type": "integer",
+            "example": 2
           },
           "neverShow": {
-            "description": "`true` when user opts-in to never show the feedback again.",
+            "description": "`true` if the user has asked never to see this feedback questionnaire again.",
             "type": "boolean",
             "example": false
           },
@@ -3467,6 +3600,35 @@
             "format": "date-time",
             "nullable": true,
             "example": "2023-07-06T08:29:21.282Z"
+          }
+        }
+      },
+      "feedbackResponseSchema": {
+        "additionalProperties": false,
+        "type": "object",
+        "description": "User feedback information about a particular feedback item.",
+        "properties": {
+          "userId": {
+            "description": "The ID of the user that gave the feedback.",
+            "type": "integer",
+            "example": 2
+          },
+          "neverShow": {
+            "description": "`true` if the user has asked never to see this feedback questionnaire again.",
+            "type": "boolean",
+            "example": false
+          },
+          "given": {
+            "description": "When this feedback was given",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2023-07-06T08:29:21.282Z"
+          },
+          "feedbackId": {
+            "description": "The name of the feedback session",
+            "type": "string",
+            "example": "pnps"
           }
         }
       },
@@ -3617,6 +3779,12 @@
             "example": "open",
             "description": "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not."
           },
+          "featureLimit": {
+            "type": "number",
+            "nullable": true,
+            "example": 100,
+            "description": "A limit on the number of features allowed in the project. Null if no limit."
+          },
           "members": {
             "type": "integer",
             "description": "The number of users/members in the project.",
@@ -3714,6 +3882,12 @@
             ],
             "example": "open",
             "description": "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not."
+          },
+          "featureLimit": {
+            "type": "number",
+            "nullable": true,
+            "example": 100,
+            "description": "A limit on the number of features allowed in the project. Null if no limit."
           },
           "members": {
             "type": "integer",
@@ -4012,7 +4186,7 @@
             "description": "User feedback information",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/feedbackSchema"
+              "$ref": "#/components/schemas/feedbackResponseSchema"
             }
           },
           "splash": {
@@ -4100,6 +4274,7 @@
       },
       "patchesSchema": {
         "type": "array",
+        "description": "A list of patches",
         "items": {
           "$ref": "#/components/schemas/patchSchema"
         }
@@ -4877,7 +5052,7 @@
                 "description": "Extra data configured for this variant",
                 "example": {
                   "type": "json",
-                  "value": "{color: red}"
+                  "value": "{\"color\": \"red\"}"
                 },
                 "properties": {
                   "type": {
@@ -5402,9 +5577,16 @@
               "public-signup-token-created",
               "public-signup-token-user-added",
               "public-signup-token-updated",
+              "change-request-created",
+              "change-request-discarded",
               "change-added",
               "change-discarded",
               "change-edited",
+              "change-request-approved",
+              "change-request-approval-added",
+              "change-request-cancelled",
+              "change-request-sent-to-review",
+              "change-request-applied",
               "api-token-created",
               "api-token-updated",
               "api-token-deleted",
@@ -5470,23 +5652,41 @@
             "description": "The name of the segment.",
             "example": "segment A"
           },
-          "description": {
-            "type": "string",
-            "nullable": true,
-            "description": "The description of the segment.",
-            "example": "Segment A description"
-          },
           "constraints": {
             "type": "array",
             "description": "List of constraints that determine which users are part of the segment",
             "items": {
               "$ref": "#/components/schemas/constraintSchema"
             }
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "The description of the segment.",
+            "example": "Segment A description"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time the segment was created as a RFC 3339-conformant timestamp.",
+            "example": "2023-07-05T12:56:00.000Z"
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "Which user created this segment",
+            "example": "johndoe"
+          },
+          "project": {
+            "type": "string",
+            "nullable": true,
+            "description": "The project the segment relates to, if applicable.",
+            "example": "default"
           }
         }
       },
       "setStrategySortOrderSchema": {
         "type": "array",
+        "description": "An array of strategies with their new sort order",
         "items": {
           "type": "object",
           "additionalProperties": false,
@@ -5494,12 +5694,17 @@
             "id",
             "sortOrder"
           ],
+          "description": "A strategy with its new sort order",
           "properties": {
             "id": {
-              "type": "string"
+              "type": "string",
+              "example": "9c40958a-daac-400e-98fb-3bb438567008",
+              "description": "The ID of the strategy"
             },
             "sortOrder": {
-              "type": "number"
+              "type": "number",
+              "example": 1,
+              "description": "The new sort order of the strategy"
             }
           }
         }
@@ -5531,9 +5736,29 @@
           "type": "number"
         }
       },
-      "splashSchema": {
+      "splashRequestSchema": {
         "type": "object",
-        "additionalProperties": false,
+        "description": "Data related to a user having seen a splash screen.",
+        "required": [
+          "userId",
+          "splashId"
+        ],
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "description": "The ID of the user that was shown the splash screen.",
+            "example": 1
+          },
+          "splashId": {
+            "type": "string",
+            "description": "The ID of the splash screen that was shown.",
+            "example": "new-splash-screen"
+          }
+        }
+      },
+      "splashResponseSchema": {
+        "type": "object",
+        "description": "Data related to a user having seen a splash screen.",
         "required": [
           "userId",
           "splashId",
@@ -5541,15 +5766,22 @@
         ],
         "properties": {
           "userId": {
-            "type": "number"
+            "type": "integer",
+            "description": "The ID of the user that was shown the splash screen.",
+            "example": 1
           },
           "splashId": {
-            "type": "string"
+            "type": "string",
+            "description": "The ID of the splash screen that was shown.",
+            "example": "new-splash-screen"
           },
           "seen": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Indicates whether the user has seen the splash screen or not.",
+            "example": true
           }
-        }
+        },
+        "additionalProperties": false
       },
       "stateSchema": {
         "type": "object",
@@ -5638,19 +5870,22 @@
           "version",
           "strategies"
         ],
+        "description": "List of strategies",
         "properties": {
           "version": {
             "type": "integer",
             "enum": [
               1
             ],
-            "example": 1
+            "example": 1,
+            "description": "Version of the strategies schema"
           },
           "strategies": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/strategySchema"
-            }
+            },
+            "description": "List of strategies"
           }
         }
       },
@@ -6036,37 +6271,32 @@
       },
       "updateFeatureSchema": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "description": "Data used for updating a feature toggle",
         "properties": {
-          "name": {
-            "type": "string"
-          },
           "description": {
-            "type": "string"
+            "type": "string",
+            "example": "Controls disabling of the comments section in case of an incident",
+            "description": "Detailed description of the feature"
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "example": "kill-switch",
+            "description": "Type of the toggle e.g. experiment, kill-switch, release, operational, permission"
           },
           "stale": {
-            "type": "boolean"
+            "type": "boolean",
+            "example": true,
+            "description": "`true` if the feature is archived"
           },
           "archived": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
+            "type": "boolean",
+            "example": true,
+            "description": "If `true` the feature toggle will be moved to the [archive](https://docs.getunleash.io/reference/archived-toggles) with a property `archivedAt` set to current time"
           },
           "impressionData": {
-            "type": "boolean"
-          },
-          "constraints": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/constraintSchema"
-            }
+            "type": "boolean",
+            "example": false,
+            "description": "`true` if the impression data collection is enabled for the feature"
           }
         }
       },
@@ -6693,7 +6923,11 @@
           "weightType": {
             "description": "Set to fix if this variant must have exactly the weight allocated to it. If the type is variable, the weight will adjust so that the total weight of all variants adds up to 1000",
             "type": "string",
-            "example": "fix"
+            "example": "variable",
+            "enum": [
+              "variable",
+              "fix"
+            ]
           },
           "stickiness": {
             "type": "string",
@@ -6709,15 +6943,17 @@
             "description": "Extra data configured for this variant",
             "properties": {
               "type": {
+                "description": "The type of the value. Commonly used types are string, json and csv.",
                 "type": "string"
               },
               "value": {
+                "description": "The actual value of payload",
                 "type": "string"
               }
             },
             "example": {
               "type": "json",
-              "value": "{color: red}"
+              "value": "{\"color\": \"red\"}"
             }
           },
           "overrides": {
@@ -6842,6 +7078,12 @@
             ],
             "example": "open",
             "description": "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not."
+          },
+          "featureLimit": {
+            "type": "number",
+            "nullable": true,
+            "example": 100,
+            "description": "A limit on the number of features allowed in the project. Null if no limit."
           },
           "members": {
             "type": "number",
@@ -7069,6 +7311,153 @@
             "type": "boolean",
             "description": "Whether collection of feature usage metrics is enabled/active.",
             "example": true
+          }
+        }
+      },
+      "strategyVariantSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.",
+        "required": [
+          "name",
+          "weight",
+          "weightType",
+          "stickiness"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The variant name. Must be unique for this feature toggle",
+            "example": "blue_group"
+          },
+          "weight": {
+            "type": "integer",
+            "description": "The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight) for more information",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "weightType": {
+            "description": "Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight).",
+            "type": "string",
+            "example": "fix",
+            "enum": [
+              "variable",
+              "fix"
+            ]
+          },
+          "stickiness": {
+            "type": "string",
+            "description": "The [stickiness](https://docs.getunleash.io/reference/feature-toggle-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time",
+            "example": "custom.context.field"
+          },
+          "payload": {
+            "type": "object",
+            "required": [
+              "type",
+              "value"
+            ],
+            "description": "Extra data configured for this variant",
+            "properties": {
+              "type": {
+                "description": "The type of the value. Commonly used types are string, json and csv.",
+                "type": "string"
+              },
+              "value": {
+                "description": "The actual value of payload",
+                "type": "string"
+              }
+            },
+            "example": {
+              "type": "json",
+              "value": "{\"color\": \"red\"}"
+            }
+          }
+        }
+      },
+      "createStrategyVariantSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.",
+        "required": [
+          "name",
+          "weight",
+          "weightType",
+          "stickiness"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The variant name. Must be unique for this feature toggle",
+            "example": "blue_group"
+          },
+          "weight": {
+            "type": "integer",
+            "description": "The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight) for more information",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "weightType": {
+            "description": "Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight).",
+            "type": "string",
+            "example": "fix",
+            "enum": [
+              "variable",
+              "fix"
+            ]
+          },
+          "stickiness": {
+            "type": "string",
+            "description": "The [stickiness](https://docs.getunleash.io/reference/feature-toggle-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time",
+            "example": "custom.context.field"
+          },
+          "payload": {
+            "type": "object",
+            "required": [
+              "type",
+              "value"
+            ],
+            "description": "Extra data configured for this variant",
+            "properties": {
+              "type": {
+                "description": "The type of the value. Commonly used types are string, json and csv.",
+                "type": "string"
+              },
+              "value": {
+                "description": "The actual value of payload",
+                "type": "string"
+              }
+            },
+            "example": {
+              "type": "json",
+              "value": "{\"color\": \"red\"}"
+            }
+          }
+        }
+      },
+      "clientSegmentSchema": {
+        "type": "object",
+        "description": "Represents a client API segment of users defined by a set of constraints.",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "constraints"
+        ],
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "The segment's id."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the segment.",
+            "example": "segment A"
+          },
+          "constraints": {
+            "type": "array",
+            "description": "List of constraints that determine which users are part of the segment",
+            "items": {
+              "$ref": "#/components/schemas/constraintSchema"
+            }
           }
         }
       },
@@ -7328,13 +7717,28 @@
         ],
         "properties": {
           "id": {
-            "type": "string"
+            "description": "The project's identifier.",
+            "type": "string",
+            "pattern": "[A-Za-z0-9_~.-]+",
+            "example": "pet-shop"
           },
           "name": {
-            "type": "string"
+            "description": "The project's name.",
+            "type": "string",
+            "minLength": 1,
+            "example": "Pet shop"
           },
           "description": {
-            "type": "string"
+            "description": "The project's description.",
+            "type": "string",
+            "nullable": true,
+            "example": "This project contains features related to the new pet shop."
+          },
+          "featureLimit": {
+            "type": "integer",
+            "nullable": true,
+            "example": 100,
+            "description": "A limit on the number of features allowed in the project. `null` if no limit."
           },
           "mode": {
             "type": "string",
@@ -7621,6 +8025,12 @@
             "nullable": true,
             "example": "This project contains features related to the new pet shop."
           },
+          "featureLimit": {
+            "type": "integer",
+            "nullable": true,
+            "example": 100,
+            "description": "A limit on the number of features allowed in the project. `null` if no limit."
+          },
           "mode": {
             "type": "string",
             "enum": [
@@ -7844,6 +8254,475 @@
             "items": {
               "$ref": "#/components/schemas/adminSegmentSchema"
             }
+          }
+        }
+      },
+      "changeRequestCreateSchema": {
+        "type": "object",
+        "required": [
+          "feature"
+        ],
+        "properties": {
+          "feature": {
+            "type": "string",
+            "example": "my-best-feature"
+          }
+        },
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "payload",
+              "action"
+            ],
+            "properties": {
+              "action": {
+                "enum": [
+                  "updateEnabled"
+                ]
+              },
+              "payload": {
+                "required": [
+                  "enabled"
+                ],
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "payload",
+              "action"
+            ],
+            "properties": {
+              "action": {
+                "enum": [
+                  "addStrategy"
+                ]
+              },
+              "payload": {
+                "required": [
+                  "constraints",
+                  "parameters",
+                  "name"
+                ],
+                "$ref": "#/components/schemas/createFeatureStrategySchema",
+                "type": "object"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "payload",
+              "action"
+            ],
+            "properties": {
+              "action": {
+                "enum": [
+                  "updateStrategy"
+                ]
+              },
+              "payload": {
+                "required": [
+                  "id"
+                ],
+                "$ref": "#/components/schemas/updateFeatureStrategySchema",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "payload",
+              "action"
+            ],
+            "properties": {
+              "action": {
+                "enum": [
+                  "deleteStrategy"
+                ]
+              },
+              "payload": {
+                "required": [
+                  "id"
+                ],
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "payload",
+              "action"
+            ],
+            "properties": {
+              "action": {
+                "enum": [
+                  "patchVariant"
+                ]
+              },
+              "payload": {
+                "type": "object",
+                "required": [
+                  "variants"
+                ],
+                "properties": {
+                  "variants": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/variantSchema"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "changeRequestFeatureSchema": {
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "changes"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "my-feature"
+          },
+          "conflict": {
+            "type": "string"
+          },
+          "changes": {
+            "type": "array",
+            "description": "List of changes inside change request. This list may be empty when listing all change requests for a project.",
+            "items": {
+              "$ref": "#/components/schemas/changeRequestEventSchema"
+            }
+          },
+          "defaultChange": {
+            "$ref": "#/components/schemas/changeRequestDefaultEventSchema"
+          }
+        }
+      },
+      "changeRequestApprovalSchema": {
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "createdBy",
+          "createdAt"
+        ],
+        "properties": {
+          "createdBy": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "example": 33
+              },
+              "username": {
+                "type": "string",
+                "example": "unleash-user"
+              },
+              "imageUrl": {
+                "type": "string"
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2022-12-12T12:13:24.218Z"
+          }
+        }
+      },
+      "changeRequestConfigSchema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/changeRequestEnvironmentConfigSchema"
+        }
+      },
+      "changeRequestEnvironmentConfigSchema": {
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "environment",
+          "type",
+          "changeRequestEnabled",
+          "requiredApprovals"
+        ],
+        "properties": {
+          "environment": {
+            "type": "string",
+            "example": "development"
+          },
+          "type": {
+            "type": "string",
+            "example": "development"
+          },
+          "changeRequestEnabled": {
+            "type": "boolean"
+          },
+          "requiredApprovals": {
+            "type": "number",
+            "nullable": true,
+            "example": 2
+          }
+        }
+      },
+      "changeRequestAddCommentSchema": {
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "This is a comment"
+          }
+        }
+      },
+      "changeRequestCommentSchema": {
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "text",
+          "createdBy",
+          "createdAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 33
+          },
+          "text": {
+            "type": "string",
+            "example": "This is a comment"
+          },
+          "createdBy": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string",
+                "nullable": true,
+                "example": "unleash-user"
+              },
+              "imageUrl": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2022-12-12T12:13:24.218Z"
+          }
+        }
+      },
+      "updateChangeRequestEnvironmentConfigSchema": {
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "changeRequestsEnabled"
+        ],
+        "properties": {
+          "changeRequestsEnabled": {
+            "type": "boolean"
+          },
+          "requiredApprovals": {
+            "type": "number"
+          }
+        }
+      },
+      "changeRequestEventSchema": {
+        "type": "object",
+        "required": [
+          "id",
+          "action",
+          "payload"
+        ],
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 33
+          },
+          "action": {
+            "type": "string",
+            "example": "updateStrategy"
+          },
+          "conflict": {
+            "type": "string"
+          },
+          "payload": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "updatedBy": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string",
+                "nullable": true
+              },
+              "imageUrl": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "changeRequestDefaultEventSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "action",
+          "payload"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "example": "addStrategy"
+          },
+          "payload": {
+            "type": "object"
+          }
+        }
+      },
+      "changeRequestSchema": {
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "environment",
+          "state",
+          "minApprovals",
+          "project",
+          "features",
+          "createdAt",
+          "createdBy"
+        ],
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 3
+          },
+          "title": {
+            "type": "string",
+            "example": "Increasing gradual rollout"
+          },
+          "environment": {
+            "type": "string",
+            "example": "development"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "Draft",
+              "In review",
+              "Approved",
+              "Applied",
+              "Cancelled"
+            ]
+          },
+          "minApprovals": {
+            "type": "number",
+            "example": 2
+          },
+          "project": {
+            "type": "string",
+            "example": "unleash-project"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/changeRequestFeatureSchema"
+            }
+          },
+          "approvals": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/changeRequestApprovalSchema"
+            }
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/changeRequestCommentSchema"
+            }
+          },
+          "createdBy": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string",
+                "nullable": true
+              },
+              "imageUrl": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "changeRequestsSchema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/changeRequestSchema"
+        }
+      },
+      "changeRequestUpdateTitleSchema": {
+        "type": "object",
+        "required": [
+          "title"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Increasing gradual rollout"
           }
         }
       },
@@ -8194,6 +9073,7 @@
             },
             "notificationType": {
               "enum": [
+                "change-request",
                 "toggle"
               ],
               "description": "The type of the notification used e.g. for the graphical hints"
@@ -8334,6 +9214,10 @@
     {
       "name": "Auth",
       "description": "Manage logins, passwords, etc."
+    },
+    {
+      "name": "Change Requests",
+      "description": "API for managing [change requests](https://docs.getunleash.io/reference/change-requests)."
     },
     {
       "name": "Client",
@@ -10460,6 +11344,609 @@
         ]
       }
     },
+    "/api/admin/projects/{projectId}/environments/{environment}/change-requests": {
+      "post": {
+        "summary": "Create/Add change to a change request",
+        "description": "Given a change request exists, this endpoint will attempt to add a change to\n                         an existing change request for the user. If a change request does not exist.\n                         It will attempt to create it.",
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "changeRequest",
+        "requestBody": {
+          "description": "changeRequestOneOrManyCreateSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/changeRequestCreateSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "changeRequestSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeRequestSchema"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "environment",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/change-requests/config": {
+      "get": {
+        "summary": "Retrieves change request configuration for a project",
+        "description": "Given a projectId, this endpoint will retrieve change request configuration for the project",
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "getProjectChangeRequestConfig",
+        "responses": {
+          "200": {
+            "description": "changeRequestConfigSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeRequestConfigSchema"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/environments/{environment}/change-requests/config": {
+      "put": {
+        "summary": "Updates change request configuration for an environment in the project",
+        "description": "This endpoint will change the change request             configuration for a given environment, set it to either on/off and optionally configure the number of approvals needed.",
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "updateProjectChangeRequestConfig",
+        "requestBody": {
+          "description": "updateChangeRequestEnvironmentConfigSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateChangeRequestEnvironmentConfigSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "This response has no body."
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "environment",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/change-requests/open": {
+      "get": {
+        "summary": "Retrieves pending change requests in configured environments",
+        "description": "This endpoint will retrieve the pending change requests in the configured environments for the project, for the current user performing the request.",
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "getOpenChangeRequestsForUser",
+        "responses": {
+          "200": {
+            "description": "changeRequestsSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeRequestsSchema"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/change-requests/pending": {
+      "get": {
+        "summary": "Retrieves pending change requests in configured environments",
+        "description": "This endpoint will retrieve the pending change requests in the configured environments for the project, for the current user performing the request.",
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "getPendingChangeRequestsForUser",
+        "responses": {
+          "200": {
+            "description": "changeRequestsSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeRequestsSchema"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/change-requests": {
+      "get": {
+        "summary": "Retrieves all change requests for a project",
+        "description": "This endpoint will retrieve all change requests regardless of status for a given project. There's an upper limit of last 300 change requests ordered by creation date.",
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "getChangeRequestsForProject",
+        "responses": {
+          "200": {
+            "description": "changeRequestsSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeRequestsSchema"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/change-requests/pending/{featureName}": {
+      "get": {
+        "summary": "Retrieves all pending change requests referencing a feature in the project",
+        "description": "This endpoint will retrieve all pending change requests (change requests with a status of Draft | In review | Approved) referencing the given feature toggle name.",
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "getPendingChangeRequestsForFeature",
+        "responses": {
+          "200": {
+            "description": "changeRequestsSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeRequestsSchema"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "featureName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/change-requests/{id}": {
+      "get": {
+        "summary": "Retrieves one change request by id",
+        "description": "This endpoint will retrieve one change request if it matches the provided id.",
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "getChangeRequest",
+        "responses": {
+          "200": {
+            "description": "changeRequestSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeRequestSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Deletes a change request by id",
+        "description": "This endpoint will delete one change request if it matches the provided id.",
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "deleteChangeRequest",
+        "responses": {
+          "200": {
+            "description": "This response has no body."
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/change-requests/{changeRequestId}/changes/{changeId}": {
+      "delete": {
+        "summary": "Discards a change from a change request by change id",
+        "description": "This endpoint will discard one change from a change request if it matches the provided id.",
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "deleteChange",
+        "responses": {
+          "200": {
+            "description": "This response has no body."
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "changeRequestId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "changeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "put": {
+        "summary": "Edits a single change in a change request",
+        "description": "This endpoint will edit one change from a change request if it matches the provided id. The edit removes previous change and inserts a new one. You\n                    should not rely on the changeId for subsequent edits and always check the most recent changeId.",
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "editChange",
+        "requestBody": {
+          "description": "changeRequestCreateSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/changeRequestCreateSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "changeRequestSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeRequestSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "changeRequestId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "changeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/change-requests/{id}/state": {
+      "put": {
+        "summary": "This endpoint will update the state of a change request",
+        "description": "This endpoint will update the state of a change request if the business rules allow it. The state can be one of the following: Draft, In review, Approved, Cancelled, Applied. In order to be approved, the change request must have at least one change and the number of approvals must be greater than or equal to the number of approvals required for the environment.\n\n                    Once a change request has been approved, it can be applied. Once a change request has been applied, it cannot be changed. Once a change request has been cancelled, it cannot be changed. Any change to a change request in the state of Approved will result in the state being set to In Review and the number of approvals will be reset.",
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "updateChangeRequestState",
+        "responses": {
+          "200": {
+            "description": "changeRequestStateSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeRequestStateSchema"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/change-requests/{id}/title": {
+      "put": {
+        "summary": "This endpoint will update the custom title of a change request",
+        "description": "Change requests get a default title e.g. Change Request #1. This endpoint allows to make the title\n                    more meaningful and describe the intent behind the Change Request",
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "updateChangeRequestTitle",
+        "responses": {
+          "204": {
+            "description": "This response has no body."
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/change-requests/{id}/comments": {
+      "post": {
+        "summary": "This endpoint will add a comment to a change request",
+        "description": "This endpoint will add a comment to a change request for the user making the request.",
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "addChangeRequestComment",
+        "requestBody": {
+          "description": "changeRequestAddCommentSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/changeRequestAddCommentSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "This response has no body."
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
     "/api/admin/service-account": {
       "get": {
         "tags": [
@@ -11403,6 +12890,66 @@
             }
           }
         ]
+      }
+    },
+    "/api/admin/features-batch/export": {
+      "post": {
+        "tags": [
+          "Import/Export"
+        ],
+        "operationId": "exportFeatures",
+        "requestBody": {
+          "description": "exportQuerySchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/exportQuerySchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "exportResultSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/exportResultSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Exports all features listed in the `features` property from the environment specified in the request body. If set to `true`, the `downloadFile` property will let you download a file with the exported data. Otherwise, the export data is returned directly as JSON. Refer to the documentation for more information about [Unleash's export functionality](https://docs.getunleash.io/reference/deploy/environment-import-export#export).",
+        "summary": "Export feature toggles from an environment"
       }
     },
     "/api/admin/features-batch/validate": {
@@ -12411,39 +13958,6 @@
           },
           {
             "name": "featureName",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/api/admin/projects/{projectId}/settings": {
-      "get": {
-        "tags": [
-          "Projects"
-        ],
-        "operationId": "getProjectSettings",
-        "responses": {
-          "200": {
-            "description": "projectSettingsSchema",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/projectSettingsSchema"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "This response has no body."
-          }
-        },
-        "parameters": [
-          {
-            "name": "projectId",
             "in": "path",
             "required": true,
             "schema": {
@@ -14033,7 +15547,7 @@
             }
           }
         },
-        "summary": "Get all features (deprecated)",
+        "summary": "Get all feature toggles (deprecated)",
         "description": "Gets all feature toggles with their full configuration. This endpoint is **deprecated**. You should  use the project-based endpoint instead (`/api/admin/projects/<project-id>/features`).",
         "deprecated": true
       }
@@ -14044,7 +15558,7 @@
           "Features"
         ],
         "operationId": "validateFeature",
-        "summary": "Validate feature name",
+        "summary": "Validate a feature toggle name.",
         "requestBody": {
           "description": "validateFeatureSchema",
           "required": true,
@@ -20909,24 +22423,107 @@
           "Admin UI"
         ],
         "operationId": "createFeedback",
+        "summary": "Send Unleash feedback",
+        "description": "Sends feedback gathered from the Unleash UI to the Unleash server. Must be called with a token with an identifiable user (either from being sent from the UI or from using a [PAT](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens)).",
         "requestBody": {
-          "description": "feedbackSchema",
+          "description": "feedbackCreateSchema",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/feedbackSchema"
+                "$ref": "#/components/schemas/feedbackCreateSchema"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "feedbackSchema",
+            "description": "feedbackResponseSchema",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/feedbackSchema"
+                  "$ref": "#/components/schemas/feedbackResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ValidationError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ContentTypeerror",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }
@@ -20940,24 +22537,107 @@
           "Admin UI"
         ],
         "operationId": "updateFeedback",
+        "summary": "Update Unleash feedback",
+        "description": "Updates the feedback with the provided ID. Only provided fields are updated. Fields left out are left untouched. Must be called with a token with an identifiable user (either from being sent from the UI or from using a [PAT](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens)).",
         "requestBody": {
-          "description": "feedbackSchema",
+          "description": "feedbackUpdateSchema",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/feedbackSchema"
+                "$ref": "#/components/schemas/feedbackUpdateSchema"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "feedbackSchema",
+            "description": "feedbackResponseSchema",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/feedbackSchema"
+                  "$ref": "#/components/schemas/feedbackResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ValidationError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ContentTypeerror",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }
@@ -20977,7 +22657,7 @@
     },
     "/api/admin/projects/{projectId}/features/{featureName}/environments/{environment}": {
       "get": {
-        "summary": "Get a feature environment.",
+        "summary": "Get a feature environment",
         "description": "Information about the enablement status and strategies for a feature toggle in specified environment.",
         "tags": [
           "Features"
@@ -21106,7 +22786,7 @@
     },
     "/api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/off": {
       "post": {
-        "summary": "Disable a feature toggle.",
+        "summary": "Disable a feature toggle",
         "description": "Disable a feature toggle in the specified environment.",
         "tags": [
           "Features"
@@ -21262,7 +22942,7 @@
     },
     "/api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/on": {
       "post": {
-        "summary": "Enable a feature toggle.",
+        "summary": "Enable a feature toggle",
         "description": "Enable a feature toggle in the specified environment.",
         "tags": [
           "Features"
@@ -21421,8 +23101,8 @@
         "tags": [
           "Features"
         ],
+        "summary": "Bulk enable a list of features",
         "description": "This endpoint enables multiple feature toggles.",
-        "summary": "Bulk enable a list of features.",
         "operationId": "bulkToggleFeaturesEnvironmentOn",
         "requestBody": {
           "description": "bulkToggleFeaturesSchema",
@@ -21627,8 +23307,8 @@
         "tags": [
           "Features"
         ],
+        "summary": "Bulk disable a list of features",
         "description": "This endpoint disables multiple feature toggles.",
-        "summary": "Bulk disabled a list of features.",
         "operationId": "bulkToggleFeaturesEnvironmentOff",
         "requestBody": {
           "description": "bulkToggleFeaturesSchema",
@@ -21833,7 +23513,7 @@
         "tags": [
           "Features"
         ],
-        "summary": "Get feature toggle strategies.",
+        "summary": "Get feature toggle strategies",
         "operationId": "getFeatureStrategies",
         "description": "Get strategies defined for a feature toggle in the specified environment.",
         "responses": {
@@ -21960,7 +23640,7 @@
         "tags": [
           "Features"
         ],
-        "summary": "Add a strategy to a feature toggle.",
+        "summary": "Add a strategy to a feature toggle",
         "description": "Add a strategy to a feature toggle in the specified environment.",
         "operationId": "addFeatureStrategy",
         "requestBody": {
@@ -22100,7 +23780,7 @@
         "tags": [
           "Features"
         ],
-        "summary": "Get a strategy configuration.",
+        "summary": "Get a strategy configuration",
         "description": "Get a strategy configuration for an environment in a feature toggle.",
         "operationId": "getFeatureStrategy",
         "responses": {
@@ -22110,6 +23790,87 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/featureStrategySchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }
@@ -22154,7 +23915,7 @@
         "tags": [
           "Features"
         ],
-        "summary": "Update a strategy.",
+        "summary": "Update a strategy",
         "description": "Replace strategy configuration for a feature toggle in the specified environment.",
         "operationId": "updateFeatureStrategy",
         "requestBody": {
@@ -22175,6 +23936,141 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/featureStrategySchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ValidationError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ContentTypeerror",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }
@@ -22219,7 +24115,7 @@
         "tags": [
           "Features"
         ],
-        "summary": "Change specific properties of a strategy.",
+        "summary": "Change specific properties of a strategy",
         "description": "Change specific properties of a strategy configuration in a feature toggle.",
         "operationId": "patchFeatureStrategy",
         "requestBody": {
@@ -22240,6 +24136,141 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/featureStrategySchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ValidationError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ContentTypeerror",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }
@@ -22284,7 +24315,7 @@
         "tags": [
           "Features"
         ],
-        "summary": "Delete a strategy from a feature toggle.",
+        "summary": "Delete a strategy from a feature toggle",
         "description": "Delete a strategy configuration from a feature toggle in the specified environment.",
         "operationId": "deleteFeatureStrategy",
         "responses": {
@@ -22414,7 +24445,7 @@
         "tags": [
           "Features"
         ],
-        "summary": "Set the order of strategies on the list.",
+        "summary": "Set the order of strategies on the list",
         "operationId": "setStrategySortOrder",
         "requestBody": {
           "description": "setStrategySortOrderSchema",
@@ -22430,6 +24461,33 @@
         "responses": {
           "200": {
             "description": "This response has no body."
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ValidationError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
             "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
@@ -22516,6 +24574,8 @@
     },
     "/api/admin/projects/{projectId}/features": {
       "get": {
+        "summary": "Get all features in a project",
+        "description": "A list of all features for the specified project.",
         "tags": [
           "Features"
         ],
@@ -22527,6 +24587,87 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/featuresSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ValidationError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }
@@ -22544,6 +24685,8 @@
         ]
       },
       "post": {
+        "summary": "Add a new feature toggle",
+        "description": "Create a new feature toggle in a specified project.",
         "tags": [
           "Features"
         ],
@@ -22559,87 +24702,6 @@
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "featureSchema",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/featureSchema"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "projectId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/api/admin/projects/{projectId}/features/{featureName}/clone": {
-      "post": {
-        "tags": [
-          "Features"
-        ],
-        "operationId": "cloneFeature",
-        "requestBody": {
-          "description": "cloneFeatureSchema",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/cloneFeatureSchema"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "featureSchema",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/featureSchema"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "projectId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "featureName",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/api/admin/projects/{projectId}/features/{featureName}": {
-      "get": {
-        "operationId": "getFeature",
-        "tags": [
-          "Features"
-        ],
-        "description": "This endpoint returns the information about the requested feature if the feature belongs to the specified project.",
-        "summary": "Get a feature.",
         "responses": {
           "200": {
             "description": "featureSchema",
@@ -22679,7 +24741,330 @@
             }
           },
           "403": {
-            "description": "You either do not have the required permissions or used an invalid URL."
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ContentTypeerror",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/features/{featureName}/clone": {
+      "post": {
+        "summary": "Clone a feature toggle",
+        "description": "Creates a copy of the specified feature toggle. The copy can be created in any project.",
+        "tags": [
+          "Features"
+        ],
+        "operationId": "cloneFeature",
+        "requestBody": {
+          "description": "cloneFeatureSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cloneFeatureSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "featureSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/featureSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ContentTypeerror",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "featureName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/features/{featureName}": {
+      "get": {
+        "operationId": "getFeature",
+        "tags": [
+          "Features"
+        ],
+        "summary": "Get a feature",
+        "description": "This endpoint returns the information about the requested feature if the feature belongs to the specified project.",
+        "responses": {
+          "200": {
+            "description": "featureSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/featureSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
             "description": "The requested resource was not found.",
@@ -22733,6 +25118,8 @@
           "Features"
         ],
         "operationId": "updateFeature",
+        "summary": "Update a feature toggle",
+        "description": "Updates the specified feature if the feature belongs to the specified project. Only the provided properties are updated; any feature properties left out of the request body are left untouched.",
         "requestBody": {
           "description": "updateFeatureSchema",
           "required": true,
@@ -22751,6 +25138,114 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/featureSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ContentTypeerror",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }
@@ -22780,6 +25275,8 @@
           "Features"
         ],
         "operationId": "patchFeature",
+        "summary": "Modify a feature toggle",
+        "description": "Change specific properties of a feature toggle.",
         "requestBody": {
           "description": "patchesSchema",
           "required": true,
@@ -22798,6 +25295,114 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/featureSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ContentTypeerror",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }
@@ -22827,8 +25432,8 @@
           "Features"
         ],
         "operationId": "archiveFeature",
+        "summary": "Archive a feature toggle",
         "description": "This endpoint archives the specified feature if the feature belongs to the specified project.",
-        "summary": "Archive a feature.",
         "responses": {
           "202": {
             "description": "This response has no body."
@@ -22861,7 +25466,31 @@
             }
           },
           "403": {
-            "description": "You either do not have the required permissions or used an invalid URL."
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
             "description": "The requested resource was not found.",
@@ -23034,6 +25663,8 @@
           "Tags"
         ],
         "operationId": "addTagToFeatures",
+        "summary": "Adds a tag to the specified features",
+        "description": "Add a tag to a list of features. Create tags if needed.",
         "requestBody": {
           "description": "tagsBulkAddSchema",
           "required": true,
@@ -23048,6 +25679,114 @@
         "responses": {
           "200": {
             "description": "This response has no body."
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ContentTypeerror",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -23502,6 +26241,87 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -23525,7 +26345,7 @@
       },
       "patch": {
         "summary": "Apply a patch to a feature's variants (in all environments).",
-        "description": "Apply a list of patches patch to the specified feature's variants. The patch objects should conform to the [JSON-patch format (RFC 6902)](https://www.rfc-editor.org/rfc/rfc6902).\n                        \n                        ⚠️ **Warning**: This method is not atomic. If something fails in the middle of applying the patch, you can be left with a half-applied patch. We recommend that you instead [patch variants on a per-environment basis](/docs/reference/api/unleash/patch-environments-feature-variants.api.mdx), which **is** an atomic operation.",
+        "description": "Apply a list of patches patch to the specified feature's variants. The patch objects should conform to the [JSON-patch format (RFC 6902)](https://www.rfc-editor.org/rfc/rfc6902).\n\n⚠️ **Warning**: This method is not atomic. If something fails in the middle of applying the patch, you can be left with a half-applied patch. We recommend that you instead [patch variants on a per-environment basis](/docs/reference/api/unleash/patch-environments-feature-variants.api.mdx), which **is** an atomic operation.",
         "tags": [
           "Features"
         ],
@@ -23548,6 +26368,114 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/featureVariantsSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ValidationError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }
@@ -23574,7 +26502,7 @@
       },
       "put": {
         "summary": "Create (overwrite) variants for a feature toggle in all environments",
-        "description": "This overwrites the current variants for the feature specified in the :featureName parameter in all environments.\n\n                    The backend will validate the input for the following invariants\n\n                    * If there are variants, there needs to be at least one variant with `weightType: variable`\n                    * The sum of the weights of variants with `weightType: fix` must be strictly less than 1000 (< 1000)\n\n                    The backend will also distribute remaining weight up to 1000 after adding the variants with `weightType: fix` together amongst the variants of `weightType: variable`",
+        "description": "This overwrites the current variants for the feature specified in the :featureName parameter in all environments.\n\nThe backend will validate the input for the following invariants\n\n* If there are variants, there needs to be at least one variant with `weightType: variable`\n* The sum of the weights of variants with `weightType: fix` must be strictly less than 1000 (< 1000)\n\nThe backend will also distribute remaining weight up to 1000 after adding the variants with `weightType: fix` together amongst the variants of `weightType: variable`",
         "tags": [
           "Features"
         ],
@@ -23597,6 +26525,114 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/featureVariantsSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ValidationError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }
@@ -23637,6 +26673,87 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/featureVariantsSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }
@@ -23697,6 +26814,114 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ValidationError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -23728,7 +26953,7 @@
       },
       "put": {
         "summary": "Create (overwrite) variants for a feature in an environment",
-        "description": "This overwrites the current variants for the feature toggle in the :featureName parameter for the :environment parameter.\n                        \n                        The backend will validate the input for the following invariants:\n                        \n                    * If there are variants, there needs to be at least one variant with `weightType: variable`\n                    * The sum of the weights of variants with `weightType: fix` must be strictly less than 1000 (< 1000)\n\n                    The backend will also distribute remaining weight up to 1000 after adding the variants with `weightType: fix` together amongst the variants of `weightType: variable`",
+        "description": "This overwrites the current variants for the feature toggle in the :featureName parameter for the :environment parameter.\n\nThe backend will validate the input for the following invariants:\n\n* If there are variants, there needs to be at least one variant with `weightType: variable`\n* The sum of the weights of variants with `weightType: fix` must be strictly less than 1000 (< 1000)\n\nThe backend will also distribute remaining weight up to 1000 after adding the variants with `weightType: fix` together amongst the variants of `weightType: variable`",
         "tags": [
           "Features"
         ],
@@ -23751,6 +26976,87 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/featureVariantsSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ValidationError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }
@@ -23790,6 +27096,8 @@
           "Features"
         ],
         "operationId": "overwriteFeatureVariantsOnEnvironments",
+        "summary": "Create (overwrite) variants for a feature toggle in multiple environments",
+        "description": "This overwrites the current variants for the feature toggle in the :featureName parameter for the :environment parameter.",
         "requestBody": {
           "description": "pushVariantsSchema",
           "required": true,
@@ -23808,6 +27116,87 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/featureVariantsSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ValidationError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }
@@ -24980,13 +28369,123 @@
           "Admin UI"
         ],
         "operationId": "updateSplashSettings",
+        "summary": "Update splash settings",
+        "description": "This operation updates splash settings for a user, indicating that they have seen a particualar splash screen.",
         "responses": {
           "200": {
-            "description": "splashSchema",
+            "description": "splashResponseSchema",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/splashSchema"
+                  "$ref": "#/components/schemas/splashResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ValidationError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ContentTypeerror",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }

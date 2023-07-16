@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Version** | **float32** | A version number for the format used in the response. Most Unleash instances now return version 2, which includes segments as a separate array | 
 **Features** | [**[]ClientFeatureSchema**](ClientFeatureSchema.md) | A list of feature toggles with their configuration | 
-**Segments** | Pointer to [**[]SegmentSchema**](SegmentSchema.md) | A list of [Segments](https://docs.getunleash.io/reference/segments) configured for this Unleash instance | [optional] 
+**Segments** | Pointer to [**[]ClientSegmentSchema**](ClientSegmentSchema.md) | A list of [Segments](https://docs.getunleash.io/reference/segments) configured for this Unleash instance | [optional] 
 **Query** | Pointer to [**ClientFeaturesQuerySchema**](ClientFeaturesQuerySchema.md) |  | [optional] 
 
 ## Methods
@@ -70,20 +70,20 @@ SetFeatures sets Features field to given value.
 
 ### GetSegments
 
-`func (o *ClientFeaturesSchema) GetSegments() []SegmentSchema`
+`func (o *ClientFeaturesSchema) GetSegments() []ClientSegmentSchema`
 
 GetSegments returns the Segments field if non-nil, zero value otherwise.
 
 ### GetSegmentsOk
 
-`func (o *ClientFeaturesSchema) GetSegmentsOk() (*[]SegmentSchema, bool)`
+`func (o *ClientFeaturesSchema) GetSegmentsOk() (*[]ClientSegmentSchema, bool)`
 
 GetSegmentsOk returns a tuple with the Segments field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSegments
 
-`func (o *ClientFeaturesSchema) SetSegments(v []SegmentSchema)`
+`func (o *ClientFeaturesSchema) SetSegments(v []ClientSegmentSchema)`
 
 SetSegments sets Segments field to given value.
 

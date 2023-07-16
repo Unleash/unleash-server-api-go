@@ -29,6 +29,8 @@ type CreateFeatureStrategySchema struct {
 	SortOrder *float32 `json:"sortOrder,omitempty"`
 	// A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/strategy-constraints
 	Constraints []ConstraintSchema `json:"constraints,omitempty"`
+	// Strategy level variants
+	Variants []CreateStrategyVariantSchema `json:"variants,omitempty"`
 	// A list of parameters for a strategy
 	Parameters *map[string]string `json:"parameters,omitempty"`
 	// Ids of segments to use for this strategy
@@ -227,6 +229,38 @@ func (o *CreateFeatureStrategySchema) SetConstraints(v []ConstraintSchema) {
 	o.Constraints = v
 }
 
+// GetVariants returns the Variants field value if set, zero value otherwise.
+func (o *CreateFeatureStrategySchema) GetVariants() []CreateStrategyVariantSchema {
+	if o == nil || IsNil(o.Variants) {
+		var ret []CreateStrategyVariantSchema
+		return ret
+	}
+	return o.Variants
+}
+
+// GetVariantsOk returns a tuple with the Variants field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateFeatureStrategySchema) GetVariantsOk() ([]CreateStrategyVariantSchema, bool) {
+	if o == nil || IsNil(o.Variants) {
+		return nil, false
+	}
+	return o.Variants, true
+}
+
+// HasVariants returns a boolean if a field has been set.
+func (o *CreateFeatureStrategySchema) HasVariants() bool {
+	if o != nil && !IsNil(o.Variants) {
+		return true
+	}
+
+	return false
+}
+
+// SetVariants gets a reference to the given []CreateStrategyVariantSchema and assigns it to the Variants field.
+func (o *CreateFeatureStrategySchema) SetVariants(v []CreateStrategyVariantSchema) {
+	o.Variants = v
+}
+
 // GetParameters returns the Parameters field value if set, zero value otherwise.
 func (o *CreateFeatureStrategySchema) GetParameters() map[string]string {
 	if o == nil || IsNil(o.Parameters) {
@@ -313,6 +347,9 @@ func (o CreateFeatureStrategySchema) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Constraints) {
 		toSerialize["constraints"] = o.Constraints
+	}
+	if !IsNil(o.Variants) {
+		toSerialize["variants"] = o.Variants
 	}
 	if !IsNil(o.Parameters) {
 		toSerialize["parameters"] = o.Parameters

@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CallImport**](ImportExportApi.md#CallImport) | **Post** /api/admin/state/import | Import state (deprecated)
 [**Export**](ImportExportApi.md#Export) | **Get** /api/admin/state/export | Export state (deprecated)
+[**ExportFeatures**](ImportExportApi.md#ExportFeatures) | **Post** /api/admin/features-batch/export | Export feature toggles from an environment
 [**ImportToggles**](ImportExportApi.md#ImportToggles) | **Post** /api/admin/features-batch/import | Import feature toggles
 [**ValidateImport**](ImportExportApi.md#ValidateImport) | **Post** /api/admin/features-batch/validate | Validate feature import data
 
@@ -146,6 +147,72 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ExportFeatures
+
+> ExportResultSchema ExportFeatures(ctx).RequestBody(requestBody).Execute()
+
+Export feature toggles from an environment
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+)
+
+func main() {
+    requestBody := map[string]interface{}{"key": interface{}(123)} // map[string]interface{} | exportQuerySchema
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ImportExportApi.ExportFeatures(context.Background()).RequestBody(requestBody).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ImportExportApi.ExportFeatures``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ExportFeatures`: ExportResultSchema
+    fmt.Fprintf(os.Stdout, "Response from `ImportExportApi.ExportFeatures`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiExportFeaturesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **requestBody** | **map[string]interface{}** | exportQuerySchema | 
+
+### Return type
+
+[**ExportResultSchema**](ExportResultSchema.md)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
