@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	openapiclient "github.com/Unleash/unleash-server-api-go/client"
 	"net/http"
@@ -10,9 +11,15 @@ import (
 )
 
 func main() {
+	unleashApiUrl := flag.String("unleash-api", "", "Specifies the Unleash API URL (e.g. http://localhost:4242 if you're running Unleash locally)")
+	authorization := flag.String("authorization", "", "Token to use on Authorization header")
+	enableDebug := flag.Bool("debug-http", false, "Enable HTTP debug logging")
+
+	flag.Parse()
+
 	name := "A name"
-	email := "test@getunleash.io"
-	username := "myusername"
+	email := "tester@getunleash.io"
+	username := "ausername"
 	sendEmail := false
 	rootRoleId := int32(1)
 	rootRole := openapiclient.Int32AsCreateUserSchemaRootRole(&rootRoleId)
@@ -23,21 +30,20 @@ func main() {
 	createUserSchema.Username = &username
 	createUserSchema.RootRole = rootRole
 	createUserSchema.SendEmail = &sendEmail
-	fmt.Println(createUserSchema)
 
 	configuration := openapiclient.NewConfiguration()
 	configuration.HTTPClient = &http.Client{
 		Transport: &debugTransport{
 			Transport:   http.DefaultTransport,
-			EnableDebug: true,
+			EnableDebug: *enableDebug,
 		},
 	}
 	configuration.Servers = openapiclient.ServerConfigurations{
 		{
-			URL: "http://localhost:3000",
+			URL: *unleashApiUrl,
 		},
 	}
-	configuration.AddDefaultHeader("Authorization", "*:*.964a287e1b728cb5f4f3e0120df92cb5")
+	configuration.AddDefaultHeader("Authorization", *authorization)
 	apiClient := openapiclient.NewAPIClient(configuration)
 	resp, r, err := apiClient.UsersApi.CreateUser(context.Background()).CreateUserSchema(createUserSchema).Execute()
 	if err != nil {
