@@ -21,7 +21,7 @@ openapi-generator-cli 6.6.0
 (optional) Update the `openapi.json` spec:
 
 1. docker compose up
-2. curl -s https://localhost:4242/docs/openapi.json | jq > openapi.json
+2. curl -s http://localhost:4242/docs/openapi.json | jq > openapi.json
 
 ## Generate client from opeanpi.json
 

@@ -1,22 +1,20 @@
 # \AdminUIApi
 
-All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateFeedback**](AdminUIApi.md#CreateFeedback) | **Post** /api/admin/feedback | Send Unleash feedback
+[**CreateFeedback**](AdminUIApi.md#CreateFeedback) | **Post** /api/admin/feedback | 
 [**GetUiConfig**](AdminUIApi.md#GetUiConfig) | **Get** /api/admin/ui-config | 
 [**SetUiConfig**](AdminUIApi.md#SetUiConfig) | **Post** /api/admin/ui-config | 
-[**UpdateFeedback**](AdminUIApi.md#UpdateFeedback) | **Put** /api/admin/feedback/{id} | Update Unleash feedback
-[**UpdateSplashSettings**](AdminUIApi.md#UpdateSplashSettings) | **Post** /api/admin/splash/{id} | Update splash settings
+[**UpdateFeedback**](AdminUIApi.md#UpdateFeedback) | **Put** /api/admin/feedback/{id} | 
+[**UpdateSplashSettings**](AdminUIApi.md#UpdateSplashSettings) | **Post** /api/admin/splash/{id} | 
 
 
 
 ## CreateFeedback
 
-> FeedbackResponseSchema CreateFeedback(ctx).FeedbackCreateSchema(feedbackCreateSchema).Execute()
-
-Send Unleash feedback
+> FeedbackSchema CreateFeedback(ctx).FeedbackSchema(feedbackSchema).Execute()
 
 
 
@@ -33,16 +31,16 @@ import (
 )
 
 func main() {
-    feedbackCreateSchema := *openapiclient.NewFeedbackCreateSchema("pnps") // FeedbackCreateSchema | feedbackCreateSchema
+    feedbackSchema := *openapiclient.NewFeedbackSchema() // FeedbackSchema | feedbackSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminUIApi.CreateFeedback(context.Background()).FeedbackCreateSchema(feedbackCreateSchema).Execute()
+    resp, r, err := apiClient.AdminUIApi.CreateFeedback(context.Background()).FeedbackSchema(feedbackSchema).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminUIApi.CreateFeedback``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `CreateFeedback`: FeedbackResponseSchema
+    // response from `CreateFeedback`: FeedbackSchema
     fmt.Fprintf(os.Stdout, "Response from `AdminUIApi.CreateFeedback`: %v\n", resp)
 }
 ```
@@ -58,11 +56,11 @@ Other parameters are passed through a pointer to a apiCreateFeedbackRequest stru
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **feedbackCreateSchema** | [**FeedbackCreateSchema**](FeedbackCreateSchema.md) | feedbackCreateSchema | 
+ **feedbackSchema** | [**FeedbackSchema**](FeedbackSchema.md) | feedbackSchema | 
 
 ### Return type
 
-[**FeedbackResponseSchema**](FeedbackResponseSchema.md)
+[**FeedbackSchema**](FeedbackSchema.md)
 
 ### Authorization
 
@@ -201,9 +199,7 @@ Name | Type | Description  | Notes
 
 ## UpdateFeedback
 
-> FeedbackResponseSchema UpdateFeedback(ctx, id).FeedbackUpdateSchema(feedbackUpdateSchema).Execute()
-
-Update Unleash feedback
+> FeedbackSchema UpdateFeedback(ctx, id).FeedbackSchema(feedbackSchema).Execute()
 
 
 
@@ -221,16 +217,16 @@ import (
 
 func main() {
     id := "id_example" // string | 
-    feedbackUpdateSchema := *openapiclient.NewFeedbackUpdateSchema() // FeedbackUpdateSchema | feedbackUpdateSchema
+    feedbackSchema := *openapiclient.NewFeedbackSchema() // FeedbackSchema | feedbackSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminUIApi.UpdateFeedback(context.Background(), id).FeedbackUpdateSchema(feedbackUpdateSchema).Execute()
+    resp, r, err := apiClient.AdminUIApi.UpdateFeedback(context.Background(), id).FeedbackSchema(feedbackSchema).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminUIApi.UpdateFeedback``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `UpdateFeedback`: FeedbackResponseSchema
+    // response from `UpdateFeedback`: FeedbackSchema
     fmt.Fprintf(os.Stdout, "Response from `AdminUIApi.UpdateFeedback`: %v\n", resp)
 }
 ```
@@ -251,11 +247,11 @@ Other parameters are passed through a pointer to a apiUpdateFeedbackRequest stru
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **feedbackUpdateSchema** | [**FeedbackUpdateSchema**](FeedbackUpdateSchema.md) | feedbackUpdateSchema | 
+ **feedbackSchema** | [**FeedbackSchema**](FeedbackSchema.md) | feedbackSchema | 
 
 ### Return type
 
-[**FeedbackResponseSchema**](FeedbackResponseSchema.md)
+[**FeedbackSchema**](FeedbackSchema.md)
 
 ### Authorization
 
@@ -273,9 +269,7 @@ Name | Type | Description  | Notes
 
 ## UpdateSplashSettings
 
-> SplashResponseSchema UpdateSplashSettings(ctx, id).Execute()
-
-Update splash settings
+> SplashSchema UpdateSplashSettings(ctx, id).Execute()
 
 
 
@@ -301,7 +295,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminUIApi.UpdateSplashSettings``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `UpdateSplashSettings`: SplashResponseSchema
+    // response from `UpdateSplashSettings`: SplashSchema
     fmt.Fprintf(os.Stdout, "Response from `AdminUIApi.UpdateSplashSettings`: %v\n", resp)
 }
 ```
@@ -325,7 +319,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SplashResponseSchema**](SplashResponseSchema.md)
+[**SplashSchema**](SplashSchema.md)
 
 ### Authorization
 

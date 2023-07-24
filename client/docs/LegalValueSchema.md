@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Value** | **string** | The valid value | 
-**Description** | Pointer to **string** | Describes this specific legal value | [optional] 
+**Value** | **string** |  | 
+**Description** | Pointer to **string** |  | [optional] 
 
 ## Methods
 

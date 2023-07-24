@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** | Unique feature name | 
-**Type** | Pointer to **string** | The feature toggle&#39;s [type](https://docs.getunleash.io/reference/feature-toggle-types). One of experiment, kill-switch, release, operational, or permission | [optional] 
-**Description** | Pointer to **NullableString** | Detailed description of the feature | [optional] 
-**ImpressionData** | Pointer to **bool** | &#x60;true&#x60; if the impression data collection is enabled for the feature, otherwise &#x60;false&#x60;. | [optional] 
+**Name** | **string** |  | 
+**Type** | Pointer to **string** |  | [optional] 
+**Description** | Pointer to **string** |  | [optional] 
+**ImpressionData** | Pointer to **bool** |  | [optional] 
 
 ## Methods
 
@@ -98,16 +98,6 @@ SetDescription sets Description field to given value.
 
 HasDescription returns a boolean if a field has been set.
 
-### SetDescriptionNil
-
-`func (o *CreateFeatureSchema) SetDescriptionNil(b bool)`
-
- SetDescriptionNil sets the value for Description to be an explicit nil
-
-### UnsetDescription
-`func (o *CreateFeatureSchema) UnsetDescription()`
-
-UnsetDescription ensures that no value is present for Description, not even an explicit nil
 ### GetImpressionData
 
 `func (o *CreateFeatureSchema) GetImpressionData() bool`

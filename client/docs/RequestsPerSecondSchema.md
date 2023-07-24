@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Status** | Pointer to **string** | Whether the query against prometheus succeeded or failed | [optional] 
+**Status** | Pointer to **string** |  | [optional] 
 **Data** | Pointer to [**RequestsPerSecondSchemaData**](RequestsPerSecondSchemaData.md) |  | [optional] 
 
 ## Methods

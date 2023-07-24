@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Version** | **int32** | Version of the environments schema | 
-**Environments** | [**[]EnvironmentSchema**](EnvironmentSchema.md) | List of environments | 
+**Version** | **int32** |  | 
+**Environments** | [**[]EnvironmentSchema**](EnvironmentSchema.md) |  | 
 
 ## Methods
 

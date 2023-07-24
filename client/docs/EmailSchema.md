@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Email** | **string** | The email address | 
+**Email** | **string** |  | 
 
 ## Methods
 

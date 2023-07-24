@@ -90,14 +90,4 @@ func Test_client_MetricsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test MetricsApiService GetRequestsPerSecond", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.MetricsApi.GetRequestsPerSecond(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 }

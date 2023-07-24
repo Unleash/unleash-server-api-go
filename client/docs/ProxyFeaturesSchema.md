@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Toggles** | [**[]ProxyFeatureSchema**](ProxyFeatureSchema.md) | The actual features returned to the Frontend SDK | 
+**Toggles** | [**[]ProxyFeatureSchema**](ProxyFeatureSchema.md) |  | 
 
 ## Methods
 

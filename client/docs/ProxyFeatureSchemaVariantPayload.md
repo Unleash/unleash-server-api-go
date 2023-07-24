@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Type** | **string** | The format of the payload. | 
-**Value** | **string** | The payload value stringified. | 
+**Type** | **string** |  | 
+**Value** | **string** |  | 
 
 ## Methods
 

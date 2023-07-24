@@ -1,6 +1,6 @@
 # \MetricsApi
 
-All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -10,7 +10,6 @@ Method | HTTP request | Description
 [**GetApplications**](MetricsApi.md#GetApplications) | **Get** /api/admin/metrics/applications | Get all applications
 [**GetFeatureUsageSummary**](MetricsApi.md#GetFeatureUsageSummary) | **Get** /api/admin/client-metrics/features/{name} | Last hour of usage and a list of applications that have reported seeing this feature toggle
 [**GetRawFeatureMetrics**](MetricsApi.md#GetRawFeatureMetrics) | **Get** /api/admin/client-metrics/features/{name}/raw | Feature usage metrics for the last 48 hours, grouped by hour
-[**GetRequestsPerSecond**](MetricsApi.md#GetRequestsPerSecond) | **Get** /api/admin/metrics/rps | Gets usage data
 
 
 
@@ -406,67 +405,6 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FeatureMetricsSchema**](FeatureMetricsSchema.md)
-
-### Authorization
-
-[apiKey](../README.md#apiKey)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## GetRequestsPerSecond
-
-> RequestsPerSecondSegmentedSchema GetRequestsPerSecond(ctx).Execute()
-
-Gets usage data
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
-)
-
-func main() {
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricsApi.GetRequestsPerSecond(context.Background()).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricsApi.GetRequestsPerSecond``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `GetRequestsPerSecond`: RequestsPerSecondSegmentedSchema
-    fmt.Fprintf(os.Stdout, "Response from `MetricsApi.GetRequestsPerSecond`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-This endpoint does not need any parameter.
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiGetRequestsPerSecondRequest struct via the builder pattern
-
-
-### Return type
-
-[**RequestsPerSecondSegmentedSchema**](RequestsPerSecondSegmentedSchema.md)
 
 ### Authorization
 

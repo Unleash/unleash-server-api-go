@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Username** | **string** | The username trying to log in | 
-**Password** | **string** | The password of the user trying to log in | 
+**Username** | **string** |  | 
+**Password** | **string** |  | 
 
 ## Methods
 

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Tokens** | [**[]ApiTokenSchema**](ApiTokenSchema.md) | A list of Unleash API tokens. | 
+**Tokens** | [**[]ApiTokenSchema**](ApiTokenSchema.md) | A list of API tokens. | 
 
 ## Methods
 

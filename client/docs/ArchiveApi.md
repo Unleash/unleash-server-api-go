@@ -1,14 +1,14 @@
 # \ArchiveApi
 
-All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DeleteFeature**](ArchiveApi.md#DeleteFeature) | **Delete** /api/admin/archive/{featureName} | Archives a feature
+[**DeleteFeature**](ArchiveApi.md#DeleteFeature) | **Delete** /api/admin/archive/{featureName} | 
 [**DeleteFeatures**](ArchiveApi.md#DeleteFeatures) | **Post** /api/admin/projects/{projectId}/delete | Deletes a list of features
 [**GetArchivedFeatures**](ArchiveApi.md#GetArchivedFeatures) | **Get** /api/admin/archive/features | 
 [**GetArchivedFeaturesByProjectId**](ArchiveApi.md#GetArchivedFeaturesByProjectId) | **Get** /api/admin/archive/features/{projectId} | 
-[**ReviveFeature**](ArchiveApi.md#ReviveFeature) | **Post** /api/admin/archive/revive/{featureName} | Revives a feature
+[**ReviveFeature**](ArchiveApi.md#ReviveFeature) | **Post** /api/admin/archive/revive/{featureName} | 
 [**ReviveFeatures**](ArchiveApi.md#ReviveFeatures) | **Post** /api/admin/projects/{projectId}/revive | Revives a list of features
 
 
@@ -16,8 +16,6 @@ Method | HTTP request | Description
 ## DeleteFeature
 
 > DeleteFeature(ctx, featureName).Execute()
-
-Archives a feature
 
 
 
@@ -74,7 +72,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -144,7 +142,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -282,8 +280,6 @@ Name | Type | Description  | Notes
 
 > ReviveFeature(ctx, featureName).Execute()
 
-Revives a feature
-
 
 
 ### Example
@@ -339,7 +335,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -409,7 +405,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

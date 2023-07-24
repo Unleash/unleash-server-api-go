@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Version** | **int32** | Version of the strategies schema | 
-**Strategies** | [**[]StrategySchema**](StrategySchema.md) | List of strategies | 
+**Version** | **int32** |  | 
+**Strategies** | [**[]StrategySchema**](StrategySchema.md) |  | 
 
 ## Methods
 

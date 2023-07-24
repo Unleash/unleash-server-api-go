@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** | User email | 
+**Id** | **string** |  | 
 
 ## Methods
 

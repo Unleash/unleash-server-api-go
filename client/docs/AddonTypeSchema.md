@@ -11,9 +11,6 @@ Name | Type | Description | Notes
 **TagTypes** | Pointer to [**[]TagTypeSchema**](TagTypeSchema.md) | A list of [Unleash tag types](https://docs.getunleash.io/reference/tags#tag-types) that this addon uses. These tags will be added to the Unleash instance when an addon of this type is created. | [optional] 
 **Parameters** | Pointer to [**[]AddonParameterSchema**](AddonParameterSchema.md) | The addon provider&#39;s parameters. Use these to configure an addon of this provider type. Items with &#x60;required: true&#x60; must be provided. | [optional] 
 **Events** | Pointer to **[]string** | All the [event types](https://docs.getunleash.io/reference/api/legacy/unleash/admin/events#feature-toggle-events) that are available for this addon provider. | [optional] 
-**Installation** | Pointer to [**AddonTypeSchemaInstallation**](AddonTypeSchemaInstallation.md) |  | [optional] 
-**Alerts** | Pointer to [**[]AddonTypeSchemaAlertsInner**](AddonTypeSchemaAlertsInner.md) | A list of alerts to display to the user when installing addons of this type. | [optional] 
-**Deprecated** | Pointer to **string** | This should be used to inform the user that this addon type is deprecated and should not be used. Deprecated addons will show a badge with this information on the UI. | [optional] 
 
 ## Methods
 
@@ -188,81 +185,6 @@ SetEvents sets Events field to given value.
 `func (o *AddonTypeSchema) HasEvents() bool`
 
 HasEvents returns a boolean if a field has been set.
-
-### GetInstallation
-
-`func (o *AddonTypeSchema) GetInstallation() AddonTypeSchemaInstallation`
-
-GetInstallation returns the Installation field if non-nil, zero value otherwise.
-
-### GetInstallationOk
-
-`func (o *AddonTypeSchema) GetInstallationOk() (*AddonTypeSchemaInstallation, bool)`
-
-GetInstallationOk returns a tuple with the Installation field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetInstallation
-
-`func (o *AddonTypeSchema) SetInstallation(v AddonTypeSchemaInstallation)`
-
-SetInstallation sets Installation field to given value.
-
-### HasInstallation
-
-`func (o *AddonTypeSchema) HasInstallation() bool`
-
-HasInstallation returns a boolean if a field has been set.
-
-### GetAlerts
-
-`func (o *AddonTypeSchema) GetAlerts() []AddonTypeSchemaAlertsInner`
-
-GetAlerts returns the Alerts field if non-nil, zero value otherwise.
-
-### GetAlertsOk
-
-`func (o *AddonTypeSchema) GetAlertsOk() (*[]AddonTypeSchemaAlertsInner, bool)`
-
-GetAlertsOk returns a tuple with the Alerts field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAlerts
-
-`func (o *AddonTypeSchema) SetAlerts(v []AddonTypeSchemaAlertsInner)`
-
-SetAlerts sets Alerts field to given value.
-
-### HasAlerts
-
-`func (o *AddonTypeSchema) HasAlerts() bool`
-
-HasAlerts returns a boolean if a field has been set.
-
-### GetDeprecated
-
-`func (o *AddonTypeSchema) GetDeprecated() string`
-
-GetDeprecated returns the Deprecated field if non-nil, zero value otherwise.
-
-### GetDeprecatedOk
-
-`func (o *AddonTypeSchema) GetDeprecatedOk() (*string, bool)`
-
-GetDeprecatedOk returns a tuple with the Deprecated field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDeprecated
-
-`func (o *AddonTypeSchema) SetDeprecated(v string)`
-
-SetDeprecated sets Deprecated field to given value.
-
-### HasDeprecated
-
-`func (o *AddonTypeSchema) HasDeprecated() bool`
-
-HasDeprecated returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

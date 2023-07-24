@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Permission** | **string** | [Project](https://docs.getunleash.io/reference/rbac#project-permissions) or [environment](https://docs.getunleash.io/reference/rbac#environment-permissions) permission name | 
-**Project** | Pointer to **string** | The project this permission applies to | [optional] 
-**Environment** | Pointer to **string** | The environment this permission applies to | [optional] 
+**Permission** | **string** |  | 
+**Project** | Pointer to **string** |  | [optional] 
+**Environment** | Pointer to **string** |  | [optional] 
 
 ## Methods
 

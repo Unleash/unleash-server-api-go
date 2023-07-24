@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Features** | **[]string** | List of feature toggle names | 
+**Features** | **[]string** |  | 
 
 ## Methods
 

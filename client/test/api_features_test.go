@@ -118,18 +118,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test FeaturesApiService ChangeProject", func(t *testing.T) {
-
-		var projectId string
-		var featureName string
-
-		httpRes, err := apiClient.FeaturesApi.ChangeProject(context.Background(), projectId, featureName).Execute()
-
-		require.Nil(t, err)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 	t.Run("Test FeaturesApiService CloneFeature", func(t *testing.T) {
 
 		var projectId string

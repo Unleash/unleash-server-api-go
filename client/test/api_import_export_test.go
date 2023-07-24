@@ -41,33 +41,4 @@ func Test_client_ImportExportApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test ImportExportApiService ExportFeatures", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.ImportExportApi.ExportFeatures(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ImportExportApiService ImportToggles", func(t *testing.T) {
-
-		httpRes, err := apiClient.ImportExportApi.ImportToggles(context.Background()).Execute()
-
-		require.Nil(t, err)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ImportExportApiService ValidateImport", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.ImportExportApi.ValidateImport(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 }

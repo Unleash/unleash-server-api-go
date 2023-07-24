@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Features** | [**[]FeatureSchema**](FeatureSchema.md) | All the exported features. | 
-**FeatureStrategies** | [**[]FeatureStrategySchema**](FeatureStrategySchema.md) | All strategy instances that are used by the exported features in the &#x60;features&#x60; list. | 
-**FeatureEnvironments** | Pointer to [**[]FeatureEnvironmentSchema**](FeatureEnvironmentSchema.md) | Environment-specific configuration for all the features in the &#x60;features&#x60; list. Includes data such as whether the feature is enabled in the selected export environment, whether there are any variants assigned, etc. | [optional] 
-**ContextFields** | Pointer to [**[]ContextFieldSchema**](ContextFieldSchema.md) | A list of all the context fields that are in use by any of the strategies in the &#x60;featureStrategies&#x60; list. | [optional] 
-**FeatureTags** | Pointer to [**[]FeatureTagSchema**](FeatureTagSchema.md) | A list of all the tags that have been applied to any of the features in the &#x60;features&#x60; list. | [optional] 
-**Segments** | Pointer to [**[]ExportResultSchemaSegmentsInner**](ExportResultSchemaSegmentsInner.md) | A list of all the segments that are used by the strategies in the &#x60;featureStrategies&#x60; list. | [optional] 
-**TagTypes** | [**[]TagTypeSchema**](TagTypeSchema.md) | A list of all of the tag types that are used in the &#x60;featureTags&#x60; list. | 
+**Features** | [**[]FeatureSchema**](FeatureSchema.md) |  | 
+**FeatureStrategies** | [**[]FeatureStrategySchema**](FeatureStrategySchema.md) |  | 
+**FeatureEnvironments** | Pointer to [**[]FeatureEnvironmentSchema**](FeatureEnvironmentSchema.md) |  | [optional] 
+**ContextFields** | Pointer to [**[]ContextFieldSchema**](ContextFieldSchema.md) |  | [optional] 
+**FeatureTags** | Pointer to [**[]FeatureTagSchema**](FeatureTagSchema.md) |  | [optional] 
+**Segments** | Pointer to [**[]ExportResultSchemaSegmentsInner**](ExportResultSchemaSegmentsInner.md) |  | [optional] 
+**TagTypes** | [**[]TagTypeSchema**](TagTypeSchema.md) |  | 
 
 ## Methods
 

@@ -1,21 +1,19 @@
 # \APITokensApi
 
-All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateApiToken**](APITokensApi.md#CreateApiToken) | **Post** /api/admin/api-tokens | Create API token
-[**DeleteApiToken**](APITokensApi.md#DeleteApiToken) | **Delete** /api/admin/api-tokens/{token} | Delete API token
-[**GetAllApiTokens**](APITokensApi.md#GetAllApiTokens) | **Get** /api/admin/api-tokens | Get API tokens
-[**UpdateApiToken**](APITokensApi.md#UpdateApiToken) | **Put** /api/admin/api-tokens/{token} | Update API token
+[**CreateApiToken**](APITokensApi.md#CreateApiToken) | **Post** /api/admin/api-tokens | 
+[**DeleteApiToken**](APITokensApi.md#DeleteApiToken) | **Delete** /api/admin/api-tokens/{token} | 
+[**GetAllApiTokens**](APITokensApi.md#GetAllApiTokens) | **Get** /api/admin/api-tokens | 
+[**UpdateApiToken**](APITokensApi.md#UpdateApiToken) | **Put** /api/admin/api-tokens/{token} | 
 
 
 
 ## CreateApiToken
 
 > ApiTokenSchema CreateApiToken(ctx).CreateApiTokenSchema(createApiTokenSchema).Execute()
-
-Create API token
 
 
 
@@ -32,7 +30,7 @@ import (
 )
 
 func main() {
-    createApiTokenSchema := *openapiclient.NewCreateApiTokenSchema() // CreateApiTokenSchema | createApiTokenSchema
+    createApiTokenSchema := *openapiclient.NewCreateApiTokenSchema("Type_example") // CreateApiTokenSchema | createApiTokenSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -80,8 +78,6 @@ Name | Type | Description  | Notes
 ## DeleteApiToken
 
 > DeleteApiToken(ctx, token).Execute()
-
-Delete API token
 
 
 
@@ -138,7 +134,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -148,8 +144,6 @@ Name | Type | Description  | Notes
 ## GetAllApiTokens
 
 > ApiTokensSchema GetAllApiTokens(ctx).Execute()
-
-Get API tokens
 
 
 
@@ -210,8 +204,6 @@ Other parameters are passed through a pointer to a apiGetAllApiTokensRequest str
 
 > UpdateApiToken(ctx, token).UpdateApiTokenSchema(updateApiTokenSchema).Execute()
 
-Update API token
-
 
 
 ### Example
@@ -270,7 +262,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

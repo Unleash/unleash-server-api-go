@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Version** | **int32** | The version of the feature&#39;s schema | 
-**Features** | [**[]FeatureSchema**](FeatureSchema.md) | A list of features | 
+**Version** | **int32** |  | 
+**Features** | [**[]FeatureSchema**](FeatureSchema.md) |  | 
 
 ## Methods
 

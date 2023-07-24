@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **int32** | The ID of the event. An increasing natural number. | 
-**CreatedAt** | **time.Time** | The time the event happened as a RFC 3339-conformant timestamp. | 
-**Type** | **string** | What [type](https://docs.getunleash.io/reference/api/legacy/unleash/admin/events#event-type-description) of event this is | 
-**CreatedBy** | **string** | Which user created this event | 
-**Environment** | Pointer to **NullableString** | The feature toggle environment the event relates to, if applicable. | [optional] 
-**Project** | Pointer to **NullableString** | The project the event relates to, if applicable. | [optional] 
-**FeatureName** | Pointer to **NullableString** | The name of the feature toggle the event relates to, if applicable. | [optional] 
-**Data** | Pointer to [**EventSchemaData**](EventSchemaData.md) |  | [optional] 
-**PreData** | Pointer to [**NullableEventSchemaPreData**](EventSchemaPreData.md) |  | [optional] 
-**Tags** | Pointer to [**[]TagSchema**](TagSchema.md) | Any tags related to the event, if applicable. | [optional] 
+**Id** | **int32** |  | 
+**CreatedAt** | **time.Time** |  | 
+**Type** | **string** |  | 
+**CreatedBy** | **string** |  | 
+**Environment** | Pointer to **NullableString** |  | [optional] 
+**Project** | Pointer to **NullableString** |  | [optional] 
+**FeatureName** | Pointer to **NullableString** |  | [optional] 
+**Data** | Pointer to **map[string]interface{}** |  | [optional] 
+**PreData** | Pointer to **map[string]interface{}** |  | [optional] 
+**Tags** | Pointer to [**[]TagSchema**](TagSchema.md) |  | [optional] 
 
 ## Methods
 
@@ -221,20 +221,20 @@ HasFeatureName returns a boolean if a field has been set.
 UnsetFeatureName ensures that no value is present for FeatureName, not even an explicit nil
 ### GetData
 
-`func (o *EventSchema) GetData() EventSchemaData`
+`func (o *EventSchema) GetData() map[string]interface{}`
 
 GetData returns the Data field if non-nil, zero value otherwise.
 
 ### GetDataOk
 
-`func (o *EventSchema) GetDataOk() (*EventSchemaData, bool)`
+`func (o *EventSchema) GetDataOk() (*map[string]interface{}, bool)`
 
 GetDataOk returns a tuple with the Data field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetData
 
-`func (o *EventSchema) SetData(v EventSchemaData)`
+`func (o *EventSchema) SetData(v map[string]interface{})`
 
 SetData sets Data field to given value.
 
@@ -244,22 +244,32 @@ SetData sets Data field to given value.
 
 HasData returns a boolean if a field has been set.
 
+### SetDataNil
+
+`func (o *EventSchema) SetDataNil(b bool)`
+
+ SetDataNil sets the value for Data to be an explicit nil
+
+### UnsetData
+`func (o *EventSchema) UnsetData()`
+
+UnsetData ensures that no value is present for Data, not even an explicit nil
 ### GetPreData
 
-`func (o *EventSchema) GetPreData() EventSchemaPreData`
+`func (o *EventSchema) GetPreData() map[string]interface{}`
 
 GetPreData returns the PreData field if non-nil, zero value otherwise.
 
 ### GetPreDataOk
 
-`func (o *EventSchema) GetPreDataOk() (*EventSchemaPreData, bool)`
+`func (o *EventSchema) GetPreDataOk() (*map[string]interface{}, bool)`
 
 GetPreDataOk returns a tuple with the PreData field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPreData
 
-`func (o *EventSchema) SetPreData(v EventSchemaPreData)`
+`func (o *EventSchema) SetPreData(v map[string]interface{})`
 
 SetPreData sets PreData field to given value.
 

@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **AppName** | **string** | Name of the application using Unleash | 
 **InstanceId** | Pointer to **string** | Instance id for this application (typically hostname, podId or similar) | [optional] 
 **SdkVersion** | Pointer to **string** | Optional field that describes the sdk version (name:version) | [optional] 
-**Environment** | Pointer to **string** | deprecated | [optional] 
+**Environment** | Pointer to **string** |  | [optional] 
 **Interval** | **float32** | At which interval, in milliseconds, will this client be expected to send metrics | 
 **Started** | [**ProxyClientSchemaStarted**](ProxyClientSchemaStarted.md) |  | 
 **Strategies** | **[]string** | List of strategies implemented by this application | 
