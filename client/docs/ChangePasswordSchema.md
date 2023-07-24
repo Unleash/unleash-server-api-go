@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Token** | **string** | A reset token used to validate that the user is allowed to change the password. | 
-**Password** | **string** | The new password for the user | 
+**Token** | **string** |  | 
+**Password** | **string** |  | 
 
 ## Methods
 

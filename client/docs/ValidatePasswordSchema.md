@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Password** | **string** | The password to validate | 
+**Password** | **string** |  | 
 
 ## Methods
 

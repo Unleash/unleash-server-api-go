@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  | 
-**Description** | Pointer to **NullableString** |  | [optional] 
-**Project** | Pointer to **NullableString** |  | [optional] 
-**Constraints** | [**[]ConstraintSchema**](ConstraintSchema.md) |  | 
+**Name** | **string** | The name of the segment. | 
+**Description** | Pointer to **NullableString** | The description of the segment. | [optional] 
+**Project** | Pointer to **NullableString** | Project from where this segment will be accessible. If none is defined the segment will be global (i.e. accessible from any project). | [optional] 
+**Constraints** | [**[]ConstraintSchema**](ConstraintSchema.md) | List of constraints that determine which users will be part of the segment | 
 
 ## Methods
 

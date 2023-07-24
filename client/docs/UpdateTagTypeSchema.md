@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Description** | Pointer to **string** | The description of the tag type. | [optional] 
-**Icon** | Pointer to **string** | The icon of the tag type. | [optional] 
+**Description** | Pointer to **string** |  | [optional] 
+**Icon** | Pointer to **string** |  | [optional] 
 
 ## Methods
 

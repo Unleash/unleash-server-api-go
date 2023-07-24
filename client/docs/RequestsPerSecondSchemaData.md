@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ResultType** | Pointer to **string** | Prometheus compatible result type. | [optional] 
+**ResultType** | Pointer to **string** |  | [optional] 
 **Result** | Pointer to [**[]RequestsPerSecondSchemaDataResultInner**](RequestsPerSecondSchemaDataResultInner.md) | An array of values per metric. Each one represents a line in the graph labeled by its metric name | [optional] 
 
 ## Methods

@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Environment** | **string** | The environment to export from | 
-**DownloadFile** | Pointer to **bool** | Whether to return a downloadable file | [optional] 
+**Environment** | **string** |  | 
+**DownloadFile** | Pointer to **bool** |  | [optional] 
 
 ## Methods
 

@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** | The name of the new feature | 
-**ReplaceGroupId** | Pointer to **bool** | Whether to use the new feature name as its group ID or not. Group ID is used for calculating [stickiness](https://docs.getunleash.io/reference/stickiness#calculation). Defaults to true. | [optional] 
+**Name** | **string** |  | 
+**ReplaceGroupId** | Pointer to **bool** |  | [optional] 
 
 ## Methods
 

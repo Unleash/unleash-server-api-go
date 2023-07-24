@@ -4,10 +4,11 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	openapiclient "github.com/Unleash/unleash-server-api-go/client"
 	"net/http"
 	"net/http/httputil"
 	"os"
+
+	openapiclient "github.com/Unleash/unleash-server-api-go/client"
 )
 
 func main() {
@@ -18,17 +19,16 @@ func main() {
 	flag.Parse()
 
 	name := "A name"
-	email := "tester@getunleash.io"
-	username := "ausername"
+	email := "tester1@getunleash.io"
+	username := "username1"
 	sendEmail := false
-	rootRoleId := int32(1)
-	rootRole := openapiclient.Int32AsCreateUserSchemaRootRole(&rootRoleId)
+	rootRoleId := float32(1)
 
 	createUserSchema := *openapiclient.NewCreateUserSchemaWithDefaults()
 	createUserSchema.Name = &name
 	createUserSchema.Email = &email
 	createUserSchema.Username = &username
-	createUserSchema.RootRole = rootRole
+	createUserSchema.RootRole = rootRoleId
 	createUserSchema.SendEmail = &sendEmail
 
 	configuration := openapiclient.NewConfiguration()

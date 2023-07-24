@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **Disabled** | **NullableBool** | The strategy&#39;s status. Disabled strategies are not evaluated | 
 **Segments** | [**[]PlaygroundSegmentSchema**](PlaygroundSegmentSchema.md) | The strategy&#39;s segments and their evaluation results. | 
 **Constraints** | [**[]PlaygroundConstraintSchema**](PlaygroundConstraintSchema.md) | The strategy&#39;s constraints and their evaluation results. | 
-**Parameters** | **map[string]string** | A list of parameters for a strategy | 
+**Parameters** | **map[string]string** |  | 
 **Links** | [**PlaygroundStrategySchemaLinks**](PlaygroundStrategySchemaLinks.md) |  | 
 
 ## Methods

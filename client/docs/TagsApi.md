@@ -1,29 +1,27 @@
 # \TagsApi
 
-All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AddTagToFeatures**](TagsApi.md#AddTagToFeatures) | **Put** /api/admin/projects/{projectId}/tags | Adds a tag to the specified features
-[**CreateTag**](TagsApi.md#CreateTag) | **Post** /api/admin/tags | Create a new tag.
-[**CreateTagType**](TagsApi.md#CreateTagType) | **Post** /api/admin/tag-types | Create a tag type
-[**DeleteTag**](TagsApi.md#DeleteTag) | **Delete** /api/admin/tags/{type}/{value} | Delete a tag.
-[**DeleteTagType**](TagsApi.md#DeleteTagType) | **Delete** /api/admin/tag-types/{name} | Delete a tag type
-[**GetTag**](TagsApi.md#GetTag) | **Get** /api/admin/tags/{type}/{value} | Get a tag by type and value.
-[**GetTagType**](TagsApi.md#GetTagType) | **Get** /api/admin/tag-types/{name} | Get a tag type
-[**GetTagTypes**](TagsApi.md#GetTagTypes) | **Get** /api/admin/tag-types | Get all tag types
-[**GetTags**](TagsApi.md#GetTags) | **Get** /api/admin/tags | List all tags.
-[**GetTagsByType**](TagsApi.md#GetTagsByType) | **Get** /api/admin/tags/{type} | List all tags of a given type.
-[**UpdateTagType**](TagsApi.md#UpdateTagType) | **Put** /api/admin/tag-types/{name} | Update a tag type
-[**ValidateTagType**](TagsApi.md#ValidateTagType) | **Post** /api/admin/tag-types/validate | Validate a tag type
+[**AddTagToFeatures**](TagsApi.md#AddTagToFeatures) | **Put** /api/admin/projects/{projectId}/tags | 
+[**CreateTag**](TagsApi.md#CreateTag) | **Post** /api/admin/tags | 
+[**CreateTagType**](TagsApi.md#CreateTagType) | **Post** /api/admin/tag-types | 
+[**DeleteTag**](TagsApi.md#DeleteTag) | **Delete** /api/admin/tags/{type}/{value} | 
+[**DeleteTagType**](TagsApi.md#DeleteTagType) | **Delete** /api/admin/tag-types/{name} | 
+[**GetTag**](TagsApi.md#GetTag) | **Get** /api/admin/tags/{type}/{value} | 
+[**GetTagType**](TagsApi.md#GetTagType) | **Get** /api/admin/tag-types/{name} | 
+[**GetTagTypes**](TagsApi.md#GetTagTypes) | **Get** /api/admin/tag-types | 
+[**GetTags**](TagsApi.md#GetTags) | **Get** /api/admin/tags | 
+[**GetTagsByType**](TagsApi.md#GetTagsByType) | **Get** /api/admin/tags/{type} | 
+[**UpdateTagType**](TagsApi.md#UpdateTagType) | **Put** /api/admin/tag-types/{name} | 
+[**ValidateTagType**](TagsApi.md#ValidateTagType) | **Post** /api/admin/tag-types/validate | 
 
 
 
 ## AddTagToFeatures
 
 > AddTagToFeatures(ctx, projectId).TagsBulkAddSchema(tagsBulkAddSchema).Execute()
-
-Adds a tag to the specified features
 
 
 
@@ -82,7 +80,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -92,8 +90,6 @@ Name | Type | Description  | Notes
 ## CreateTag
 
 > TagWithVersionSchema CreateTag(ctx).TagSchema(tagSchema).Execute()
-
-Create a new tag.
 
 
 
@@ -159,8 +155,6 @@ Name | Type | Description  | Notes
 
 > TagTypeSchema CreateTagType(ctx).TagTypeSchema(tagTypeSchema).Execute()
 
-Create a tag type
-
 
 
 ### Example
@@ -176,7 +170,7 @@ import (
 )
 
 func main() {
-    tagTypeSchema := *openapiclient.NewTagTypeSchema("color") // TagTypeSchema | tagTypeSchema
+    tagTypeSchema := *openapiclient.NewTagTypeSchema("Name_example") // TagTypeSchema | tagTypeSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -224,8 +218,6 @@ Name | Type | Description  | Notes
 ## DeleteTag
 
 > DeleteTag(ctx, type_, value).Execute()
-
-Delete a tag.
 
 
 
@@ -296,8 +288,6 @@ Name | Type | Description  | Notes
 
 > DeleteTagType(ctx, name).Execute()
 
-Delete a tag type
-
 
 
 ### Example
@@ -353,7 +343,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -363,8 +353,6 @@ Name | Type | Description  | Notes
 ## GetTag
 
 > TagWithVersionSchema GetTag(ctx, type_, value).Execute()
-
-Get a tag by type and value.
 
 
 
@@ -437,8 +425,6 @@ Name | Type | Description  | Notes
 
 > TagTypeSchema GetTagType(ctx, name).Execute()
 
-Get a tag type
-
 
 
 ### Example
@@ -507,8 +493,6 @@ Name | Type | Description  | Notes
 
 > TagTypesSchema GetTagTypes(ctx).Execute()
 
-Get all tag types
-
 
 
 ### Example
@@ -568,8 +552,6 @@ Other parameters are passed through a pointer to a apiGetTagTypesRequest struct 
 
 > TagsSchema GetTags(ctx).Execute()
 
-List all tags.
-
 
 
 ### Example
@@ -628,8 +610,6 @@ Other parameters are passed through a pointer to a apiGetTagsRequest struct via 
 ## GetTagsByType
 
 > TagsSchema GetTagsByType(ctx, type_).Execute()
-
-List all tags of a given type.
 
 
 
@@ -699,8 +679,6 @@ Name | Type | Description  | Notes
 
 > UpdateTagType(ctx, name).UpdateTagTypeSchema(updateTagTypeSchema).Execute()
 
-Update a tag type
-
 
 
 ### Example
@@ -758,7 +736,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -768,8 +746,6 @@ Name | Type | Description  | Notes
 ## ValidateTagType
 
 > ValidateTagTypeSchema ValidateTagType(ctx).TagTypeSchema(tagTypeSchema).Execute()
-
-Validate a tag type
 
 
 
@@ -786,7 +762,7 @@ import (
 )
 
 func main() {
-    tagTypeSchema := *openapiclient.NewTagTypeSchema("color") // TagTypeSchema | tagTypeSchema
+    tagTypeSchema := *openapiclient.NewTagTypeSchema("Name_example") // TagTypeSchema | tagTypeSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

@@ -8,8 +8,8 @@ Name | Type | Description | Notes
 **Project** | Pointer to **string** | Find events by project ID (case-sensitive). | [optional] 
 **Feature** | Pointer to **string** | Find events by feature toggle name (case-sensitive). | [optional] 
 **Query** | Pointer to **string** |                  Find events by a free-text search query.                 The query will be matched against the event type,                 the username or email that created the event (if any),                 and the event data payload (if any).              | [optional] 
-**Limit** | Pointer to **int32** | The maximum amount of events to return in the search result | [optional] [default to 100]
-**Offset** | Pointer to **int32** | Which event id to start listing from | [optional] [default to 0]
+**Limit** | Pointer to **int32** |  | [optional] [default to 100]
+**Offset** | Pointer to **int32** |  | [optional] [default to 0]
 
 ## Methods
 

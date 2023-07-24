@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** | The variants name. Is unique for this feature toggle | 
-**Enabled** | **bool** | Whether the variant is enabled or not. | 
+**Name** | **string** |  | 
+**Enabled** | **bool** |  | 
 **Payload** | Pointer to [**ProxyFeatureSchemaVariantPayload**](ProxyFeatureSchemaVariantPayload.md) |  | [optional] 
 
 ## Methods

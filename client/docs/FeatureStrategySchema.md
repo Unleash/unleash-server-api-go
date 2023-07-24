@@ -11,9 +11,8 @@ Name | Type | Description | Notes
 **FeatureName** | Pointer to **string** | The name or feature the strategy is attached to | [optional] 
 **SortOrder** | Pointer to **float32** | The order of the strategy in the list | [optional] 
 **Segments** | Pointer to **[]float32** | A list of segment ids attached to the strategy | [optional] 
-**Constraints** | Pointer to [**[]ConstraintSchema**](ConstraintSchema.md) | A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/strategy-constraints | [optional] 
-**Variants** | Pointer to [**[]StrategyVariantSchema**](StrategyVariantSchema.md) | Strategy level variants | [optional] 
-**Parameters** | Pointer to **map[string]string** | A list of parameters for a strategy | [optional] 
+**Constraints** | Pointer to [**[]ConstraintSchema**](ConstraintSchema.md) | A list of the constraints attached to the strategy | [optional] 
+**Parameters** | Pointer to **map[string]string** |  | [optional] 
 
 ## Methods
 
@@ -248,31 +247,6 @@ SetConstraints sets Constraints field to given value.
 `func (o *FeatureStrategySchema) HasConstraints() bool`
 
 HasConstraints returns a boolean if a field has been set.
-
-### GetVariants
-
-`func (o *FeatureStrategySchema) GetVariants() []StrategyVariantSchema`
-
-GetVariants returns the Variants field if non-nil, zero value otherwise.
-
-### GetVariantsOk
-
-`func (o *FeatureStrategySchema) GetVariantsOk() (*[]StrategyVariantSchema, bool)`
-
-GetVariantsOk returns a tuple with the Variants field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetVariants
-
-`func (o *FeatureStrategySchema) SetVariants(v []StrategyVariantSchema)`
-
-SetVariants sets Variants field to given value.
-
-### HasVariants
-
-`func (o *FeatureStrategySchema) HasVariants() bool`
-
-HasVariants returns a boolean if a field has been set.
 
 ### GetParameters
 

@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AppName** | Pointer to **string** | Name of the application this metric relates to | [optional] 
-**Endpoint** | Pointer to **string** | Which endpoint has been accessed | [optional] 
+**AppName** | Pointer to **string** |  | [optional] 
+**Endpoint** | Pointer to **string** |  | [optional] 
 
 ## Methods
 

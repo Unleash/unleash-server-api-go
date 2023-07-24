@@ -113,18 +113,6 @@ func Test_client_StrategiesApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test StrategiesApiService UpdateFeatureStrategySegments", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		resp, httpRes, err := apiClient.StrategiesApi.UpdateFeatureStrategySegments(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 	t.Run("Test StrategiesApiService UpdateStrategy", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test

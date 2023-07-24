@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Version** | **int32** | The version of the schema used to model the tag. | 
+**Version** | **int32** |  | 
 **Tag** | [**TagSchema**](TagSchema.md) |  | 
 
 ## Methods

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** | The name of the represented object. | 
+**Name** | **string** |  | 
 
 ## Methods
 

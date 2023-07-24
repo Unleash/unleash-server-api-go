@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** | The name of the tag type. | 
-**Description** | Pointer to **string** | The description of the tag type. | [optional] 
-**Icon** | Pointer to **NullableString** | The icon of the tag type. | [optional] 
+**Name** | **string** |  | 
+**Description** | Pointer to **string** |  | [optional] 
+**Icon** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
