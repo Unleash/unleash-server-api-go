@@ -24,6 +24,8 @@ func Test_client_PublicSignupTokensApiService(t *testing.T) {
 
 	t.Run("Test PublicSignupTokensApiService AddPublicSignupTokenUser", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		var token string
 
 		resp, httpRes, err := apiClient.PublicSignupTokensApi.AddPublicSignupTokenUser(context.Background(), token).Execute()
@@ -36,6 +38,8 @@ func Test_client_PublicSignupTokensApiService(t *testing.T) {
 
 	t.Run("Test PublicSignupTokensApiService CreatePublicSignupToken", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		resp, httpRes, err := apiClient.PublicSignupTokensApi.CreatePublicSignupToken(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -46,6 +50,8 @@ func Test_client_PublicSignupTokensApiService(t *testing.T) {
 
 	t.Run("Test PublicSignupTokensApiService GetAllPublicSignupTokens", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		resp, httpRes, err := apiClient.PublicSignupTokensApi.GetAllPublicSignupTokens(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -55,6 +61,8 @@ func Test_client_PublicSignupTokensApiService(t *testing.T) {
 	})
 
 	t.Run("Test PublicSignupTokensApiService GetPublicSignupToken", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		var token string
 
@@ -68,6 +76,8 @@ func Test_client_PublicSignupTokensApiService(t *testing.T) {
 
 	t.Run("Test PublicSignupTokensApiService UpdatePublicSignupToken", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		var token string
 
 		resp, httpRes, err := apiClient.PublicSignupTokensApi.UpdatePublicSignupToken(context.Background(), token).Execute()
@@ -79,6 +89,8 @@ func Test_client_PublicSignupTokensApiService(t *testing.T) {
 	})
 
 	t.Run("Test PublicSignupTokensApiService ValidatePublicSignupToken", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		var token string
 

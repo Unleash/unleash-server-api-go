@@ -24,6 +24,8 @@ func Test_client_PersonalAccessTokensApiService(t *testing.T) {
 
 	t.Run("Test PersonalAccessTokensApiService CreatePat", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		resp, httpRes, err := apiClient.PersonalAccessTokensApi.CreatePat(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -33,6 +35,8 @@ func Test_client_PersonalAccessTokensApiService(t *testing.T) {
 	})
 
 	t.Run("Test PersonalAccessTokensApiService DeletePat", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		var id string
 
@@ -44,6 +48,8 @@ func Test_client_PersonalAccessTokensApiService(t *testing.T) {
 	})
 
 	t.Run("Test PersonalAccessTokensApiService GetPats", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.PersonalAccessTokensApi.GetPats(context.Background()).Execute()
 

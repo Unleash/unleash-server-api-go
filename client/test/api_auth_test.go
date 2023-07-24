@@ -24,6 +24,8 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	t.Run("Test AuthApiService ChangePassword", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		httpRes, err := apiClient.AuthApi.ChangePassword(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -32,6 +34,8 @@ func Test_client_AuthApiService(t *testing.T) {
 	})
 
 	t.Run("Test AuthApiService Login", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AuthApi.Login(context.Background()).Execute()
 
@@ -43,6 +47,8 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	t.Run("Test AuthApiService SendResetPasswordEmail", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		httpRes, err := apiClient.AuthApi.SendResetPasswordEmail(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -52,6 +58,8 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	t.Run("Test AuthApiService ValidatePassword", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		httpRes, err := apiClient.AuthApi.ValidatePassword(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -60,6 +68,8 @@ func Test_client_AuthApiService(t *testing.T) {
 	})
 
 	t.Run("Test AuthApiService ValidateToken", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AuthApi.ValidateToken(context.Background()).Execute()
 

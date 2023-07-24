@@ -22,6 +22,12 @@ import (
 func Test_client_UsersApiService(t *testing.T) {
 
 	configuration := openapiclient.NewConfiguration()
+	configuration.Servers = openapiclient.ServerConfigurations{
+		{
+			URL: "http://localhost:4242",
+		},
+	}
+	configuration.AddDefaultHeader("Authorization", "*:*.unleash-insecure-admin-api-token")
 	apiClient := openapiclient.NewAPIClient(configuration)
 
 	t.Run("Test UsersApiService ChangeMyPassword", func(t *testing.T) {
@@ -51,24 +57,23 @@ func Test_client_UsersApiService(t *testing.T) {
 	t.Run("Test UsersApiService CreateUser", func(t *testing.T) {
 
 		name := "A name"
-		email := "test@getunleash.io"
-		username := "username"
+		email := "test-1@getunleash.io"
+		username := "username-1"
 		sendEmail := false
-		rootRoleId := int32(1)
-		rootRole := openapiclient.Int32AsCreateUserSchemaRootRole(&rootRoleId)
+		rootRoleId := float32(1)
 
 		createUserSchema := *openapiclient.NewCreateUserSchemaWithDefaults()
 		createUserSchema.Name = &name
 		createUserSchema.Email = &email
 		createUserSchema.Username = &username
-		createUserSchema.RootRole = rootRole
+		createUserSchema.RootRole = rootRoleId
 		createUserSchema.SendEmail = &sendEmail
 
 		resp, httpRes, err := apiClient.UsersApi.CreateUser(context.Background()).CreateUserSchema(createUserSchema).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		assert.Equal(t, 201, httpRes.StatusCode)
 
 	})
 

@@ -24,6 +24,8 @@ func Test_client_EdgeApiService(t *testing.T) {
 
 	t.Run("Test EdgeApiService BulkMetrics", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		httpRes, err := apiClient.EdgeApi.BulkMetrics(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -32,6 +34,8 @@ func Test_client_EdgeApiService(t *testing.T) {
 	})
 
 	t.Run("Test EdgeApiService GetValidTokens", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.EdgeApi.GetValidTokens(context.Background()).Execute()
 

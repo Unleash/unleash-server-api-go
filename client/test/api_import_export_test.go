@@ -24,6 +24,8 @@ func Test_client_ImportExportApiService(t *testing.T) {
 
 	t.Run("Test ImportExportApiService CallImport", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		httpRes, err := apiClient.ImportExportApi.CallImport(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -32,6 +34,8 @@ func Test_client_ImportExportApiService(t *testing.T) {
 	})
 
 	t.Run("Test ImportExportApiService Export", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.ImportExportApi.Export(context.Background()).Execute()
 

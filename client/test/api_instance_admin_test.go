@@ -24,6 +24,8 @@ func Test_client_InstanceAdminApiService(t *testing.T) {
 
 	t.Run("Test InstanceAdminApiService GetInstanceAdminStats", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		resp, httpRes, err := apiClient.InstanceAdminApi.GetInstanceAdminStats(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -33,6 +35,8 @@ func Test_client_InstanceAdminApiService(t *testing.T) {
 	})
 
 	t.Run("Test InstanceAdminApiService GetInstanceAdminStatsCsv", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.InstanceAdminApi.GetInstanceAdminStatsCsv(context.Background()).Execute()
 

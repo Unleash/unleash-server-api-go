@@ -24,6 +24,8 @@ func Test_client_UnstableApiService(t *testing.T) {
 
 	t.Run("Test UnstableApiService ExportFeatures", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		resp, httpRes, err := apiClient.UnstableApi.ExportFeatures(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -33,6 +35,8 @@ func Test_client_UnstableApiService(t *testing.T) {
 	})
 
 	t.Run("Test UnstableApiService GetAdvancedPlayground", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.UnstableApi.GetAdvancedPlayground(context.Background()).Execute()
 
@@ -44,6 +48,8 @@ func Test_client_UnstableApiService(t *testing.T) {
 
 	t.Run("Test UnstableApiService ImportToggles", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		httpRes, err := apiClient.UnstableApi.ImportToggles(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -52,6 +58,8 @@ func Test_client_UnstableApiService(t *testing.T) {
 	})
 
 	t.Run("Test UnstableApiService ValidateImport", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.UnstableApi.ValidateImport(context.Background()).Execute()
 

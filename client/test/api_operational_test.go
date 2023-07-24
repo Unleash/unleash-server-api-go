@@ -24,6 +24,8 @@ func Test_client_OperationalApiService(t *testing.T) {
 
 	t.Run("Test OperationalApiService GetHealth", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		resp, httpRes, err := apiClient.OperationalApi.GetHealth(context.Background()).Execute()
 
 		require.Nil(t, err)

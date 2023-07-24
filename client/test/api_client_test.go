@@ -24,6 +24,8 @@ func Test_client_ClientApiService(t *testing.T) {
 
 	t.Run("Test ClientApiService GetAllClientFeatures", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		resp, httpRes, err := apiClient.ClientApi.GetAllClientFeatures(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -33,6 +35,8 @@ func Test_client_ClientApiService(t *testing.T) {
 	})
 
 	t.Run("Test ClientApiService GetClientFeature", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		var featureName string
 
@@ -46,6 +50,8 @@ func Test_client_ClientApiService(t *testing.T) {
 
 	t.Run("Test ClientApiService RegisterClientApplication", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		httpRes, err := apiClient.ClientApi.RegisterClientApplication(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -54,6 +60,8 @@ func Test_client_ClientApiService(t *testing.T) {
 	})
 
 	t.Run("Test ClientApiService RegisterClientMetrics", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		httpRes, err := apiClient.ClientApi.RegisterClientMetrics(context.Background()).Execute()
 

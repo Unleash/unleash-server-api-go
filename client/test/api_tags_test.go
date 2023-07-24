@@ -24,6 +24,8 @@ func Test_client_TagsApiService(t *testing.T) {
 
 	t.Run("Test TagsApiService AddTagToFeatures", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		var projectId string
 
 		httpRes, err := apiClient.TagsApi.AddTagToFeatures(context.Background(), projectId).Execute()
@@ -35,6 +37,8 @@ func Test_client_TagsApiService(t *testing.T) {
 
 	t.Run("Test TagsApiService CreateTag", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		resp, httpRes, err := apiClient.TagsApi.CreateTag(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -45,6 +49,8 @@ func Test_client_TagsApiService(t *testing.T) {
 
 	t.Run("Test TagsApiService CreateTagType", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		resp, httpRes, err := apiClient.TagsApi.CreateTagType(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -54,6 +60,8 @@ func Test_client_TagsApiService(t *testing.T) {
 	})
 
 	t.Run("Test TagsApiService DeleteTag", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		var type_ string
 		var value string
@@ -67,6 +75,8 @@ func Test_client_TagsApiService(t *testing.T) {
 
 	t.Run("Test TagsApiService DeleteTagType", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		var name string
 
 		httpRes, err := apiClient.TagsApi.DeleteTagType(context.Background(), name).Execute()
@@ -77,6 +87,8 @@ func Test_client_TagsApiService(t *testing.T) {
 	})
 
 	t.Run("Test TagsApiService GetTag", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		var type_ string
 		var value string
@@ -91,6 +103,8 @@ func Test_client_TagsApiService(t *testing.T) {
 
 	t.Run("Test TagsApiService GetTagType", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		var name string
 
 		resp, httpRes, err := apiClient.TagsApi.GetTagType(context.Background(), name).Execute()
@@ -103,6 +117,8 @@ func Test_client_TagsApiService(t *testing.T) {
 
 	t.Run("Test TagsApiService GetTagTypes", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		resp, httpRes, err := apiClient.TagsApi.GetTagTypes(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -113,6 +129,8 @@ func Test_client_TagsApiService(t *testing.T) {
 
 	t.Run("Test TagsApiService GetTags", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		resp, httpRes, err := apiClient.TagsApi.GetTags(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -122,6 +140,8 @@ func Test_client_TagsApiService(t *testing.T) {
 	})
 
 	t.Run("Test TagsApiService GetTagsByType", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		var type_ string
 
@@ -135,6 +155,8 @@ func Test_client_TagsApiService(t *testing.T) {
 
 	t.Run("Test TagsApiService UpdateTagType", func(t *testing.T) {
 
+		t.Skip("skip test") // remove to run test
+
 		var name string
 
 		httpRes, err := apiClient.TagsApi.UpdateTagType(context.Background(), name).Execute()
@@ -145,6 +167,8 @@ func Test_client_TagsApiService(t *testing.T) {
 	})
 
 	t.Run("Test TagsApiService ValidateTagType", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.TagsApi.ValidateTagType(context.Background()).Execute()
 
