@@ -24,8 +24,6 @@ func Test_client_EventsApiService(t *testing.T) {
 
 	t.Run("Test EventsApiService GetEvents", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.EventsApi.GetEvents(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -35,8 +33,6 @@ func Test_client_EventsApiService(t *testing.T) {
 	})
 
 	t.Run("Test EventsApiService GetEventsForToggle", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var featureName string
 
@@ -49,8 +45,6 @@ func Test_client_EventsApiService(t *testing.T) {
 	})
 
 	t.Run("Test EventsApiService SearchEvents", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.EventsApi.SearchEvents(context.Background()).Execute()
 

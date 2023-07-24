@@ -24,8 +24,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService AddFavoriteFeature", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var featureName string
 
@@ -38,8 +36,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService AddFavoriteProject", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		httpRes, err := apiClient.FeaturesApi.AddFavoriteProject(context.Background(), projectId).Execute()
@@ -50,8 +46,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService AddFeatureStrategy", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var featureName string
@@ -67,8 +61,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService AddTag", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var featureName string
 
 		resp, httpRes, err := apiClient.FeaturesApi.AddTag(context.Background(), featureName).Execute()
@@ -80,8 +72,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService ArchiveFeature", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var featureName string
@@ -95,8 +85,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService ArchiveFeatures", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		httpRes, err := apiClient.FeaturesApi.ArchiveFeatures(context.Background(), projectId).Execute()
@@ -107,8 +95,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService BulkToggleFeaturesEnvironmentOff", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var environment string
@@ -122,8 +108,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService BulkToggleFeaturesEnvironmentOn", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var environment string
 
@@ -136,8 +120,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService ChangeProject", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var featureName string
 
@@ -149,8 +131,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService CloneFeature", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var featureName string
@@ -165,8 +145,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService CreateFeature", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		resp, httpRes, err := apiClient.FeaturesApi.CreateFeature(context.Background(), projectId).Execute()
@@ -178,8 +156,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService DeleteFeatureStrategy", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var featureName string
@@ -195,8 +171,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService GetAllFeatureTypes", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.FeaturesApi.GetAllFeatureTypes(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -207,8 +181,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService GetAllToggles", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.FeaturesApi.GetAllToggles(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -218,8 +190,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService GetEnvironmentFeatureVariants", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var featureName string
@@ -235,8 +205,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService GetFeature", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var featureName string
 
@@ -249,8 +217,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService GetFeatureEnvironment", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var featureName string
@@ -266,8 +232,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService GetFeatureStrategies", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var featureName string
 		var environment string
@@ -281,8 +245,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService GetFeatureStrategy", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var featureName string
@@ -299,8 +261,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService GetFeatureVariants", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var featureName string
 
@@ -314,8 +274,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService GetFeatures", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		resp, httpRes, err := apiClient.FeaturesApi.GetFeatures(context.Background(), projectId).Execute()
@@ -328,8 +286,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService ListTags", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var featureName string
 
 		resp, httpRes, err := apiClient.FeaturesApi.ListTags(context.Background(), featureName).Execute()
@@ -341,8 +297,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService OverwriteEnvironmentFeatureVariants", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var featureName string
@@ -358,8 +312,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService OverwriteFeatureVariants", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var featureName string
 
@@ -373,8 +325,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService OverwriteFeatureVariantsOnEnvironments", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var featureName string
 
@@ -387,8 +337,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService PatchEnvironmentsFeatureVariants", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var featureName string
@@ -404,8 +352,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService PatchFeature", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var featureName string
 
@@ -418,8 +364,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService PatchFeatureStrategy", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var featureName string
@@ -436,8 +380,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService PatchFeatureVariants", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var featureName string
 
@@ -451,8 +393,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService RemoveFavoriteFeature", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var featureName string
 
@@ -465,8 +405,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService RemoveFavoriteProject", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		httpRes, err := apiClient.FeaturesApi.RemoveFavoriteProject(context.Background(), projectId).Execute()
@@ -477,8 +415,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService RemoveTag", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var featureName string
 		var type_ string
@@ -493,8 +429,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService SetStrategySortOrder", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var featureName string
 		var environment string
@@ -508,8 +442,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService StaleFeatures", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		httpRes, err := apiClient.FeaturesApi.StaleFeatures(context.Background(), projectId).Execute()
@@ -520,8 +452,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService ToggleFeatureEnvironmentOff", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var featureName string
@@ -537,8 +467,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService ToggleFeatureEnvironmentOn", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var featureName string
 		var environment string
@@ -553,8 +481,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService UpdateFeature", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var featureName string
 
@@ -567,8 +493,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService UpdateFeatureStrategy", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var featureName string
@@ -585,8 +509,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService UpdateTags", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var featureName string
 
 		resp, httpRes, err := apiClient.FeaturesApi.UpdateTags(context.Background(), featureName).Execute()
@@ -599,8 +521,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 
 	t.Run("Test FeaturesApiService ValidateConstraint", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		httpRes, err := apiClient.FeaturesApi.ValidateConstraint(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -609,8 +529,6 @@ func Test_client_FeaturesApiService(t *testing.T) {
 	})
 
 	t.Run("Test FeaturesApiService ValidateFeature", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		httpRes, err := apiClient.FeaturesApi.ValidateFeature(context.Background()).Execute()
 

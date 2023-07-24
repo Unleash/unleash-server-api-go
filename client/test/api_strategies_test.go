@@ -24,8 +24,6 @@ func Test_client_StrategiesApiService(t *testing.T) {
 
 	t.Run("Test StrategiesApiService CreateStrategy", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.StrategiesApi.CreateStrategy(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -35,8 +33,6 @@ func Test_client_StrategiesApiService(t *testing.T) {
 	})
 
 	t.Run("Test StrategiesApiService DeprecateStrategy", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var strategyName string
 
@@ -49,8 +45,6 @@ func Test_client_StrategiesApiService(t *testing.T) {
 
 	t.Run("Test StrategiesApiService GetAllStrategies", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.StrategiesApi.GetAllStrategies(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -60,8 +54,6 @@ func Test_client_StrategiesApiService(t *testing.T) {
 	})
 
 	t.Run("Test StrategiesApiService GetStrategiesByContextField", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var contextField string
 
@@ -75,8 +67,6 @@ func Test_client_StrategiesApiService(t *testing.T) {
 
 	t.Run("Test StrategiesApiService GetStrategy", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var name string
 
 		resp, httpRes, err := apiClient.StrategiesApi.GetStrategy(context.Background(), name).Execute()
@@ -89,8 +79,6 @@ func Test_client_StrategiesApiService(t *testing.T) {
 
 	t.Run("Test StrategiesApiService ReactivateStrategy", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var strategyName string
 
 		httpRes, err := apiClient.StrategiesApi.ReactivateStrategy(context.Background(), strategyName).Execute()
@@ -101,8 +89,6 @@ func Test_client_StrategiesApiService(t *testing.T) {
 	})
 
 	t.Run("Test StrategiesApiService RemoveStrategy", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var name string
 
@@ -115,8 +101,6 @@ func Test_client_StrategiesApiService(t *testing.T) {
 
 	t.Run("Test StrategiesApiService UpdateFeatureStrategySegments", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.StrategiesApi.UpdateFeatureStrategySegments(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -126,8 +110,6 @@ func Test_client_StrategiesApiService(t *testing.T) {
 	})
 
 	t.Run("Test StrategiesApiService UpdateStrategy", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var strategyName string
 

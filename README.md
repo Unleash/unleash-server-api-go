@@ -18,12 +18,19 @@ openapi-generator-cli 6.6.0
 
 # Generating the client:
 
+(optional) Update the `openapi.json` spec:
+
+1. docker compose up
+2. curl -s https://localhost:4242/docs/openapi.json | jq > openapi.json
+
+## Generate client from opeanpi.json
+
 ```bash
 ./generate.sh
 ```
 
-After generating the code you can use `main.go` to test it works (remember updating unleash servere host and API token)
+After generating the code you can use `main.go` to test it works (before running the command below start Unleash server with `docker compose up`)
 
 ```bash
-go run main.go -unleash-api http://localhost:4242 -authorization user:a3c8e3e76e7361c0bc79070accf70409d03fbaef4c2b6b90bff466e8
+go run main.go -unleash-api http://localhost:4242 -authorization *:*.unleash-insecure-admin-api-token
 ```

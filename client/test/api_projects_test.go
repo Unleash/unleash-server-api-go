@@ -24,8 +24,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 
 	t.Run("Test ProjectsApiService AddAccessToProject", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var roleId string
 
@@ -37,8 +35,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 	})
 
 	t.Run("Test ProjectsApiService AddDefaultStrategyToProjectEnvironment", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var environment string
@@ -53,8 +49,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 
 	t.Run("Test ProjectsApiService AddEnvironmentToProject", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		httpRes, err := apiClient.ProjectsApi.AddEnvironmentToProject(context.Background(), projectId).Execute()
@@ -65,8 +59,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 	})
 
 	t.Run("Test ProjectsApiService AddRoleToUser", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var userId string
@@ -81,8 +73,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 
 	t.Run("Test ProjectsApiService ChangeRoleForGroup", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var groupId string
 		var roleId string
@@ -95,8 +85,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 	})
 
 	t.Run("Test ProjectsApiService ChangeRoleForUser", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var userId string
@@ -111,8 +99,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 
 	t.Run("Test ProjectsApiService CreateProject", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.ProjectsApi.CreateProject(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -122,8 +108,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 	})
 
 	t.Run("Test ProjectsApiService CreateProjectApiToken", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 
@@ -137,8 +121,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 
 	t.Run("Test ProjectsApiService DeleteProject", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		httpRes, err := apiClient.ProjectsApi.DeleteProject(context.Background(), projectId).Execute()
@@ -149,8 +131,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 	})
 
 	t.Run("Test ProjectsApiService DeleteProjectApiToken", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var token string
@@ -164,8 +144,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 
 	t.Run("Test ProjectsApiService GetProjectAccess", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		resp, httpRes, err := apiClient.ProjectsApi.GetProjectAccess(context.Background(), projectId).Execute()
@@ -177,8 +155,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 	})
 
 	t.Run("Test ProjectsApiService GetProjectApiTokens", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 
@@ -192,8 +168,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 
 	t.Run("Test ProjectsApiService GetProjectHealthReport", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		resp, httpRes, err := apiClient.ProjectsApi.GetProjectHealthReport(context.Background(), projectId).Execute()
@@ -205,8 +179,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 	})
 
 	t.Run("Test ProjectsApiService GetProjectOverview", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 
@@ -220,8 +192,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 
 	t.Run("Test ProjectsApiService GetProjectUsers", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		resp, httpRes, err := apiClient.ProjectsApi.GetProjectUsers(context.Background(), projectId).Execute()
@@ -234,8 +204,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 
 	t.Run("Test ProjectsApiService GetProjects", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.ProjectsApi.GetProjects(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -245,8 +213,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 	})
 
 	t.Run("Test ProjectsApiService RemoveEnvironmentFromProject", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var environment string
@@ -259,8 +225,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 	})
 
 	t.Run("Test ProjectsApiService RemoveRoleForUser", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var userId string
@@ -275,8 +239,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 
 	t.Run("Test ProjectsApiService RemoveRoleFromGroup", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var groupId string
 		var roleId string
@@ -290,8 +252,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 
 	t.Run("Test ProjectsApiService UpdateProject", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		httpRes, err := apiClient.ProjectsApi.UpdateProject(context.Background(), projectId).Execute()
@@ -302,8 +262,6 @@ func Test_client_ProjectsApiService(t *testing.T) {
 	})
 
 	t.Run("Test ProjectsApiService ValidateProject", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		httpRes, err := apiClient.ProjectsApi.ValidateProject(context.Background()).Execute()
 

@@ -24,8 +24,6 @@ func Test_client_AddonsApiService(t *testing.T) {
 
 	t.Run("Test AddonsApiService CreateAddon", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.AddonsApi.CreateAddon(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -35,8 +33,6 @@ func Test_client_AddonsApiService(t *testing.T) {
 	})
 
 	t.Run("Test AddonsApiService DeleteAddon", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var id string
 
@@ -48,8 +44,6 @@ func Test_client_AddonsApiService(t *testing.T) {
 	})
 
 	t.Run("Test AddonsApiService GetAddon", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var id string
 
@@ -63,8 +57,6 @@ func Test_client_AddonsApiService(t *testing.T) {
 
 	t.Run("Test AddonsApiService GetAddons", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.AddonsApi.GetAddons(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -74,8 +66,6 @@ func Test_client_AddonsApiService(t *testing.T) {
 	})
 
 	t.Run("Test AddonsApiService UpdateAddon", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var id string
 

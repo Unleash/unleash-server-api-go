@@ -24,8 +24,6 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 
 	t.Run("Test EnvironmentsApiService CloneEnvironment", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var name string
 
 		httpRes, err := apiClient.EnvironmentsApi.CloneEnvironment(context.Background(), name).Execute()
@@ -37,8 +35,6 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 
 	t.Run("Test EnvironmentsApiService CreateEnvironment", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.EnvironmentsApi.CreateEnvironment(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -49,8 +45,6 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 
 	t.Run("Test EnvironmentsApiService GetAllEnvironments", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.EnvironmentsApi.GetAllEnvironments(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -60,8 +54,6 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 	})
 
 	t.Run("Test EnvironmentsApiService GetEnvironment", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var name string
 
@@ -75,8 +67,6 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 
 	t.Run("Test EnvironmentsApiService GetProjectEnvironments", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		resp, httpRes, err := apiClient.EnvironmentsApi.GetProjectEnvironments(context.Background(), projectId).Execute()
@@ -89,8 +79,6 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 
 	t.Run("Test EnvironmentsApiService RemoveEnvironment", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var name string
 
 		httpRes, err := apiClient.EnvironmentsApi.RemoveEnvironment(context.Background(), name).Execute()
@@ -101,8 +89,6 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 	})
 
 	t.Run("Test EnvironmentsApiService ToggleEnvironmentOff", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var name string
 
@@ -115,8 +101,6 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 
 	t.Run("Test EnvironmentsApiService ToggleEnvironmentOn", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var name string
 
 		httpRes, err := apiClient.EnvironmentsApi.ToggleEnvironmentOn(context.Background(), name).Execute()
@@ -127,8 +111,6 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 	})
 
 	t.Run("Test EnvironmentsApiService UpdateEnvironment", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var name string
 
@@ -142,8 +124,6 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 
 	t.Run("Test EnvironmentsApiService UpdateSortOrder", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		httpRes, err := apiClient.EnvironmentsApi.UpdateSortOrder(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -152,8 +132,6 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 	})
 
 	t.Run("Test EnvironmentsApiService ValidateEnvironmentName", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		httpRes, err := apiClient.EnvironmentsApi.ValidateEnvironmentName(context.Background()).Execute()
 

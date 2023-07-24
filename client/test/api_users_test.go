@@ -24,8 +24,6 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	t.Run("Test UsersApiService ChangeMyPassword", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		httpRes, err := apiClient.UsersApi.ChangeMyPassword(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -34,8 +32,6 @@ func Test_client_UsersApiService(t *testing.T) {
 	})
 
 	t.Run("Test UsersApiService ChangeUserPassword", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var id string
 
@@ -48,8 +44,6 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	t.Run("Test UsersApiService CreateGroup", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.UsersApi.CreateGroup(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -59,8 +53,6 @@ func Test_client_UsersApiService(t *testing.T) {
 	})
 
 	t.Run("Test UsersApiService CreateRole", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.UsersApi.CreateRole(context.Background()).Execute()
 
@@ -72,8 +64,6 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	t.Run("Test UsersApiService CreateUser", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.UsersApi.CreateUser(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -83,8 +73,6 @@ func Test_client_UsersApiService(t *testing.T) {
 	})
 
 	t.Run("Test UsersApiService DeleteGroup", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var groupId string
 
@@ -97,8 +85,6 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	t.Run("Test UsersApiService DeleteRole", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var roleId string
 
 		httpRes, err := apiClient.UsersApi.DeleteRole(context.Background(), roleId).Execute()
@@ -109,8 +95,6 @@ func Test_client_UsersApiService(t *testing.T) {
 	})
 
 	t.Run("Test UsersApiService DeleteUser", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var id string
 
@@ -123,8 +107,6 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	t.Run("Test UsersApiService GetAdminCount", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.UsersApi.GetAdminCount(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -135,8 +117,6 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	t.Run("Test UsersApiService GetBaseUsersAndGroups", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.UsersApi.GetBaseUsersAndGroups(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -146,8 +126,6 @@ func Test_client_UsersApiService(t *testing.T) {
 	})
 
 	t.Run("Test UsersApiService GetGroup", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var groupId string
 
@@ -161,8 +139,6 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	t.Run("Test UsersApiService GetGroups", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.UsersApi.GetGroups(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -172,8 +148,6 @@ func Test_client_UsersApiService(t *testing.T) {
 	})
 
 	t.Run("Test UsersApiService GetMe", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.UsersApi.GetMe(context.Background()).Execute()
 
@@ -185,8 +159,6 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	t.Run("Test UsersApiService GetProfile", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.UsersApi.GetProfile(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -196,8 +168,6 @@ func Test_client_UsersApiService(t *testing.T) {
 	})
 
 	t.Run("Test UsersApiService GetRoleById", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var roleId string
 
@@ -211,8 +181,6 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	t.Run("Test UsersApiService GetRoles", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.UsersApi.GetRoles(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -222,8 +190,6 @@ func Test_client_UsersApiService(t *testing.T) {
 	})
 
 	t.Run("Test UsersApiService GetUser", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var id string
 
@@ -237,8 +203,6 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	t.Run("Test UsersApiService GetUsers", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.UsersApi.GetUsers(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -248,8 +212,6 @@ func Test_client_UsersApiService(t *testing.T) {
 	})
 
 	t.Run("Test UsersApiService ResetUserPassword", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.UsersApi.ResetUserPassword(context.Background()).Execute()
 
@@ -261,8 +223,6 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	t.Run("Test UsersApiService SearchUsers", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.UsersApi.SearchUsers(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -272,8 +232,6 @@ func Test_client_UsersApiService(t *testing.T) {
 	})
 
 	t.Run("Test UsersApiService UpdateGroup", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var groupId string
 
@@ -287,8 +245,6 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	t.Run("Test UsersApiService UpdateRole", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var roleId string
 
 		resp, httpRes, err := apiClient.UsersApi.UpdateRole(context.Background(), roleId).Execute()
@@ -300,8 +256,6 @@ func Test_client_UsersApiService(t *testing.T) {
 	})
 
 	t.Run("Test UsersApiService UpdateUser", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var id string
 
@@ -315,8 +269,6 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	t.Run("Test UsersApiService ValidateRole", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		httpRes, err := apiClient.UsersApi.ValidateRole(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -325,8 +277,6 @@ func Test_client_UsersApiService(t *testing.T) {
 	})
 
 	t.Run("Test UsersApiService ValidateUserPassword", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		httpRes, err := apiClient.UsersApi.ValidateUserPassword(context.Background()).Execute()
 

@@ -4,7 +4,7 @@ rm -rf client
 
 # Download the latest OpenAPI specification
 # This should be another step
-#curl -s https://us.app.unleash-hosted.com/ushosted/docs/openapi.json | jq > openapi.json
+#curl -s https://localhost:4242/docs/openapi.json | jq > openapi.json
 
 openapi-generator-cli generate \
     --git-user-id Unleash \
@@ -21,5 +21,6 @@ openapi-generator-cli generate \
     -o client \
     -g go
 
+find client -name *_test.go -exec sed -i '/remove to run test/d' {} \;
 # Format the generated code
 gofmt -w client

@@ -24,8 +24,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 
 	t.Run("Test UnstableApiService AddChangeRequestComment", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var id string
 
@@ -37,8 +35,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 	})
 
 	t.Run("Test UnstableApiService ChangeRequest", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var environment string
@@ -53,8 +49,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 
 	t.Run("Test UnstableApiService DeleteChange", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var changeRequestId string
 		var changeId string
@@ -68,8 +62,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 
 	t.Run("Test UnstableApiService DeleteChangeRequest", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var id string
 
@@ -81,8 +73,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 	})
 
 	t.Run("Test UnstableApiService EditChange", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var changeRequestId string
@@ -98,8 +88,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 
 	t.Run("Test UnstableApiService GetAdvancedPlayground", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.UnstableApi.GetAdvancedPlayground(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -109,8 +97,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 	})
 
 	t.Run("Test UnstableApiService GetChangeRequest", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var id string
@@ -125,8 +111,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 
 	t.Run("Test UnstableApiService GetChangeRequestsForProject", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		resp, httpRes, err := apiClient.UnstableApi.GetChangeRequestsForProject(context.Background(), projectId).Execute()
@@ -139,8 +123,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 
 	t.Run("Test UnstableApiService GetLoginHistory", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.UnstableApi.GetLoginHistory(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -151,8 +133,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 
 	t.Run("Test UnstableApiService GetNotifications", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.UnstableApi.GetNotifications(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -162,8 +142,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 	})
 
 	t.Run("Test UnstableApiService GetOpenChangeRequestsForUser", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 
@@ -176,8 +154,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 	})
 
 	t.Run("Test UnstableApiService GetPendingChangeRequestsForFeature", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var featureName string
@@ -192,8 +168,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 
 	t.Run("Test UnstableApiService GetPendingChangeRequestsForUser", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 
 		resp, httpRes, err := apiClient.UnstableApi.GetPendingChangeRequestsForUser(context.Background(), projectId).Execute()
@@ -205,8 +179,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 	})
 
 	t.Run("Test UnstableApiService GetProjectChangeRequestConfig", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 
@@ -220,8 +192,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 
 	t.Run("Test UnstableApiService MarkNotificationsAsRead", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		httpRes, err := apiClient.UnstableApi.MarkNotificationsAsRead(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -230,8 +200,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 	})
 
 	t.Run("Test UnstableApiService UpdateChangeRequestState", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var id string
@@ -246,8 +214,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 
 	t.Run("Test UnstableApiService UpdateChangeRequestTitle", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		var projectId string
 		var id string
 
@@ -259,8 +225,6 @@ func Test_client_UnstableApiService(t *testing.T) {
 	})
 
 	t.Run("Test UnstableApiService UpdateProjectChangeRequestConfig", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var projectId string
 		var environment string

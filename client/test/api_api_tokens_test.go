@@ -24,8 +24,6 @@ func Test_client_APITokensApiService(t *testing.T) {
 
 	t.Run("Test APITokensApiService CreateApiToken", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.APITokensApi.CreateApiToken(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -35,8 +33,6 @@ func Test_client_APITokensApiService(t *testing.T) {
 	})
 
 	t.Run("Test APITokensApiService DeleteApiToken", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var token string
 
@@ -49,8 +45,6 @@ func Test_client_APITokensApiService(t *testing.T) {
 
 	t.Run("Test APITokensApiService GetAllApiTokens", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.APITokensApi.GetAllApiTokens(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -60,8 +54,6 @@ func Test_client_APITokensApiService(t *testing.T) {
 	})
 
 	t.Run("Test APITokensApiService UpdateApiToken", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var token string
 

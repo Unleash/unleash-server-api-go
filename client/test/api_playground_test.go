@@ -24,8 +24,6 @@ func Test_client_PlaygroundApiService(t *testing.T) {
 
 	t.Run("Test PlaygroundApiService GetPlayground", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.PlaygroundApi.GetPlayground(context.Background()).Execute()
 
 		require.Nil(t, err)

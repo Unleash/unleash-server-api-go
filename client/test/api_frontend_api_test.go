@@ -24,8 +24,6 @@ func Test_client_FrontendAPIApiService(t *testing.T) {
 
 	t.Run("Test FrontendAPIApiService GetFrontendFeatures", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.FrontendAPIApi.GetFrontendFeatures(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -36,8 +34,6 @@ func Test_client_FrontendAPIApiService(t *testing.T) {
 
 	t.Run("Test FrontendAPIApiService RegisterFrontendClient", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		httpRes, err := apiClient.FrontendAPIApi.RegisterFrontendClient(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -46,8 +42,6 @@ func Test_client_FrontendAPIApiService(t *testing.T) {
 	})
 
 	t.Run("Test FrontendAPIApiService RegisterFrontendMetrics", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		httpRes, err := apiClient.FrontendAPIApi.RegisterFrontendMetrics(context.Background()).Execute()
 

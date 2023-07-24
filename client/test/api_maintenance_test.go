@@ -24,8 +24,6 @@ func Test_client_MaintenanceApiService(t *testing.T) {
 
 	t.Run("Test MaintenanceApiService GetMaintenance", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.MaintenanceApi.GetMaintenance(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -35,8 +33,6 @@ func Test_client_MaintenanceApiService(t *testing.T) {
 	})
 
 	t.Run("Test MaintenanceApiService ToggleMaintenance", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		httpRes, err := apiClient.MaintenanceApi.ToggleMaintenance(context.Background()).Execute()
 

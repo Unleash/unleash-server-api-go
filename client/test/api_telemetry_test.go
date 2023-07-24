@@ -24,8 +24,6 @@ func Test_client_TelemetryApiService(t *testing.T) {
 
 	t.Run("Test TelemetryApiService GetTelemetrySettings", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.TelemetryApi.GetTelemetrySettings(context.Background()).Execute()
 
 		require.Nil(t, err)

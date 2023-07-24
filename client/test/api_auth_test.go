@@ -24,8 +24,6 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	t.Run("Test AuthApiService ChangePassword", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		httpRes, err := apiClient.AuthApi.ChangePassword(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -34,8 +32,6 @@ func Test_client_AuthApiService(t *testing.T) {
 	})
 
 	t.Run("Test AuthApiService GetGoogleSettings", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AuthApi.GetGoogleSettings(context.Background()).Execute()
 
@@ -47,8 +43,6 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	t.Run("Test AuthApiService GetOidcSettings", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.AuthApi.GetOidcSettings(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -58,8 +52,6 @@ func Test_client_AuthApiService(t *testing.T) {
 	})
 
 	t.Run("Test AuthApiService GetPermissions", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AuthApi.GetPermissions(context.Background()).Execute()
 
@@ -71,8 +63,6 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	t.Run("Test AuthApiService GetSamlSettings", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.AuthApi.GetSamlSettings(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -82,8 +72,6 @@ func Test_client_AuthApiService(t *testing.T) {
 	})
 
 	t.Run("Test AuthApiService GetSimpleSettings", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AuthApi.GetSimpleSettings(context.Background()).Execute()
 
@@ -95,8 +83,6 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	t.Run("Test AuthApiService Login", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.AuthApi.Login(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -107,8 +93,6 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	t.Run("Test AuthApiService SendResetPasswordEmail", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		httpRes, err := apiClient.AuthApi.SendResetPasswordEmail(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -117,8 +101,6 @@ func Test_client_AuthApiService(t *testing.T) {
 	})
 
 	t.Run("Test AuthApiService SetGoogleSettings", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AuthApi.SetGoogleSettings(context.Background()).Execute()
 
@@ -130,8 +112,6 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	t.Run("Test AuthApiService SetOidcSettings", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.AuthApi.SetOidcSettings(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -141,8 +121,6 @@ func Test_client_AuthApiService(t *testing.T) {
 	})
 
 	t.Run("Test AuthApiService SetSamlSettings", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AuthApi.SetSamlSettings(context.Background()).Execute()
 
@@ -154,8 +132,6 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	t.Run("Test AuthApiService SetSimpleSettings", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.AuthApi.SetSimpleSettings(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -166,8 +142,6 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	t.Run("Test AuthApiService ValidatePassword", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		httpRes, err := apiClient.AuthApi.ValidatePassword(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -176,8 +150,6 @@ func Test_client_AuthApiService(t *testing.T) {
 	})
 
 	t.Run("Test AuthApiService ValidateToken", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AuthApi.ValidateToken(context.Background()).Execute()
 

@@ -24,8 +24,6 @@ func Test_client_AdminUIApiService(t *testing.T) {
 
 	t.Run("Test AdminUIApiService CreateFeedback", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.AdminUIApi.CreateFeedback(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -35,8 +33,6 @@ func Test_client_AdminUIApiService(t *testing.T) {
 	})
 
 	t.Run("Test AdminUIApiService GetUiConfig", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AdminUIApi.GetUiConfig(context.Background()).Execute()
 
@@ -48,8 +44,6 @@ func Test_client_AdminUIApiService(t *testing.T) {
 
 	t.Run("Test AdminUIApiService SetUiConfig", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		httpRes, err := apiClient.AdminUIApi.SetUiConfig(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -58,8 +52,6 @@ func Test_client_AdminUIApiService(t *testing.T) {
 	})
 
 	t.Run("Test AdminUIApiService UpdateFeedback", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var id string
 
@@ -72,8 +64,6 @@ func Test_client_AdminUIApiService(t *testing.T) {
 	})
 
 	t.Run("Test AdminUIApiService UpdateSplashSettings", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		var id string
 

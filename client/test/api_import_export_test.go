@@ -24,8 +24,6 @@ func Test_client_ImportExportApiService(t *testing.T) {
 
 	t.Run("Test ImportExportApiService CallImport", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		httpRes, err := apiClient.ImportExportApi.CallImport(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -34,8 +32,6 @@ func Test_client_ImportExportApiService(t *testing.T) {
 	})
 
 	t.Run("Test ImportExportApiService Export", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.ImportExportApi.Export(context.Background()).Execute()
 
@@ -47,8 +43,6 @@ func Test_client_ImportExportApiService(t *testing.T) {
 
 	t.Run("Test ImportExportApiService ExportFeatures", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		resp, httpRes, err := apiClient.ImportExportApi.ExportFeatures(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -59,8 +53,6 @@ func Test_client_ImportExportApiService(t *testing.T) {
 
 	t.Run("Test ImportExportApiService ImportToggles", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
 		httpRes, err := apiClient.ImportExportApi.ImportToggles(context.Background()).Execute()
 
 		require.Nil(t, err)
@@ -69,8 +61,6 @@ func Test_client_ImportExportApiService(t *testing.T) {
 	})
 
 	t.Run("Test ImportExportApiService ValidateImport", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.ImportExportApi.ValidateImport(context.Background()).Execute()
 
