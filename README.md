@@ -2,6 +2,10 @@
 
 [Client docs](./client/README.md)
 
+# Requirements
+
+- Go > 1.20
+
 # OpenAPI generator used
 
 Instalation instructions: https://openapi-generator.tech/docs/installation#bash-launcher-script
