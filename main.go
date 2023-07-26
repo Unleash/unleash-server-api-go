@@ -49,6 +49,7 @@ func main() {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `UsersApi.CreateUser``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+		os.Exit(1)
 	}
 	// response from `CreateUser`: CreateUserResponseSchema
 	fmt.Fprintf(os.Stdout, "Response from `UsersApi.CreateUser`: %v\n", resp)
