@@ -4,52 +4,54 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AddFavoriteFeature**](FeaturesApi.md#AddFavoriteFeature) | **Post** /api/admin/projects/{projectId}/features/{featureName}/favorites | 
-[**AddFavoriteProject**](FeaturesApi.md#AddFavoriteProject) | **Post** /api/admin/projects/{projectId}/favorites | 
-[**AddFeatureStrategy**](FeaturesApi.md#AddFeatureStrategy) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies | 
+[**AddFavoriteFeature**](FeaturesApi.md#AddFavoriteFeature) | **Post** /api/admin/projects/{projectId}/features/{featureName}/favorites | Add feature to favorites
+[**AddFavoriteProject**](FeaturesApi.md#AddFavoriteProject) | **Post** /api/admin/projects/{projectId}/favorites | Add project to favorites
+[**AddFeatureStrategy**](FeaturesApi.md#AddFeatureStrategy) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies | Add a strategy to a feature toggle
 [**AddTag**](FeaturesApi.md#AddTag) | **Post** /api/admin/features/{featureName}/tags | Adds a tag to a feature.
-[**ArchiveFeature**](FeaturesApi.md#ArchiveFeature) | **Delete** /api/admin/projects/{projectId}/features/{featureName} | Archive a feature.
+[**ArchiveFeature**](FeaturesApi.md#ArchiveFeature) | **Delete** /api/admin/projects/{projectId}/features/{featureName} | Archive a feature toggle
 [**ArchiveFeatures**](FeaturesApi.md#ArchiveFeatures) | **Post** /api/admin/projects/{projectId}/archive | Archives a list of features
-[**BulkToggleFeaturesEnvironmentOff**](FeaturesApi.md#BulkToggleFeaturesEnvironmentOff) | **Post** /api/admin/projects/{projectId}/bulk_features/environments/{environment}/off | Bulk disabled a list of features.
-[**BulkToggleFeaturesEnvironmentOn**](FeaturesApi.md#BulkToggleFeaturesEnvironmentOn) | **Post** /api/admin/projects/{projectId}/bulk_features/environments/{environment}/on | Bulk enable a list of features.
-[**CloneFeature**](FeaturesApi.md#CloneFeature) | **Post** /api/admin/projects/{projectId}/features/{featureName}/clone | 
-[**CreateFeature**](FeaturesApi.md#CreateFeature) | **Post** /api/admin/projects/{projectId}/features | 
-[**DeleteFeatureStrategy**](FeaturesApi.md#DeleteFeatureStrategy) | **Delete** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | 
-[**GetAllFeatureTypes**](FeaturesApi.md#GetAllFeatureTypes) | **Get** /api/admin/feature-types | 
-[**GetAllToggles**](FeaturesApi.md#GetAllToggles) | **Get** /api/admin/features | 
+[**BulkToggleFeaturesEnvironmentOff**](FeaturesApi.md#BulkToggleFeaturesEnvironmentOff) | **Post** /api/admin/projects/{projectId}/bulk_features/environments/{environment}/off | Bulk disable a list of features
+[**BulkToggleFeaturesEnvironmentOn**](FeaturesApi.md#BulkToggleFeaturesEnvironmentOn) | **Post** /api/admin/projects/{projectId}/bulk_features/environments/{environment}/on | Bulk enable a list of features
+[**CloneFeature**](FeaturesApi.md#CloneFeature) | **Post** /api/admin/projects/{projectId}/features/{featureName}/clone | Clone a feature toggle
+[**CreateFeature**](FeaturesApi.md#CreateFeature) | **Post** /api/admin/projects/{projectId}/features | Add a new feature toggle
+[**DeleteFeatureStrategy**](FeaturesApi.md#DeleteFeatureStrategy) | **Delete** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | Delete a strategy from a feature toggle
+[**GetAllFeatureTypes**](FeaturesApi.md#GetAllFeatureTypes) | **Get** /api/admin/feature-types | Get all feature types
+[**GetAllToggles**](FeaturesApi.md#GetAllToggles) | **Get** /api/admin/features | Get all feature toggles (deprecated)
 [**GetEnvironmentFeatureVariants**](FeaturesApi.md#GetEnvironmentFeatureVariants) | **Get** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/variants | Get variants for a feature in an environment
-[**GetFeature**](FeaturesApi.md#GetFeature) | **Get** /api/admin/projects/{projectId}/features/{featureName} | Get a feature.
-[**GetFeatureEnvironment**](FeaturesApi.md#GetFeatureEnvironment) | **Get** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment} | 
-[**GetFeatureStrategies**](FeaturesApi.md#GetFeatureStrategies) | **Get** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies | 
-[**GetFeatureStrategy**](FeaturesApi.md#GetFeatureStrategy) | **Get** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | 
+[**GetFeature**](FeaturesApi.md#GetFeature) | **Get** /api/admin/projects/{projectId}/features/{featureName} | Get a feature
+[**GetFeatureEnvironment**](FeaturesApi.md#GetFeatureEnvironment) | **Get** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment} | Get a feature environment
+[**GetFeatureStrategies**](FeaturesApi.md#GetFeatureStrategies) | **Get** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies | Get feature toggle strategies
+[**GetFeatureStrategy**](FeaturesApi.md#GetFeatureStrategy) | **Get** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | Get a strategy configuration
 [**GetFeatureVariants**](FeaturesApi.md#GetFeatureVariants) | **Get** /api/admin/projects/{projectId}/features/{featureName}/variants | Retrieve variants for a feature (deprecated) 
-[**GetFeatures**](FeaturesApi.md#GetFeatures) | **Get** /api/admin/projects/{projectId}/features | 
+[**GetFeatures**](FeaturesApi.md#GetFeatures) | **Get** /api/admin/projects/{projectId}/features | Get all features in a project
 [**ListTags**](FeaturesApi.md#ListTags) | **Get** /api/admin/features/{featureName}/tags | Get all tags for a feature.
 [**OverwriteEnvironmentFeatureVariants**](FeaturesApi.md#OverwriteEnvironmentFeatureVariants) | **Put** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/variants | Create (overwrite) variants for a feature in an environment
 [**OverwriteFeatureVariants**](FeaturesApi.md#OverwriteFeatureVariants) | **Put** /api/admin/projects/{projectId}/features/{featureName}/variants | Create (overwrite) variants for a feature toggle in all environments
-[**OverwriteFeatureVariantsOnEnvironments**](FeaturesApi.md#OverwriteFeatureVariantsOnEnvironments) | **Put** /api/admin/projects/{projectId}/features/{featureName}/variants-batch | 
+[**OverwriteFeatureVariantsOnEnvironments**](FeaturesApi.md#OverwriteFeatureVariantsOnEnvironments) | **Put** /api/admin/projects/{projectId}/features/{featureName}/variants-batch | Create (overwrite) variants for a feature toggle in multiple environments
 [**PatchEnvironmentsFeatureVariants**](FeaturesApi.md#PatchEnvironmentsFeatureVariants) | **Patch** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/variants | Patch a feature&#39;s variants in an environment
-[**PatchFeature**](FeaturesApi.md#PatchFeature) | **Patch** /api/admin/projects/{projectId}/features/{featureName} | 
-[**PatchFeatureStrategy**](FeaturesApi.md#PatchFeatureStrategy) | **Patch** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | 
+[**PatchFeature**](FeaturesApi.md#PatchFeature) | **Patch** /api/admin/projects/{projectId}/features/{featureName} | Modify a feature toggle
+[**PatchFeatureStrategy**](FeaturesApi.md#PatchFeatureStrategy) | **Patch** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | Change specific properties of a strategy
 [**PatchFeatureVariants**](FeaturesApi.md#PatchFeatureVariants) | **Patch** /api/admin/projects/{projectId}/features/{featureName}/variants | Apply a patch to a feature&#39;s variants (in all environments).
-[**RemoveFavoriteFeature**](FeaturesApi.md#RemoveFavoriteFeature) | **Delete** /api/admin/projects/{projectId}/features/{featureName}/favorites | 
-[**RemoveFavoriteProject**](FeaturesApi.md#RemoveFavoriteProject) | **Delete** /api/admin/projects/{projectId}/favorites | 
+[**RemoveFavoriteFeature**](FeaturesApi.md#RemoveFavoriteFeature) | **Delete** /api/admin/projects/{projectId}/features/{featureName}/favorites | Remove feature from favorites
+[**RemoveFavoriteProject**](FeaturesApi.md#RemoveFavoriteProject) | **Delete** /api/admin/projects/{projectId}/favorites | Remove project from favorites
 [**RemoveTag**](FeaturesApi.md#RemoveTag) | **Delete** /api/admin/features/{featureName}/tags/{type}/{value} | Removes a tag from a feature.
-[**SetStrategySortOrder**](FeaturesApi.md#SetStrategySortOrder) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/set-sort-order | 
-[**StaleFeatures**](FeaturesApi.md#StaleFeatures) | **Post** /api/admin/projects/{projectId}/stale | Stales a list of features
-[**ToggleFeatureEnvironmentOff**](FeaturesApi.md#ToggleFeatureEnvironmentOff) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/off | 
-[**ToggleFeatureEnvironmentOn**](FeaturesApi.md#ToggleFeatureEnvironmentOn) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/on | 
-[**UpdateFeature**](FeaturesApi.md#UpdateFeature) | **Put** /api/admin/projects/{projectId}/features/{featureName} | 
-[**UpdateFeatureStrategy**](FeaturesApi.md#UpdateFeatureStrategy) | **Put** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | 
+[**SetStrategySortOrder**](FeaturesApi.md#SetStrategySortOrder) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/set-sort-order | Set the order of strategies on the list
+[**StaleFeatures**](FeaturesApi.md#StaleFeatures) | **Post** /api/admin/projects/{projectId}/stale | Mark features as stale / not stale
+[**ToggleFeatureEnvironmentOff**](FeaturesApi.md#ToggleFeatureEnvironmentOff) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/off | Disable a feature toggle
+[**ToggleFeatureEnvironmentOn**](FeaturesApi.md#ToggleFeatureEnvironmentOn) | **Post** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/on | Enable a feature toggle
+[**UpdateFeature**](FeaturesApi.md#UpdateFeature) | **Put** /api/admin/projects/{projectId}/features/{featureName} | Update a feature toggle
+[**UpdateFeatureStrategy**](FeaturesApi.md#UpdateFeatureStrategy) | **Put** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | Update a strategy
 [**UpdateTags**](FeaturesApi.md#UpdateTags) | **Put** /api/admin/features/{featureName}/tags | Updates multiple tags for a feature.
-[**ValidateConstraint**](FeaturesApi.md#ValidateConstraint) | **Post** /api/admin/constraints/validate | 
-[**ValidateFeature**](FeaturesApi.md#ValidateFeature) | **Post** /api/admin/features/validate | 
+[**ValidateConstraint**](FeaturesApi.md#ValidateConstraint) | **Post** /api/admin/constraints/validate | Validate constraint
+[**ValidateFeature**](FeaturesApi.md#ValidateFeature) | **Post** /api/admin/features/validate | Validate a feature toggle name.
 
 
 
 ## AddFavoriteFeature
 
 > AddFavoriteFeature(ctx, projectId, featureName).Execute()
+
+Add feature to favorites
 
 
 
@@ -62,7 +64,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -109,7 +111,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -119,6 +121,8 @@ Name | Type | Description  | Notes
 ## AddFavoriteProject
 
 > AddFavoriteProject(ctx, projectId).Execute()
+
+Add project to favorites
 
 
 
@@ -131,7 +135,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -175,7 +179,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -185,6 +189,8 @@ Name | Type | Description  | Notes
 ## AddFeatureStrategy
 
 > FeatureStrategySchema AddFeatureStrategy(ctx, projectId, featureName, environment).CreateFeatureStrategySchema(createFeatureStrategySchema).Execute()
+
+Add a strategy to a feature toggle
 
 
 
@@ -197,7 +203,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -275,7 +281,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -334,7 +340,7 @@ Name | Type | Description  | Notes
 
 > ArchiveFeature(ctx, projectId, featureName).Execute()
 
-Archive a feature.
+Archive a feature toggle
 
 
 
@@ -347,7 +353,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -418,7 +424,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -464,7 +470,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -475,7 +481,7 @@ Name | Type | Description  | Notes
 
 > BulkToggleFeaturesEnvironmentOff(ctx, projectId, environment).BulkToggleFeaturesSchema(bulkToggleFeaturesSchema).Execute()
 
-Bulk disabled a list of features.
+Bulk disable a list of features
 
 
 
@@ -488,7 +494,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -537,7 +543,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -548,7 +554,7 @@ Name | Type | Description  | Notes
 
 > BulkToggleFeaturesEnvironmentOn(ctx, projectId, environment).BulkToggleFeaturesSchema(bulkToggleFeaturesSchema).Execute()
 
-Bulk enable a list of features.
+Bulk enable a list of features
 
 
 
@@ -561,7 +567,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -610,7 +616,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -620,6 +626,8 @@ Name | Type | Description  | Notes
 ## CloneFeature
 
 > FeatureSchema CloneFeature(ctx, projectId, featureName).CloneFeatureSchema(cloneFeatureSchema).Execute()
+
+Clone a feature toggle
 
 
 
@@ -632,13 +640,13 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
     projectId := "projectId_example" // string | 
     featureName := "featureName_example" // string | 
-    cloneFeatureSchema := *openapiclient.NewCloneFeatureSchema("Name_example") // CloneFeatureSchema | cloneFeatureSchema
+    cloneFeatureSchema := *openapiclient.NewCloneFeatureSchema("new-feature") // CloneFeatureSchema | cloneFeatureSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -694,6 +702,8 @@ Name | Type | Description  | Notes
 
 > FeatureSchema CreateFeature(ctx, projectId).CreateFeatureSchema(createFeatureSchema).Execute()
 
+Add a new feature toggle
+
 
 
 ### Example
@@ -705,12 +715,12 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
     projectId := "projectId_example" // string | 
-    createFeatureSchema := *openapiclient.NewCreateFeatureSchema("Name_example") // CreateFeatureSchema | createFeatureSchema
+    createFeatureSchema := *openapiclient.NewCreateFeatureSchema("disable-comments") // CreateFeatureSchema | createFeatureSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -764,6 +774,8 @@ Name | Type | Description  | Notes
 
 > DeleteFeatureStrategy(ctx, projectId, featureName, environment, strategyId).Execute()
 
+Delete a strategy from a feature toggle
+
 
 
 ### Example
@@ -775,7 +787,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -828,7 +840,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -838,6 +850,8 @@ Name | Type | Description  | Notes
 ## GetAllFeatureTypes
 
 > FeatureTypesSchema GetAllFeatureTypes(ctx).Execute()
+
+Get all feature types
 
 
 
@@ -850,7 +864,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -898,6 +912,8 @@ Other parameters are passed through a pointer to a apiGetAllFeatureTypesRequest 
 
 > FeaturesSchema GetAllToggles(ctx).Execute()
 
+Get all feature toggles (deprecated)
+
 
 
 ### Example
@@ -909,7 +925,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -970,7 +986,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -1033,7 +1049,7 @@ Name | Type | Description  | Notes
 
 > FeatureSchema GetFeature(ctx, projectId, featureName).Execute()
 
-Get a feature.
+Get a feature
 
 
 
@@ -1046,7 +1062,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -1106,6 +1122,8 @@ Name | Type | Description  | Notes
 
 > FeatureEnvironmentSchema GetFeatureEnvironment(ctx, projectId, featureName, environment).Execute()
 
+Get a feature environment
+
 
 
 ### Example
@@ -1117,7 +1135,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -1180,6 +1198,8 @@ Name | Type | Description  | Notes
 
 > FeatureStrategySchema GetFeatureStrategies(ctx, projectId, featureName, environment).Execute()
 
+Get feature toggle strategies
+
 
 
 ### Example
@@ -1191,7 +1211,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -1254,6 +1274,8 @@ Name | Type | Description  | Notes
 
 > FeatureStrategySchema GetFeatureStrategy(ctx, projectId, featureName, environment, strategyId).Execute()
 
+Get a strategy configuration
+
 
 
 ### Example
@@ -1265,7 +1287,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -1344,7 +1366,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -1404,6 +1426,8 @@ Name | Type | Description  | Notes
 
 > FeaturesSchema GetFeatures(ctx, projectId).Execute()
 
+Get all features in a project
+
 
 
 ### Example
@@ -1415,7 +1439,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -1485,7 +1509,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -1555,7 +1579,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -1633,7 +1657,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -1695,6 +1719,8 @@ Name | Type | Description  | Notes
 
 > FeatureVariantsSchema OverwriteFeatureVariantsOnEnvironments(ctx, projectId, featureName).PushVariantsSchema(pushVariantsSchema).Execute()
 
+Create (overwrite) variants for a feature toggle in multiple environments
+
 
 
 ### Example
@@ -1706,7 +1732,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -1781,7 +1807,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -1846,6 +1872,8 @@ Name | Type | Description  | Notes
 
 > FeatureSchema PatchFeature(ctx, projectId, featureName).PatchSchema(patchSchema).Execute()
 
+Modify a feature toggle
+
 
 
 ### Example
@@ -1857,7 +1885,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -1919,6 +1947,8 @@ Name | Type | Description  | Notes
 
 > FeatureStrategySchema PatchFeatureStrategy(ctx, projectId, featureName, environment, strategyId).PatchSchema(patchSchema).Execute()
 
+Change specific properties of a strategy
+
 
 
 ### Example
@@ -1930,7 +1960,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -2011,7 +2041,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -2073,6 +2103,8 @@ Name | Type | Description  | Notes
 
 > RemoveFavoriteFeature(ctx, projectId, featureName).Execute()
 
+Remove feature from favorites
+
 
 
 ### Example
@@ -2084,7 +2116,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -2131,7 +2163,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -2141,6 +2173,8 @@ Name | Type | Description  | Notes
 ## RemoveFavoriteProject
 
 > RemoveFavoriteProject(ctx, projectId).Execute()
+
+Remove project from favorites
 
 
 
@@ -2153,7 +2187,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -2197,7 +2231,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -2221,7 +2255,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -2282,7 +2316,7 @@ Name | Type | Description  | Notes
 
 > SetStrategySortOrder(ctx, projectId, featureName, environment).SetStrategySortOrderSchemaInner(setStrategySortOrderSchemaInner).Execute()
 
-
+Set the order of strategies on the list
 
 ### Example
 
@@ -2293,14 +2327,14 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
     projectId := "projectId_example" // string | 
     featureName := "featureName_example" // string | 
     environment := "environment_example" // string | 
-    setStrategySortOrderSchemaInner := []openapiclient.SetStrategySortOrderSchemaInner{*openapiclient.NewSetStrategySortOrderSchemaInner("Id_example", float32(123))} // []SetStrategySortOrderSchemaInner | setStrategySortOrderSchema
+    setStrategySortOrderSchemaInner := []openapiclient.SetStrategySortOrderSchemaInner{*openapiclient.NewSetStrategySortOrderSchemaInner("9c40958a-daac-400e-98fb-3bb438567008", float32(1))} // []SetStrategySortOrderSchemaInner | setStrategySortOrderSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -2345,7 +2379,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -2356,7 +2390,7 @@ Name | Type | Description  | Notes
 
 > StaleFeatures(ctx, projectId).BatchStaleSchema(batchStaleSchema).Execute()
 
-Stales a list of features
+Mark features as stale / not stale
 
 
 
@@ -2369,12 +2403,12 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
     projectId := "projectId_example" // string | 
-    batchStaleSchema := *openapiclient.NewBatchStaleSchema([]string{"Features_example"}, false) // BatchStaleSchema | batchStaleSchema
+    batchStaleSchema := *openapiclient.NewBatchStaleSchema([]string{"my-feature-5"}, true) // BatchStaleSchema | batchStaleSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -2415,7 +2449,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -2425,6 +2459,8 @@ Name | Type | Description  | Notes
 ## ToggleFeatureEnvironmentOff
 
 > FeatureSchema ToggleFeatureEnvironmentOff(ctx, projectId, featureName, environment).Execute()
+
+Disable a feature toggle
 
 
 
@@ -2437,7 +2473,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -2500,6 +2536,8 @@ Name | Type | Description  | Notes
 
 > FeatureSchema ToggleFeatureEnvironmentOn(ctx, projectId, featureName, environment).Execute()
 
+Enable a feature toggle
+
 
 
 ### Example
@@ -2511,7 +2549,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -2574,6 +2612,8 @@ Name | Type | Description  | Notes
 
 > FeatureSchema UpdateFeature(ctx, projectId, featureName).UpdateFeatureSchema(updateFeatureSchema).Execute()
 
+Update a feature toggle
+
 
 
 ### Example
@@ -2585,13 +2625,13 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
     projectId := "projectId_example" // string | 
     featureName := "featureName_example" // string | 
-    updateFeatureSchema := *openapiclient.NewUpdateFeatureSchema("Name_example") // UpdateFeatureSchema | updateFeatureSchema
+    updateFeatureSchema := *openapiclient.NewUpdateFeatureSchema() // UpdateFeatureSchema | updateFeatureSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -2647,6 +2687,8 @@ Name | Type | Description  | Notes
 
 > FeatureStrategySchema UpdateFeatureStrategy(ctx, projectId, featureName, environment, strategyId).UpdateFeatureStrategySchema(updateFeatureStrategySchema).Execute()
 
+Update a strategy
+
 
 
 ### Example
@@ -2658,7 +2700,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -2739,7 +2781,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -2798,6 +2840,8 @@ Name | Type | Description  | Notes
 
 > ValidateConstraint(ctx).ConstraintSchema(constraintSchema).Execute()
 
+Validate constraint
+
 
 
 ### Example
@@ -2809,7 +2853,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -2849,7 +2893,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -2858,7 +2902,9 @@ Name | Type | Description  | Notes
 
 ## ValidateFeature
 
-> ValidateFeature(ctx).Execute()
+> ValidateFeature(ctx).ValidateFeatureSchema(validateFeatureSchema).Execute()
+
+Validate a feature toggle name.
 
 
 
@@ -2871,14 +2917,15 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
+    validateFeatureSchema := *openapiclient.NewValidateFeatureSchema("my-feature-3") // ValidateFeatureSchema | validateFeatureSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.FeaturesApi.ValidateFeature(context.Background()).Execute()
+    r, err := apiClient.FeaturesApi.ValidateFeature(context.Background()).ValidateFeatureSchema(validateFeatureSchema).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FeaturesApi.ValidateFeature``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -2888,12 +2935,16 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiValidateFeatureRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **validateFeatureSchema** | [**ValidateFeatureSchema**](ValidateFeatureSchema.md) | validateFeatureSchema | 
 
 ### Return type
 
@@ -2905,8 +2956,8 @@ Other parameters are passed through a pointer to a apiValidateFeatureRequest str
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

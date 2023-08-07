@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Password** | **string** |  | 
-**OldPassword** | Pointer to **string** |  | [optional] 
-**ConfirmPassword** | Pointer to **string** |  | [optional] 
+**Password** | **string** | The new password to change or validate. | 
+**OldPassword** | Pointer to **string** | The old password the user is changing. This field is for the non-admin users changing their own password. | [optional] 
+**ConfirmPassword** | Pointer to **string** | The confirmation of the new password. This field is for the non-admin users changing their own password. | [optional] 
 
 ## Methods
 

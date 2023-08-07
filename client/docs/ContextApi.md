@@ -4,18 +4,20 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateContextField**](ContextApi.md#CreateContextField) | **Post** /api/admin/context | 
-[**DeleteContextField**](ContextApi.md#DeleteContextField) | **Delete** /api/admin/context/{contextField} | 
-[**GetContextField**](ContextApi.md#GetContextField) | **Get** /api/admin/context/{contextField} | 
-[**GetContextFields**](ContextApi.md#GetContextFields) | **Get** /api/admin/context | 
-[**UpdateContextField**](ContextApi.md#UpdateContextField) | **Put** /api/admin/context/{contextField} | 
-[**Validate**](ContextApi.md#Validate) | **Post** /api/admin/context/validate | 
+[**CreateContextField**](ContextApi.md#CreateContextField) | **Post** /api/admin/context | Create a context field
+[**DeleteContextField**](ContextApi.md#DeleteContextField) | **Delete** /api/admin/context/{contextField} | Delete an existing context field
+[**GetContextField**](ContextApi.md#GetContextField) | **Get** /api/admin/context/{contextField} | Gets context field
+[**GetContextFields**](ContextApi.md#GetContextFields) | **Get** /api/admin/context | Gets configured context fields
+[**UpdateContextField**](ContextApi.md#UpdateContextField) | **Put** /api/admin/context/{contextField} | Update an existing context field
+[**Validate**](ContextApi.md#Validate) | **Post** /api/admin/context/validate | Validate a context field
 
 
 
 ## CreateContextField
 
 > ContextFieldSchema CreateContextField(ctx).UpsertContextFieldSchema(upsertContextFieldSchema).Execute()
+
+Create a context field
 
 
 
@@ -28,7 +30,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -81,6 +83,8 @@ Name | Type | Description  | Notes
 
 > DeleteContextField(ctx, contextField).Execute()
 
+Delete an existing context field
+
 
 
 ### Example
@@ -92,7 +96,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -147,6 +151,8 @@ Name | Type | Description  | Notes
 
 > ContextFieldSchema GetContextField(ctx, contextField).Execute()
 
+Gets context field
+
 
 
 ### Example
@@ -158,7 +164,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -215,6 +221,8 @@ Name | Type | Description  | Notes
 
 > []ContextFieldSchema GetContextFields(ctx).Execute()
 
+Gets configured context fields
+
 
 
 ### Example
@@ -226,7 +234,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -274,6 +282,8 @@ Other parameters are passed through a pointer to a apiGetContextFieldsRequest st
 
 > UpdateContextField(ctx, contextField).UpsertContextFieldSchema(upsertContextFieldSchema).Execute()
 
+Update an existing context field
+
 
 
 ### Example
@@ -285,7 +295,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -342,6 +352,8 @@ Name | Type | Description  | Notes
 
 > Validate(ctx).NameSchema(nameSchema).Execute()
 
+Validate a context field
+
 
 
 ### Example
@@ -353,11 +365,11 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    nameSchema := *openapiclient.NewNameSchema("Name_example") // NameSchema | nameSchema
+    nameSchema := *openapiclient.NewNameSchema("betaUser") // NameSchema | nameSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

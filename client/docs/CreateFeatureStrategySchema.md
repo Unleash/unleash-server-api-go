@@ -4,12 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** | The name or type of strategy | 
+**Name** | **string** | The name of the strategy type | 
 **Title** | Pointer to **NullableString** | A descriptive title for the strategy | [optional] 
 **Disabled** | Pointer to **NullableBool** | A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs | [optional] 
 **SortOrder** | Pointer to **float32** | The order of the strategy in the list | [optional] 
-**Constraints** | Pointer to [**[]ConstraintSchema**](ConstraintSchema.md) | A list of the constraints attached to the strategy | [optional] 
-**Parameters** | Pointer to **map[string]string** |  | [optional] 
+**Constraints** | Pointer to [**[]ConstraintSchema**](ConstraintSchema.md) | A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/strategy-constraints | [optional] 
+**Variants** | Pointer to [**[]CreateStrategyVariantSchema**](CreateStrategyVariantSchema.md) | Strategy level variants | [optional] 
+**Parameters** | Pointer to **map[string]string** | A list of parameters for a strategy | [optional] 
 **Segments** | Pointer to **[]float32** | Ids of segments to use for this strategy | [optional] 
 
 ## Methods
@@ -170,6 +171,31 @@ SetConstraints sets Constraints field to given value.
 `func (o *CreateFeatureStrategySchema) HasConstraints() bool`
 
 HasConstraints returns a boolean if a field has been set.
+
+### GetVariants
+
+`func (o *CreateFeatureStrategySchema) GetVariants() []CreateStrategyVariantSchema`
+
+GetVariants returns the Variants field if non-nil, zero value otherwise.
+
+### GetVariantsOk
+
+`func (o *CreateFeatureStrategySchema) GetVariantsOk() (*[]CreateStrategyVariantSchema, bool)`
+
+GetVariantsOk returns a tuple with the Variants field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetVariants
+
+`func (o *CreateFeatureStrategySchema) SetVariants(v []CreateStrategyVariantSchema)`
+
+SetVariants sets Variants field to given value.
+
+### HasVariants
+
+`func (o *CreateFeatureStrategySchema) HasVariants() bool`
+
+HasVariants returns a boolean if a field has been set.
 
 ### GetParameters
 

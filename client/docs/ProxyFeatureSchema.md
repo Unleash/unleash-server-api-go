@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  | 
-**Enabled** | **bool** |  | 
-**ImpressionData** | **bool** |  | 
+**Name** | **string** | Unique feature name. | 
+**Enabled** | **bool** | Always set to &#x60;true&#x60;. | 
+**ImpressionData** | **bool** | &#x60;true&#x60; if the impression data collection is enabled for the feature, otherwise &#x60;false&#x60;. | 
 **Variant** | Pointer to [**ProxyFeatureSchemaVariant**](ProxyFeatureSchemaVariant.md) |  | [optional] 
 
 ## Methods

@@ -5,8 +5,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **RootRole** | [**RoleSchema**](RoleSchema.md) |  | 
-**Projects** | **[]string** |  | 
-**Features** | [**[]FeatureSchema**](FeatureSchema.md) |  | 
+**Projects** | **[]string** | Which projects this user is a member of | 
+**Features** | [**[]FeatureSchema**](FeatureSchema.md) | Deprecated, always returns empty array | 
 
 ## Methods
 

@@ -11,7 +11,7 @@ package client
 
 import (
 	"context"
-	openapiclient "github.com/Unleash/unleash-server-api-go/client"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"

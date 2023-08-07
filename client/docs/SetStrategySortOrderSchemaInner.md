@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** |  | 
-**SortOrder** | **float32** |  | 
+**Id** | **string** | The ID of the strategy | 
+**SortOrder** | **float32** | The new sort order of the strategy | 
 
 ## Methods
 

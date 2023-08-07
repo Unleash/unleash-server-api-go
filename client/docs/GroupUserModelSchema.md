@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**JoinedAt** | Pointer to **time.Time** |  | [optional] 
-**CreatedBy** | Pointer to **NullableString** |  | [optional] 
+**JoinedAt** | Pointer to **time.Time** | The date when the user joined the group | [optional] 
+**CreatedBy** | Pointer to **NullableString** | The username of the user who added this user to this group | [optional] 
 **User** | [**UserSchema**](UserSchema.md) |  | 
 
 ## Methods

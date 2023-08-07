@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | Pointer to **string** |  | [optional] 
-**SortOrder** | Pointer to **float32** |  | [optional] 
-**Constraints** | Pointer to [**[]ConstraintSchema**](ConstraintSchema.md) |  | [optional] 
+**Name** | Pointer to **string** | The name of the strategy type | [optional] 
+**SortOrder** | Pointer to **float32** | The order of the strategy in the list in feature environment configuration | [optional] 
+**Constraints** | Pointer to [**[]ConstraintSchema**](ConstraintSchema.md) | A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/strategy-constraints | [optional] 
 **Title** | Pointer to **NullableString** | A descriptive title for the strategy | [optional] 
 **Disabled** | Pointer to **NullableBool** | A toggle to disable the strategy. defaults to true. Disabled strategies are not evaluated or returned to the SDKs | [optional] 
-**Parameters** | Pointer to **map[string]string** |  | [optional] 
+**Parameters** | Pointer to **map[string]string** | A list of parameters for a strategy | [optional] 
 
 ## Methods
 

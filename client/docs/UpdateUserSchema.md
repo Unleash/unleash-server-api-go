@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Email** | Pointer to **string** |  | [optional] 
-**Name** | Pointer to **string** |  | [optional] 
-**RootRole** | Pointer to **float32** |  | [optional] 
+**Email** | Pointer to **string** | The user&#39;s email address. Must be provided if username is not provided. | [optional] 
+**Name** | Pointer to **string** | The user&#39;s name (not the user&#39;s username). | [optional] 
+**RootRole** | Pointer to [**CreateUserSchemaRootRole**](CreateUserSchemaRootRole.md) |  | [optional] 
 
 ## Methods
 
@@ -79,20 +79,20 @@ HasName returns a boolean if a field has been set.
 
 ### GetRootRole
 
-`func (o *UpdateUserSchema) GetRootRole() float32`
+`func (o *UpdateUserSchema) GetRootRole() CreateUserSchemaRootRole`
 
 GetRootRole returns the RootRole field if non-nil, zero value otherwise.
 
 ### GetRootRoleOk
 
-`func (o *UpdateUserSchema) GetRootRoleOk() (*float32, bool)`
+`func (o *UpdateUserSchema) GetRootRoleOk() (*CreateUserSchemaRootRole, bool)`
 
 GetRootRoleOk returns a tuple with the RootRole field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRootRole
 
-`func (o *UpdateUserSchema) SetRootRole(v float32)`
+`func (o *UpdateUserSchema) SetRootRole(v CreateUserSchemaRootRole)`
 
 SetRootRole sets RootRole field to given value.
 

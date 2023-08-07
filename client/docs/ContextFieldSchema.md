@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  | 
-**Description** | Pointer to **NullableString** |  | [optional] 
-**Stickiness** | Pointer to **bool** |  | [optional] 
-**SortOrder** | Pointer to **float32** |  | [optional] 
-**CreatedAt** | Pointer to **NullableTime** |  | [optional] 
-**UsedInFeatures** | Pointer to **NullableFloat32** | Number of projects where this context field is used in | [optional] 
-**UsedInProjects** | Pointer to **NullableFloat32** | Number of projects where this context field is used in | [optional] 
-**LegalValues** | Pointer to [**[]LegalValueSchema**](LegalValueSchema.md) |  | [optional] 
+**Name** | **string** | The name of the context field | 
+**Description** | Pointer to **NullableString** | The description of the context field. | [optional] 
+**Stickiness** | Pointer to **bool** | Does this context field support being used for [stickiness](https://docs.getunleash.io/reference/stickiness) calculations | [optional] 
+**SortOrder** | Pointer to **int32** | Used when sorting a list of context fields. Is also used as a tiebreaker if a list of context fields is sorted alphabetically. | [optional] 
+**CreatedAt** | Pointer to **NullableTime** | When this context field was created | [optional] 
+**UsedInFeatures** | Pointer to **NullableInt32** | Number of projects where this context field is used in | [optional] 
+**UsedInProjects** | Pointer to **NullableInt32** | Number of projects where this context field is used in | [optional] 
+**LegalValues** | Pointer to [**[]LegalValueSchema**](LegalValueSchema.md) | Allowed values for this context field schema. Can be used to narrow down accepted input | [optional] 
 
 ## Methods
 
@@ -114,20 +114,20 @@ HasStickiness returns a boolean if a field has been set.
 
 ### GetSortOrder
 
-`func (o *ContextFieldSchema) GetSortOrder() float32`
+`func (o *ContextFieldSchema) GetSortOrder() int32`
 
 GetSortOrder returns the SortOrder field if non-nil, zero value otherwise.
 
 ### GetSortOrderOk
 
-`func (o *ContextFieldSchema) GetSortOrderOk() (*float32, bool)`
+`func (o *ContextFieldSchema) GetSortOrderOk() (*int32, bool)`
 
 GetSortOrderOk returns a tuple with the SortOrder field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSortOrder
 
-`func (o *ContextFieldSchema) SetSortOrder(v float32)`
+`func (o *ContextFieldSchema) SetSortOrder(v int32)`
 
 SetSortOrder sets SortOrder field to given value.
 
@@ -174,20 +174,20 @@ HasCreatedAt returns a boolean if a field has been set.
 UnsetCreatedAt ensures that no value is present for CreatedAt, not even an explicit nil
 ### GetUsedInFeatures
 
-`func (o *ContextFieldSchema) GetUsedInFeatures() float32`
+`func (o *ContextFieldSchema) GetUsedInFeatures() int32`
 
 GetUsedInFeatures returns the UsedInFeatures field if non-nil, zero value otherwise.
 
 ### GetUsedInFeaturesOk
 
-`func (o *ContextFieldSchema) GetUsedInFeaturesOk() (*float32, bool)`
+`func (o *ContextFieldSchema) GetUsedInFeaturesOk() (*int32, bool)`
 
 GetUsedInFeaturesOk returns a tuple with the UsedInFeatures field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUsedInFeatures
 
-`func (o *ContextFieldSchema) SetUsedInFeatures(v float32)`
+`func (o *ContextFieldSchema) SetUsedInFeatures(v int32)`
 
 SetUsedInFeatures sets UsedInFeatures field to given value.
 
@@ -209,20 +209,20 @@ HasUsedInFeatures returns a boolean if a field has been set.
 UnsetUsedInFeatures ensures that no value is present for UsedInFeatures, not even an explicit nil
 ### GetUsedInProjects
 
-`func (o *ContextFieldSchema) GetUsedInProjects() float32`
+`func (o *ContextFieldSchema) GetUsedInProjects() int32`
 
 GetUsedInProjects returns the UsedInProjects field if non-nil, zero value otherwise.
 
 ### GetUsedInProjectsOk
 
-`func (o *ContextFieldSchema) GetUsedInProjectsOk() (*float32, bool)`
+`func (o *ContextFieldSchema) GetUsedInProjectsOk() (*int32, bool)`
 
 GetUsedInProjectsOk returns a tuple with the UsedInProjects field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUsedInProjects
 
-`func (o *ContextFieldSchema) SetUsedInProjects(v float32)`
+`func (o *ContextFieldSchema) SetUsedInProjects(v int32)`
 
 SetUsedInProjects sets UsedInProjects field to given value.
 

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**FrontendApiOrigins** | **[]string** |  | 
+**FrontendApiOrigins** | **[]string** | The list of origins that the front-end API should accept requests from. | 
 
 ## Methods
 

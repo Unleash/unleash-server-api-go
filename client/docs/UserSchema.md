@@ -4,25 +4,26 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **float32** |  | 
-**IsAPI** | Pointer to **bool** |  | [optional] 
-**Name** | Pointer to **string** |  | [optional] 
-**Email** | Pointer to **string** |  | [optional] 
-**Username** | Pointer to **string** |  | [optional] 
-**ImageUrl** | Pointer to **string** |  | [optional] 
-**InviteLink** | Pointer to **string** |  | [optional] 
-**LoginAttempts** | Pointer to **float32** |  | [optional] 
-**EmailSent** | Pointer to **bool** |  | [optional] 
-**RootRole** | Pointer to **float32** |  | [optional] 
-**SeenAt** | Pointer to **NullableTime** |  | [optional] 
-**CreatedAt** | Pointer to **time.Time** |  | [optional] 
-**AccountType** | Pointer to **string** |  | [optional] 
+**Id** | **int32** | The user id | 
+**IsAPI** | Pointer to **bool** | (Deprecated): Used internally to know which operations the user should be allowed to perform | [optional] 
+**Name** | Pointer to **string** | Name of the user | [optional] 
+**Email** | Pointer to **string** | Email of the user | [optional] 
+**Username** | Pointer to **string** | A unique username for the user | [optional] 
+**ImageUrl** | Pointer to **string** | URL used for the userprofile image | [optional] 
+**InviteLink** | Pointer to **string** | If the user is actively inviting other users, this is the link that can be shared with other users | [optional] 
+**LoginAttempts** | Pointer to **int32** | How many unsuccessful attempts at logging in has the user made | [optional] 
+**EmailSent** | Pointer to **bool** | Is the welcome email sent to the user or not | [optional] 
+**RootRole** | Pointer to **int32** | Which [root role](https://docs.getunleash.io/reference/rbac#standard-roles) this user is assigned | [optional] 
+**SeenAt** | Pointer to **NullableTime** | The last time this user logged in | [optional] 
+**CreatedAt** | Pointer to **time.Time** | The user was created at this time | [optional] 
+**AccountType** | Pointer to **string** | A user is either an actual User or a Service Account | [optional] 
+**Permissions** | Pointer to **[]string** | Deprecated | [optional] 
 
 ## Methods
 
 ### NewUserSchema
 
-`func NewUserSchema(id float32, ) *UserSchema`
+`func NewUserSchema(id int32, ) *UserSchema`
 
 NewUserSchema instantiates a new UserSchema object
 This constructor will assign default values to properties that have it defined,
@@ -39,20 +40,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *UserSchema) GetId() float32`
+`func (o *UserSchema) GetId() int32`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *UserSchema) GetIdOk() (*float32, bool)`
+`func (o *UserSchema) GetIdOk() (*int32, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *UserSchema) SetId(v float32)`
+`func (o *UserSchema) SetId(v int32)`
 
 SetId sets Id field to given value.
 
@@ -209,20 +210,20 @@ HasInviteLink returns a boolean if a field has been set.
 
 ### GetLoginAttempts
 
-`func (o *UserSchema) GetLoginAttempts() float32`
+`func (o *UserSchema) GetLoginAttempts() int32`
 
 GetLoginAttempts returns the LoginAttempts field if non-nil, zero value otherwise.
 
 ### GetLoginAttemptsOk
 
-`func (o *UserSchema) GetLoginAttemptsOk() (*float32, bool)`
+`func (o *UserSchema) GetLoginAttemptsOk() (*int32, bool)`
 
 GetLoginAttemptsOk returns a tuple with the LoginAttempts field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLoginAttempts
 
-`func (o *UserSchema) SetLoginAttempts(v float32)`
+`func (o *UserSchema) SetLoginAttempts(v int32)`
 
 SetLoginAttempts sets LoginAttempts field to given value.
 
@@ -259,20 +260,20 @@ HasEmailSent returns a boolean if a field has been set.
 
 ### GetRootRole
 
-`func (o *UserSchema) GetRootRole() float32`
+`func (o *UserSchema) GetRootRole() int32`
 
 GetRootRole returns the RootRole field if non-nil, zero value otherwise.
 
 ### GetRootRoleOk
 
-`func (o *UserSchema) GetRootRoleOk() (*float32, bool)`
+`func (o *UserSchema) GetRootRoleOk() (*int32, bool)`
 
 GetRootRoleOk returns a tuple with the RootRole field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRootRole
 
-`func (o *UserSchema) SetRootRole(v float32)`
+`func (o *UserSchema) SetRootRole(v int32)`
 
 SetRootRole sets RootRole field to given value.
 
@@ -366,6 +367,31 @@ SetAccountType sets AccountType field to given value.
 `func (o *UserSchema) HasAccountType() bool`
 
 HasAccountType returns a boolean if a field has been set.
+
+### GetPermissions
+
+`func (o *UserSchema) GetPermissions() []string`
+
+GetPermissions returns the Permissions field if non-nil, zero value otherwise.
+
+### GetPermissionsOk
+
+`func (o *UserSchema) GetPermissionsOk() (*[]string, bool)`
+
+GetPermissionsOk returns a tuple with the Permissions field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPermissions
+
+`func (o *UserSchema) SetPermissions(v []string)`
+
+SetPermissions sets Permissions field to given value.
+
+### HasPermissions
+
+`func (o *UserSchema) HasPermissions() bool`
+
+HasPermissions returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

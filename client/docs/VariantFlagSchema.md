@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | Pointer to **string** |  | [optional] 
-**Enabled** | Pointer to **bool** |  | [optional] 
+**Name** | Pointer to **string** | The name of the variant. Will always be disabled if &#x60;enabled&#x60; is false. | [optional] 
+**Enabled** | Pointer to **bool** | Whether the variant is enabled or not. | [optional] 
 **Payload** | Pointer to [**VariantFlagSchemaPayload**](VariantFlagSchemaPayload.md) |  | [optional] 
 
 ## Methods

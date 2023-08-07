@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **float32** |  | 
-**Type** | **string** |  | 
-**Name** | **string** |  | 
-**Description** | Pointer to **string** |  | [optional] 
+**Id** | **int32** | The role id | 
+**Type** | **string** | A role can either be a global root role (applies to all projects) or a project role | 
+**Name** | **string** | The name of the role | 
+**Description** | Pointer to **string** | A more detailed description of the role and what use it&#39;s intended for | [optional] 
 
 ## Methods
 
 ### NewRoleSchema
 
-`func NewRoleSchema(id float32, type_ string, name string, ) *RoleSchema`
+`func NewRoleSchema(id int32, type_ string, name string, ) *RoleSchema`
 
 NewRoleSchema instantiates a new RoleSchema object
 This constructor will assign default values to properties that have it defined,
@@ -30,20 +30,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *RoleSchema) GetId() float32`
+`func (o *RoleSchema) GetId() int32`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *RoleSchema) GetIdOk() (*float32, bool)`
+`func (o *RoleSchema) GetIdOk() (*int32, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *RoleSchema) SetId(v float32)`
+`func (o *RoleSchema) SetId(v int32)`
 
 SetId sets Id field to given value.
 

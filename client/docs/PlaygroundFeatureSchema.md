@@ -9,14 +9,14 @@ Name | Type | Description | Notes
 **Strategies** | [**PlaygroundFeatureSchemaStrategies**](PlaygroundFeatureSchemaStrategies.md) |  | 
 **IsEnabledInCurrentEnvironment** | **bool** | Whether the feature is active and would be evaluated in the provided environment in a normal SDK context. | 
 **IsEnabled** | **bool** | Whether this feature is enabled or not in the current environment.                           If a feature can&#39;t be fully evaluated (that is, &#x60;strategies.result&#x60; is &#x60;unknown&#x60;),                           this will be &#x60;false&#x60; to align with how client SDKs treat unresolved feature states. | 
-**Variant** | [**NullableAdvancedPlaygroundEnvironmentFeatureSchemaVariant**](AdvancedPlaygroundEnvironmentFeatureSchemaVariant.md) |  | 
+**Variant** | [**NullablePlaygroundFeatureSchemaVariant**](PlaygroundFeatureSchemaVariant.md) |  | 
 **Variants** | [**[]VariantSchema**](VariantSchema.md) | The feature variants. | 
 
 ## Methods
 
 ### NewPlaygroundFeatureSchema
 
-`func NewPlaygroundFeatureSchema(name string, projectId string, strategies PlaygroundFeatureSchemaStrategies, isEnabledInCurrentEnvironment bool, isEnabled bool, variant NullableAdvancedPlaygroundEnvironmentFeatureSchemaVariant, variants []VariantSchema, ) *PlaygroundFeatureSchema`
+`func NewPlaygroundFeatureSchema(name string, projectId string, strategies PlaygroundFeatureSchemaStrategies, isEnabledInCurrentEnvironment bool, isEnabled bool, variant NullablePlaygroundFeatureSchemaVariant, variants []VariantSchema, ) *PlaygroundFeatureSchema`
 
 NewPlaygroundFeatureSchema instantiates a new PlaygroundFeatureSchema object
 This constructor will assign default values to properties that have it defined,
@@ -133,20 +133,20 @@ SetIsEnabled sets IsEnabled field to given value.
 
 ### GetVariant
 
-`func (o *PlaygroundFeatureSchema) GetVariant() AdvancedPlaygroundEnvironmentFeatureSchemaVariant`
+`func (o *PlaygroundFeatureSchema) GetVariant() PlaygroundFeatureSchemaVariant`
 
 GetVariant returns the Variant field if non-nil, zero value otherwise.
 
 ### GetVariantOk
 
-`func (o *PlaygroundFeatureSchema) GetVariantOk() (*AdvancedPlaygroundEnvironmentFeatureSchemaVariant, bool)`
+`func (o *PlaygroundFeatureSchema) GetVariantOk() (*PlaygroundFeatureSchemaVariant, bool)`
 
 GetVariantOk returns a tuple with the Variant field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVariant
 
-`func (o *PlaygroundFeatureSchema) SetVariant(v AdvancedPlaygroundEnvironmentFeatureSchemaVariant)`
+`func (o *PlaygroundFeatureSchema) SetVariant(v PlaygroundFeatureSchemaVariant)`
 
 SetVariant sets Variant field to given value.
 

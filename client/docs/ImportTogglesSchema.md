@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Project** | **string** |  | 
-**Environment** | **string** |  | 
+**Project** | **string** | The exported [project](https://docs.getunleash.io/reference/projects) | 
+**Environment** | **string** | The exported [environment](https://docs.getunleash.io/reference/environments) | 
 **Data** | [**ExportResultSchema**](ExportResultSchema.md) |  | 
 
 ## Methods

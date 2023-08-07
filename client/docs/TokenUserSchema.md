@@ -4,18 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **float32** |  | 
-**Name** | **string** |  | 
-**Email** | **string** |  | 
-**Token** | **string** |  | 
-**CreatedBy** | **NullableString** |  | 
+**Id** | **int32** | The user id | 
+**Name** | **string** | The name of the user | 
+**Email** | **string** | The email of the user | 
+**Token** | **string** | A token uniquely identifying a user | 
+**CreatedBy** | **NullableString** | A username or email identifying which user created this token | 
 **Role** | [**RoleSchema**](RoleSchema.md) |  | 
 
 ## Methods
 
 ### NewTokenUserSchema
 
-`func NewTokenUserSchema(id float32, name string, email string, token string, createdBy NullableString, role RoleSchema, ) *TokenUserSchema`
+`func NewTokenUserSchema(id int32, name string, email string, token string, createdBy NullableString, role RoleSchema, ) *TokenUserSchema`
 
 NewTokenUserSchema instantiates a new TokenUserSchema object
 This constructor will assign default values to properties that have it defined,
@@ -32,20 +32,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *TokenUserSchema) GetId() float32`
+`func (o *TokenUserSchema) GetId() int32`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *TokenUserSchema) GetIdOk() (*float32, bool)`
+`func (o *TokenUserSchema) GetIdOk() (*int32, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *TokenUserSchema) SetId(v float32)`
+`func (o *TokenUserSchema) SetId(v int32)`
 
 SetId sets Id field to given value.
 

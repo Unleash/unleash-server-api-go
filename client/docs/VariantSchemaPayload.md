@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Type** | **string** |  | 
-**Value** | **string** |  | 
+**Type** | **string** | The type of the value. Commonly used types are string, json and csv. | 
+**Value** | **string** | The actual value of payload | 
 
 ## Methods
 

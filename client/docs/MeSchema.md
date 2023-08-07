@@ -5,15 +5,15 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **User** | [**UserSchema**](UserSchema.md) |  | 
-**Permissions** | [**[]PermissionSchema**](PermissionSchema.md) |  | 
-**Feedback** | [**[]FeedbackSchema**](FeedbackSchema.md) |  | 
-**Splash** | **map[string]bool** |  | 
+**Permissions** | [**[]PermissionSchema**](PermissionSchema.md) | User permissions for projects and environments | 
+**Feedback** | [**[]FeedbackResponseSchema**](FeedbackResponseSchema.md) | User feedback information | 
+**Splash** | **map[string]bool** | Splash screen configuration | 
 
 ## Methods
 
 ### NewMeSchema
 
-`func NewMeSchema(user UserSchema, permissions []PermissionSchema, feedback []FeedbackSchema, splash map[string]bool, ) *MeSchema`
+`func NewMeSchema(user UserSchema, permissions []PermissionSchema, feedback []FeedbackResponseSchema, splash map[string]bool, ) *MeSchema`
 
 NewMeSchema instantiates a new MeSchema object
 This constructor will assign default values to properties that have it defined,
@@ -70,20 +70,20 @@ SetPermissions sets Permissions field to given value.
 
 ### GetFeedback
 
-`func (o *MeSchema) GetFeedback() []FeedbackSchema`
+`func (o *MeSchema) GetFeedback() []FeedbackResponseSchema`
 
 GetFeedback returns the Feedback field if non-nil, zero value otherwise.
 
 ### GetFeedbackOk
 
-`func (o *MeSchema) GetFeedbackOk() (*[]FeedbackSchema, bool)`
+`func (o *MeSchema) GetFeedbackOk() (*[]FeedbackResponseSchema, bool)`
 
 GetFeedbackOk returns a tuple with the Feedback field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFeedback
 
-`func (o *MeSchema) SetFeedback(v []FeedbackSchema)`
+`func (o *MeSchema) SetFeedback(v []FeedbackResponseSchema)`
 
 SetFeedback sets Feedback field to given value.
 

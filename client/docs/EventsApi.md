@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**GetEvents**](EventsApi.md#GetEvents) | **Get** /api/admin/events | Get the most recent events from the Unleash instance or all events related to a project.
 [**GetEventsForToggle**](EventsApi.md#GetEventsForToggle) | **Get** /api/admin/events/{featureName} | Get all events related to a specific feature toggle.
-[**SearchEvents**](EventsApi.md#SearchEvents) | **Post** /api/admin/events/search | 
+[**SearchEvents**](EventsApi.md#SearchEvents) | **Post** /api/admin/events/search | Search for events
 
 
 
@@ -27,7 +27,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -93,7 +93,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -150,6 +150,8 @@ Name | Type | Description  | Notes
 
 > EventsSchema SearchEvents(ctx).SearchEventsSchema(searchEventsSchema).Execute()
 
+Search for events
+
 
 
 ### Example
@@ -161,7 +163,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {

@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Version** | Pointer to **float32** |  | [optional] 
-**ToggleName** | Pointer to **string** |  | [optional] 
-**Events** | [**[]EventSchema**](EventSchema.md) |  | 
-**TotalEvents** | Pointer to **int32** |  | [optional] 
+**Version** | Pointer to **int32** | An API versioning number | [optional] 
+**ToggleName** | Pointer to **string** | The name of the feature toggle these events relate to | [optional] 
+**Events** | [**[]EventSchema**](EventSchema.md) | The list of events | 
+**TotalEvents** | Pointer to **int32** | How many events are there for this feature toggle | [optional] 
 
 ## Methods
 
@@ -30,20 +30,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetVersion
 
-`func (o *FeatureEventsSchema) GetVersion() float32`
+`func (o *FeatureEventsSchema) GetVersion() int32`
 
 GetVersion returns the Version field if non-nil, zero value otherwise.
 
 ### GetVersionOk
 
-`func (o *FeatureEventsSchema) GetVersionOk() (*float32, bool)`
+`func (o *FeatureEventsSchema) GetVersionOk() (*int32, bool)`
 
 GetVersionOk returns a tuple with the Version field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVersion
 
-`func (o *FeatureEventsSchema) SetVersion(v float32)`
+`func (o *FeatureEventsSchema) SetVersion(v int32)`
 
 SetVersion sets Version field to given value.
 
