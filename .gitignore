@@ -3,6 +3,9 @@
 *.a
 *.so
 
+# Compiled client
+unleash-server-api-go
+
 # Folders
 _obj
 _test
