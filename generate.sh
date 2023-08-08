@@ -20,6 +20,10 @@ openapi-generator-cli generate \
     -o client \
     -g go
 
+rm client/go.mod client/go.sum
+
+go mod tidy
+
 # Remove the generated tests. They require some manual work to get working such as creating test parameters
 #find client -name *_test.go -exec sed -i '/remove to run test/d' {} \;
 
