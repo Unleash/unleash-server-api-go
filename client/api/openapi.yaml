@@ -1,9 +1,9 @@
 openapi: 3.0.3
 info:
   title: Unleash API
-  version: 5.3.1
+  version: 5.3.3
 servers:
-- url: /
+- url: https://app.unleash-hosted.com/hosted
 security:
 - apiKey: []
 tags:
@@ -1035,6 +1035,99 @@ paths:
       summary: Clones an environment
       tags:
       - Environments
+  /api/admin/service-account:
+    get:
+      description: Returns the list of all service accounts.
+      operationId: getServiceAccounts
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/serviceAccountsSchema'
+          description: serviceAccountsSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: List service accounts.
+      tags:
+      - Service Accounts
+    post:
+      description: Creates a new service account.
+      operationId: createServiceAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createServiceAccountSchema'
+        description: createServiceAccountSchema
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/serviceAccountSchema'
+          description: The resource was successfully created.
+          headers:
+            location:
+              description: The location of the newly created resource.
+              explode: false
+              schema:
+                format: uri
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createGroup_409_response'
+          description: "The provided resource can not be created or updated because\
+            \ it would conflict with the current state of the resource or with an\
+            \ already existing resource, respectively."
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/setGoogleSettings_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Create a service account.
+      tags:
+      - Service Accounts
   /api/admin/service-account/{id}:
     delete:
       description: Deletes an existing service account identified by its id.
@@ -23218,6 +23311,111 @@ components:
             $ref: '#/components/schemas/adminSegmentSchema'
           type: array
       type: object
+    changeRequestCreateSchema:
+      properties:
+        feature:
+          example: my-best-feature
+          type: string
+      required:
+      - feature
+      type: object
+    changeRequestApprovalSchema:
+      additionalProperties: false
+      properties:
+        createdBy:
+          $ref: '#/components/schemas/changeRequestApprovalSchema_createdBy'
+        createdAt:
+          example: 2022-12-12T12:13:24.218Z
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - createdBy
+      type: object
+    changeRequestConfigSchema:
+      items:
+        $ref: '#/components/schemas/changeRequestEnvironmentConfigSchema'
+      type: array
+    changeRequestEnvironmentConfigSchema:
+      additionalProperties: false
+      properties:
+        environment:
+          example: development
+          type: string
+        type:
+          example: development
+          type: string
+        changeRequestEnabled:
+          type: boolean
+        requiredApprovals:
+          example: 2
+          nullable: true
+          type: number
+      required:
+      - changeRequestEnabled
+      - environment
+      - requiredApprovals
+      - type
+      type: object
+    changeRequestAddCommentSchema:
+      additionalProperties: false
+      properties:
+        text:
+          example: This is a comment
+          type: string
+      required:
+      - text
+      type: object
+    changeRequestCommentSchema:
+      additionalProperties: false
+      properties:
+        id:
+          example: 33
+          type: number
+        text:
+          example: This is a comment
+          type: string
+        createdBy:
+          $ref: '#/components/schemas/changeRequestCommentSchema_createdBy'
+        createdAt:
+          example: 2022-12-12T12:13:24.218Z
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - createdBy
+      - text
+      type: object
+    updateChangeRequestEnvironmentConfigSchema:
+      additionalProperties: false
+      properties:
+        changeRequestsEnabled:
+          type: boolean
+        requiredApprovals:
+          type: number
+      required:
+      - changeRequestsEnabled
+      type: object
+    changeRequestDefaultEventSchema:
+      additionalProperties: false
+      properties:
+        action:
+          example: addStrategy
+          type: string
+        payload:
+          type: object
+      required:
+      - action
+      - payload
+      type: object
+    changeRequestUpdateTitleSchema:
+      properties:
+        title:
+          example: Increasing gradual rollout
+          type: string
+      required:
+      - title
+      type: object
     updateEnvironmentSchema:
       properties:
         type:
@@ -23336,6 +23534,23 @@ components:
       - defaultStickiness
       - mode
       type: object
+    changeRequestStateSchema:
+      additionalProperties: false
+      properties:
+        state:
+          enum:
+          - Draft
+          - In review
+          - Approved
+          - Applied
+          - Cancelled
+          type: string
+        comment:
+          example: This is a comment for my change request
+          type: string
+      required:
+      - state
+      type: object
     serviceAccountSchema:
       additionalProperties: false
       description: "Represents a [service account](https://docs.getunleash.io/reference/service-accounts).\
@@ -23439,6 +23654,71 @@ components:
       additionalProperties: false
       description: "Represents a list of service accounts, and includes a list of\
         \ root roles they reference"
+      example:
+        rootRoles:
+        - name: Editor
+          description: Users with the editor role have access to most features in
+            Unleash but can not manage users and roles in the global scope. Editors
+            will be added as project owners when creating projects and get superuser
+            rights within the context of these projects. Users with the editor role
+            will also get access to most permissions on the default project by default.
+          id: 9
+          type: root
+        - name: Editor
+          description: Users with the editor role have access to most features in
+            Unleash but can not manage users and roles in the global scope. Editors
+            will be added as project owners when creating projects and get superuser
+            rights within the context of these projects. Users with the editor role
+            will also get access to most permissions on the default project by default.
+          id: 9
+          type: root
+        serviceAccounts:
+        - loginAttempts: 0
+          inviteLink: https://example.com/invite-link
+          isAPI: false
+          createdAt: 2021-01-01T00:00:00Z
+          seenAt: 2000-01-23T04:56:07.000+00:00
+          rootRole: 1
+          emailSent: false
+          imageUrl: https://example.com/my-service-account.png
+          name: My Service Account
+          tokens:
+          - createdAt: 2023-04-19T08:15:14Z
+            seenAt: 2023-04-19T08:15:14Z
+            id: 1
+            secret: user:xyzrandomstring
+            expiresAt: 2023-04-19T08:15:14Z
+          - createdAt: 2023-04-19T08:15:14Z
+            seenAt: 2023-04-19T08:15:14Z
+            id: 1
+            secret: user:xyzrandomstring
+            expiresAt: 2023-04-19T08:15:14Z
+          id: 54321
+          email: noemail@getunleash.io
+          username: my-service-account
+        - loginAttempts: 0
+          inviteLink: https://example.com/invite-link
+          isAPI: false
+          createdAt: 2021-01-01T00:00:00Z
+          seenAt: 2000-01-23T04:56:07.000+00:00
+          rootRole: 1
+          emailSent: false
+          imageUrl: https://example.com/my-service-account.png
+          name: My Service Account
+          tokens:
+          - createdAt: 2023-04-19T08:15:14Z
+            seenAt: 2023-04-19T08:15:14Z
+            id: 1
+            secret: user:xyzrandomstring
+            expiresAt: 2023-04-19T08:15:14Z
+          - createdAt: 2023-04-19T08:15:14Z
+            seenAt: 2023-04-19T08:15:14Z
+            id: 1
+            secret: user:xyzrandomstring
+            expiresAt: 2023-04-19T08:15:14Z
+          id: 54321
+          email: noemail@getunleash.io
+          username: my-service-account
       properties:
         serviceAccounts:
           description: A list of service accounts
@@ -24964,6 +25244,27 @@ components:
       - id
       - projectId
       - strategyName
+      type: object
+    changeRequestApprovalSchema_createdBy:
+      properties:
+        id:
+          example: 33
+          type: number
+        username:
+          example: unleash-user
+          type: string
+        imageUrl:
+          type: string
+      type: object
+    changeRequestCommentSchema_createdBy:
+      properties:
+        username:
+          example: unleash-user
+          nullable: true
+          type: string
+        imageUrl:
+          nullable: true
+          type: string
       type: object
     notificationsSchema_inner_createdBy:
       additionalProperties: false

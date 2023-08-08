@@ -1,6 +1,6 @@
 # \ArchiveApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://app.unleash-hosted.com/hosted*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
