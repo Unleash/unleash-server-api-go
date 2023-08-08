@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **Weight** | **int32** | The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight) for more information | 
 **WeightType** | **string** | Set to &#x60;fix&#x60; if this variant must have exactly the weight allocated to it. If the type is &#x60;variable&#x60;, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight). | 
 **Stickiness** | **string** | The [stickiness](https://docs.getunleash.io/reference/feature-toggle-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time | 
-**Payload** | Pointer to [**VariantSchemaPayload**](VariantSchemaPayload.md) |  | [optional] 
+**Payload** | Pointer to [**StrategyVariantSchemaPayload**](StrategyVariantSchemaPayload.md) |  | [optional] 
 
 ## Methods
 
@@ -111,20 +111,20 @@ SetStickiness sets Stickiness field to given value.
 
 ### GetPayload
 
-`func (o *StrategyVariantSchema) GetPayload() VariantSchemaPayload`
+`func (o *StrategyVariantSchema) GetPayload() StrategyVariantSchemaPayload`
 
 GetPayload returns the Payload field if non-nil, zero value otherwise.
 
 ### GetPayloadOk
 
-`func (o *StrategyVariantSchema) GetPayloadOk() (*VariantSchemaPayload, bool)`
+`func (o *StrategyVariantSchema) GetPayloadOk() (*StrategyVariantSchemaPayload, bool)`
 
 GetPayloadOk returns a tuple with the Payload field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPayload
 
-`func (o *StrategyVariantSchema) SetPayload(v VariantSchemaPayload)`
+`func (o *StrategyVariantSchema) SetPayload(v StrategyVariantSchemaPayload)`
 
 SetPayload sets Payload field to given value.
 

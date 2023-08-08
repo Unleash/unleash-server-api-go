@@ -4,22 +4,22 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Slogan** | Pointer to **string** |  | [optional] 
-**Name** | Pointer to **string** |  | [optional] 
-**Version** | **string** |  | 
-**Environment** | Pointer to **string** |  | [optional] 
-**UnleashUrl** | **string** |  | 
-**BaseUriPath** | **string** |  | 
-**DisablePasswordAuth** | Pointer to **bool** |  | [optional] 
-**EmailEnabled** | Pointer to **bool** |  | [optional] 
-**MaintenanceMode** | Pointer to **bool** |  | [optional] 
-**SegmentValuesLimit** | Pointer to **float32** |  | [optional] 
-**StrategySegmentsLimit** | Pointer to **float32** |  | [optional] 
-**NetworkViewEnabled** | Pointer to **bool** |  | [optional] 
-**FrontendApiOrigins** | Pointer to **[]string** |  | [optional] 
-**Flags** | Pointer to [**map[string]UiConfigSchemaFlagsValue**](UiConfigSchemaFlagsValue.md) |  | [optional] 
-**Links** | Pointer to **[]map[string]interface{}** |  | [optional] 
-**AuthenticationType** | Pointer to **string** |  | [optional] 
+**Slogan** | Pointer to **string** | The slogan to display in the UI footer. | [optional] 
+**Name** | Pointer to **string** | The name of this Unleash instance. Used to build the text in the footer. | [optional] 
+**Version** | **string** | The current version of Unleash | 
+**Environment** | Pointer to **string** | What kind of Unleash instance it is: Enterprise, Pro, or Open source | [optional] 
+**UnleashUrl** | **string** | The URL of the Unleash instance. | 
+**BaseUriPath** | **string** | The base URI path at which this Unleash instance is listening. | 
+**DisablePasswordAuth** | Pointer to **bool** | Whether password authentication should be disabled or not. | [optional] 
+**EmailEnabled** | Pointer to **bool** | Whether this instance can send out emails or not. | [optional] 
+**MaintenanceMode** | Pointer to **bool** | Whether maintenance mode is currently active or not. | [optional] 
+**SegmentValuesLimit** | Pointer to **float32** | The maximum number of values that can be used in a single segment. | [optional] 
+**StrategySegmentsLimit** | Pointer to **float32** | The maximum number of segments that can be applied to a single strategy. | [optional] 
+**NetworkViewEnabled** | Pointer to **bool** | Whether to enable the Unleash network view or not. | [optional] 
+**FrontendApiOrigins** | Pointer to **[]string** | The list of origins that the front-end API should accept requests from. | [optional] 
+**Flags** | Pointer to [**map[string]UiConfigSchemaFlagsValue**](UiConfigSchemaFlagsValue.md) | Additional (largely experimental) features that are enabled in this Unleash instance. | [optional] 
+**Links** | Pointer to **[]map[string]interface{}** | Relevant links to use in the UI. | [optional] 
+**AuthenticationType** | Pointer to **string** | The type of authentication enabled for this Unleash instance | [optional] 
 **VersionInfo** | [**VersionSchema**](VersionSchema.md) |  | 
 
 ## Methods

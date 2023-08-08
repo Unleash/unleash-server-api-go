@@ -4,17 +4,19 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ChangePassword**](AuthApi.md#ChangePassword) | **Post** /auth/reset/password | 
-[**Login**](AuthApi.md#Login) | **Post** /auth/simple/login | 
-[**SendResetPasswordEmail**](AuthApi.md#SendResetPasswordEmail) | **Post** /auth/reset/password-email | 
-[**ValidatePassword**](AuthApi.md#ValidatePassword) | **Post** /auth/reset/validate-password | 
-[**ValidateToken**](AuthApi.md#ValidateToken) | **Get** /auth/reset/validate | 
+[**ChangePassword**](AuthApi.md#ChangePassword) | **Post** /auth/reset/password | Changes a user password
+[**Login**](AuthApi.md#Login) | **Post** /auth/simple/login | Log in
+[**SendResetPasswordEmail**](AuthApi.md#SendResetPasswordEmail) | **Post** /auth/reset/password-email | Reset password
+[**ValidatePassword**](AuthApi.md#ValidatePassword) | **Post** /auth/reset/validate-password | Validates password
+[**ValidateToken**](AuthApi.md#ValidateToken) | **Get** /auth/reset/validate | Validates a token
 
 
 
 ## ChangePassword
 
 > ChangePassword(ctx).ChangePasswordSchema(changePasswordSchema).Execute()
+
+Changes a user password
 
 
 
@@ -27,11 +29,11 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    changePasswordSchema := *openapiclient.NewChangePasswordSchema("Token_example", "Password_example") // ChangePasswordSchema | changePasswordSchema
+    changePasswordSchema := *openapiclient.NewChangePasswordSchema("$2a$15$QzeW/y5/MEppCWVEkoX5euejobYOLSd4We21LQjjKlWH9l2I3wCke", "correct horse battery staple") // ChangePasswordSchema | changePasswordSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -67,7 +69,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -77,6 +79,8 @@ Name | Type | Description  | Notes
 ## Login
 
 > UserSchema Login(ctx).LoginSchema(loginSchema).Execute()
+
+Log in
 
 
 
@@ -89,11 +93,11 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    loginSchema := *openapiclient.NewLoginSchema("Username_example", "Password_example") // LoginSchema | loginSchema
+    loginSchema := *openapiclient.NewLoginSchema("user", "hunter2") // LoginSchema | loginSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -142,6 +146,8 @@ Name | Type | Description  | Notes
 
 > SendResetPasswordEmail(ctx).EmailSchema(emailSchema).Execute()
 
+Reset password
+
 
 
 ### Example
@@ -153,11 +159,11 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    emailSchema := *openapiclient.NewEmailSchema("Email_example") // EmailSchema | emailSchema
+    emailSchema := *openapiclient.NewEmailSchema("test@example.com") // EmailSchema | emailSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -193,7 +199,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -203,6 +209,8 @@ Name | Type | Description  | Notes
 ## ValidatePassword
 
 > ValidatePassword(ctx).ValidatePasswordSchema(validatePasswordSchema).Execute()
+
+Validates password
 
 
 
@@ -215,11 +223,11 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    validatePasswordSchema := *openapiclient.NewValidatePasswordSchema("Password_example") // ValidatePasswordSchema | validatePasswordSchema
+    validatePasswordSchema := *openapiclient.NewValidatePasswordSchema("hunter2") // ValidatePasswordSchema | validatePasswordSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -255,7 +263,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -265,6 +273,8 @@ Name | Type | Description  | Notes
 ## ValidateToken
 
 > TokenUserSchema ValidateToken(ctx).Execute()
+
+Validates a token
 
 
 
@@ -277,7 +287,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {

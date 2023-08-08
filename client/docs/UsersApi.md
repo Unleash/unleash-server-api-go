@@ -4,26 +4,28 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ChangeMyPassword**](UsersApi.md#ChangeMyPassword) | **Post** /api/admin/user/change-password | 
-[**ChangeUserPassword**](UsersApi.md#ChangeUserPassword) | **Post** /api/admin/user-admin/{id}/change-password | 
-[**CreateUser**](UsersApi.md#CreateUser) | **Post** /api/admin/user-admin | 
-[**DeleteUser**](UsersApi.md#DeleteUser) | **Delete** /api/admin/user-admin/{id} | 
-[**GetAdminCount**](UsersApi.md#GetAdminCount) | **Get** /api/admin/user-admin/admin-count | 
-[**GetBaseUsersAndGroups**](UsersApi.md#GetBaseUsersAndGroups) | **Get** /api/admin/user-admin/access | 
-[**GetMe**](UsersApi.md#GetMe) | **Get** /api/admin/user | 
-[**GetProfile**](UsersApi.md#GetProfile) | **Get** /api/admin/user/profile | 
-[**GetUser**](UsersApi.md#GetUser) | **Get** /api/admin/user-admin/{id} | 
-[**GetUsers**](UsersApi.md#GetUsers) | **Get** /api/admin/user-admin | 
-[**ResetUserPassword**](UsersApi.md#ResetUserPassword) | **Post** /api/admin/user-admin/reset-password | 
-[**SearchUsers**](UsersApi.md#SearchUsers) | **Get** /api/admin/user-admin/search | 
-[**UpdateUser**](UsersApi.md#UpdateUser) | **Put** /api/admin/user-admin/{id} | 
-[**ValidateUserPassword**](UsersApi.md#ValidateUserPassword) | **Post** /api/admin/user-admin/validate-password | 
+[**ChangeMyPassword**](UsersApi.md#ChangeMyPassword) | **Post** /api/admin/user/change-password | Change your own password
+[**ChangeUserPassword**](UsersApi.md#ChangeUserPassword) | **Post** /api/admin/user-admin/{id}/change-password | Change password for a user
+[**CreateUser**](UsersApi.md#CreateUser) | **Post** /api/admin/user-admin | Create a new user
+[**DeleteUser**](UsersApi.md#DeleteUser) | **Delete** /api/admin/user-admin/{id} | Delete a user
+[**GetAdminCount**](UsersApi.md#GetAdminCount) | **Get** /api/admin/user-admin/admin-count | Get total count of admin accounts
+[**GetBaseUsersAndGroups**](UsersApi.md#GetBaseUsersAndGroups) | **Get** /api/admin/user-admin/access | Get basic user and group information
+[**GetMe**](UsersApi.md#GetMe) | **Get** /api/admin/user | Get your own user details
+[**GetProfile**](UsersApi.md#GetProfile) | **Get** /api/admin/user/profile | Get your own user profile
+[**GetUser**](UsersApi.md#GetUser) | **Get** /api/admin/user-admin/{id} | Get user
+[**GetUsers**](UsersApi.md#GetUsers) | **Get** /api/admin/user-admin | Get all users and [root roles](https://docs.getunleash.io/reference/rbac#standard-roles)
+[**ResetUserPassword**](UsersApi.md#ResetUserPassword) | **Post** /api/admin/user-admin/reset-password | Reset user password
+[**SearchUsers**](UsersApi.md#SearchUsers) | **Get** /api/admin/user-admin/search | Search users
+[**UpdateUser**](UsersApi.md#UpdateUser) | **Put** /api/admin/user-admin/{id} | Update a user
+[**ValidateUserPassword**](UsersApi.md#ValidateUserPassword) | **Post** /api/admin/user-admin/validate-password | Validate password for a user
 
 
 
 ## ChangeMyPassword
 
 > ChangeMyPassword(ctx).PasswordSchema(passwordSchema).Execute()
+
+Change your own password
 
 
 
@@ -36,11 +38,11 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    passwordSchema := *openapiclient.NewPasswordSchema("Password_example") // PasswordSchema | passwordSchema
+    passwordSchema := *openapiclient.NewPasswordSchema("k!5As3HquUrQ") // PasswordSchema | passwordSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -87,6 +89,8 @@ Name | Type | Description  | Notes
 
 > ChangeUserPassword(ctx, id).PasswordSchema(passwordSchema).Execute()
 
+Change password for a user
+
 
 
 ### Example
@@ -98,12 +102,12 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
     id := "id_example" // string | 
-    passwordSchema := *openapiclient.NewPasswordSchema("Password_example") // PasswordSchema | passwordSchema
+    passwordSchema := *openapiclient.NewPasswordSchema("k!5As3HquUrQ") // PasswordSchema | passwordSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -144,7 +148,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -153,7 +157,9 @@ Name | Type | Description  | Notes
 
 ## CreateUser
 
-> UserSchema CreateUser(ctx).CreateUserSchema(createUserSchema).Execute()
+> CreateUserResponseSchema CreateUser(ctx).CreateUserSchema(createUserSchema).Execute()
+
+Create a new user
 
 
 
@@ -166,11 +172,11 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    createUserSchema := *openapiclient.NewCreateUserSchema(float32(123)) // CreateUserSchema | createUserSchema
+    createUserSchema := *openapiclient.NewCreateUserSchema(openapiclient.createUserSchema_rootRole{Int32: new(int32)}) // CreateUserSchema | createUserSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -179,7 +185,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `UsersApi.CreateUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `CreateUser`: UserSchema
+    // response from `CreateUser`: CreateUserResponseSchema
     fmt.Fprintf(os.Stdout, "Response from `UsersApi.CreateUser`: %v\n", resp)
 }
 ```
@@ -199,7 +205,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UserSchema**](UserSchema.md)
+[**CreateUserResponseSchema**](CreateUserResponseSchema.md)
 
 ### Authorization
 
@@ -219,6 +225,8 @@ Name | Type | Description  | Notes
 
 > DeleteUser(ctx, id).Execute()
 
+Delete a user
+
 
 
 ### Example
@@ -230,7 +238,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -274,7 +282,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -284,6 +292,8 @@ Name | Type | Description  | Notes
 ## GetAdminCount
 
 > AdminCountSchema GetAdminCount(ctx).Execute()
+
+Get total count of admin accounts
 
 
 
@@ -296,7 +306,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -344,6 +354,8 @@ Other parameters are passed through a pointer to a apiGetAdminCountRequest struc
 
 > UsersGroupsBaseSchema GetBaseUsersAndGroups(ctx).Execute()
 
+Get basic user and group information
+
 
 
 ### Example
@@ -355,7 +367,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -403,6 +415,8 @@ Other parameters are passed through a pointer to a apiGetBaseUsersAndGroupsReque
 
 > MeSchema GetMe(ctx).Execute()
 
+Get your own user details
+
 
 
 ### Example
@@ -414,7 +428,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -462,6 +476,8 @@ Other parameters are passed through a pointer to a apiGetMeRequest struct via th
 
 > ProfileSchema GetProfile(ctx).Execute()
 
+Get your own user profile
+
 
 
 ### Example
@@ -473,7 +489,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -521,6 +537,8 @@ Other parameters are passed through a pointer to a apiGetProfileRequest struct v
 
 > UserSchema GetUser(ctx, id).Execute()
 
+Get user
+
 
 
 ### Example
@@ -532,7 +550,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -589,6 +607,8 @@ Name | Type | Description  | Notes
 
 > UsersSchema GetUsers(ctx).Execute()
 
+Get all users and [root roles](https://docs.getunleash.io/reference/rbac#standard-roles)
+
 
 
 ### Example
@@ -600,7 +620,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -648,6 +668,8 @@ Other parameters are passed through a pointer to a apiGetUsersRequest struct via
 
 > ResetPasswordSchema ResetUserPassword(ctx).IdSchema(idSchema).Execute()
 
+Reset user password
+
 
 
 ### Example
@@ -659,11 +681,11 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    idSchema := *openapiclient.NewIdSchema("Id_example") // IdSchema | idSchema
+    idSchema := *openapiclient.NewIdSchema("user@example.com") // IdSchema | idSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -710,7 +732,9 @@ Name | Type | Description  | Notes
 
 ## SearchUsers
 
-> UsersSchema SearchUsers(ctx).Execute()
+> UsersSchema SearchUsers(ctx).Q(q).Execute()
+
+Search users
 
 
 
@@ -723,14 +747,15 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
+    q := "q_example" // string | The pattern to search in the username or email (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UsersApi.SearchUsers(context.Background()).Execute()
+    resp, r, err := apiClient.UsersApi.SearchUsers(context.Background()).Q(q).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UsersApi.SearchUsers``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -742,12 +767,16 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiSearchUsersRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **q** | **string** | The pattern to search in the username or email | 
 
 ### Return type
 
@@ -769,7 +798,9 @@ Other parameters are passed through a pointer to a apiSearchUsersRequest struct 
 
 ## UpdateUser
 
-> UserSchema UpdateUser(ctx, id).RequestBody(requestBody).Execute()
+> CreateUserResponseSchema UpdateUser(ctx, id).RequestBody(requestBody).Execute()
+
+Update a user
 
 
 
@@ -782,7 +813,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -796,7 +827,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `UsersApi.UpdateUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `UpdateUser`: UserSchema
+    // response from `UpdateUser`: CreateUserResponseSchema
     fmt.Fprintf(os.Stdout, "Response from `UsersApi.UpdateUser`: %v\n", resp)
 }
 ```
@@ -821,7 +852,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UserSchema**](UserSchema.md)
+[**CreateUserResponseSchema**](CreateUserResponseSchema.md)
 
 ### Authorization
 
@@ -841,6 +872,8 @@ Name | Type | Description  | Notes
 
 > ValidateUserPassword(ctx).PasswordSchema(passwordSchema).Execute()
 
+Validate password for a user
+
 
 
 ### Example
@@ -852,11 +885,11 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    passwordSchema := *openapiclient.NewPasswordSchema("Password_example") // PasswordSchema | passwordSchema
+    passwordSchema := *openapiclient.NewPasswordSchema("k!5As3HquUrQ") // PasswordSchema | passwordSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -892,7 +925,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

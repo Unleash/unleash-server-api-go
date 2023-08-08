@@ -4,20 +4,22 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateStrategy**](StrategiesApi.md#CreateStrategy) | **Post** /api/admin/strategies | 
-[**DeprecateStrategy**](StrategiesApi.md#DeprecateStrategy) | **Post** /api/admin/strategies/{strategyName}/deprecate | 
-[**GetAllStrategies**](StrategiesApi.md#GetAllStrategies) | **Get** /api/admin/strategies | 
-[**GetStrategiesByContextField**](StrategiesApi.md#GetStrategiesByContextField) | **Get** /api/admin/context/{contextField}/strategies | 
-[**GetStrategy**](StrategiesApi.md#GetStrategy) | **Get** /api/admin/strategies/{name} | 
-[**ReactivateStrategy**](StrategiesApi.md#ReactivateStrategy) | **Post** /api/admin/strategies/{strategyName}/reactivate | 
-[**RemoveStrategy**](StrategiesApi.md#RemoveStrategy) | **Delete** /api/admin/strategies/{name} | 
-[**UpdateStrategy**](StrategiesApi.md#UpdateStrategy) | **Put** /api/admin/strategies/{strategyName} | 
+[**CreateStrategy**](StrategiesApi.md#CreateStrategy) | **Post** /api/admin/strategies | Create a strategy
+[**DeprecateStrategy**](StrategiesApi.md#DeprecateStrategy) | **Post** /api/admin/strategies/{strategyName}/deprecate | Deprecate a strategy
+[**GetAllStrategies**](StrategiesApi.md#GetAllStrategies) | **Get** /api/admin/strategies | Get all strategies
+[**GetStrategiesByContextField**](StrategiesApi.md#GetStrategiesByContextField) | **Get** /api/admin/context/{contextField}/strategies | Get strategies that use a context field
+[**GetStrategy**](StrategiesApi.md#GetStrategy) | **Get** /api/admin/strategies/{name} | Get a strategy definition
+[**ReactivateStrategy**](StrategiesApi.md#ReactivateStrategy) | **Post** /api/admin/strategies/{strategyName}/reactivate | Reactivate a strategy
+[**RemoveStrategy**](StrategiesApi.md#RemoveStrategy) | **Delete** /api/admin/strategies/{name} | Delete a strategy
+[**UpdateStrategy**](StrategiesApi.md#UpdateStrategy) | **Put** /api/admin/strategies/{strategyName} | Update a strategy type
 
 
 
 ## CreateStrategy
 
-> StrategySchema CreateStrategy(ctx).UpsertStrategySchema(upsertStrategySchema).Execute()
+> StrategySchema CreateStrategy(ctx).CreateStrategySchema(createStrategySchema).Execute()
+
+Create a strategy
 
 
 
@@ -30,15 +32,15 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    upsertStrategySchema := *openapiclient.NewUpsertStrategySchema("Name_example") // UpsertStrategySchema | upsertStrategySchema
+    createStrategySchema := *openapiclient.NewCreateStrategySchema("my-custom-strategy", []openapiclient.CreateStrategySchemaParametersInner{*openapiclient.NewCreateStrategySchemaParametersInner("Rollout percentage", "percentage")}) // CreateStrategySchema | createStrategySchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StrategiesApi.CreateStrategy(context.Background()).UpsertStrategySchema(upsertStrategySchema).Execute()
+    resp, r, err := apiClient.StrategiesApi.CreateStrategy(context.Background()).CreateStrategySchema(createStrategySchema).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StrategiesApi.CreateStrategy``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -59,7 +61,7 @@ Other parameters are passed through a pointer to a apiCreateStrategyRequest stru
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **upsertStrategySchema** | [**UpsertStrategySchema**](UpsertStrategySchema.md) | upsertStrategySchema | 
+ **createStrategySchema** | [**CreateStrategySchema**](CreateStrategySchema.md) | createStrategySchema | 
 
 ### Return type
 
@@ -83,6 +85,8 @@ Name | Type | Description  | Notes
 
 > DeprecateStrategy(ctx, strategyName).Execute()
 
+Deprecate a strategy
+
 
 
 ### Example
@@ -94,7 +98,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -138,7 +142,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -148,6 +152,8 @@ Name | Type | Description  | Notes
 ## GetAllStrategies
 
 > StrategiesSchema GetAllStrategies(ctx).Execute()
+
+Get all strategies
 
 
 
@@ -160,7 +166,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -208,6 +214,8 @@ Other parameters are passed through a pointer to a apiGetAllStrategiesRequest st
 
 > ContextFieldStrategiesSchema GetStrategiesByContextField(ctx, contextField).Execute()
 
+Get strategies that use a context field
+
 
 
 ### Example
@@ -219,7 +227,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -276,6 +284,8 @@ Name | Type | Description  | Notes
 
 > StrategySchema GetStrategy(ctx, name).Execute()
 
+Get a strategy definition
+
 
 
 ### Example
@@ -287,7 +297,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -344,6 +354,8 @@ Name | Type | Description  | Notes
 
 > ReactivateStrategy(ctx, strategyName).Execute()
 
+Reactivate a strategy
+
 
 
 ### Example
@@ -355,7 +367,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -399,7 +411,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -409,6 +421,8 @@ Name | Type | Description  | Notes
 ## RemoveStrategy
 
 > RemoveStrategy(ctx, name).Execute()
+
+Delete a strategy
 
 
 
@@ -421,7 +435,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -465,7 +479,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -474,7 +488,9 @@ Name | Type | Description  | Notes
 
 ## UpdateStrategy
 
-> UpdateStrategy(ctx, strategyName).UpsertStrategySchema(upsertStrategySchema).Execute()
+> UpdateStrategy(ctx, strategyName).UpdateStrategySchema(updateStrategySchema).Execute()
+
+Update a strategy type
 
 
 
@@ -487,16 +503,16 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
     strategyName := "strategyName_example" // string | 
-    upsertStrategySchema := *openapiclient.NewUpsertStrategySchema("Name_example") // UpsertStrategySchema | upsertStrategySchema
+    updateStrategySchema := *openapiclient.NewUpdateStrategySchema([]openapiclient.CreateStrategySchemaParametersInner{*openapiclient.NewCreateStrategySchemaParametersInner("Rollout percentage", "percentage")}) // UpdateStrategySchema | updateStrategySchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.StrategiesApi.UpdateStrategy(context.Background(), strategyName).UpsertStrategySchema(upsertStrategySchema).Execute()
+    r, err := apiClient.StrategiesApi.UpdateStrategy(context.Background(), strategyName).UpdateStrategySchema(updateStrategySchema).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StrategiesApi.UpdateStrategy``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -520,7 +536,7 @@ Other parameters are passed through a pointer to a apiUpdateStrategyRequest stru
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **upsertStrategySchema** | [**UpsertStrategySchema**](UpsertStrategySchema.md) | upsertStrategySchema | 
+ **updateStrategySchema** | [**UpdateStrategySchema**](UpdateStrategySchema.md) | updateStrategySchema | 
 
 ### Return type
 
@@ -533,7 +549,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

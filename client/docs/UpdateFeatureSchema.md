@@ -4,20 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  | 
-**Description** | Pointer to **string** |  | [optional] 
-**Type** | Pointer to **string** |  | [optional] 
-**Stale** | Pointer to **bool** |  | [optional] 
-**Archived** | Pointer to **bool** |  | [optional] 
-**CreatedAt** | Pointer to **time.Time** |  | [optional] 
-**ImpressionData** | Pointer to **bool** |  | [optional] 
-**Constraints** | Pointer to [**[]ConstraintSchema**](ConstraintSchema.md) |  | [optional] 
+**Description** | Pointer to **string** | Detailed description of the feature | [optional] 
+**Type** | Pointer to **string** | Type of the toggle e.g. experiment, kill-switch, release, operational, permission | [optional] 
+**Stale** | Pointer to **bool** | &#x60;true&#x60; if the feature is archived | [optional] 
+**Archived** | Pointer to **bool** | If &#x60;true&#x60; the feature toggle will be moved to the [archive](https://docs.getunleash.io/reference/archived-toggles) with a property &#x60;archivedAt&#x60; set to current time | [optional] 
+**ImpressionData** | Pointer to **bool** | &#x60;true&#x60; if the impression data collection is enabled for the feature | [optional] 
 
 ## Methods
 
 ### NewUpdateFeatureSchema
 
-`func NewUpdateFeatureSchema(name string, ) *UpdateFeatureSchema`
+`func NewUpdateFeatureSchema() *UpdateFeatureSchema`
 
 NewUpdateFeatureSchema instantiates a new UpdateFeatureSchema object
 This constructor will assign default values to properties that have it defined,
@@ -31,26 +28,6 @@ will change when the set of required properties is changed
 NewUpdateFeatureSchemaWithDefaults instantiates a new UpdateFeatureSchema object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetName
-
-`func (o *UpdateFeatureSchema) GetName() string`
-
-GetName returns the Name field if non-nil, zero value otherwise.
-
-### GetNameOk
-
-`func (o *UpdateFeatureSchema) GetNameOk() (*string, bool)`
-
-GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetName
-
-`func (o *UpdateFeatureSchema) SetName(v string)`
-
-SetName sets Name field to given value.
-
 
 ### GetDescription
 
@@ -152,31 +129,6 @@ SetArchived sets Archived field to given value.
 
 HasArchived returns a boolean if a field has been set.
 
-### GetCreatedAt
-
-`func (o *UpdateFeatureSchema) GetCreatedAt() time.Time`
-
-GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
-
-### GetCreatedAtOk
-
-`func (o *UpdateFeatureSchema) GetCreatedAtOk() (*time.Time, bool)`
-
-GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCreatedAt
-
-`func (o *UpdateFeatureSchema) SetCreatedAt(v time.Time)`
-
-SetCreatedAt sets CreatedAt field to given value.
-
-### HasCreatedAt
-
-`func (o *UpdateFeatureSchema) HasCreatedAt() bool`
-
-HasCreatedAt returns a boolean if a field has been set.
-
 ### GetImpressionData
 
 `func (o *UpdateFeatureSchema) GetImpressionData() bool`
@@ -201,31 +153,6 @@ SetImpressionData sets ImpressionData field to given value.
 `func (o *UpdateFeatureSchema) HasImpressionData() bool`
 
 HasImpressionData returns a boolean if a field has been set.
-
-### GetConstraints
-
-`func (o *UpdateFeatureSchema) GetConstraints() []ConstraintSchema`
-
-GetConstraints returns the Constraints field if non-nil, zero value otherwise.
-
-### GetConstraintsOk
-
-`func (o *UpdateFeatureSchema) GetConstraintsOk() (*[]ConstraintSchema, bool)`
-
-GetConstraintsOk returns a tuple with the Constraints field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetConstraints
-
-`func (o *UpdateFeatureSchema) SetConstraints(v []ConstraintSchema)`
-
-SetConstraints sets Constraints field to given value.
-
-### HasConstraints
-
-`func (o *UpdateFeatureSchema) HasConstraints() bool`
-
-HasConstraints returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

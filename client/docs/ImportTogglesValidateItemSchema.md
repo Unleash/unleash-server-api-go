@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Message** | **string** |  | 
-**AffectedItems** | **[]string** |  | 
+**Message** | **string** | The validation error message | 
+**AffectedItems** | **[]string** | The items affected by this error message  | 
 
 ## Methods
 

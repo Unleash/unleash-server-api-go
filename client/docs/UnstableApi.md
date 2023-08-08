@@ -4,75 +4,9 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ExportFeatures**](UnstableApi.md#ExportFeatures) | **Post** /api/admin/features-batch/export | 
 [**GetAdvancedPlayground**](UnstableApi.md#GetAdvancedPlayground) | **Post** /api/admin/playground/advanced | Batch evaluate an Unleash context against a set of environments and projects.
-[**ImportToggles**](UnstableApi.md#ImportToggles) | **Post** /api/admin/features-batch/import | Import feature toggles for an environment in the project
-[**ValidateImport**](UnstableApi.md#ValidateImport) | **Post** /api/admin/features-batch/validate | Validate import of feature toggles for an environment in the project
+[**UpdateFeatureTypeLifetime**](UnstableApi.md#UpdateFeatureTypeLifetime) | **Put** /api/admin/feature-types/{id}/lifetime | Update feature type lifetime
 
-
-
-## ExportFeatures
-
-> ExportResultSchema ExportFeatures(ctx).RequestBody(requestBody).Execute()
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
-)
-
-func main() {
-    requestBody := map[string]interface{}{"key": interface{}(123)} // map[string]interface{} | exportQuerySchema
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UnstableApi.ExportFeatures(context.Background()).RequestBody(requestBody).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UnstableApi.ExportFeatures``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `ExportFeatures`: ExportResultSchema
-    fmt.Fprintf(os.Stdout, "Response from `UnstableApi.ExportFeatures`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiExportFeaturesRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **requestBody** | **map[string]interface{}** | exportQuerySchema | 
-
-### Return type
-
-[**ExportResultSchema**](ExportResultSchema.md)
-
-### Authorization
-
-[apiKey](../README.md#apiKey)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
 
 
 ## GetAdvancedPlayground
@@ -92,7 +26,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -141,75 +75,11 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## ImportToggles
+## UpdateFeatureTypeLifetime
 
-> ImportToggles(ctx).ImportTogglesSchema(importTogglesSchema).Execute()
+> FeatureTypeSchema UpdateFeatureTypeLifetime(ctx, id).UpdateFeatureTypeLifetimeSchema(updateFeatureTypeLifetimeSchema).Execute()
 
-Import feature toggles for an environment in the project
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
-)
-
-func main() {
-    importTogglesSchema := *openapiclient.NewImportTogglesSchema("Project_example", "Environment_example", *openapiclient.NewExportResultSchema([]openapiclient.FeatureSchema{*openapiclient.NewFeatureSchema("disable-comments")}, []openapiclient.FeatureStrategySchema{*openapiclient.NewFeatureStrategySchema("flexibleRollout")}, []openapiclient.TagTypeSchema{*openapiclient.NewTagTypeSchema("Name_example")})) // ImportTogglesSchema | importTogglesSchema
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.UnstableApi.ImportToggles(context.Background()).ImportTogglesSchema(importTogglesSchema).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UnstableApi.ImportToggles``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-}
-```
-
-### Path Parameters
-
-
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiImportTogglesRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **importTogglesSchema** | [**ImportTogglesSchema**](ImportTogglesSchema.md) | importTogglesSchema | 
-
-### Return type
-
- (empty response body)
-
-### Authorization
-
-[apiKey](../README.md#apiKey)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: Not defined
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## ValidateImport
-
-> ImportTogglesValidateSchema ValidateImport(ctx).ImportTogglesSchema(importTogglesSchema).Execute()
-
-Validate import of feature toggles for an environment in the project
+Update feature type lifetime
 
 
 
@@ -222,40 +92,46 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    importTogglesSchema := *openapiclient.NewImportTogglesSchema("Project_example", "Environment_example", *openapiclient.NewExportResultSchema([]openapiclient.FeatureSchema{*openapiclient.NewFeatureSchema("disable-comments")}, []openapiclient.FeatureStrategySchema{*openapiclient.NewFeatureStrategySchema("flexibleRollout")}, []openapiclient.TagTypeSchema{*openapiclient.NewTagTypeSchema("Name_example")})) // ImportTogglesSchema | importTogglesSchema
+    id := "id_example" // string | 
+    updateFeatureTypeLifetimeSchema := *openapiclient.NewUpdateFeatureTypeLifetimeSchema(NullableInt32(7)) // UpdateFeatureTypeLifetimeSchema | updateFeatureTypeLifetimeSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UnstableApi.ValidateImport(context.Background()).ImportTogglesSchema(importTogglesSchema).Execute()
+    resp, r, err := apiClient.UnstableApi.UpdateFeatureTypeLifetime(context.Background(), id).UpdateFeatureTypeLifetimeSchema(updateFeatureTypeLifetimeSchema).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UnstableApi.ValidateImport``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UnstableApi.UpdateFeatureTypeLifetime``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ValidateImport`: ImportTogglesValidateSchema
-    fmt.Fprintf(os.Stdout, "Response from `UnstableApi.ValidateImport`: %v\n", resp)
+    // response from `UpdateFeatureTypeLifetime`: FeatureTypeSchema
+    fmt.Fprintf(os.Stdout, "Response from `UnstableApi.UpdateFeatureTypeLifetime`: %v\n", resp)
 }
 ```
 
 ### Path Parameters
 
 
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | **string** |  | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiValidateImportRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiUpdateFeatureTypeLifetimeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **importTogglesSchema** | [**ImportTogglesSchema**](ImportTogglesSchema.md) | importTogglesSchema | 
+
+ **updateFeatureTypeLifetimeSchema** | [**UpdateFeatureTypeLifetimeSchema**](UpdateFeatureTypeLifetimeSchema.md) | updateFeatureTypeLifetimeSchema | 
 
 ### Return type
 
-[**ImportTogglesValidateSchema**](ImportTogglesValidateSchema.md)
+[**FeatureTypeSchema**](FeatureTypeSchema.md)
 
 ### Authorization
 

@@ -1,6 +1,6 @@
 # \TelemetryApi
 
-All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -25,7 +25,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {

@@ -4,18 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Username** | Pointer to **string** |  | [optional] 
-**Email** | Pointer to **string** |  | [optional] 
-**Name** | Pointer to **string** |  | [optional] 
-**Password** | Pointer to **string** |  | [optional] 
-**RootRole** | **float32** |  | 
-**SendEmail** | Pointer to **bool** |  | [optional] 
+**Username** | Pointer to **string** | The user&#39;s username. Must be provided if email is not provided. | [optional] 
+**Email** | Pointer to **string** | The user&#39;s email address. Must be provided if username is not provided. | [optional] 
+**Name** | Pointer to **string** | The user&#39;s name (not the user&#39;s username). | [optional] 
+**Password** | Pointer to **string** | Password for the user | [optional] 
+**RootRole** | [**CreateUserSchemaRootRole**](CreateUserSchemaRootRole.md) |  | 
+**SendEmail** | Pointer to **bool** | Whether to send a welcome email with a login link to the user or not. Defaults to &#x60;true&#x60;. | [optional] 
 
 ## Methods
 
 ### NewCreateUserSchema
 
-`func NewCreateUserSchema(rootRole float32, ) *CreateUserSchema`
+`func NewCreateUserSchema(rootRole CreateUserSchemaRootRole, ) *CreateUserSchema`
 
 NewCreateUserSchema instantiates a new CreateUserSchema object
 This constructor will assign default values to properties that have it defined,
@@ -132,20 +132,20 @@ HasPassword returns a boolean if a field has been set.
 
 ### GetRootRole
 
-`func (o *CreateUserSchema) GetRootRole() float32`
+`func (o *CreateUserSchema) GetRootRole() CreateUserSchemaRootRole`
 
 GetRootRole returns the RootRole field if non-nil, zero value otherwise.
 
 ### GetRootRoleOk
 
-`func (o *CreateUserSchema) GetRootRoleOk() (*float32, bool)`
+`func (o *CreateUserSchema) GetRootRoleOk() (*CreateUserSchemaRootRole, bool)`
 
 GetRootRoleOk returns a tuple with the RootRole field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRootRole
 
-`func (o *CreateUserSchema) SetRootRole(v float32)`
+`func (o *CreateUserSchema) SetRootRole(v CreateUserSchemaRootRole)`
 
 SetRootRole sets RootRole field to given value.
 

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Valid** | **bool** |  | 
+**Valid** | **bool** | Whether or not the tag type is valid. | 
 **TagType** | [**TagTypeSchema**](TagTypeSchema.md) |  | 
 
 ## Methods

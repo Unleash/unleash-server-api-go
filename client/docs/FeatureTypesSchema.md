@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Version** | **int32** |  | 
-**Types** | [**[]FeatureTypeSchema**](FeatureTypeSchema.md) |  | 
+**Version** | **int32** | The schema version used to describe the feature toggle types listed in the &#x60;types&#x60; property. | 
+**Types** | [**[]FeatureTypeSchema**](FeatureTypeSchema.md) | The list of feature toggle types. | 
 
 ## Methods
 

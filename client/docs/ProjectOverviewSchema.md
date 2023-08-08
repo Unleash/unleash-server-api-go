@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **Description** | Pointer to **NullableString** | Additional information about the project | [optional] 
 **DefaultStickiness** | Pointer to **string** | A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy | [optional] 
 **Mode** | Pointer to **string** | The project&#39;s [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not. | [optional] 
+**FeatureLimit** | Pointer to **NullableFloat32** | A limit on the number of features allowed in the project. Null if no limit. | [optional] 
 **Members** | Pointer to **float32** | The number of members this project has | [optional] 
 **Health** | Pointer to **float32** | An indicator of the [project&#39;s health](https://docs.getunleash.io/reference/technical-debt#health-rating) on a scale from 0 to 100 | [optional] 
 **Environments** | Pointer to [**[]ProjectEnvironmentSchema**](ProjectEnvironmentSchema.md) | The environments that are enabled for this project | [optional] 
@@ -187,6 +188,41 @@ SetMode sets Mode field to given value.
 
 HasMode returns a boolean if a field has been set.
 
+### GetFeatureLimit
+
+`func (o *ProjectOverviewSchema) GetFeatureLimit() float32`
+
+GetFeatureLimit returns the FeatureLimit field if non-nil, zero value otherwise.
+
+### GetFeatureLimitOk
+
+`func (o *ProjectOverviewSchema) GetFeatureLimitOk() (*float32, bool)`
+
+GetFeatureLimitOk returns a tuple with the FeatureLimit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFeatureLimit
+
+`func (o *ProjectOverviewSchema) SetFeatureLimit(v float32)`
+
+SetFeatureLimit sets FeatureLimit field to given value.
+
+### HasFeatureLimit
+
+`func (o *ProjectOverviewSchema) HasFeatureLimit() bool`
+
+HasFeatureLimit returns a boolean if a field has been set.
+
+### SetFeatureLimitNil
+
+`func (o *ProjectOverviewSchema) SetFeatureLimitNil(b bool)`
+
+ SetFeatureLimitNil sets the value for FeatureLimit to be an explicit nil
+
+### UnsetFeatureLimit
+`func (o *ProjectOverviewSchema) UnsetFeatureLimit()`
+
+UnsetFeatureLimit ensures that no value is present for FeatureLimit, not even an explicit nil
 ### GetMembers
 
 `func (o *ProjectOverviewSchema) GetMembers() float32`

@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Users** | [**[]UserSchema**](UserSchema.md) |  | 
-**RootRoles** | Pointer to [**[]RoleSchema**](RoleSchema.md) |  | [optional] 
+**Users** | [**[]UserSchema**](UserSchema.md) | A list of users in the Unleash instance. | 
+**RootRoles** | Pointer to [**[]RoleSchema**](RoleSchema.md) | A list of [root roles](https://docs.getunleash.io/reference/rbac#standard-roles) in the Unleash instance. | [optional] 
 
 ## Methods
 

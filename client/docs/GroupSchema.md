@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **float32** |  | [optional] 
-**Name** | **string** |  | 
-**Description** | Pointer to **NullableString** |  | [optional] 
-**MappingsSSO** | Pointer to **[]string** |  | [optional] 
-**RootRole** | Pointer to **NullableFloat32** | A role id that is used as the root role for all users in this group. This can be either the id of the Editor or Admin role. | [optional] 
-**CreatedBy** | Pointer to **NullableString** |  | [optional] 
-**CreatedAt** | Pointer to **NullableTime** |  | [optional] 
-**Users** | Pointer to [**[]GroupUserModelSchema**](GroupUserModelSchema.md) |  | [optional] 
-**Projects** | Pointer to **[]string** |  | [optional] 
+**Id** | Pointer to **int32** | The group id | [optional] 
+**Name** | **string** | The name of the group | 
+**Description** | Pointer to **NullableString** | A custom description of the group | [optional] 
+**MappingsSSO** | Pointer to **[]string** | A list of SSO groups that should map to this Unleash group | [optional] 
+**RootRole** | Pointer to **NullableFloat32** | A role id that is used as the root role for all users in this group. This can be either the id of the Viewer, Editor or Admin role. | [optional] 
+**CreatedBy** | Pointer to **NullableString** | A user who created this group | [optional] 
+**CreatedAt** | Pointer to **NullableTime** | When was this group created | [optional] 
+**Users** | Pointer to [**[]GroupUserModelSchema**](GroupUserModelSchema.md) | A list of users belonging to this group | [optional] 
+**Projects** | Pointer to **[]string** | A list of projects where this group is used | [optional] 
 
 ## Methods
 
@@ -35,20 +35,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *GroupSchema) GetId() float32`
+`func (o *GroupSchema) GetId() int32`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *GroupSchema) GetIdOk() (*float32, bool)`
+`func (o *GroupSchema) GetIdOk() (*int32, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *GroupSchema) SetId(v float32)`
+`func (o *GroupSchema) SetId(v int32)`
 
 SetId sets Id field to given value.
 

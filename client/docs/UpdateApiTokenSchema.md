@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ExpiresAt** | **time.Time** |  | 
+**ExpiresAt** | **time.Time** | The new time when this token should expire. | 
 
 ## Methods
 

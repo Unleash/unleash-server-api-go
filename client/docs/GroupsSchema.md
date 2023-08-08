@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Groups** | Pointer to [**[]GroupSchema**](GroupSchema.md) |  | [optional] 
+**Groups** | Pointer to [**[]GroupSchema**](GroupSchema.md) | A list of groups | [optional] 
 
 ## Methods
 

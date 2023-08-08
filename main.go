@@ -22,13 +22,13 @@ func main() {
 	email := "tester1@getunleash.io"
 	username := "username1"
 	sendEmail := false
-	rootRoleId := float32(1)
+	rootRoleId := int32(1)
 
 	createUserSchema := *openapiclient.NewCreateUserSchemaWithDefaults()
 	createUserSchema.Name = &name
 	createUserSchema.Email = &email
 	createUserSchema.Username = &username
-	createUserSchema.RootRole = rootRoleId
+	createUserSchema.RootRole = openapiclient.Int32AsCreateUserSchemaRootRole(&rootRoleId)
 	createUserSchema.SendEmail = &sendEmail
 
 	configuration := openapiclient.NewConfiguration()

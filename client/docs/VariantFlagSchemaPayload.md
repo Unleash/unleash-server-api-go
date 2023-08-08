@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Type** | Pointer to **string** |  | [optional] 
-**Value** | Pointer to **string** |  | [optional] 
+**Type** | Pointer to **string** | The type of data contained. | [optional] 
+**Value** | Pointer to **string** | The actual associated data | [optional] 
 
 ## Methods
 

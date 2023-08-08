@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **int32** |  | 
-**CreatedAt** | **time.Time** |  | 
-**Type** | **string** |  | 
-**CreatedBy** | **string** |  | 
-**Environment** | Pointer to **NullableString** |  | [optional] 
-**Project** | Pointer to **NullableString** |  | [optional] 
-**FeatureName** | Pointer to **NullableString** |  | [optional] 
-**Data** | Pointer to **map[string]interface{}** |  | [optional] 
-**PreData** | Pointer to **map[string]interface{}** |  | [optional] 
-**Tags** | Pointer to [**[]TagSchema**](TagSchema.md) |  | [optional] 
+**Id** | **int32** | The ID of the event. An increasing natural number. | 
+**CreatedAt** | **time.Time** | The time the event happened as a RFC 3339-conformant timestamp. | 
+**Type** | **string** | What [type](https://docs.getunleash.io/reference/api/legacy/unleash/admin/events#event-type-description) of event this is | 
+**CreatedBy** | **string** | Which user created this event | 
+**Environment** | Pointer to **NullableString** | The feature toggle environment the event relates to, if applicable. | [optional] 
+**Project** | Pointer to **NullableString** | The project the event relates to, if applicable. | [optional] 
+**FeatureName** | Pointer to **NullableString** | The name of the feature toggle the event relates to, if applicable. | [optional] 
+**Data** | Pointer to **map[string]interface{}** | Extra associated data related to the event, such as feature toggle state, segment configuration, etc., if applicable. | [optional] 
+**PreData** | Pointer to **map[string]interface{}** | Data relating to the previous state of the event&#39;s subject. | [optional] 
+**Tags** | Pointer to [**[]TagSchema**](TagSchema.md) | Any tags related to the event, if applicable. | [optional] 
 
 ## Methods
 

@@ -67,13 +67,13 @@ func Test_client_UsersApiService(t *testing.T) {
 		email := "test-username@getunleash.io"
 		username := "test-username"
 		sendEmail := false
-		rootRoleId := float32(1)
+		rootRoleId := int32(1)
 
 		createUserSchema := *openapiclient.NewCreateUserSchemaWithDefaults()
 		createUserSchema.Name = &name
 		createUserSchema.Email = &email
 		createUserSchema.Username = &username
-		createUserSchema.RootRole = rootRoleId
+		createUserSchema.RootRole = openapiclient.Int32AsCreateUserSchemaRootRole(&rootRoleId)
 		createUserSchema.SendEmail = &sendEmail
 
 		resp, httpRes, err := apiClient.UsersApi.CreateUser(context.Background()).CreateUserSchema(createUserSchema).Execute()
@@ -229,7 +229,10 @@ func (t *debugTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	// Make the actual request
 	resp, err := t.Transport.RoundTrip(req)
 
-	fmt.Printf("Err:\n%s\n\n", err)
+	if err != nil {
+		fmt.Printf("Err:\n%s\n\n", err)
+	}
+
 	if t.EnableDebug && resp != nil {
 		// Log the response details
 		responseDump, _ := httputil.DumpResponse(resp, true)

@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Oss** | Pointer to **string** |  | [optional] 
-**Enterprise** | Pointer to **string** |  | [optional] 
+**Oss** | Pointer to **string** | The OSS version used when building this Unleash instance, represented as a git revision belonging to the [main Unleash git repo](https://github.com/Unleash/unleash/) | [optional] 
+**Enterprise** | Pointer to **string** | The Enterpris version of Unleash used to build this instance, represented as a git revision belonging to the [Unleash Enterprise](https://github.com/ivarconr/unleash-enterprise) repository. Will be an empty string if no enterprise version was used, | [optional] 
 
 ## Methods
 

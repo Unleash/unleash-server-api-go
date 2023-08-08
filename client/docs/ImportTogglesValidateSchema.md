@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Errors** | [**[]ImportTogglesValidateItemSchema**](ImportTogglesValidateItemSchema.md) |  | 
-**Warnings** | [**[]ImportTogglesValidateItemSchema**](ImportTogglesValidateItemSchema.md) |  | 
-**Permissions** | Pointer to [**[]ImportTogglesValidateItemSchema**](ImportTogglesValidateItemSchema.md) |  | [optional] 
+**Errors** | [**[]ImportTogglesValidateItemSchema**](ImportTogglesValidateItemSchema.md) | A list of errors that prevent the provided data from being successfully imported. | 
+**Warnings** | [**[]ImportTogglesValidateItemSchema**](ImportTogglesValidateItemSchema.md) | A list of warnings related to the provided data. | 
+**Permissions** | Pointer to [**[]ImportTogglesValidateItemSchema**](ImportTogglesValidateItemSchema.md) | Any additional permissions required to import the data. If the list is empty, you require no additional permissions beyond what your user already has. | [optional] 
 
 ## Methods
 

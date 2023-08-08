@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Version** | **int32** |  | 
-**TagTypes** | [**[]TagTypeSchema**](TagTypeSchema.md) |  | 
+**Version** | **int32** | The version of the schema used to model the tag types. | 
+**TagTypes** | [**[]TagTypeSchema**](TagTypeSchema.md) | The list of tag types. | 
 
 ## Methods
 

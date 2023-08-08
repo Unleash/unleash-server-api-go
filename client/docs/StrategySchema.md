@@ -5,10 +5,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Title** | Pointer to **NullableString** | An optional title for the strategy | [optional] 
-**Name** | **string** | The name or type of the strategy | 
+**Name** | **string** | The name (type) of the strategy | 
 **DisplayName** | **NullableString** | A human friendly name for the strategy | 
-**Description** | **string** | A short description for the strategy | 
-**Editable** | **bool** | Determines whether the strategy allows for editing | 
+**Description** | **NullableString** | A short description of the strategy | 
+**Editable** | **bool** | Whether the strategy can be edited or not. Strategies bundled with Unleash cannot be edited. | 
 **Deprecated** | **bool** |  | 
 **Parameters** | [**[]StrategySchemaParametersInner**](StrategySchemaParametersInner.md) | A list of relevant parameters for each strategy | 
 
@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 
 ### NewStrategySchema
 
-`func NewStrategySchema(name string, displayName NullableString, description string, editable bool, deprecated bool, parameters []StrategySchemaParametersInner, ) *StrategySchema`
+`func NewStrategySchema(name string, displayName NullableString, description NullableString, editable bool, deprecated bool, parameters []StrategySchemaParametersInner, ) *StrategySchema`
 
 NewStrategySchema instantiates a new StrategySchema object
 This constructor will assign default values to properties that have it defined,
@@ -136,6 +136,16 @@ and a boolean to check if the value has been set.
 SetDescription sets Description field to given value.
 
 
+### SetDescriptionNil
+
+`func (o *StrategySchema) SetDescriptionNil(b bool)`
+
+ SetDescriptionNil sets the value for Description to be an explicit nil
+
+### UnsetDescription
+`func (o *StrategySchema) UnsetDescription()`
+
+UnsetDescription ensures that no value is present for Description, not even an explicit nil
 ### GetEditable
 
 `func (o *StrategySchema) GetEditable() bool`

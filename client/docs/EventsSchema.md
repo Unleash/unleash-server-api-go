@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Version** | **int32** |  | 
-**Events** | [**[]EventSchema**](EventSchema.md) |  | 
-**TotalEvents** | Pointer to **int32** |  | [optional] 
+**Version** | **int32** | The api version of this response. A natural increasing number. Only increases if format changes | 
+**Events** | [**[]EventSchema**](EventSchema.md) | The list of events | 
+**TotalEvents** | Pointer to **int32** | The total count of events | [optional] 
 
 ## Methods
 

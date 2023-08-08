@@ -4,17 +4,19 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateFeedback**](AdminUIApi.md#CreateFeedback) | **Post** /api/admin/feedback | 
-[**GetUiConfig**](AdminUIApi.md#GetUiConfig) | **Get** /api/admin/ui-config | 
-[**SetUiConfig**](AdminUIApi.md#SetUiConfig) | **Post** /api/admin/ui-config | 
-[**UpdateFeedback**](AdminUIApi.md#UpdateFeedback) | **Put** /api/admin/feedback/{id} | 
-[**UpdateSplashSettings**](AdminUIApi.md#UpdateSplashSettings) | **Post** /api/admin/splash/{id} | 
+[**CreateFeedback**](AdminUIApi.md#CreateFeedback) | **Post** /api/admin/feedback | Send Unleash feedback
+[**GetUiConfig**](AdminUIApi.md#GetUiConfig) | **Get** /api/admin/ui-config | Get UI configuration
+[**SetUiConfig**](AdminUIApi.md#SetUiConfig) | **Post** /api/admin/ui-config | Set UI configuration
+[**UpdateFeedback**](AdminUIApi.md#UpdateFeedback) | **Put** /api/admin/feedback/{id} | Update Unleash feedback
+[**UpdateSplashSettings**](AdminUIApi.md#UpdateSplashSettings) | **Post** /api/admin/splash/{id} | Update splash settings
 
 
 
 ## CreateFeedback
 
-> FeedbackSchema CreateFeedback(ctx).FeedbackSchema(feedbackSchema).Execute()
+> FeedbackResponseSchema CreateFeedback(ctx).FeedbackCreateSchema(feedbackCreateSchema).Execute()
+
+Send Unleash feedback
 
 
 
@@ -27,20 +29,20 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    feedbackSchema := *openapiclient.NewFeedbackSchema() // FeedbackSchema | feedbackSchema
+    feedbackCreateSchema := *openapiclient.NewFeedbackCreateSchema("pnps") // FeedbackCreateSchema | feedbackCreateSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminUIApi.CreateFeedback(context.Background()).FeedbackSchema(feedbackSchema).Execute()
+    resp, r, err := apiClient.AdminUIApi.CreateFeedback(context.Background()).FeedbackCreateSchema(feedbackCreateSchema).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminUIApi.CreateFeedback``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `CreateFeedback`: FeedbackSchema
+    // response from `CreateFeedback`: FeedbackResponseSchema
     fmt.Fprintf(os.Stdout, "Response from `AdminUIApi.CreateFeedback`: %v\n", resp)
 }
 ```
@@ -56,11 +58,11 @@ Other parameters are passed through a pointer to a apiCreateFeedbackRequest stru
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **feedbackSchema** | [**FeedbackSchema**](FeedbackSchema.md) | feedbackSchema | 
+ **feedbackCreateSchema** | [**FeedbackCreateSchema**](FeedbackCreateSchema.md) | feedbackCreateSchema | 
 
 ### Return type
 
-[**FeedbackSchema**](FeedbackSchema.md)
+[**FeedbackResponseSchema**](FeedbackResponseSchema.md)
 
 ### Authorization
 
@@ -80,6 +82,8 @@ Name | Type | Description  | Notes
 
 > UiConfigSchema GetUiConfig(ctx).Execute()
 
+Get UI configuration
+
 
 
 ### Example
@@ -91,7 +95,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -139,6 +143,8 @@ Other parameters are passed through a pointer to a apiGetUiConfigRequest struct 
 
 > SetUiConfig(ctx).SetUiConfigSchema(setUiConfigSchema).Execute()
 
+Set UI configuration
+
 
 
 ### Example
@@ -150,7 +156,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -199,7 +205,9 @@ Name | Type | Description  | Notes
 
 ## UpdateFeedback
 
-> FeedbackSchema UpdateFeedback(ctx, id).FeedbackSchema(feedbackSchema).Execute()
+> FeedbackResponseSchema UpdateFeedback(ctx, id).FeedbackUpdateSchema(feedbackUpdateSchema).Execute()
+
+Update Unleash feedback
 
 
 
@@ -212,21 +220,21 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
     id := "id_example" // string | 
-    feedbackSchema := *openapiclient.NewFeedbackSchema() // FeedbackSchema | feedbackSchema
+    feedbackUpdateSchema := *openapiclient.NewFeedbackUpdateSchema() // FeedbackUpdateSchema | feedbackUpdateSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminUIApi.UpdateFeedback(context.Background(), id).FeedbackSchema(feedbackSchema).Execute()
+    resp, r, err := apiClient.AdminUIApi.UpdateFeedback(context.Background(), id).FeedbackUpdateSchema(feedbackUpdateSchema).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminUIApi.UpdateFeedback``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `UpdateFeedback`: FeedbackSchema
+    // response from `UpdateFeedback`: FeedbackResponseSchema
     fmt.Fprintf(os.Stdout, "Response from `AdminUIApi.UpdateFeedback`: %v\n", resp)
 }
 ```
@@ -247,11 +255,11 @@ Other parameters are passed through a pointer to a apiUpdateFeedbackRequest stru
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **feedbackSchema** | [**FeedbackSchema**](FeedbackSchema.md) | feedbackSchema | 
+ **feedbackUpdateSchema** | [**FeedbackUpdateSchema**](FeedbackUpdateSchema.md) | feedbackUpdateSchema | 
 
 ### Return type
 
-[**FeedbackSchema**](FeedbackSchema.md)
+[**FeedbackResponseSchema**](FeedbackResponseSchema.md)
 
 ### Authorization
 
@@ -269,7 +277,9 @@ Name | Type | Description  | Notes
 
 ## UpdateSplashSettings
 
-> SplashSchema UpdateSplashSettings(ctx, id).Execute()
+> SplashResponseSchema UpdateSplashSettings(ctx, id).Execute()
+
+Update splash settings
 
 
 
@@ -282,7 +292,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go/client"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
@@ -295,7 +305,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminUIApi.UpdateSplashSettings``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `UpdateSplashSettings`: SplashSchema
+    // response from `UpdateSplashSettings`: SplashResponseSchema
     fmt.Fprintf(os.Stdout, "Response from `AdminUIApi.UpdateSplashSettings`: %v\n", resp)
 }
 ```
@@ -319,7 +329,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SplashSchema**](SplashSchema.md)
+[**SplashResponseSchema**](SplashResponseSchema.md)
 
 ### Authorization
 

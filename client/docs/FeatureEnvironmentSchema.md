@@ -5,12 +5,12 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** | The name of the environment | 
-**FeatureName** | Pointer to **string** |  | [optional] 
-**Environment** | Pointer to **string** |  | [optional] 
+**FeatureName** | Pointer to **string** | The name of the feature | [optional] 
+**Environment** | Pointer to **string** | The name of the environment | [optional] 
 **Type** | Pointer to **string** | The type of the environment | [optional] 
 **Enabled** | **bool** | &#x60;true&#x60; if the feature is enabled for the environment, otherwise &#x60;false&#x60;. | 
 **SortOrder** | Pointer to **float32** | The sort order of the feature environment in the feature environments list | [optional] 
-**VariantCount** | Pointer to **float32** |  | [optional] 
+**VariantCount** | Pointer to **float32** | The number of defined variants | [optional] 
 **Strategies** | Pointer to [**[]FeatureStrategySchema**](FeatureStrategySchema.md) | A list of activation strategies for the feature environment | [optional] 
 **Variants** | Pointer to [**[]VariantSchema**](VariantSchema.md) | A list of variants for the feature environment | [optional] 
 
