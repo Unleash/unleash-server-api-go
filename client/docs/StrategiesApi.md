@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**GetStrategy**](StrategiesApi.md#GetStrategy) | **Get** /api/admin/strategies/{name} | Get a strategy definition
 [**ReactivateStrategy**](StrategiesApi.md#ReactivateStrategy) | **Post** /api/admin/strategies/{strategyName}/reactivate | Reactivate a strategy
 [**RemoveStrategy**](StrategiesApi.md#RemoveStrategy) | **Delete** /api/admin/strategies/{name} | Delete a strategy
+[**UpdateFeatureStrategySegments**](StrategiesApi.md#UpdateFeatureStrategySegments) | **Post** /api/admin/segments/strategies | Update strategy segments
 [**UpdateStrategy**](StrategiesApi.md#UpdateStrategy) | **Put** /api/admin/strategies/{strategyName} | Update a strategy type
 
 
@@ -479,6 +480,72 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateFeatureStrategySegments
+
+> UpdateFeatureStrategySegmentsSchema UpdateFeatureStrategySegments(ctx).UpdateFeatureStrategySegmentsSchema(updateFeatureStrategySegmentsSchema).Execute()
+
+Update strategy segments
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+    updateFeatureStrategySegmentsSchema := *openapiclient.NewUpdateFeatureStrategySegmentsSchema("red-vista", "15d1e20b-6310-4e17-a0c2-9fb84de3053a", "development", []int32{int32(123)}) // UpdateFeatureStrategySegmentsSchema | updateFeatureStrategySegmentsSchema
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.StrategiesApi.UpdateFeatureStrategySegments(context.Background()).UpdateFeatureStrategySegmentsSchema(updateFeatureStrategySegmentsSchema).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StrategiesApi.UpdateFeatureStrategySegments``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UpdateFeatureStrategySegments`: UpdateFeatureStrategySegmentsSchema
+    fmt.Fprintf(os.Stdout, "Response from `StrategiesApi.UpdateFeatureStrategySegments`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateFeatureStrategySegmentsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **updateFeatureStrategySegmentsSchema** | [**UpdateFeatureStrategySegmentsSchema**](UpdateFeatureStrategySegmentsSchema.md) | updateFeatureStrategySegmentsSchema | 
+
+### Return type
+
+[**UpdateFeatureStrategySegmentsSchema**](UpdateFeatureStrategySegmentsSchema.md)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

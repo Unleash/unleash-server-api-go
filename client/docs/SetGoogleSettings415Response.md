@@ -1,4 +1,4 @@
-# ChangePassword403Response
+# SetGoogleSettings415Response
 
 ## Properties
 
@@ -10,95 +10,95 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewChangePassword403Response
+### NewSetGoogleSettings415Response
 
-`func NewChangePassword403Response() *ChangePassword403Response`
+`func NewSetGoogleSettings415Response() *SetGoogleSettings415Response`
 
-NewChangePassword403Response instantiates a new ChangePassword403Response object
+NewSetGoogleSettings415Response instantiates a new SetGoogleSettings415Response object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewChangePassword403ResponseWithDefaults
+### NewSetGoogleSettings415ResponseWithDefaults
 
-`func NewChangePassword403ResponseWithDefaults() *ChangePassword403Response`
+`func NewSetGoogleSettings415ResponseWithDefaults() *SetGoogleSettings415Response`
 
-NewChangePassword403ResponseWithDefaults instantiates a new ChangePassword403Response object
+NewSetGoogleSettings415ResponseWithDefaults instantiates a new SetGoogleSettings415Response object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *ChangePassword403Response) GetId() string`
+`func (o *SetGoogleSettings415Response) GetId() string`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *ChangePassword403Response) GetIdOk() (*string, bool)`
+`func (o *SetGoogleSettings415Response) GetIdOk() (*string, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *ChangePassword403Response) SetId(v string)`
+`func (o *SetGoogleSettings415Response) SetId(v string)`
 
 SetId sets Id field to given value.
 
 ### HasId
 
-`func (o *ChangePassword403Response) HasId() bool`
+`func (o *SetGoogleSettings415Response) HasId() bool`
 
 HasId returns a boolean if a field has been set.
 
 ### GetName
 
-`func (o *ChangePassword403Response) GetName() string`
+`func (o *SetGoogleSettings415Response) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *ChangePassword403Response) GetNameOk() (*string, bool)`
+`func (o *SetGoogleSettings415Response) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *ChangePassword403Response) SetName(v string)`
+`func (o *SetGoogleSettings415Response) SetName(v string)`
 
 SetName sets Name field to given value.
 
 ### HasName
 
-`func (o *ChangePassword403Response) HasName() bool`
+`func (o *SetGoogleSettings415Response) HasName() bool`
 
 HasName returns a boolean if a field has been set.
 
 ### GetMessage
 
-`func (o *ChangePassword403Response) GetMessage() string`
+`func (o *SetGoogleSettings415Response) GetMessage() string`
 
 GetMessage returns the Message field if non-nil, zero value otherwise.
 
 ### GetMessageOk
 
-`func (o *ChangePassword403Response) GetMessageOk() (*string, bool)`
+`func (o *SetGoogleSettings415Response) GetMessageOk() (*string, bool)`
 
 GetMessageOk returns a tuple with the Message field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessage
 
-`func (o *ChangePassword403Response) SetMessage(v string)`
+`func (o *SetGoogleSettings415Response) SetMessage(v string)`
 
 SetMessage sets Message field to given value.
 
 ### HasMessage
 
-`func (o *ChangePassword403Response) HasMessage() bool`
+`func (o *SetGoogleSettings415Response) HasMessage() bool`
 
 HasMessage returns a boolean if a field has been set.
 
