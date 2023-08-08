@@ -5,6 +5,8 @@ rm -rf client
 # Download the latest OpenAPI specification
 # This should be another step
 #curl -s http://localhost:4242/docs/openapi.json | jq > openapi.json
+# get enterprise version
+curl -s https://app.unleash-hosted.com/hosted/docs/openapi.json | jq > openapi.json
 
 openapi-generator-cli generate \
     --git-user-id Unleash \
