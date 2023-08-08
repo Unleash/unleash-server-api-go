@@ -1,4 +1,4 @@
-# ValidatePublicSignupToken400Response
+# CreateGroup409Response
 
 ## Properties
 
@@ -10,95 +10,95 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewValidatePublicSignupToken400Response
+### NewCreateGroup409Response
 
-`func NewValidatePublicSignupToken400Response() *ValidatePublicSignupToken400Response`
+`func NewCreateGroup409Response() *CreateGroup409Response`
 
-NewValidatePublicSignupToken400Response instantiates a new ValidatePublicSignupToken400Response object
+NewCreateGroup409Response instantiates a new CreateGroup409Response object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewValidatePublicSignupToken400ResponseWithDefaults
+### NewCreateGroup409ResponseWithDefaults
 
-`func NewValidatePublicSignupToken400ResponseWithDefaults() *ValidatePublicSignupToken400Response`
+`func NewCreateGroup409ResponseWithDefaults() *CreateGroup409Response`
 
-NewValidatePublicSignupToken400ResponseWithDefaults instantiates a new ValidatePublicSignupToken400Response object
+NewCreateGroup409ResponseWithDefaults instantiates a new CreateGroup409Response object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *ValidatePublicSignupToken400Response) GetId() string`
+`func (o *CreateGroup409Response) GetId() string`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *ValidatePublicSignupToken400Response) GetIdOk() (*string, bool)`
+`func (o *CreateGroup409Response) GetIdOk() (*string, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *ValidatePublicSignupToken400Response) SetId(v string)`
+`func (o *CreateGroup409Response) SetId(v string)`
 
 SetId sets Id field to given value.
 
 ### HasId
 
-`func (o *ValidatePublicSignupToken400Response) HasId() bool`
+`func (o *CreateGroup409Response) HasId() bool`
 
 HasId returns a boolean if a field has been set.
 
 ### GetName
 
-`func (o *ValidatePublicSignupToken400Response) GetName() string`
+`func (o *CreateGroup409Response) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *ValidatePublicSignupToken400Response) GetNameOk() (*string, bool)`
+`func (o *CreateGroup409Response) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *ValidatePublicSignupToken400Response) SetName(v string)`
+`func (o *CreateGroup409Response) SetName(v string)`
 
 SetName sets Name field to given value.
 
 ### HasName
 
-`func (o *ValidatePublicSignupToken400Response) HasName() bool`
+`func (o *CreateGroup409Response) HasName() bool`
 
 HasName returns a boolean if a field has been set.
 
 ### GetMessage
 
-`func (o *ValidatePublicSignupToken400Response) GetMessage() string`
+`func (o *CreateGroup409Response) GetMessage() string`
 
 GetMessage returns the Message field if non-nil, zero value otherwise.
 
 ### GetMessageOk
 
-`func (o *ValidatePublicSignupToken400Response) GetMessageOk() (*string, bool)`
+`func (o *CreateGroup409Response) GetMessageOk() (*string, bool)`
 
 GetMessageOk returns a tuple with the Message field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessage
 
-`func (o *ValidatePublicSignupToken400Response) SetMessage(v string)`
+`func (o *CreateGroup409Response) SetMessage(v string)`
 
 SetMessage sets Message field to given value.
 
 ### HasMessage
 
-`func (o *ValidatePublicSignupToken400Response) HasMessage() bool`
+`func (o *CreateGroup409Response) HasMessage() bool`
 
 HasMessage returns a boolean if a field has been set.
 

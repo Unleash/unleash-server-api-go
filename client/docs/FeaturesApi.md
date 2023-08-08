@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**ArchiveFeatures**](FeaturesApi.md#ArchiveFeatures) | **Post** /api/admin/projects/{projectId}/archive | Archives a list of features
 [**BulkToggleFeaturesEnvironmentOff**](FeaturesApi.md#BulkToggleFeaturesEnvironmentOff) | **Post** /api/admin/projects/{projectId}/bulk_features/environments/{environment}/off | Bulk disable a list of features
 [**BulkToggleFeaturesEnvironmentOn**](FeaturesApi.md#BulkToggleFeaturesEnvironmentOn) | **Post** /api/admin/projects/{projectId}/bulk_features/environments/{environment}/on | Bulk enable a list of features
+[**ChangeProject**](FeaturesApi.md#ChangeProject) | **Post** /api/admin/projects/{projectId}/features/{featureName}/changeProject | Move feature to project
 [**CloneFeature**](FeaturesApi.md#CloneFeature) | **Post** /api/admin/projects/{projectId}/features/{featureName}/clone | Clone a feature toggle
 [**CreateFeature**](FeaturesApi.md#CreateFeature) | **Post** /api/admin/projects/{projectId}/features | Add a new feature toggle
 [**DeleteFeatureStrategy**](FeaturesApi.md#DeleteFeatureStrategy) | **Delete** /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/{strategyId} | Delete a strategy from a feature toggle
@@ -604,6 +605,79 @@ Name | Type | Description  | Notes
 
 
  **bulkToggleFeaturesSchema** | [**BulkToggleFeaturesSchema**](BulkToggleFeaturesSchema.md) | bulkToggleFeaturesSchema | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ChangeProject
+
+> ChangeProject(ctx, projectId, featureName).ChangeProjectSchema(changeProjectSchema).Execute()
+
+Move feature to project
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+    projectId := "projectId_example" // string | 
+    featureName := "featureName_example" // string | 
+    changeProjectSchema := *openapiclient.NewChangeProjectSchema("newProject") // ChangeProjectSchema | changeProjectSchema
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.FeaturesApi.ChangeProject(context.Background(), projectId, featureName).ChangeProjectSchema(changeProjectSchema).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FeaturesApi.ChangeProject``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**projectId** | **string** |  | 
+**featureName** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiChangeProjectRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **changeProjectSchema** | [**ChangeProjectSchema**](ChangeProjectSchema.md) | changeProjectSchema | 
 
 ### Return type
 

@@ -34,6 +34,41 @@ func Test_client_UnstableApiService(t *testing.T) {
 
 	})
 
+	t.Run("Test UnstableApiService GetLoginHistory", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		resp, httpRes, err := apiClient.UnstableApi.GetLoginHistory(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test UnstableApiService GetNotifications", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		resp, httpRes, err := apiClient.UnstableApi.GetNotifications(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test UnstableApiService MarkNotificationsAsRead", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		httpRes, err := apiClient.UnstableApi.MarkNotificationsAsRead(context.Background()).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test UnstableApiService UpdateFeatureTypeLifetime", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
