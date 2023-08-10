@@ -7,7 +7,7 @@ on:
   pull_request:
   schedule:
     # run validation against latest unleash-server image
-    - cron:  '30 5 * * 1-5'
+    - cron: "30 5 * * 1-5"
 
 jobs:
   build:
@@ -21,4 +21,4 @@ jobs:
       - name: Startup services
         run: docker compose up -d --wait -t 60
       - name: Tests
-        run: go test ./test/...
+        run: go test ./...

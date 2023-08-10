@@ -47,7 +47,10 @@ openapi-generator-cli generate \
     -g go
 
 rm client/go.mod client/go.sum
-
+# After removing client/go.mod and client/go.sum, the generated code will not compile when importing the package
+# so we make some modifications to make it compile:
+sed -i 's/openapiclient "github.com\/Unleash\/unleash-server-api-go"/"github.com\/Unleash\/unleash-server-api-go\/client"/g' client/test/*
+sed -i 's/openapiclient\./client./g' client/test/*
 go mod tidy
 
 # Remove the generated tests. They require some manual work to get working such as creating test parameters
