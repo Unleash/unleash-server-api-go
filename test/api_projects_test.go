@@ -11,16 +11,15 @@ package client
 
 import (
 	"context"
+	"testing"
+
 	"github.com/Unleash/unleash-server-api-go/client"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func Test_client_ProjectsApiService(t *testing.T) {
-
-	configuration := client.NewConfiguration()
-	apiClient := client.NewAPIClient(configuration)
+	apiClient := testClient()
 
 	t.Run("Test ProjectsApiService AddAccessToProject", func(t *testing.T) {
 
@@ -110,15 +109,14 @@ func Test_client_ProjectsApiService(t *testing.T) {
 	})
 
 	t.Run("Test ProjectsApiService CreateProject", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			createProjectSchema := *client.NewCreateProjectSchema("pet-shop-project", "Pet shop project")
+			resp, httpRes, err := apiClient.ProjectsApi.CreateProject(context.Background()).CreateProjectSchema(createProjectSchema).Execute()
 
-		t.Skip("skip test") // remove to run test
-
-		resp, httpRes, err := apiClient.ProjectsApi.CreateProject(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 201, httpRes.StatusCode)
+		}
 	})
 
 	t.Run("Test ProjectsApiService CreateProjectApiToken", func(t *testing.T) {
@@ -137,15 +135,14 @@ func Test_client_ProjectsApiService(t *testing.T) {
 
 	t.Run("Test ProjectsApiService DeleteProject", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		if enterpriseEnvironmentAvailable() {
+			projectId := "pet-shop-project"
 
-		var projectId string
+			httpRes, err := apiClient.ProjectsApi.DeleteProject(context.Background(), projectId).Execute()
 
-		httpRes, err := apiClient.ProjectsApi.DeleteProject(context.Background(), projectId).Execute()
-
-		require.Nil(t, err)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
+			require.Nil(t, err)
+			assert.Equal(t, 200, httpRes.StatusCode)
+		}
 	})
 
 	t.Run("Test ProjectsApiService DeleteProjectApiToken", func(t *testing.T) {

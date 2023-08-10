@@ -11,16 +11,17 @@ package client
 
 import (
 	"context"
-	openapiclient "github.com/Unleash/unleash-server-api-go"
+	"testing"
+
+	"github.com/Unleash/unleash-server-api-go/client"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func Test_client_APITokensApiService(t *testing.T) {
 
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
+	configuration := client.NewConfiguration()
+	apiClient := client.NewAPIClient(configuration)
 
 	t.Run("Test APITokensApiService CreateApiToken", func(t *testing.T) {
 

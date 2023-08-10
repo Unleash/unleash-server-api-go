@@ -11,7 +11,7 @@ package client
 
 import (
 	"context"
-	openapiclient "github.com/Unleash/unleash-server-api-go"
+	"github.com/Unleash/unleash-server-api-go/client"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -19,8 +19,8 @@ import (
 
 func Test_client_PersonalAccessTokensApiService(t *testing.T) {
 
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
+	configuration := client.NewConfiguration()
+	apiClient := client.NewAPIClient(configuration)
 
 	t.Run("Test PersonalAccessTokensApiService CreatePat", func(t *testing.T) {
 
