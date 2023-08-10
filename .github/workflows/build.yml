@@ -30,7 +30,7 @@ jobs:
       - name: Startup services
         run: docker compose up -d --wait -t 60
         env:
-          UNLEASH_DOCKER_IMAGE: ghcr.io/ivarconr/unleash-enterprise:latest
+          UNLEASH_DOCKER_IMAGE: ${{ secrets.ENTERPRISE_IMAGE }}
       - name: Tests
         run: go test ./...
         env:
