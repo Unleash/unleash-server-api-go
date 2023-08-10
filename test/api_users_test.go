@@ -12,30 +12,15 @@ package client
 import (
 	"context"
 	"fmt"
-	"net/http"
-	"net/http/httputil"
 	"testing"
 
-	openapiclient "github.com/Unleash/unleash-server-api-go/client"
+	"github.com/Unleash/unleash-server-api-go/client"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 func Test_client_UsersApiService(t *testing.T) {
-	configuration := openapiclient.NewConfiguration()
-	configuration.Servers = openapiclient.ServerConfigurations{
-		{
-			URL: "http://localhost:4242",
-		},
-	}
-	configuration.HTTPClient = &http.Client{
-		Transport: &debugTransport{
-			Transport:   http.DefaultTransport,
-			EnableDebug: true,
-		},
-	}
-	configuration.AddDefaultHeader("Authorization", "*:*.unleash-insecure-admin-api-token")
-	apiClient := openapiclient.NewAPIClient(configuration)
+	apiClient := testClient()
 
 	t.Run("Test UsersApiService ChangeMyPassword", func(t *testing.T) {
 
@@ -69,11 +54,11 @@ func Test_client_UsersApiService(t *testing.T) {
 		sendEmail := false
 		rootRoleId := int32(1)
 
-		createUserSchema := *openapiclient.NewCreateUserSchemaWithDefaults()
+		createUserSchema := *client.NewCreateUserSchemaWithDefaults()
 		createUserSchema.Name = &name
 		createUserSchema.Email = &email
 		createUserSchema.Username = &username
-		createUserSchema.RootRole = openapiclient.Int32AsCreateUserSchemaRootRole(&rootRoleId)
+		createUserSchema.RootRole = client.Int32AsCreateUserSchemaRootRole(&rootRoleId)
 		createUserSchema.SendEmail = &sendEmail
 
 		resp, httpRes, err := apiClient.UsersApi.CreateUser(context.Background()).CreateUserSchema(createUserSchema).Execute()
@@ -212,32 +197,4 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-}
-
-type debugTransport struct {
-	Transport   http.RoundTripper
-	EnableDebug bool
-}
-
-func (t *debugTransport) RoundTrip(req *http.Request) (*http.Response, error) {
-	if t.EnableDebug {
-		// Log the request details
-		requestDump, _ := httputil.DumpRequestOut(req, true)
-		fmt.Printf("Request:\n%s\n\n", requestDump)
-	}
-
-	// Make the actual request
-	resp, err := t.Transport.RoundTrip(req)
-
-	if err != nil {
-		fmt.Printf("Err:\n%s\n\n", err)
-	}
-
-	if t.EnableDebug && resp != nil {
-		// Log the response details
-		responseDump, _ := httputil.DumpResponse(resp, true)
-		fmt.Printf("Response:\n%s\n\n", responseDump)
-	}
-
-	return resp, err
 }

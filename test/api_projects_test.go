@@ -11,30 +11,15 @@ package client
 
 import (
 	"context"
-	"net/http"
 	"testing"
 
-	openapiclient "github.com/Unleash/unleash-server-api-go/client"
+	"github.com/Unleash/unleash-server-api-go/client"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 func Test_client_ProjectsApiService(t *testing.T) {
-
-	configuration := openapiclient.NewConfiguration()
-	configuration.Servers = openapiclient.ServerConfigurations{
-		{
-			URL: "http://localhost:4242",
-		},
-	}
-	configuration.HTTPClient = &http.Client{
-		Transport: &debugTransport{
-			Transport:   http.DefaultTransport,
-			EnableDebug: true,
-		},
-	}
-	configuration.AddDefaultHeader("Authorization", "*:*.unleash-insecure-admin-api-token")
-	apiClient := openapiclient.NewAPIClient(configuration)
+	apiClient := testClient()
 
 	t.Run("Test ProjectsApiService AddAccessToProject", func(t *testing.T) {
 
@@ -124,13 +109,14 @@ func Test_client_ProjectsApiService(t *testing.T) {
 	})
 
 	t.Run("Test ProjectsApiService CreateProject", func(t *testing.T) {
-		createProjectSchema := *openapiclient.NewCreateProjectSchema("pet-shop-project", "Pet shop project")
-		resp, httpRes, err := apiClient.ProjectsApi.CreateProject(context.Background()).CreateProjectSchema(createProjectSchema).Execute()
+		if enterpriseEnvironmentAvailable() {
+			createProjectSchema := *client.NewCreateProjectSchema("pet-shop-project", "Pet shop project")
+			resp, httpRes, err := apiClient.ProjectsApi.CreateProject(context.Background()).CreateProjectSchema(createProjectSchema).Execute()
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 201, httpRes.StatusCode)
-
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 201, httpRes.StatusCode)
+		}
 	})
 
 	t.Run("Test ProjectsApiService CreateProjectApiToken", func(t *testing.T) {
@@ -149,13 +135,14 @@ func Test_client_ProjectsApiService(t *testing.T) {
 
 	t.Run("Test ProjectsApiService DeleteProject", func(t *testing.T) {
 
-		projectId := "pet-shop-project"
+		if enterpriseEnvironmentAvailable() {
+			projectId := "pet-shop-project"
 
-		httpRes, err := apiClient.ProjectsApi.DeleteProject(context.Background(), projectId).Execute()
+			httpRes, err := apiClient.ProjectsApi.DeleteProject(context.Background(), projectId).Execute()
 
-		require.Nil(t, err)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
+			require.Nil(t, err)
+			assert.Equal(t, 200, httpRes.StatusCode)
+		}
 	})
 
 	t.Run("Test ProjectsApiService DeleteProjectApiToken", func(t *testing.T) {
