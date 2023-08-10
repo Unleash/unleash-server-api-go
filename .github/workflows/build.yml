@@ -22,7 +22,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ivarconr
+          username: gastonfournier
           password: ${{ secrets.GHCR_TOKEN }}
       - name: Startup services
         run: docker compose up -d --wait -t 60
