@@ -16,7 +16,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      UNLEASH_DOCKER_IMAGE: ivarconr/unleash-enterprise:latest
+      UNLEASH_DOCKER_IMAGE: ghcr.io/ivarconr/unleash-enterprise:latest
     steps:
       - uses: actions/checkout@v2
       - name: Setup Go
