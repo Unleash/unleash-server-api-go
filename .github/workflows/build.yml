@@ -15,23 +15,23 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      UNLEASH_DOCKER_IMAGE: ivarconr/unleash-server:latest
     steps:
       - uses: actions/checkout@v2
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
           go-version: "1.20"
-      # - name: Login to ghcr
-      #   uses: docker/login-action@v2
-      #   with:
-      #     registry: ghcr.io
-      #     username: gastonfournier
-      #     password: ${{ secrets.GHCR_TOKEN }}
-      - run: echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+      - name: Login to ghcr
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: gastonfournier
+          password: ${{ secrets.GHCR_TOKEN }}
+      - run: docker pull ${UNLEASH_DOCKER_IMAGE}
       - name: Startup services
         run: docker compose up -d --wait -t 60
-        env:
-          UNLEASH_DOCKER_IMAGE: ghcr.io/ivarconr/unleash-server:latest
       - name: Tests
         run: go test ./...
         env:
