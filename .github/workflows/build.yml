@@ -9,6 +9,9 @@ on:
     # run validation against latest unleash-server image
     - cron: "30 5 * * 1-5"
 
+permissions:
+  packages: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
