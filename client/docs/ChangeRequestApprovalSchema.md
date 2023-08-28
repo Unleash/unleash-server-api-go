@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CreatedBy** | [**ChangeRequestApprovalSchemaCreatedBy**](ChangeRequestApprovalSchemaCreatedBy.md) |  | 
-**CreatedAt** | **time.Time** |  | 
+**CreatedAt** | **time.Time** | When the approval was given. | 
 
 ## Methods
 

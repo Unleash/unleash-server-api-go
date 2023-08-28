@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing InstanceAdminApiService
+Testing InstanceAdminAPIService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	"testing"
 )
 
-func Test_client_InstanceAdminApiService(t *testing.T) {
+func Test_client_InstanceAdminAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test InstanceAdminApiService GetInstanceAdminStats", func(t *testing.T) {
+	t.Run("Test InstanceAdminAPIService GetInstanceAdminStats", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.InstanceAdminApi.GetInstanceAdminStats(context.Background()).Execute()
+		resp, httpRes, err := apiClient.InstanceAdminAPI.GetInstanceAdminStats(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -34,11 +34,23 @@ func Test_client_InstanceAdminApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test InstanceAdminApiService GetInstanceAdminStatsCsv", func(t *testing.T) {
+	t.Run("Test InstanceAdminAPIService GetInstanceAdminStatsCsv", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.InstanceAdminApi.GetInstanceAdminStatsCsv(context.Background()).Execute()
+		resp, httpRes, err := apiClient.InstanceAdminAPI.GetInstanceAdminStatsCsv(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test InstanceAdminAPIService GetLoginHistory", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		resp, httpRes, err := apiClient.InstanceAdminAPI.GetLoginHistory(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

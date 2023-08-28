@@ -4,19 +4,20 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**IsAPI** | **bool** |  | 
-**Name** | Pointer to **string** |  | [optional] 
-**Email** | Pointer to **NullableString** |  | [optional] 
-**Id** | **float32** |  | 
-**ImageUrl** | Pointer to **NullableString** |  | [optional] 
-**AddedAt** | Pointer to **time.Time** |  | [optional] 
-**RoleId** | Pointer to **float32** |  | [optional] 
+**IsAPI** | Pointer to **bool** | Whether this user is authenticated through Unleash tokens or logged in with a session | [optional] 
+**Name** | Pointer to **string** | The name of the user | [optional] 
+**Email** | Pointer to **NullableString** | The user&#39;s email address | [optional] 
+**Id** | **int32** | The user&#39;s ID in the Unleash system | 
+**ImageUrl** | Pointer to **NullableString** | A URL pointing to the user&#39;s image. | [optional] 
+**AddedAt** | Pointer to **time.Time** | When this user was added to the project | [optional] 
+**RoleId** | Pointer to **int32** | The ID of the role this user has in the given project | [optional] 
+**Roles** | Pointer to **[]int32** | A list of roles this user has in the given project | [optional] 
 
 ## Methods
 
 ### NewUserWithProjectRoleSchema
 
-`func NewUserWithProjectRoleSchema(isAPI bool, id float32, ) *UserWithProjectRoleSchema`
+`func NewUserWithProjectRoleSchema(id int32, ) *UserWithProjectRoleSchema`
 
 NewUserWithProjectRoleSchema instantiates a new UserWithProjectRoleSchema object
 This constructor will assign default values to properties that have it defined,
@@ -50,6 +51,11 @@ and a boolean to check if the value has been set.
 
 SetIsAPI sets IsAPI field to given value.
 
+### HasIsAPI
+
+`func (o *UserWithProjectRoleSchema) HasIsAPI() bool`
+
+HasIsAPI returns a boolean if a field has been set.
 
 ### GetName
 
@@ -113,20 +119,20 @@ HasEmail returns a boolean if a field has been set.
 UnsetEmail ensures that no value is present for Email, not even an explicit nil
 ### GetId
 
-`func (o *UserWithProjectRoleSchema) GetId() float32`
+`func (o *UserWithProjectRoleSchema) GetId() int32`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *UserWithProjectRoleSchema) GetIdOk() (*float32, bool)`
+`func (o *UserWithProjectRoleSchema) GetIdOk() (*int32, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *UserWithProjectRoleSchema) SetId(v float32)`
+`func (o *UserWithProjectRoleSchema) SetId(v int32)`
 
 SetId sets Id field to given value.
 
@@ -193,20 +199,20 @@ HasAddedAt returns a boolean if a field has been set.
 
 ### GetRoleId
 
-`func (o *UserWithProjectRoleSchema) GetRoleId() float32`
+`func (o *UserWithProjectRoleSchema) GetRoleId() int32`
 
 GetRoleId returns the RoleId field if non-nil, zero value otherwise.
 
 ### GetRoleIdOk
 
-`func (o *UserWithProjectRoleSchema) GetRoleIdOk() (*float32, bool)`
+`func (o *UserWithProjectRoleSchema) GetRoleIdOk() (*int32, bool)`
 
 GetRoleIdOk returns a tuple with the RoleId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRoleId
 
-`func (o *UserWithProjectRoleSchema) SetRoleId(v float32)`
+`func (o *UserWithProjectRoleSchema) SetRoleId(v int32)`
 
 SetRoleId sets RoleId field to given value.
 
@@ -215,6 +221,31 @@ SetRoleId sets RoleId field to given value.
 `func (o *UserWithProjectRoleSchema) HasRoleId() bool`
 
 HasRoleId returns a boolean if a field has been set.
+
+### GetRoles
+
+`func (o *UserWithProjectRoleSchema) GetRoles() []int32`
+
+GetRoles returns the Roles field if non-nil, zero value otherwise.
+
+### GetRolesOk
+
+`func (o *UserWithProjectRoleSchema) GetRolesOk() (*[]int32, bool)`
+
+GetRolesOk returns a tuple with the Roles field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRoles
+
+`func (o *UserWithProjectRoleSchema) SetRoles(v []int32)`
+
+SetRoles sets Roles field to given value.
+
+### HasRoles
+
+`func (o *UserWithProjectRoleSchema) HasRoles() bool`
+
+HasRoles returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

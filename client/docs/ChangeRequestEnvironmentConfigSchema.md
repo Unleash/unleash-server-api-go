@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Environment** | **string** |  | 
-**Type** | **string** |  | 
-**ChangeRequestEnabled** | **bool** |  | 
-**RequiredApprovals** | **NullableFloat32** |  | 
+**Environment** | **string** | The environment that this configuration applies to. | 
+**Type** | **string** | The [type of the environment](https://docs.getunleash.io/reference/environments#environment-types) listed in &#x60;environment&#x60;. | 
+**ChangeRequestEnabled** | **bool** | &#x60;true&#x60; if this environment has change requests enabled, otherwise &#x60;false&#x60;. | 
+**RequiredApprovals** | **NullableFloat32** | The number of approvals that are required for a change request to be fully approved and ready to be applied in this environment. | 
 
 ## Methods
 

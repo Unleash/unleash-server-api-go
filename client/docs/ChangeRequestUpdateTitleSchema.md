@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Title** | **string** |  | 
+**Title** | **string** | The new title to use for this change request. | 
 
 ## Methods
 

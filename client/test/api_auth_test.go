@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing AuthApiService
+Testing AuthAPIService
 
 */
 
@@ -17,39 +17,27 @@ import (
 	"testing"
 )
 
-func Test_client_AuthApiService(t *testing.T) {
+func Test_client_AuthAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test AuthApiService ChangePassword", func(t *testing.T) {
+	t.Run("Test AuthAPIService ChangePassword", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.AuthApi.ChangePassword(context.Background()).Execute()
+		httpRes, err := apiClient.AuthAPI.ChangePassword(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test AuthApiService GetGoogleSettings", func(t *testing.T) {
+	t.Run("Test AuthAPIService GetGoogleSettings", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.AuthApi.GetGoogleSettings(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test AuthApiService GetOidcSettings", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		resp, httpRes, err := apiClient.AuthApi.GetOidcSettings(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AuthAPI.GetGoogleSettings(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -57,11 +45,11 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test AuthApiService GetPermissions", func(t *testing.T) {
+	t.Run("Test AuthAPIService GetOidcSettings", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.AuthApi.GetPermissions(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AuthAPI.GetOidcSettings(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -69,11 +57,11 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test AuthApiService GetSamlSettings", func(t *testing.T) {
+	t.Run("Test AuthAPIService GetPermissions", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.AuthApi.GetSamlSettings(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AuthAPI.GetPermissions(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -81,11 +69,11 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test AuthApiService GetSimpleSettings", func(t *testing.T) {
+	t.Run("Test AuthAPIService GetSamlSettings", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.AuthApi.GetSimpleSettings(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AuthAPI.GetSamlSettings(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -93,11 +81,11 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test AuthApiService Login", func(t *testing.T) {
+	t.Run("Test AuthAPIService GetSimpleSettings", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.AuthApi.Login(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AuthAPI.GetSimpleSettings(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -105,22 +93,11 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test AuthApiService SendResetPasswordEmail", func(t *testing.T) {
+	t.Run("Test AuthAPIService Login", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.AuthApi.SendResetPasswordEmail(context.Background()).Execute()
-
-		require.Nil(t, err)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test AuthApiService SetGoogleSettings", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		resp, httpRes, err := apiClient.AuthApi.SetGoogleSettings(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AuthAPI.Login(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -128,11 +105,22 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test AuthApiService SetOidcSettings", func(t *testing.T) {
+	t.Run("Test AuthAPIService SendResetPasswordEmail", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.AuthApi.SetOidcSettings(context.Background()).Execute()
+		httpRes, err := apiClient.AuthAPI.SendResetPasswordEmail(context.Background()).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AuthAPIService SetGoogleSettings", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		resp, httpRes, err := apiClient.AuthAPI.SetGoogleSettings(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -140,11 +128,11 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test AuthApiService SetSamlSettings", func(t *testing.T) {
+	t.Run("Test AuthAPIService SetOidcSettings", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.AuthApi.SetSamlSettings(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AuthAPI.SetOidcSettings(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -152,11 +140,11 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test AuthApiService SetSimpleSettings", func(t *testing.T) {
+	t.Run("Test AuthAPIService SetSamlSettings", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.AuthApi.SetSimpleSettings(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AuthAPI.SetSamlSettings(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -164,22 +152,34 @@ func Test_client_AuthApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test AuthApiService ValidatePassword", func(t *testing.T) {
+	t.Run("Test AuthAPIService SetSimpleSettings", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.AuthApi.ValidatePassword(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AuthAPI.SetSimpleSettings(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AuthAPIService ValidatePassword", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		httpRes, err := apiClient.AuthAPI.ValidatePassword(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test AuthApiService ValidateToken", func(t *testing.T) {
+	t.Run("Test AuthAPIService ValidateToken", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.AuthApi.ValidateToken(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AuthAPI.ValidateToken(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

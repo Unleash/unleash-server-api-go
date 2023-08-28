@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Notifications** | **[]float32** |  | 
+**Notifications** | **[]int32** | A list of IDs belonging to the notifications you want to mark as read. | 
 
 ## Methods
 
 ### NewMarkNotificationsAsReadSchema
 
-`func NewMarkNotificationsAsReadSchema(notifications []float32, ) *MarkNotificationsAsReadSchema`
+`func NewMarkNotificationsAsReadSchema(notifications []int32, ) *MarkNotificationsAsReadSchema`
 
 NewMarkNotificationsAsReadSchema instantiates a new MarkNotificationsAsReadSchema object
 This constructor will assign default values to properties that have it defined,
@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetNotifications
 
-`func (o *MarkNotificationsAsReadSchema) GetNotifications() []float32`
+`func (o *MarkNotificationsAsReadSchema) GetNotifications() []int32`
 
 GetNotifications returns the Notifications field if non-nil, zero value otherwise.
 
 ### GetNotificationsOk
 
-`func (o *MarkNotificationsAsReadSchema) GetNotificationsOk() (*[]float32, bool)`
+`func (o *MarkNotificationsAsReadSchema) GetNotificationsOk() (*[]int32, bool)`
 
 GetNotificationsOk returns a tuple with the Notifications field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetNotifications
 
-`func (o *MarkNotificationsAsReadSchema) SetNotifications(v []float32)`
+`func (o *MarkNotificationsAsReadSchema) SetNotifications(v []int32)`
 
 SetNotifications sets Notifications field to given value.
 

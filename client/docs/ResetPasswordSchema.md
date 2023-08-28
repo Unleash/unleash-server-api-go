@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ResetPasswordUrl** | **string** |  | 
+**ResetPasswordUrl** | **string** | A URL pointing to a location where the user can reset their password | 
 
 ## Methods
 

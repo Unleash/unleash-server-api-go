@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing SegmentsApiService
+Testing SegmentsAPIService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	"testing"
 )
 
-func Test_client_SegmentsApiService(t *testing.T) {
+func Test_client_SegmentsAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test SegmentsApiService CreateSegment", func(t *testing.T) {
+	t.Run("Test SegmentsAPIService CreateSegment", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.SegmentsApi.CreateSegment(context.Background()).Execute()
+		resp, httpRes, err := apiClient.SegmentsAPI.CreateSegment(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -34,13 +34,13 @@ func Test_client_SegmentsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test SegmentsApiService GetSegment", func(t *testing.T) {
+	t.Run("Test SegmentsAPIService GetSegment", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		resp, httpRes, err := apiClient.SegmentsApi.GetSegment(context.Background(), id).Execute()
+		resp, httpRes, err := apiClient.SegmentsAPI.GetSegment(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,11 +48,11 @@ func Test_client_SegmentsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test SegmentsApiService GetSegments", func(t *testing.T) {
+	t.Run("Test SegmentsAPIService GetSegments", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.SegmentsApi.GetSegments(context.Background()).Execute()
+		resp, httpRes, err := apiClient.SegmentsAPI.GetSegments(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -60,13 +60,13 @@ func Test_client_SegmentsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test SegmentsApiService GetSegmentsByStrategyId", func(t *testing.T) {
+	t.Run("Test SegmentsAPIService GetSegmentsByStrategyId", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var strategyId string
 
-		resp, httpRes, err := apiClient.SegmentsApi.GetSegmentsByStrategyId(context.Background(), strategyId).Execute()
+		resp, httpRes, err := apiClient.SegmentsAPI.GetSegmentsByStrategyId(context.Background(), strategyId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -74,13 +74,13 @@ func Test_client_SegmentsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test SegmentsApiService GetStrategiesBySegmentId", func(t *testing.T) {
+	t.Run("Test SegmentsAPIService GetStrategiesBySegmentId", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		resp, httpRes, err := apiClient.SegmentsApi.GetStrategiesBySegmentId(context.Background(), id).Execute()
+		resp, httpRes, err := apiClient.SegmentsAPI.GetStrategiesBySegmentId(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -88,37 +88,37 @@ func Test_client_SegmentsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test SegmentsApiService RemoveSegment", func(t *testing.T) {
+	t.Run("Test SegmentsAPIService RemoveSegment", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		httpRes, err := apiClient.SegmentsApi.RemoveSegment(context.Background(), id).Execute()
+		httpRes, err := apiClient.SegmentsAPI.RemoveSegment(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test SegmentsApiService UpdateSegment", func(t *testing.T) {
+	t.Run("Test SegmentsAPIService UpdateSegment", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		httpRes, err := apiClient.SegmentsApi.UpdateSegment(context.Background(), id).Execute()
+		httpRes, err := apiClient.SegmentsAPI.UpdateSegment(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test SegmentsApiService ValidateSegment", func(t *testing.T) {
+	t.Run("Test SegmentsAPIService ValidateSegment", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.SegmentsApi.ValidateSegment(context.Background()).Execute()
+		httpRes, err := apiClient.SegmentsAPI.ValidateSegment(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

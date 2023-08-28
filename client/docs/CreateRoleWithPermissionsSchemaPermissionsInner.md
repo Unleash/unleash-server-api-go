@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **float32** |  | 
-**Environment** | Pointer to **string** |  | [optional] 
+**Id** | **float32** | The id of the permission | 
+**Environment** | Pointer to **string** | The environments of the permission if the permission is environment specific | [optional] 
 
 ## Methods
 

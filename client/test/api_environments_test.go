@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing EnvironmentsApiService
+Testing EnvironmentsAPIService
 
 */
 
@@ -17,29 +17,29 @@ import (
 	"testing"
 )
 
-func Test_client_EnvironmentsApiService(t *testing.T) {
+func Test_client_EnvironmentsAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test EnvironmentsApiService CloneEnvironment", func(t *testing.T) {
+	t.Run("Test EnvironmentsAPIService CloneEnvironment", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var name string
 
-		httpRes, err := apiClient.EnvironmentsApi.CloneEnvironment(context.Background(), name).Execute()
+		httpRes, err := apiClient.EnvironmentsAPI.CloneEnvironment(context.Background(), name).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test EnvironmentsApiService CreateEnvironment", func(t *testing.T) {
+	t.Run("Test EnvironmentsAPIService CreateEnvironment", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.EnvironmentsApi.CreateEnvironment(context.Background()).Execute()
+		resp, httpRes, err := apiClient.EnvironmentsAPI.CreateEnvironment(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -47,11 +47,11 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test EnvironmentsApiService GetAllEnvironments", func(t *testing.T) {
+	t.Run("Test EnvironmentsAPIService GetAllEnvironments", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.EnvironmentsApi.GetAllEnvironments(context.Background()).Execute()
+		resp, httpRes, err := apiClient.EnvironmentsAPI.GetAllEnvironments(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -59,13 +59,13 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test EnvironmentsApiService GetEnvironment", func(t *testing.T) {
+	t.Run("Test EnvironmentsAPIService GetEnvironment", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var name string
 
-		resp, httpRes, err := apiClient.EnvironmentsApi.GetEnvironment(context.Background(), name).Execute()
+		resp, httpRes, err := apiClient.EnvironmentsAPI.GetEnvironment(context.Background(), name).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -73,13 +73,13 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test EnvironmentsApiService GetProjectEnvironments", func(t *testing.T) {
+	t.Run("Test EnvironmentsAPIService GetProjectEnvironments", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var projectId string
 
-		resp, httpRes, err := apiClient.EnvironmentsApi.GetProjectEnvironments(context.Background(), projectId).Execute()
+		resp, httpRes, err := apiClient.EnvironmentsAPI.GetProjectEnvironments(context.Background(), projectId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -87,52 +87,52 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test EnvironmentsApiService RemoveEnvironment", func(t *testing.T) {
+	t.Run("Test EnvironmentsAPIService RemoveEnvironment", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var name string
 
-		httpRes, err := apiClient.EnvironmentsApi.RemoveEnvironment(context.Background(), name).Execute()
+		httpRes, err := apiClient.EnvironmentsAPI.RemoveEnvironment(context.Background(), name).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test EnvironmentsApiService ToggleEnvironmentOff", func(t *testing.T) {
+	t.Run("Test EnvironmentsAPIService ToggleEnvironmentOff", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var name string
 
-		httpRes, err := apiClient.EnvironmentsApi.ToggleEnvironmentOff(context.Background(), name).Execute()
+		httpRes, err := apiClient.EnvironmentsAPI.ToggleEnvironmentOff(context.Background(), name).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test EnvironmentsApiService ToggleEnvironmentOn", func(t *testing.T) {
+	t.Run("Test EnvironmentsAPIService ToggleEnvironmentOn", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var name string
 
-		httpRes, err := apiClient.EnvironmentsApi.ToggleEnvironmentOn(context.Background(), name).Execute()
+		httpRes, err := apiClient.EnvironmentsAPI.ToggleEnvironmentOn(context.Background(), name).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test EnvironmentsApiService UpdateEnvironment", func(t *testing.T) {
+	t.Run("Test EnvironmentsAPIService UpdateEnvironment", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var name string
 
-		resp, httpRes, err := apiClient.EnvironmentsApi.UpdateEnvironment(context.Background(), name).Execute()
+		resp, httpRes, err := apiClient.EnvironmentsAPI.UpdateEnvironment(context.Background(), name).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -140,22 +140,22 @@ func Test_client_EnvironmentsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test EnvironmentsApiService UpdateSortOrder", func(t *testing.T) {
+	t.Run("Test EnvironmentsAPIService UpdateSortOrder", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.EnvironmentsApi.UpdateSortOrder(context.Background()).Execute()
+		httpRes, err := apiClient.EnvironmentsAPI.UpdateSortOrder(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test EnvironmentsApiService ValidateEnvironmentName", func(t *testing.T) {
+	t.Run("Test EnvironmentsAPIService ValidateEnvironmentName", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.EnvironmentsApi.ValidateEnvironmentName(context.Background()).Execute()
+		httpRes, err := apiClient.EnvironmentsAPI.ValidateEnvironmentName(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

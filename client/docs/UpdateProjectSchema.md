@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  | 
-**Description** | Pointer to **string** |  | [optional] 
+**Name** | **string** | The new name of the project | 
+**Description** | Pointer to **string** | A new description for the project | [optional] 
 
 ## Methods
 

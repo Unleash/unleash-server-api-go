@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing ContextApiService
+Testing ContextAPIService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	"testing"
 )
 
-func Test_client_ContextApiService(t *testing.T) {
+func Test_client_ContextAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test ContextApiService CreateContextField", func(t *testing.T) {
+	t.Run("Test ContextAPIService CreateContextField", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.ContextApi.CreateContextField(context.Background()).Execute()
+		resp, httpRes, err := apiClient.ContextAPI.CreateContextField(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -34,26 +34,26 @@ func Test_client_ContextApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test ContextApiService DeleteContextField", func(t *testing.T) {
+	t.Run("Test ContextAPIService DeleteContextField", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var contextField string
 
-		httpRes, err := apiClient.ContextApi.DeleteContextField(context.Background(), contextField).Execute()
+		httpRes, err := apiClient.ContextAPI.DeleteContextField(context.Background(), contextField).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test ContextApiService GetContextField", func(t *testing.T) {
+	t.Run("Test ContextAPIService GetContextField", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var contextField string
 
-		resp, httpRes, err := apiClient.ContextApi.GetContextField(context.Background(), contextField).Execute()
+		resp, httpRes, err := apiClient.ContextAPI.GetContextField(context.Background(), contextField).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -61,11 +61,11 @@ func Test_client_ContextApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test ContextApiService GetContextFields", func(t *testing.T) {
+	t.Run("Test ContextAPIService GetContextFields", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.ContextApi.GetContextFields(context.Background()).Execute()
+		resp, httpRes, err := apiClient.ContextAPI.GetContextFields(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -73,24 +73,24 @@ func Test_client_ContextApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test ContextApiService UpdateContextField", func(t *testing.T) {
+	t.Run("Test ContextAPIService UpdateContextField", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var contextField string
 
-		httpRes, err := apiClient.ContextApi.UpdateContextField(context.Background(), contextField).Execute()
+		httpRes, err := apiClient.ContextAPI.UpdateContextField(context.Background(), contextField).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test ContextApiService Validate", func(t *testing.T) {
+	t.Run("Test ContextAPIService Validate", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.ContextApi.Validate(context.Background()).Execute()
+		httpRes, err := apiClient.ContextAPI.Validate(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

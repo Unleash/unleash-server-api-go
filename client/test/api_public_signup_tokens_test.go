@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing PublicSignupTokensApiService
+Testing PublicSignupTokensAPIService
 
 */
 
@@ -17,18 +17,18 @@ import (
 	"testing"
 )
 
-func Test_client_PublicSignupTokensApiService(t *testing.T) {
+func Test_client_PublicSignupTokensAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test PublicSignupTokensApiService AddPublicSignupTokenUser", func(t *testing.T) {
+	t.Run("Test PublicSignupTokensAPIService AddPublicSignupTokenUser", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var token string
 
-		resp, httpRes, err := apiClient.PublicSignupTokensApi.AddPublicSignupTokenUser(context.Background(), token).Execute()
+		resp, httpRes, err := apiClient.PublicSignupTokensAPI.AddPublicSignupTokenUser(context.Background(), token).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -36,11 +36,11 @@ func Test_client_PublicSignupTokensApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test PublicSignupTokensApiService CreatePublicSignupToken", func(t *testing.T) {
+	t.Run("Test PublicSignupTokensAPIService CreatePublicSignupToken", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.PublicSignupTokensApi.CreatePublicSignupToken(context.Background()).Execute()
+		resp, httpRes, err := apiClient.PublicSignupTokensAPI.CreatePublicSignupToken(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,11 +48,11 @@ func Test_client_PublicSignupTokensApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test PublicSignupTokensApiService GetAllPublicSignupTokens", func(t *testing.T) {
+	t.Run("Test PublicSignupTokensAPIService GetAllPublicSignupTokens", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.PublicSignupTokensApi.GetAllPublicSignupTokens(context.Background()).Execute()
+		resp, httpRes, err := apiClient.PublicSignupTokensAPI.GetAllPublicSignupTokens(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -60,27 +60,13 @@ func Test_client_PublicSignupTokensApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test PublicSignupTokensApiService GetPublicSignupToken", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		var token string
-
-		resp, httpRes, err := apiClient.PublicSignupTokensApi.GetPublicSignupToken(context.Background(), token).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test PublicSignupTokensApiService UpdatePublicSignupToken", func(t *testing.T) {
+	t.Run("Test PublicSignupTokensAPIService GetPublicSignupToken", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var token string
 
-		resp, httpRes, err := apiClient.PublicSignupTokensApi.UpdatePublicSignupToken(context.Background(), token).Execute()
+		resp, httpRes, err := apiClient.PublicSignupTokensAPI.GetPublicSignupToken(context.Background(), token).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -88,13 +74,27 @@ func Test_client_PublicSignupTokensApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test PublicSignupTokensApiService ValidatePublicSignupToken", func(t *testing.T) {
+	t.Run("Test PublicSignupTokensAPIService UpdatePublicSignupToken", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var token string
 
-		httpRes, err := apiClient.PublicSignupTokensApi.ValidatePublicSignupToken(context.Background(), token).Execute()
+		resp, httpRes, err := apiClient.PublicSignupTokensAPI.UpdatePublicSignupToken(context.Background(), token).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PublicSignupTokensAPIService ValidatePublicSignupToken", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		var token string
+
+		httpRes, err := apiClient.PublicSignupTokensAPI.ValidatePublicSignupToken(context.Background(), token).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

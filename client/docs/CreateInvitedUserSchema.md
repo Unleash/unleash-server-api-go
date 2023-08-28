@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Username** | Pointer to **string** |  | [optional] 
-**Email** | **string** |  | 
-**Name** | **string** |  | 
-**Password** | **string** |  | 
+**Username** | Pointer to **string** | The user&#39;s username. Must be unique if provided. | [optional] 
+**Email** | **string** | The invited user&#39;s email address | 
+**Name** | **string** | The user&#39;s name | 
+**Password** | **string** | The user&#39;s password | 
 
 ## Methods
 

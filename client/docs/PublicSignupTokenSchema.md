@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Secret** | **string** | The actual value of the token. This is the part that is used by Unleash to create an invite link | 
-**Url** | **string** | The public signup link for the token. Users who follow this link will be taken to a signup page where they can create an Unleash user. | 
+**Url** | **NullableString** | The public signup link for the token. Users who follow this link will be taken to a signup page where they can create an Unleash user. | 
 **Name** | **string** | The token&#39;s name. Only for displaying in the UI | 
 **Enabled** | **bool** | Whether the token is active. This property will always be &#x60;false&#x60; for a token that has expired. | 
 **ExpiresAt** | **time.Time** | The time when the token will expire. | 
@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 
 ### NewPublicSignupTokenSchema
 
-`func NewPublicSignupTokenSchema(secret string, url string, name string, enabled bool, expiresAt time.Time, createdAt time.Time, createdBy NullableString, role RoleSchema, ) *PublicSignupTokenSchema`
+`func NewPublicSignupTokenSchema(secret string, url NullableString, name string, enabled bool, expiresAt time.Time, createdAt time.Time, createdBy NullableString, role RoleSchema, ) *PublicSignupTokenSchema`
 
 NewPublicSignupTokenSchema instantiates a new PublicSignupTokenSchema object
 This constructor will assign default values to properties that have it defined,
@@ -73,6 +73,16 @@ and a boolean to check if the value has been set.
 SetUrl sets Url field to given value.
 
 
+### SetUrlNil
+
+`func (o *PublicSignupTokenSchema) SetUrlNil(b bool)`
+
+ SetUrlNil sets the value for Url to be an explicit nil
+
+### UnsetUrl
+`func (o *PublicSignupTokenSchema) UnsetUrl()`
+
+UnsetUrl ensures that no value is present for Url, not even an explicit nil
 ### GetName
 
 `func (o *PublicSignupTokenSchema) GetName() string`

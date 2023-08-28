@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Variants** | Pointer to [**[]VariantSchema**](VariantSchema.md) |  | [optional] 
-**Environments** | Pointer to **[]string** |  | [optional] 
+**Variants** | Pointer to [**[]VariantSchema**](VariantSchema.md) | The variants to write to the provided environments | [optional] 
+**Environments** | Pointer to **[]string** | The enviromnents to write the provided variants to | [optional] 
 
 ## Methods
 

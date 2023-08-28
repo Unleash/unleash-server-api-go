@@ -4,11 +4,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **float32** |  | 
-**Type** | **string** |  | 
-**Name** | **string** |  | 
-**Description** | Pointer to **string** |  | [optional] 
-**Permissions** | [**[]AdminPermissionSchema**](AdminPermissionSchema.md) |  | 
+**Id** | **float32** | The role id | 
+**Type** | **string** | A role can either be a global &#x60;root&#x60; role, or a &#x60;project&#x60; role or a &#x60;custom&#x60; project role or a custom global &#x60;root-custom&#x60; role | 
+**Name** | **string** | The name of the role | 
+**Description** | Pointer to **string** | A more detailed description of the role and what use it&#39;s intended for | [optional] 
+**Permissions** | [**[]AdminPermissionSchema**](AdminPermissionSchema.md) | A list of permissions assigned to this role | 
 
 ## Methods
 

@@ -4,18 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Version** | **int32** |  | 
-**Features** | Pointer to [**[]FeatureSchema**](FeatureSchema.md) |  | [optional] 
-**Strategies** | Pointer to [**[]StrategySchema**](StrategySchema.md) |  | [optional] 
-**Tags** | Pointer to [**[]TagSchema**](TagSchema.md) |  | [optional] 
-**TagTypes** | Pointer to [**[]TagTypeSchema**](TagTypeSchema.md) |  | [optional] 
-**FeatureTags** | Pointer to [**[]FeatureTagSchema**](FeatureTagSchema.md) |  | [optional] 
-**Projects** | Pointer to [**[]ProjectSchema**](ProjectSchema.md) |  | [optional] 
-**FeatureStrategies** | Pointer to [**[]FeatureStrategySchema**](FeatureStrategySchema.md) |  | [optional] 
-**FeatureEnvironments** | Pointer to [**[]FeatureEnvironmentSchema**](FeatureEnvironmentSchema.md) |  | [optional] 
-**Environments** | Pointer to [**[]EnvironmentSchema**](EnvironmentSchema.md) |  | [optional] 
-**Segments** | Pointer to [**[]SegmentSchema**](SegmentSchema.md) |  | [optional] 
-**FeatureStrategySegments** | Pointer to [**[]FeatureStrategySegmentSchema**](FeatureStrategySegmentSchema.md) |  | [optional] 
+**Version** | **int32** | The version of the schema used to describe the state | 
+**Features** | Pointer to [**[]FeatureSchema**](FeatureSchema.md) | A list of features | [optional] 
+**Strategies** | Pointer to [**[]StrategySchema**](StrategySchema.md) | A list of strategies | [optional] 
+**Tags** | Pointer to [**[]TagSchema**](TagSchema.md) | A list of tags | [optional] 
+**TagTypes** | Pointer to [**[]TagTypeSchema**](TagTypeSchema.md) | A list of tag types | [optional] 
+**FeatureTags** | Pointer to [**[]FeatureTagSchema**](FeatureTagSchema.md) | A list of tags applied to features | [optional] 
+**Projects** | Pointer to [**[]ProjectSchema**](ProjectSchema.md) | A list of projects | [optional] 
+**FeatureStrategies** | Pointer to [**[]FeatureStrategySchema**](FeatureStrategySchema.md) | A list of feature strategies as applied to features | [optional] 
+**FeatureEnvironments** | Pointer to [**[]FeatureEnvironmentSchema**](FeatureEnvironmentSchema.md) | A list of feature environment configurations | [optional] 
+**Environments** | Pointer to [**[]EnvironmentSchema**](EnvironmentSchema.md) | A list of environments | [optional] 
+**Segments** | Pointer to [**[]SegmentSchema**](SegmentSchema.md) | A list of segments | [optional] 
+**FeatureStrategySegments** | Pointer to [**[]FeatureStrategySegmentSchema**](FeatureStrategySegmentSchema.md) | A list of segment/strategy pairings | [optional] 
 
 ## Methods
 

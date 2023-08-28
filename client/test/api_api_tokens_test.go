@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing APITokensApiService
+Testing APITokensAPIService
 
 */
 
@@ -11,23 +11,22 @@ package client
 
 import (
 	"context"
-	"testing"
-
 	"github.com/Unleash/unleash-server-api-go/client"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"testing"
 )
 
-func Test_client_APITokensApiService(t *testing.T) {
+func Test_client_APITokensAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test APITokensApiService CreateApiToken", func(t *testing.T) {
+	t.Run("Test APITokensAPIService CreateApiToken", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.APITokensApi.CreateApiToken(context.Background()).Execute()
+		resp, httpRes, err := apiClient.APITokensAPI.CreateApiToken(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -35,24 +34,24 @@ func Test_client_APITokensApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test APITokensApiService DeleteApiToken", func(t *testing.T) {
+	t.Run("Test APITokensAPIService DeleteApiToken", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var token string
 
-		httpRes, err := apiClient.APITokensApi.DeleteApiToken(context.Background(), token).Execute()
+		httpRes, err := apiClient.APITokensAPI.DeleteApiToken(context.Background(), token).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test APITokensApiService GetAllApiTokens", func(t *testing.T) {
+	t.Run("Test APITokensAPIService GetAllApiTokens", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.APITokensApi.GetAllApiTokens(context.Background()).Execute()
+		resp, httpRes, err := apiClient.APITokensAPI.GetAllApiTokens(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -60,13 +59,27 @@ func Test_client_APITokensApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test APITokensApiService UpdateApiToken", func(t *testing.T) {
+	t.Run("Test APITokensAPIService GetApiTokensByName", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		var name string
+
+		resp, httpRes, err := apiClient.APITokensAPI.GetApiTokensByName(context.Background(), name).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test APITokensAPIService UpdateApiToken", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var token string
 
-		httpRes, err := apiClient.APITokensApi.UpdateApiToken(context.Background(), token).Execute()
+		httpRes, err := apiClient.APITokensAPI.UpdateApiToken(context.Background(), token).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

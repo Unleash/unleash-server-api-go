@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Text** | **string** |  | 
+**Text** | **string** | The content of the comment. | 
 
 ## Methods
 

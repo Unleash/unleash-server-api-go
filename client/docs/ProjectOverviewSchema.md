@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Stats** | Pointer to [**ProjectStatsSchema**](ProjectStatsSchema.md) |  | [optional] 
-**Version** | **float32** |  | 
+**Version** | **int32** | The schema version used to describe the project overview | 
 **Name** | **string** | The name of this project | 
 **Description** | Pointer to **NullableString** | Additional information about the project | [optional] 
 **DefaultStickiness** | Pointer to **string** | A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy | [optional] 
@@ -15,15 +15,15 @@ Name | Type | Description | Notes
 **Health** | Pointer to **float32** | An indicator of the [project&#39;s health](https://docs.getunleash.io/reference/technical-debt#health-rating) on a scale from 0 to 100 | [optional] 
 **Environments** | Pointer to [**[]ProjectEnvironmentSchema**](ProjectEnvironmentSchema.md) | The environments that are enabled for this project | [optional] 
 **Features** | Pointer to [**[]FeatureSchema**](FeatureSchema.md) | The full list of features in this project (excluding archived features) | [optional] 
-**UpdatedAt** | Pointer to **NullableTime** |  | [optional] 
-**CreatedAt** | Pointer to **NullableTime** |  | [optional] 
+**UpdatedAt** | Pointer to **NullableTime** | When the project was last updated. | [optional] 
+**CreatedAt** | Pointer to **NullableTime** | When the project was created. | [optional] 
 **Favorite** | Pointer to **bool** | &#x60;true&#x60; if the project was favorited, otherwise &#x60;false&#x60;. | [optional] 
 
 ## Methods
 
 ### NewProjectOverviewSchema
 
-`func NewProjectOverviewSchema(version float32, name string, ) *ProjectOverviewSchema`
+`func NewProjectOverviewSchema(version int32, name string, ) *ProjectOverviewSchema`
 
 NewProjectOverviewSchema instantiates a new ProjectOverviewSchema object
 This constructor will assign default values to properties that have it defined,
@@ -65,20 +65,20 @@ HasStats returns a boolean if a field has been set.
 
 ### GetVersion
 
-`func (o *ProjectOverviewSchema) GetVersion() float32`
+`func (o *ProjectOverviewSchema) GetVersion() int32`
 
 GetVersion returns the Version field if non-nil, zero value otherwise.
 
 ### GetVersionOk
 
-`func (o *ProjectOverviewSchema) GetVersionOk() (*float32, bool)`
+`func (o *ProjectOverviewSchema) GetVersionOk() (*int32, bool)`
 
 GetVersionOk returns a tuple with the Version field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVersion
 
-`func (o *ProjectOverviewSchema) SetVersion(v float32)`
+`func (o *ProjectOverviewSchema) SetVersion(v int32)`
 
 SetVersion sets Version field to given value.
 

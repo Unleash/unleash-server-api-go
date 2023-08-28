@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  | 
-**Description** | Pointer to **string** |  | [optional] 
-**Type** | Pointer to **string** |  | [optional] 
-**Permissions** | Pointer to [**[]CreateRoleWithPermissionsSchemaPermissionsInner**](CreateRoleWithPermissionsSchemaPermissionsInner.md) |  | [optional] 
+**Name** | **string** | The name of the custom role | 
+**Description** | Pointer to **string** | A more detailed description of the custom role and what use it&#39;s intended for | [optional] 
+**Type** | Pointer to **string** | A custom role can either be a global/root custom role (applies to all projects) or a project custom role | [optional] 
+**Permissions** | Pointer to [**[]CreateRoleWithPermissionsSchemaPermissionsInner**](CreateRoleWithPermissionsSchemaPermissionsInner.md) | A list of permissions assigned to this role | [optional] 
 
 ## Methods
 

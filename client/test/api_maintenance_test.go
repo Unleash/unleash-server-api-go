@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing MaintenanceApiService
+Testing MaintenanceAPIService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	"testing"
 )
 
-func Test_client_MaintenanceApiService(t *testing.T) {
+func Test_client_MaintenanceAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test MaintenanceApiService GetMaintenance", func(t *testing.T) {
+	t.Run("Test MaintenanceAPIService GetMaintenance", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.MaintenanceApi.GetMaintenance(context.Background()).Execute()
+		resp, httpRes, err := apiClient.MaintenanceAPI.GetMaintenance(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -34,11 +34,11 @@ func Test_client_MaintenanceApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test MaintenanceApiService ToggleMaintenance", func(t *testing.T) {
+	t.Run("Test MaintenanceAPIService ToggleMaintenance", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.MaintenanceApi.ToggleMaintenance(context.Background()).Execute()
+		httpRes, err := apiClient.MaintenanceAPI.ToggleMaintenance(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

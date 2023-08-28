@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**SegmentId** | **int32** |  | 
-**FeatureStrategyId** | **string** |  | 
+**SegmentId** | **int32** | The ID of the segment | 
+**FeatureStrategyId** | **string** | The ID of the strategy | 
 
 ## Methods
 

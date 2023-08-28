@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Events** | [**[]LoginEventSchema**](LoginEventSchema.md) |  | 
+**Events** | [**[]LoginEventSchema**](LoginEventSchema.md) | A list of login events | 
 
 ## Methods
 

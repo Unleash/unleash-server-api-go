@@ -6,14 +6,14 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **int32** | The user id | 
 **IsAPI** | Pointer to **bool** | (Deprecated): Used internally to know which operations the user should be allowed to perform | [optional] 
-**Name** | Pointer to **string** | Name of the user | [optional] 
+**Name** | Pointer to **NullableString** | Name of the user | [optional] 
 **Email** | Pointer to **string** | Email of the user | [optional] 
 **Username** | Pointer to **string** | A unique username for the user | [optional] 
 **ImageUrl** | Pointer to **string** | URL used for the userprofile image | [optional] 
 **InviteLink** | Pointer to **string** | If the user is actively inviting other users, this is the link that can be shared with other users | [optional] 
 **LoginAttempts** | Pointer to **int32** | How many unsuccessful attempts at logging in has the user made | [optional] 
 **EmailSent** | Pointer to **bool** | Is the welcome email sent to the user or not | [optional] 
-**RootRole** | Pointer to **int32** | Which [root role](https://docs.getunleash.io/reference/rbac#standard-roles) this user is assigned | [optional] 
+**RootRole** | Pointer to **int32** | Which [root role](https://docs.getunleash.io/reference/rbac#predefined-roles) this user is assigned | [optional] 
 **SeenAt** | Pointer to **NullableTime** | The last time this user logged in | [optional] 
 **CreatedAt** | Pointer to **time.Time** | The user was created at this time | [optional] 
 **AccountType** | Pointer to **string** | A user is either an actual User or a Service Account | [optional] 
@@ -108,6 +108,16 @@ SetName sets Name field to given value.
 
 HasName returns a boolean if a field has been set.
 
+### SetNameNil
+
+`func (o *UserSchema) SetNameNil(b bool)`
+
+ SetNameNil sets the value for Name to be an explicit nil
+
+### UnsetName
+`func (o *UserSchema) UnsetName()`
+
+UnsetName ensures that no value is present for Name, not even an explicit nil
 ### GetEmail
 
 `func (o *UserSchema) GetEmail() string`

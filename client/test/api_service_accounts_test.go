@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing ServiceAccountsApiService
+Testing ServiceAccountsAPIService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	"testing"
 )
 
-func Test_client_ServiceAccountsApiService(t *testing.T) {
+func Test_client_ServiceAccountsAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test ServiceAccountsApiService CreateServiceAccount", func(t *testing.T) {
+	t.Run("Test ServiceAccountsAPIService CreateServiceAccount", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.ServiceAccountsApi.CreateServiceAccount(context.Background()).Execute()
+		resp, httpRes, err := apiClient.ServiceAccountsAPI.CreateServiceAccount(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -34,13 +34,13 @@ func Test_client_ServiceAccountsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test ServiceAccountsApiService CreateServiceAccountToken", func(t *testing.T) {
+	t.Run("Test ServiceAccountsAPIService CreateServiceAccountToken", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		resp, httpRes, err := apiClient.ServiceAccountsApi.CreateServiceAccountToken(context.Background(), id).Execute()
+		resp, httpRes, err := apiClient.ServiceAccountsAPI.CreateServiceAccountToken(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,40 +48,40 @@ func Test_client_ServiceAccountsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test ServiceAccountsApiService DeleteServiceAccount", func(t *testing.T) {
+	t.Run("Test ServiceAccountsAPIService DeleteServiceAccount", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		httpRes, err := apiClient.ServiceAccountsApi.DeleteServiceAccount(context.Background(), id).Execute()
+		httpRes, err := apiClient.ServiceAccountsAPI.DeleteServiceAccount(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test ServiceAccountsApiService DeleteServiceAccountToken", func(t *testing.T) {
+	t.Run("Test ServiceAccountsAPIService DeleteServiceAccountToken", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 		var tokenId string
 
-		httpRes, err := apiClient.ServiceAccountsApi.DeleteServiceAccountToken(context.Background(), id, tokenId).Execute()
+		httpRes, err := apiClient.ServiceAccountsAPI.DeleteServiceAccountToken(context.Background(), id, tokenId).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test ServiceAccountsApiService GetServiceAccountTokens", func(t *testing.T) {
+	t.Run("Test ServiceAccountsAPIService GetServiceAccountTokens", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		resp, httpRes, err := apiClient.ServiceAccountsApi.GetServiceAccountTokens(context.Background(), id).Execute()
+		resp, httpRes, err := apiClient.ServiceAccountsAPI.GetServiceAccountTokens(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -89,11 +89,11 @@ func Test_client_ServiceAccountsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test ServiceAccountsApiService GetServiceAccounts", func(t *testing.T) {
+	t.Run("Test ServiceAccountsAPIService GetServiceAccounts", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.ServiceAccountsApi.GetServiceAccounts(context.Background()).Execute()
+		resp, httpRes, err := apiClient.ServiceAccountsAPI.GetServiceAccounts(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -101,13 +101,13 @@ func Test_client_ServiceAccountsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test ServiceAccountsApiService UpdateServiceAccount", func(t *testing.T) {
+	t.Run("Test ServiceAccountsAPIService UpdateServiceAccount", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		resp, httpRes, err := apiClient.ServiceAccountsApi.UpdateServiceAccount(context.Background(), id).Execute()
+		resp, httpRes, err := apiClient.ServiceAccountsAPI.UpdateServiceAccount(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

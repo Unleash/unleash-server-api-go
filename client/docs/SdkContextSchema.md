@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **AppName** | **string** | The name of the application. | 
 **CurrentTime** | Pointer to **time.Time** | A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user. | [optional] 
 **Environment** | Pointer to **string** | The environment the app is running in. | [optional] 
-**Properties** | Pointer to **map[string]string** |  | [optional] 
+**Properties** | Pointer to **map[string]string** | Additional Unleash context properties | [optional] 
 **RemoteAddress** | Pointer to **string** | The app&#39;s IP address | [optional] 
 **SessionId** | Pointer to **string** | An identifier for the current session | [optional] 
 **UserId** | Pointer to **string** | An identifier for the current user | [optional] 

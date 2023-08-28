@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing ImportExportApiService
+Testing ImportExportAPIService
 
 */
 
@@ -17,39 +17,27 @@ import (
 	"testing"
 )
 
-func Test_client_ImportExportApiService(t *testing.T) {
+func Test_client_ImportExportAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test ImportExportApiService CallImport", func(t *testing.T) {
+	t.Run("Test ImportExportAPIService CallImport", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.ImportExportApi.CallImport(context.Background()).Execute()
+		httpRes, err := apiClient.ImportExportAPI.CallImport(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test ImportExportApiService Export", func(t *testing.T) {
+	t.Run("Test ImportExportAPIService Export", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.ImportExportApi.Export(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ImportExportApiService ExportFeatures", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		resp, httpRes, err := apiClient.ImportExportApi.ExportFeatures(context.Background()).Execute()
+		resp, httpRes, err := apiClient.ImportExportAPI.Export(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -57,22 +45,22 @@ func Test_client_ImportExportApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test ImportExportApiService ImportToggles", func(t *testing.T) {
+	t.Run("Test ImportExportAPIService ImportToggles", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.ImportExportApi.ImportToggles(context.Background()).Execute()
+		httpRes, err := apiClient.ImportExportAPI.ImportToggles(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test ImportExportApiService ValidateImport", func(t *testing.T) {
+	t.Run("Test ImportExportAPIService ValidateImport", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.ImportExportApi.ValidateImport(context.Background()).Execute()
+		resp, httpRes, err := apiClient.ImportExportAPI.ValidateImport(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

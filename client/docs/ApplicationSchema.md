@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **Url** | Pointer to **string** | A link to reference the application reporting the metrics. Could for instance be a GitHub link to the repository of the application | [optional] 
 **Color** | Pointer to **string** | The CSS color that is used to color the application&#39;s entry in the application list | [optional] 
 **Icon** | Pointer to **string** | An URL to an icon file to be used for the applications&#39;s entry in the application list | [optional] 
+**Usage** | Pointer to [**[]ApplicationUsageSchema**](ApplicationUsageSchema.md) | The list of projects the application has been using. | [optional] 
 
 ## Methods
 
@@ -200,6 +201,31 @@ SetIcon sets Icon field to given value.
 `func (o *ApplicationSchema) HasIcon() bool`
 
 HasIcon returns a boolean if a field has been set.
+
+### GetUsage
+
+`func (o *ApplicationSchema) GetUsage() []ApplicationUsageSchema`
+
+GetUsage returns the Usage field if non-nil, zero value otherwise.
+
+### GetUsageOk
+
+`func (o *ApplicationSchema) GetUsageOk() (*[]ApplicationUsageSchema, bool)`
+
+GetUsageOk returns a tuple with the Usage field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUsage
+
+`func (o *ApplicationSchema) SetUsage(v []ApplicationUsageSchema)`
+
+SetUsage sets Usage field to given value.
+
+### HasUsage
+
+`func (o *ApplicationSchema) HasUsage() bool`
+
+HasUsage returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

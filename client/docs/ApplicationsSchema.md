@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Applications** | Pointer to [**[]ApplicationSchema**](ApplicationSchema.md) | Contains a list of applications that have connected via an SDK | [optional] 
+**Applications** | Pointer to [**[]ApplicationSchema**](ApplicationSchema.md) | The list of applications that have connected to this Unleash instance. | [optional] 
 
 ## Methods
 

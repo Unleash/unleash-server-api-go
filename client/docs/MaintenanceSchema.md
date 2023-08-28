@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Enabled** | **bool** |  | 
+**Enabled** | **bool** | Whether maintenance mode is enabled or not. | 
 
 ## Methods
 

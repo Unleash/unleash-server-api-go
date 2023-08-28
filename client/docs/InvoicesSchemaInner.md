@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AmountFormatted** | **string** |  | 
-**Paid** | **bool** |  | 
-**Status** | **string** |  | 
-**DueDate** | Pointer to **string** |  | [optional] 
-**InvoiceURL** | **string** |  | 
-**InvoicePDF** | **string** |  | 
+**AmountFormatted** | **string** | A formatted representation of the amount due. | 
+**Paid** | **bool** | &#x60;true&#x60; if the invoice has been paid, &#x60;false&#x60; if it has not. | 
+**Status** | **string** | The current status of the invoice | 
+**DueDate** | Pointer to **string** | When the invoice is due | [optional] 
+**InvoiceURL** | **string** | A URL pointing to where the invoice can be found. | 
+**InvoicePDF** | **string** | A link to a PDF-version of the invoice. | 
 
 ## Methods
 

@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing FrontendAPIApiService
+Testing FrontendAPIAPIService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	"testing"
 )
 
-func Test_client_FrontendAPIApiService(t *testing.T) {
+func Test_client_FrontendAPIAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test FrontendAPIApiService GetFrontendFeatures", func(t *testing.T) {
+	t.Run("Test FrontendAPIAPIService GetFrontendFeatures", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.FrontendAPIApi.GetFrontendFeatures(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FrontendAPIAPI.GetFrontendFeatures(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -34,22 +34,22 @@ func Test_client_FrontendAPIApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test FrontendAPIApiService RegisterFrontendClient", func(t *testing.T) {
+	t.Run("Test FrontendAPIAPIService RegisterFrontendClient", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.FrontendAPIApi.RegisterFrontendClient(context.Background()).Execute()
+		httpRes, err := apiClient.FrontendAPIAPI.RegisterFrontendClient(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test FrontendAPIApiService RegisterFrontendMetrics", func(t *testing.T) {
+	t.Run("Test FrontendAPIAPIService RegisterFrontendMetrics", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.FrontendAPIApi.RegisterFrontendMetrics(context.Background()).Execute()
+		httpRes, err := apiClient.FrontendAPIAPI.RegisterFrontendMetrics(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

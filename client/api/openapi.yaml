@@ -1,9 +1,9 @@
 openapi: 3.0.3
 info:
   title: Unleash API
-  version: 5.3.3
+  version: 5.4.0-main
 servers:
-- url: https://app.unleash-hosted.com/hosted
+- url: https://us.app.unleash-hosted.com/ushosted
 security:
 - apiKey: []
 tags:
@@ -32,6 +32,8 @@ tags:
   name: Environments
 - description: Read events from this Unleash instance.
   name: Events
+- description: "Manage [feature toggle types](https://docs.getunleash.io/reference/feature-toggle-types)."
+  name: Feature Types
 - description: "Create, update, and delete [features toggles](https://docs.getunleash.io/reference/feature-toggles)."
   name: Features
 - description: API for connecting client-side (frontend) applications to Unleash.
@@ -306,6 +308,7 @@ paths:
       tags:
       - Auth
     post:
+      description: Configure OpenID Connect as a login provider for Unleash.
       operationId: setOidcSettings
       requestBody:
         content:
@@ -350,6 +353,7 @@ paths:
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
             header.
+      summary: Set OIDC settings
       tags:
       - Auth
   /api/admin/auth/simple/settings:
@@ -468,12 +472,20 @@ paths:
         description: createGroupSchema
         required: true
       responses:
-        "200":
+        "201":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/groupSchema'
-          description: groupSchema
+          description: The resource was successfully created.
+          headers:
+            location:
+              description: The location of the newly created resource.
+              explode: false
+              schema:
+                format: uri
+                type: string
+              style: simple
         "400":
           content:
             application/json:
@@ -655,6 +667,8 @@ paths:
       - Users
   /api/admin/roles:
     get:
+      description: "Get a list of project, root and custom roles for Role-Based Access\
+        \ Control"
       operationId: getRoles
       responses:
         "200":
@@ -663,9 +677,25 @@ paths:
               schema:
                 $ref: '#/components/schemas/rolesWithVersionSchema'
           description: rolesWithVersionSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get a list of roles
       tags:
       - Users
     post:
+      description: Create a new custom role for Role-Based Access Control
       operationId: createRole
       requestBody:
         content:
@@ -687,10 +717,35 @@ paths:
               schema:
                 $ref: '#/components/schemas/getGoogleSettings_400_response'
           description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createGroup_409_response'
+          description: "The provided resource can not be created or updated because\
+            \ it would conflict with the current state of the resource or with an\
+            \ already existing resource, respectively."
+      summary: Create a new role
       tags:
       - Users
   /api/admin/roles/{roleId}:
     delete:
+      description: Delete a custom role by id. You cannot delete built-in roles or
+        roles that are in use.
       operationId: deleteRole
       parameters:
       - explode: false
@@ -703,17 +758,37 @@ paths:
       responses:
         "200":
           description: This response has no body.
-        "409":
+        "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createGroup_409_response'
-          description: "The provided resource can not be created or updated because\
-            \ it would conflict with the current state of the resource or with an\
-            \ already existing resource, respectively."
+                $ref: '#/components/schemas/getGoogleSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+      summary: Delete a custom role
       tags:
       - Users
     get:
+      description: Get a single role by role id
       operationId: getRoleById
       parameters:
       - explode: false
@@ -730,9 +805,30 @@ paths:
               schema:
                 $ref: '#/components/schemas/roleWithPermissionsSchema'
           description: roleWithPermissionsSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+      summary: Get a single role
       tags:
       - Users
     put:
+      description: Update a custom role by role id
       operationId: updateRole
       parameters:
       - explode: false
@@ -762,10 +858,40 @@ paths:
               schema:
                 $ref: '#/components/schemas/getGoogleSettings_400_response'
           description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createGroup_409_response'
+          description: "The provided resource can not be created or updated because\
+            \ it would conflict with the current state of the resource or with an\
+            \ already existing resource, respectively."
+      summary: Update a role
       tags:
       - Users
   /api/admin/roles/validate:
     post:
+      description: Check if the role matches schema and has a unique name
       operationId: validateRole
       requestBody:
         content:
@@ -783,6 +909,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/getGoogleSettings_400_response'
           description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+      summary: Validate a role
       tags:
       - Users
   /api/admin/environments:
@@ -1391,37 +1525,6 @@ paths:
       summary: Delete a token for a service account.
       tags:
       - Service Accounts
-  /api/admin/features-batch/export:
-    post:
-      description: "Exports all features listed in the `features` property from the\
-        \ environment specified in the request body. If set to `true`, the `downloadFile`\
-        \ property will let you download a file with the exported data. Otherwise,\
-        \ the export data is returned directly as JSON. Refer to the documentation\
-        \ for more information about [Unleash's export functionality](https://docs.getunleash.io/reference/deploy/environment-import-export#export)."
-      operationId: exportFeatures
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/exportQuerySchema'
-        description: exportQuerySchema
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/exportResultSchema'
-          description: exportResultSchema
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getGroup_404_response'
-          description: The requested resource was not found.
-      summary: Export feature toggles from an environment
-      tags:
-      - Import/Export
   /api/admin/features-batch/validate:
     post:
       description: "Validates a feature toggle data set. Checks whether the data can\
@@ -1508,7 +1611,7 @@ paths:
           description: The requested resource was not found.
       summary: Get all login events.
       tags:
-      - Unstable
+      - Instance Admin
   /api/admin/projects:
     get:
       description: This endpoint returns an list of all the projects in the Unleash
@@ -1539,6 +1642,7 @@ paths:
       tags:
       - Projects
     post:
+      description: "Create a new [Unleash project](https://docs.getunleash.io/reference/projects)."
       operationId: createProject
       requestBody:
         content:
@@ -1575,10 +1679,28 @@ paths:
                 $ref: '#/components/schemas/login_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/setGoogleSettings_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Create project
       tags:
       - Projects
   /api/admin/projects/validate:
     post:
+      description: Validate a project ID against Unleash's rules
       operationId: validateProject
       requestBody:
         content:
@@ -1590,10 +1712,43 @@ paths:
       responses:
         "200":
           description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/setGoogleSettings_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Validate project ID
       tags:
       - Projects
   /api/admin/projects/{projectId}:
     delete:
+      description: Permanently delete the provided project. All feature toggles in
+        the project must be archived before you can delete it. This permanently deletes
+        the project and its archived toggles. It can not be undone.
       operationId: deleteProject
       parameters:
       - explode: false
@@ -1606,6 +1761,27 @@ paths:
       responses:
         "200":
           description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Delete project
       tags:
       - Projects
     get:
@@ -1652,6 +1828,8 @@ paths:
       tags:
       - Projects
     put:
+      description: Update a project with new configuration. Any fields not provided
+        are ignored.
       operationId: updateProject
       parameters:
       - explode: false
@@ -1671,11 +1849,50 @@ paths:
       responses:
         "200":
           description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/setGoogleSettings_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Update project
       tags:
       - Projects
   /api/admin/projects/{projectId}/users:
     get:
       deprecated: true
+      description: Get users belonging to a project together with their roles as well
+        as a list of roles available to the project. This endpoint is deprecated.
+        Use `/:projectId/access` instead.
       operationId: getProjectUsers
       parameters:
       - explode: false
@@ -1692,10 +1909,27 @@ paths:
               schema:
                 $ref: '#/components/schemas/projectUsersSchema'
           description: projectUsersSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get users in project
       tags:
       - Projects
   /api/admin/projects/{projectId}/access:
     get:
+      description: "Get all groups, users and their roles, and available roles for\
+        \ the given project."
       operationId: getProjectAccess
       parameters:
       - explode: false
@@ -1712,10 +1946,127 @@ paths:
               schema:
                 $ref: '#/components/schemas/projectAccessSchema'
           description: projectAccessSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get users and groups in project
+      tags:
+      - Projects
+    post:
+      description: Configure project access for groups and single users. The provided
+        users and groups will be given the roles specified in the payload.
+      operationId: addAccessToProject
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/projectAddAccessSchema'
+        description: projectAddAccessSchema
+        required: true
+      responses:
+        "200":
+          description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/setGoogleSettings_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Configure project access
+      tags:
+      - Projects
+  /api/admin/projects/roles/{roleId}/access:
+    get:
+      description: "For the provided role, retrieves a list of projects that use this\
+        \ role. For each project it also contains information about how the role used\
+        \ in that project, such as how many users, groups, or service accounts that\
+        \ use the role."
+      operationId: getRoleProjectAccess
+      parameters:
+      - explode: false
+        in: path
+        name: roleId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectRoleUsageSchema'
+          description: projectRoleUsageSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get project-role mappings
       tags:
       - Projects
   /api/admin/projects/{projectId}/users/{userId}/roles/{roleId}:
     delete:
+      deprecated: true
+      description: Remove the specified project role from the specified user. This
+        endpoint is deprecated. Use `/:projectId/users/:userId/roles` instead.
       operationId: removeRoleForUser
       parameters:
       - explode: false
@@ -1742,9 +2093,33 @@ paths:
       responses:
         "200":
           description: This response has no body.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+      summary: Removes role from user
       tags:
       - Projects
     post:
+      deprecated: true
+      description: Adds the specified user to a project with the provided role. This
+        endpoint is deprecated. Use `/:projectId/access` instead.
       operationId: addRoleToUser
       parameters:
       - explode: false
@@ -1771,9 +2146,34 @@ paths:
       responses:
         "200":
           description: This response has no body.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+      summary: Add user to project
       tags:
       - Projects
     put:
+      deprecated: true
+      description: Replaces the given user's project role with the provided role.
+        The user must already be a memeber of the project. This endpoint is deprecated.
+        Use `/:projectId/users/:userId/roles` instead.
       operationId: changeRoleForUser
       parameters:
       - explode: false
@@ -1800,10 +2200,214 @@ paths:
       responses:
         "200":
           description: This response has no body.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+      summary: Update user's project role
+      tags:
+      - Projects
+  /api/admin/projects/{projectId}/users/{userId}/roles:
+    delete:
+      description: Removes project access for a user by removing all of its roles
+        for the project.
+      operationId: removeUserAccess
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: This response has no body.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+      summary: Remove project access for a user
+      tags:
+      - Projects
+    put:
+      description: Sets the roles a user has in the project.
+      operationId: setRolesForUser
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: This response has no body.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+      summary: Sets roles for user
+      tags:
+      - Projects
+  /api/admin/projects/{projectId}/groups/{groupId}/roles:
+    delete:
+      description: Removes project access for a group by removing all of its roles
+        for the project.
+      operationId: removeGroupAccess
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: groupId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: This response has no body.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+      summary: Remove project access for a group
+      tags:
+      - Projects
+    put:
+      description: Sets the roles a group has in the project.
+      operationId: setRolesForGroup
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: groupId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: This response has no body.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+      summary: Sets roles for group
       tags:
       - Projects
   /api/admin/projects/{projectId}/groups/{groupId}/roles/{roleId}:
     delete:
+      deprecated: true
+      description: Removes a project role from a group. This endpoint is deprecated.
+        Use `/:projectId/groups/:groupId/roles` instead.
       operationId: removeRoleFromGroup
       parameters:
       - explode: false
@@ -1830,9 +2434,33 @@ paths:
       responses:
         "200":
           description: This response has no body.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+      summary: Remove project group role
       tags:
       - Projects
     put:
+      deprecated: true
+      description: Updates the permissions that the group has within the given project.
+        This endpoint is deprecated. Use `/:projectId/users/:userId/roles` instead.
       operationId: changeRoleForGroup
       parameters:
       - explode: false
@@ -1859,11 +2487,36 @@ paths:
       responses:
         "200":
           description: This response has no body.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+      summary: Update group's project role
       tags:
       - Projects
   /api/admin/projects/{projectId}/role/{roleId}/access:
     post:
-      operationId: addAccessToProject
+      deprecated: true
+      description: Configure project access for groups and single users. The provided
+        users and groups will be given the role specified in the URL parameters. This
+        endpoint is deprecated. Use `/:projectId/access` instead.
+      operationId: addRoleAccessToProject
       parameters:
       - explode: false
         in: path
@@ -1879,9 +2532,52 @@ paths:
         schema:
           type: string
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/projectAddRoleAccessSchema'
+        description: projectAddRoleAccessSchema
+        required: true
       responses:
         "200":
           description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/setGoogleSettings_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Configure project role access
       tags:
       - Projects
   /api/admin/projects/{projectId}/features/{featureName}/changeProject:
@@ -2350,7 +3046,7 @@ paths:
           description: notificationsSchema
       summary: Retrieves a list of notifications
       tags:
-      - Unstable
+      - Notifications
   /api/admin/notifications/read:
     post:
       description: Allow to select which notifications were read and saving a read
@@ -2368,7 +3064,7 @@ paths:
           description: This response has no body.
       summary: Mark notifications as read
       tags:
-      - Unstable
+      - Notifications
   /health:
     get:
       description: "This operation returns information about whether this Unleash\
@@ -2393,6 +3089,8 @@ paths:
       - Operational
   /invite/{token}/validate:
     get:
+      description: "Check whether the provided public sign-up token exists, has not\
+        \ expired and is enabled"
       operationId: validatePublicSignupToken
       parameters:
       - explode: false
@@ -2411,8 +3109,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/getGoogleSettings_400_response'
           description: The request data does not match what we expect.
-      summary: "Check whether a public sign-up token exists, has not expired and is\
-        \ enabled"
+      summary: Validate signup token
       tags:
       - Public signup tokens
   /invite/{token}/signup:
@@ -2926,7 +3623,7 @@ paths:
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
       summary: Get all feature types
       tags:
-      - Features
+      - Feature Types
   /api/admin/feature-types/{id}/lifetime:
     put:
       description: |-
@@ -3001,10 +3698,11 @@ paths:
             header.
       summary: Update feature type lifetime
       tags:
-      - Unstable
+      - Feature Types
   /api/admin/archive/features:
     get:
       deprecated: true
+      description: "Retrieve a list of all [archived feature toggles](https://docs.getunleash.io/reference/archived-toggles)."
       operationId: getArchivedFeatures
       responses:
         "200":
@@ -3027,11 +3725,14 @@ paths:
                 $ref: '#/components/schemas/getGoogleSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
+      summary: Get archived features
       tags:
       - Archive
   /api/admin/archive/features/{projectId}:
     get:
       deprecated: true
+      description: Retrieves a list of archived features that belong to the provided
+        project.
       operationId: getArchivedFeaturesByProjectId
       parameters:
       - explode: false
@@ -3062,6 +3763,7 @@ paths:
                 $ref: '#/components/schemas/getGoogleSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
+      summary: Get archived features in project
       tags:
       - Archive
   /api/admin/archive/{featureName}:
@@ -3288,7 +3990,6 @@ paths:
       summary: Get a strategy definition
       tags:
       - Strategies
-  /api/admin/strategies/{strategyName}:
     put:
       description: Updates the specified strategy type. Any properties not specified
         in the request body are left untouched.
@@ -3296,7 +3997,7 @@ paths:
       parameters:
       - explode: false
         in: path
-        name: strategyName
+        name: name
         required: true
         schema:
           type: string
@@ -3582,7 +4283,7 @@ paths:
       summary: Batch evaluate an Unleash context against a set of environments and
         projects.
       tags:
-      - Unstable
+      - Playground
   /api/admin/metrics/applications/{appName}:
     delete:
       description: Delete the application specified in the request URL. Returns 200
@@ -3707,6 +4408,8 @@ paths:
       - Metrics
   /api/admin/client-metrics/features/{name}/raw:
     get:
+      description: "Get usage metrics for a specific feature for the last 48 hours,\
+        \ grouped by hour"
       operationId: getRawFeatureMetrics
       parameters:
       - explode: false
@@ -3743,7 +4446,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/getGroup_404_response'
           description: The requested resource was not found.
-      summary: "Feature usage metrics for the last 48 hours, grouped by hour"
+      summary: Get feature metrics
       tags:
       - Metrics
   /api/admin/client-metrics/features/{name}:
@@ -4031,8 +4734,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/upsertContextFieldSchema'
-        description: upsertContextFieldSchema
+              $ref: '#/components/schemas/createContextFieldSchema'
+        description: createContextFieldSchema
         required: true
       responses:
         "201":
@@ -4110,8 +4813,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/upsertContextFieldSchema'
-        description: upsertContextFieldSchema
+              $ref: '#/components/schemas/updateContextFieldSchema'
+        description: updateContextFieldSchema
         required: true
       responses:
         "200":
@@ -5041,6 +5744,45 @@ paths:
       summary: Create API token
       tags:
       - API tokens
+  /api/admin/api-tokens/{name}:
+    get:
+      description: "Retrieves all API tokens that match a given token name. Because\
+        \ token names are not unique, this endpoint will always return a list. If\
+        \ no tokens with the provided name exist, the list will be empty. Otherwise,\
+        \ it will contain all the tokens with the given name."
+      operationId: getApiTokensByName
+      parameters:
+      - explode: false
+        in: path
+        name: name
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiTokensSchema'
+          description: apiTokensSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get API tokens by name
+      tags:
+      - API tokens
   /api/admin/api-tokens/{token}:
     delete:
       description: "Deletes an existing API token. The `token` path parameter is the\
@@ -5282,7 +6024,7 @@ paths:
                 $ref: '#/components/schemas/getGoogleSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
-      summary: "Get all users and [root roles](https://docs.getunleash.io/reference/rbac#standard-roles)"
+      summary: "Get all users and [root roles](https://docs.getunleash.io/reference/rbac#predefined-roles)"
       tags:
       - Users
     post:
@@ -6387,6 +7129,7 @@ paths:
       - Features
   /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}/strategies/set-sort-order:
     post:
+      description: Set the sort order of the provided list of strategies.
       operationId: setStrategySortOrder
       parameters:
       - explode: false
@@ -6440,7 +7183,7 @@ paths:
                 $ref: '#/components/schemas/getGoogleSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
-      summary: Set the order of strategies on the list
+      summary: Set strategy sort order
       tags:
       - Features
   /api/admin/projects/{projectId}/features:
@@ -7072,6 +7815,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/getGoogleSettings_400_response'
           description: The request data does not match what we expect.
+      summary: Set environment-default strategy
       tags:
       - Projects
   /api/admin/projects/{projectId}/health-report:
@@ -7681,6 +8425,12 @@ paths:
       responses:
         "200":
           description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_400_response'
+          description: The request data does not match what we expect.
         "401":
           content:
             application/json:
@@ -7695,6 +8445,12 @@ paths:
                 $ref: '#/components/schemas/getGoogleSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
       summary: Delete a project API token.
       tags:
       - Projects
@@ -8107,6 +8863,7 @@ paths:
       - Features
   /api/admin/invite-link/tokens:
     get:
+      description: Retrieves all existing public signup tokens.
       operationId: getAllPublicSignupTokens
       responses:
         "200":
@@ -8115,7 +8872,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/publicSignupTokensSchema'
           description: publicSignupTokensSchema
-      summary: Retrieve all existing public signup tokens
+      summary: Get public signup tokens
       tags:
       - Public signup tokens
     post:
@@ -8265,8 +9022,8 @@ paths:
           content:
             text/csv:
               example: |-
-                "OIDCenabled","SAMLenabled","clientApps","contextFields","environments","featureExports","featureImports","featureToggles","groups","instanceId","projects","roles","segments","strategies","sum","timestamp","users","versionEnterprise","versionOSS"
-                true,false,"[{""range"":""allTime"",""count"":15},{""range"":""30d"",""count"":9},{""range"":""7d"",""count"":5}]",6,2,0,0,29,3,"ed3861ae-78f9-4e8c-8e57-b57efc15f82b",1,5,2,8,"some-sha256-hash","2023-07-12T10:00:00.000Z",10,"5.1.7","5.1.7"
+                "OIDCenabled","SAMLenabled","clientApps","contextFields","environments","featureExports","featureImports","featureToggles","groups","instanceId","projects","roles","customRootRoles","customRootRolesInUse","segments","strategies","sum","timestamp","users","versionEnterprise","versionOSS"
+                true,false,"[{""range"":""allTime"",""count"":15},{""range"":""30d"",""count"":9},{""range"":""7d"",""count"":5}]",6,2,0,0,29,3,"ed3861ae-78f9-4e8c-8e57-b57efc15f82b",1,5,2,1,2,8,"some-sha256-hash","2023-07-12T10:00:00.000Z",10,"5.1.7","5.1.7"
               schema:
                 type: string
           description: instanceAdminStatsSchemaCsv
@@ -8811,6 +9568,7 @@ components:
       type: object
     adminFeaturesQuerySchema:
       additionalProperties: false
+      description: Query parameters used to modify the list of features returned.
       properties:
         tag:
           description: "Used to filter by tags. For each entry, a TAGTYPE:TAGVALUE\
@@ -11279,6 +12037,7 @@ components:
       type: object
     applicationSchema:
       additionalProperties: false
+      description: Data about an application that's connected to Unleash via an SDK.
       example:
         color: red
         strategies:
@@ -11286,6 +12045,15 @@ components:
         - gradualRollout
         - mySpecialCustomStrategy
         appName: accounting
+        usage:
+        - environments:
+          - development
+          - production
+          project: main-project
+        - environments:
+          - development
+          - production
+          project: main-project
         icon: https://github.com/favicon.ico
         description: Application for reporting page visits
         sdkVersion: unleash-client-java:8.0.0
@@ -11332,11 +12100,43 @@ components:
             in the application list
           example: https://github.com/favicon.ico
           type: string
+        usage:
+          description: The list of projects the application has been using.
+          items:
+            $ref: '#/components/schemas/applicationUsageSchema'
+          type: array
       required:
       - appName
       type: object
+    applicationUsageSchema:
+      additionalProperties: false
+      description: Data about an project that have been used by applications.
+      example:
+        environments:
+        - development
+        - production
+        project: main-project
+      properties:
+        project:
+          description: Name of the project
+          example: main-project
+          type: string
+        environments:
+          description: Which environments have been accessed in this project.
+          example:
+          - development
+          - production
+          items:
+            type: string
+          type: array
+      required:
+      - environments
+      - project
+      type: object
     applicationsSchema:
       additionalProperties: false
+      description: An object containing a list of applications that have connected
+        to Unleash via an SDK.
       example:
         applications:
         - color: red
@@ -11345,6 +12145,15 @@ components:
           - gradualRollout
           - mySpecialCustomStrategy
           appName: accounting
+          usage:
+          - environments:
+            - development
+            - production
+            project: main-project
+          - environments:
+            - development
+            - production
+            project: main-project
           icon: https://github.com/favicon.ico
           description: Application for reporting page visits
           sdkVersion: unleash-client-java:8.0.0
@@ -11355,14 +12164,23 @@ components:
           - gradualRollout
           - mySpecialCustomStrategy
           appName: accounting
+          usage:
+          - environments:
+            - development
+            - production
+            project: main-project
+          - environments:
+            - development
+            - production
+            project: main-project
           icon: https://github.com/favicon.ico
           description: Application for reporting page visits
           sdkVersion: unleash-client-java:8.0.0
           url: https://github.com/Unleash/unleash-client-proxy-js
       properties:
         applications:
-          description: Contains a list of applications that have connected via an
-            SDK
+          description: The list of applications that have connected to this Unleash
+            instance.
           items:
             $ref: '#/components/schemas/applicationSchema'
           type: array
@@ -12150,7 +12968,6 @@ components:
       - bucket
       type: object
     clientMetricsEnvSchema:
-      additionalProperties: true
       description: Used for reporting feature evaluation results from SDKs
       properties:
         featureName:
@@ -12349,6 +13166,11 @@ components:
       type: array
     createApiTokenSchema:
       description: "The data required to create an [Unleash API token](https://docs.getunleash.io/reference/api-tokens-and-client-keys)."
+      oneOf:
+      - $ref: '#/components/schemas/createApiTokenSchema_oneOf'
+      - $ref: '#/components/schemas/createApiTokenSchema_oneOf_1'
+      - $ref: '#/components/schemas/createApiTokenSchema_oneOf_2'
+      - $ref: '#/components/schemas/createApiTokenSchema_oneOf_3'
       properties:
         expiresAt:
           description: The time when this token should expire.
@@ -12357,7 +13179,6 @@ components:
           type: string
       type: object
     createApplicationSchema:
-      additionalProperties: true
       description: Reported application information from Unleash SDKs
       properties:
         appName:
@@ -12398,6 +13219,7 @@ components:
           type: string
       type: object
     createFeatureSchema:
+      description: Data used to create a new feature toggle.
       properties:
         name:
           description: Unique feature name
@@ -12512,14 +13334,23 @@ components:
       type: object
     createInvitedUserSchema:
       additionalProperties: false
+      description: Data used to create a user that has been invited to Unleash.
       properties:
         username:
+          description: The user's username. Must be unique if provided.
+          example: Hunter
           type: string
         email:
+          description: The invited user's email address
+          example: hunter@example.com
           type: string
         name:
+          description: The user's name
+          example: Hunter Burgan
           type: string
         password:
+          description: The user's password
+          example: hunter2
           type: string
       required:
       - email
@@ -12560,10 +13391,17 @@ components:
       - rootRole
       type: object
     dateSchema:
+      description: A representation of a date. Either as a date-time string or as
+        a UNIX timestamp.
       oneOf:
-      - format: date-time
+      - description: "An [RFC-3339](https://www.rfc-editor.org/rfc/rfc3339.html)-compliant\
+          \ timestamp."
+        example: 2023-07-27T11:23:44Z
+        format: date-time
         type: string
-      - type: number
+      - description: "A [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time)."
+        example: 1690449593
+        type: integer
     edgeTokenSchema:
       additionalProperties: false
       description: "A representation of a client token, limiting access to [CLIENT](https://docs.getunleash.io/reference/api-tokens-and-client-keys#client-tokens)\
@@ -12993,6 +13831,10 @@ components:
           - context-field-updated
           - context-field-deleted
           - project-access-added
+          - project-access-user-roles-updated
+          - project-access-group-roles-updated
+          - project-access-user-roles-deleted
+          - project-access-group-roles-deleted
           - project-created
           - project-updated
           - project-deleted
@@ -13042,6 +13884,7 @@ components:
           - change-added
           - change-discarded
           - change-edited
+          - change-request-rejected
           - change-request-approved
           - change-request-approval-added
           - change-request-cancelled
@@ -13082,7 +13925,6 @@ components:
           nullable: true
           type: string
         data:
-          additionalProperties: true
           description: "Extra associated data related to the event, such as feature\
             \ toggle state, segment configuration, etc., if applicable."
           example:
@@ -13099,7 +13941,6 @@ components:
           type: object
           x-enforcer-exception-skip-codes: WSCH006
         preData:
-          additionalProperties: true
           description: Data relating to the previous state of the event's subject.
           example:
             name: new-feature
@@ -13225,61 +14066,6 @@ components:
       description: "The result of the export operation, providing you with the feature\
         \ toggle definitions, strategy definitions and the rest of the elements relevant\
         \ to the features (tags, environments etc.)"
-      example:
-        contextFields:
-        - name: appName
-          description: Allows you to constrain on application name
-          stickiness: false
-          sortOrder: 2
-          legalValues: []
-        features:
-        - name: my-feature
-          description: best feature ever
-          type: release
-          project: default
-          stale: false
-          impressionData: false
-          archived: false
-        featureEnvironments:
-        - enabled: true
-          featureName: my-feature
-          environment: development
-          variants:
-          - name: a
-            weight: 500
-            overrides: []
-            stickiness: random
-            weightType: variable
-          - name: b
-            weight: 500
-            overrides: []
-            stickiness: random
-            weightType: variable
-          name: variant-testing
-        featureTags:
-        - featureName: my-feature
-          tagType: simple
-          tagValue: user-facing
-        featureStrategies:
-        - name: flexibleRollout
-          id: 924974d7-8003-43ee-87eb-c5f887c06fd1
-          featureName: my-feature
-          title: Rollout 50%
-          parameters:
-            groupId: default
-            rollout: "50"
-            stickiness: random
-          constraints: []
-          disabled: false
-          segments:
-          - 1
-        segments:
-        - id: 1
-          name: new-segment-name
-        tagTypes:
-        - name: simple
-          description: Used to simplify filtering of features
-          icon: '#'
       properties:
         features:
           description: All the exported features.
@@ -13384,9 +14170,10 @@ components:
       - tagTypes
       type: object
     exportQuerySchema:
-      additionalProperties: true
       description: "Available query parameters for  the [deprecated export/import](https://docs.getunleash.io/reference/deploy/import-export)\
         \ functionality."
+      nullable: true
+      oneOf: []
       properties:
         environment:
           description: The environment to export from
@@ -13459,6 +14246,7 @@ components:
       additionalProperties: false
       description: A detailed description of the feature environment
       example:
+        lastSeenAt: 2023-01-28T16:21:39.975Z
         environment: development
         featureName: disable-comments
         strategies:
@@ -13626,6 +14414,13 @@ components:
           items:
             $ref: '#/components/schemas/variantSchema'
           type: array
+        lastSeenAt:
+          description: The date when metrics where last collected for the feature
+            environment
+          example: 2023-01-28T16:21:39.975Z
+          format: date-time
+          nullable: true
+          type: string
       required:
       - enabled
       - name
@@ -13780,7 +14575,8 @@ components:
         lastSeenAt: 2023-01-28T16:21:39.975Z
         impressionData: false
         environments:
-        - environment: development
+        - lastSeenAt: 2023-01-28T16:21:39.975Z
+          environment: development
           featureName: disable-comments
           strategies:
           - featureName: myAwesomeFeature
@@ -13907,7 +14703,8 @@ components:
           type: development
           enabled: true
           variantCount: 0.8008281904610115
-        - environment: development
+        - lastSeenAt: 2023-01-28T16:21:39.975Z
+          environment: development
           featureName: disable-comments
           strategies:
           - featureName: myAwesomeFeature
@@ -14139,7 +14936,9 @@ components:
           nullable: true
           type: string
         lastSeenAt:
-          description: The date when metrics where last collected for the feature
+          deprecated: true
+          description: "The date when metrics where last collected for the feature.\
+            \ This field is deprecated, use the one in featureEnvironmentSchema"
           example: 2023-01-28T16:21:39.975Z
           format: date-time
           nullable: true
@@ -14179,7 +14978,8 @@ components:
         - lastSeenAt: 2023-01-28T16:21:39.975Z
           impressionData: false
           environments:
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -14306,7 +15106,8 @@ components:
             type: development
             enabled: true
             variantCount: 0.8008281904610115
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -14487,7 +15288,8 @@ components:
         - lastSeenAt: 2023-01-28T16:21:39.975Z
           impressionData: false
           environments:
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -14614,7 +15416,8 @@ components:
             type: development
             enabled: true
             variantCount: 0.8008281904610115
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -14909,13 +15712,18 @@ components:
       type: object
     featureStrategySegmentSchema:
       additionalProperties: false
+      description: An object containing a segment identifier and a strategy identifier.
       example:
-        segmentId: 1
-        featureStrategyId: featureStrategyId
+        segmentId: 2
+        featureStrategyId: e2caa08f-30c4-4aa3-b955-54ca9e93dc13
       properties:
         segmentId:
+          description: The ID of the segment
+          example: 2
           type: integer
         featureStrategyId:
+          description: The ID of the strategy
+          example: e2caa08f-30c4-4aa3-b955-54ca9e93dc13
           type: string
       required:
       - featureStrategyId
@@ -15263,6 +16071,7 @@ components:
         projects:
         - default
         - my-project
+        userCount: 1
         rootRole: 1
         createdBy: admin
         mappingsSSO:
@@ -15362,6 +16171,11 @@ components:
           items:
             type: string
           type: array
+        userCount:
+          description: The number of users that belong to this group
+          example: 1
+          minimum: 0
+          type: integer
       required:
       - name
       type: object
@@ -15374,6 +16188,7 @@ components:
           projects:
           - default
           - my-project
+          userCount: 1
           rootRole: 1
           createdBy: admin
           mappingsSSO:
@@ -15425,6 +16240,7 @@ components:
           projects:
           - default
           - my-project
+          userCount: 1
           rootRole: 1
           createdBy: admin
           mappingsSSO:
@@ -15715,7 +16531,8 @@ components:
         - lastSeenAt: 2023-01-28T16:21:39.975Z
           impressionData: false
           environments:
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -15842,7 +16659,8 @@ components:
             type: development
             enabled: true
             variantCount: 0.8008281904610115
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -16023,7 +16841,8 @@ components:
         - lastSeenAt: 2023-01-28T16:21:39.975Z
           impressionData: false
           environments:
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -16150,7 +16969,8 @@ components:
             type: development
             enabled: true
             variantCount: 0.8008281904610115
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -16603,18 +17423,23 @@ components:
       type: object
     maintenanceSchema:
       additionalProperties: false
+      description: The current state of Unleash's maintenance mode feature.
       example:
         enabled: true
       properties:
         enabled:
+          description: Whether maintenance mode is enabled or not.
           example: true
           type: boolean
       required:
       - enabled
       type: object
     toggleMaintenanceSchema:
+      description: Data used when to activate or deactivate maintenance mode for Unleash.
       properties:
         enabled:
+          description: "`true` if you want to activate maintenance mode, `false` if\
+            \ you want to deactivate it."
           example: true
           type: boolean
       required:
@@ -16752,20 +17577,32 @@ components:
         $ref: '#/components/schemas/patchSchema'
       type: array
     patchSchema:
+      description: "A [JSON patch](https://www.rfc-editor.org/rfc/rfc6902) operation\
+        \ description"
       properties:
         path:
+          description: The path to the property to operate on
+          example: /type
           type: string
         op:
+          description: The kind of operation to perform
           enum:
           - add
           - remove
           - replace
           - copy
           - move
+          example: replace
           type: string
         from:
+          description: "The target to move or copy from, if performing one of those\
+            \ operations"
+          example: /type
           type: string
-        value: {}
+        value:
+          description: "The value to add or replace, if performing one of those operations"
+          example: kill-switch
+          nullable: true
       required:
       - op
       - path
@@ -17612,6 +18449,7 @@ components:
       type: object
     playgroundSegmentSchema:
       additionalProperties: false
+      description: The evaluated result of a segment as used by the Playground.
       example:
         result: true
         name: segment A
@@ -17659,6 +18497,7 @@ components:
       type: object
     playgroundStrategySchema:
       additionalProperties: false
+      description: An evaluated feature toggle strategy as used by the Playground
       example:
         result: null
         name: name
@@ -17879,7 +18718,7 @@ components:
       description: A definition of the project used for projects listing purposes
       example:
         mode: open
-        createdAt: 2000-01-23T04:56:07.000+00:00
+        createdAt: 2023-07-27T12:12:28Z
         memberCount: 4
         name: DX-Squad
         defaultStickiness: userId
@@ -17888,7 +18727,7 @@ components:
         id: dx-squad
         favorite: true
         featureCount: 10
-        updatedAt: 2000-01-23T04:56:07.000+00:00
+        updatedAt: 2023-07-28T12:12:28Z
       properties:
         id:
           description: The id of this project
@@ -17917,9 +18756,13 @@ components:
           example: 4
           type: number
         createdAt:
+          description: When this project was created.
+          example: 2023-07-27T12:12:28Z
           format: date-time
           type: string
         updatedAt:
+          description: When this project was last updated.
+          example: 2023-07-28T12:12:28Z
           format: date-time
           nullable: true
           type: string
@@ -17951,7 +18794,7 @@ components:
       example:
         projects:
         - mode: open
-          createdAt: 2000-01-23T04:56:07.000+00:00
+          createdAt: 2023-07-27T12:12:28Z
           memberCount: 4
           name: DX-Squad
           defaultStickiness: userId
@@ -17960,9 +18803,9 @@ components:
           id: dx-squad
           favorite: true
           featureCount: 10
-          updatedAt: 2000-01-23T04:56:07.000+00:00
+          updatedAt: 2023-07-28T12:12:28Z
         - mode: open
-          createdAt: 2000-01-23T04:56:07.000+00:00
+          createdAt: 2023-07-27T12:12:28Z
           memberCount: 4
           name: DX-Squad
           defaultStickiness: userId
@@ -17971,10 +18814,12 @@ components:
           id: dx-squad
           favorite: true
           featureCount: 10
-          updatedAt: 2000-01-23T04:56:07.000+00:00
-        version: 0
+          updatedAt: 2023-07-28T12:12:28Z
+        version: 1
       properties:
         version:
+          description: The schema version used to represent the project data.
+          example: 1
           type: integer
         projects:
           description: A list of projects in the Unleash instance
@@ -18164,6 +19009,7 @@ components:
           description: The public signup link for the token. Users who follow this
             link will be taken to a signup page where they can create an Unleash user.
           example: https://sandbox.getunleash.io/enterprise/new-user?invite=a3c84b25409ea8ca1782ef17f94a42fc
+          nullable: true
           type: string
         name:
           description: The token's name. Only for displaying in the UI
@@ -18262,12 +19108,15 @@ components:
           type: boolean
       type: object
     pushVariantsSchema:
+      description: Data used when copying variants into a new environment.
       properties:
         variants:
+          description: The variants to write to the provided environments
           items:
             $ref: '#/components/schemas/variantSchema'
           type: array
         environments:
+          description: The enviromnents to write the provided variants to
           items:
             type: string
           type: array
@@ -18340,10 +19189,15 @@ components:
       type: object
     resetPasswordSchema:
       additionalProperties: false
+      description: Data used to provide users a way to reset their passwords.
       example:
-        resetPasswordUrl: resetPasswordUrl
+        resetPasswordUrl: https://reset.password.com
       properties:
         resetPasswordUrl:
+          description: A URL pointing to a location where the user can reset their
+            password
+          example: https://reset.password.com
+          format: uri
           type: string
       required:
       - resetPasswordUrl
@@ -18477,7 +19331,6 @@ components:
       - type
       type: object
     sdkContextSchema:
-      additionalProperties: true
       description: The Unleash context as modeled in client SDKs
       example:
         currentTime: 2022-07-05T12:56:41+02:00
@@ -18509,6 +19362,7 @@ components:
         properties:
           additionalProperties:
             type: string
+          description: Additional Unleash context properties
           example:
             customContextField: this is one!
             otherCustomField: "3"
@@ -18571,6 +19425,10 @@ components:
           - context-field-updated
           - context-field-deleted
           - project-access-added
+          - project-access-user-roles-updated
+          - project-access-group-roles-updated
+          - project-access-user-roles-deleted
+          - project-access-group-roles-deleted
           - project-created
           - project-updated
           - project-deleted
@@ -18620,6 +19478,7 @@ components:
           - change-added
           - change-discarded
           - change-edited
+          - change-request-rejected
           - change-request-approved
           - change-request-approval-added
           - change-request-cancelled
@@ -18649,10 +19508,9 @@ components:
           example: my.first.toggle
           type: string
         query:
-          description: "\n                Find events by a free-text search query.\n\
-            \                The query will be matched against the event type,\n \
-            \               the username or email that created the event (if any),\n\
-            \                and the event data payload (if any).\n            "
+          description: "Find events by a free-text search query. The query will be\
+            \ matched against the event type, the username or email that created the\
+            \ event (if any), and the event data payload (if any)."
           example: admin@example.com
           type: string
         limit:
@@ -18678,7 +19536,7 @@ components:
         name: segment A
         description: Segment A description
         project: default
-        id: 6.027456183070403
+        id: 0.8008281904610115
         constraints:
         - contextName: appName
           values:
@@ -18747,7 +19605,10 @@ components:
       type: object
     sortOrderSchema:
       additionalProperties:
-        type: number
+        description: Sort order for the object whose ID is the key used for this property.
+        example: 6
+        type: integer
+      description: A map of object IDs and their corresponding sort orders.
       type: object
     splashRequestSchema:
       description: Data related to a user having seen a splash screen.
@@ -18790,17 +19651,15 @@ components:
       - userId
       type: object
     stateSchema:
-      additionalProperties: true
       deprecated: true
-      description: The state of the application used by export/import APIs which are
-        deprecated in favor of the more fine grained /api/admin/export and /api/admin/import
-        APIs
+      description: The application state as used by the deprecated export/import APIs.
       example:
         features:
         - lastSeenAt: 2023-01-28T16:21:39.975Z
           impressionData: false
           environments:
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -18927,7 +19786,8 @@ components:
             type: development
             enabled: true
             variantCount: 0.8008281904610115
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -19108,7 +19968,8 @@ components:
         - lastSeenAt: 2023-01-28T16:21:39.975Z
           impressionData: false
           environments:
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -19235,7 +20096,8 @@ components:
             type: development
             enabled: true
             variantCount: 0.8008281904610115
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -19414,7 +20276,8 @@ components:
           name: disable-comments
           favorite: true
         featureEnvironments:
-        - environment: development
+        - lastSeenAt: 2023-01-28T16:21:39.975Z
+          environment: development
           featureName: disable-comments
           strategies:
           - featureName: myAwesomeFeature
@@ -19541,7 +20404,8 @@ components:
           type: development
           enabled: true
           variantCount: 0.8008281904610115
-        - environment: development
+        - lastSeenAt: 2023-01-28T16:21:39.975Z
+          environment: development
           featureName: disable-comments
           strategies:
           - featureName: myAwesomeFeature
@@ -19670,7 +20534,7 @@ components:
           variantCount: 0.8008281904610115
         projects:
         - mode: open
-          createdAt: 2000-01-23T04:56:07.000+00:00
+          createdAt: 2023-07-27T12:12:28Z
           memberCount: 4
           name: DX-Squad
           defaultStickiness: userId
@@ -19679,9 +20543,9 @@ components:
           id: dx-squad
           favorite: true
           featureCount: 10
-          updatedAt: 2000-01-23T04:56:07.000+00:00
+          updatedAt: 2023-07-28T12:12:28Z
         - mode: open
-          createdAt: 2000-01-23T04:56:07.000+00:00
+          createdAt: 2023-07-27T12:12:28Z
           memberCount: 4
           name: DX-Squad
           defaultStickiness: userId
@@ -19690,7 +20554,7 @@ components:
           id: dx-squad
           favorite: true
           featureCount: 10
-          updatedAt: 2000-01-23T04:56:07.000+00:00
+          updatedAt: 2023-07-28T12:12:28Z
         strategies:
         - displayName: Gradual Rollout
           editable: true
@@ -19751,10 +20615,10 @@ components:
           type: type
           value: value
         featureStrategySegments:
-        - segmentId: 1
-          featureStrategyId: featureStrategyId
-        - segmentId: 1
-          featureStrategyId: featureStrategyId
+        - segmentId: 2
+          featureStrategyId: e2caa08f-30c4-4aa3-b955-54ca9e93dc13
+        - segmentId: 2
+          featureStrategyId: e2caa08f-30c4-4aa3-b955-54ca9e93dc13
         featureStrategies:
         - featureName: myAwesomeFeature
           sortOrder: 9999
@@ -19842,7 +20706,7 @@ components:
           segments:
           - 1
           - 2
-        version: 0
+        version: 1
         tags:
         - type: simple
           value: a-tag-value
@@ -19861,7 +20725,7 @@ components:
           name: segment A
           description: Segment A description
           project: default
-          id: 6.027456183070403
+          id: 0.8008281904610115
           constraints:
           - contextName: appName
             values:
@@ -19884,7 +20748,7 @@ components:
           name: segment A
           description: Segment A description
           project: default
-          id: 6.027456183070403
+          id: 0.8008281904610115
           constraints:
           - contextName: appName
             values:
@@ -19904,48 +20768,61 @@ components:
             operator: IN
       properties:
         version:
+          description: The version of the schema used to describe the state
+          example: 1
           type: integer
         features:
+          description: A list of features
           items:
             $ref: '#/components/schemas/featureSchema'
           type: array
         strategies:
+          description: A list of strategies
           items:
             $ref: '#/components/schemas/strategySchema'
           type: array
         tags:
+          description: A list of tags
           items:
             $ref: '#/components/schemas/tagSchema'
           type: array
         tagTypes:
+          description: A list of tag types
           items:
             $ref: '#/components/schemas/tagTypeSchema'
           type: array
         featureTags:
+          description: A list of tags applied to features
           items:
             $ref: '#/components/schemas/featureTagSchema'
           type: array
         projects:
+          description: A list of projects
           items:
             $ref: '#/components/schemas/projectSchema'
           type: array
         featureStrategies:
+          description: A list of feature strategies as applied to features
           items:
             $ref: '#/components/schemas/featureStrategySchema'
           type: array
         featureEnvironments:
+          description: A list of feature environment configurations
           items:
             $ref: '#/components/schemas/featureEnvironmentSchema'
           type: array
         environments:
+          description: A list of environments
           items:
             $ref: '#/components/schemas/environmentSchema'
           type: array
         segments:
+          description: A list of segments
           items:
             $ref: '#/components/schemas/segmentSchema'
           type: array
         featureStrategySegments:
+          description: A list of segment/strategy pairings
           items:
             $ref: '#/components/schemas/featureStrategySegmentSchema'
           type: array
@@ -20247,12 +21124,10 @@ components:
       - createdBy
       - email
       - id
-      - name
       - role
       - token
       type: object
     tokenStringListSchema:
-      additionalProperties: true
       description: A list of unleash tokens to validate against known tokens
       properties:
         tokens:
@@ -20497,7 +21372,6 @@ components:
           type: string
       type: object
     updateUserSchema:
-      additionalProperties: true
       description: All fields that can be directly changed for the user
       properties:
         email:
@@ -20538,34 +21412,87 @@ components:
       - addedTags
       - removedTags
       type: object
-    upsertContextFieldSchema:
+    createContextFieldSchema:
+      description: Data used to create a context field configuration.
       properties:
-        name:
-          type: string
         description:
+          description: A description of the context field
+          example: The user's subscription tier
           type: string
         stickiness:
+          description: "`true` if this field should be available for use with [custom\
+            \ stickiness](https://docs.getunleash.io/reference/stickiness#custom-stickiness),\
+            \ otherwise `false`"
+          example: false
           type: boolean
         sortOrder:
-          type: number
+          description: How this context field should be sorted if no other sort order
+            is selected
+          example: 2
+          type: integer
         legalValues:
+          description: A list of allowed values for this context field
+          example:
+          - value: gold
+          - value: silver
+          - value: crystal
           items:
             $ref: '#/components/schemas/legalValueSchema'
           type: array
+        name:
+          description: The name of the context field.
+          example: subscriptionTier
+          type: string
       required:
       - name
       type: object
+    updateContextFieldSchema:
+      description: Data to update an existing context field configuration.
+      properties:
+        description:
+          description: A description of the context field
+          example: The user's subscription tier
+          type: string
+        stickiness:
+          description: "`true` if this field should be available for use with [custom\
+            \ stickiness](https://docs.getunleash.io/reference/stickiness#custom-stickiness),\
+            \ otherwise `false`"
+          example: false
+          type: boolean
+        sortOrder:
+          description: How this context field should be sorted if no other sort order
+            is selected
+          example: 2
+          type: integer
+        legalValues:
+          description: A list of allowed values for this context field
+          example:
+          - value: gold
+          - value: silver
+          - value: crystal
+          items:
+            $ref: '#/components/schemas/legalValueSchema'
+          type: array
+      type: object
     upsertSegmentSchema:
+      description: Data used to create or update a segment
       properties:
         name:
+          description: The name of the segment
+          example: beta-users
           type: string
         description:
+          description: A description of what the segment is for
+          example: Users willing to help us test and build new features.
           nullable: true
           type: string
         project:
+          description: The project the segment belongs to if any.
+          example: red-vista
           nullable: true
           type: string
         constraints:
+          description: The list of constraints that make up this segment
           items:
             $ref: '#/components/schemas/constraintSchema'
           type: array
@@ -20664,6 +21591,7 @@ components:
         name:
           description: Name of the user
           example: User
+          nullable: true
           type: string
         email:
           description: Email of the user
@@ -20692,7 +21620,7 @@ components:
           example: false
           type: boolean
         rootRole:
-          description: "Which [root role](https://docs.getunleash.io/reference/rbac#standard-roles)\
+          description: "Which [root role](https://docs.getunleash.io/reference/rbac#predefined-roles)\
             \ this user is assigned"
           example: 1
           minimum: 0
@@ -20755,6 +21683,7 @@ components:
         name:
           description: Name of the user
           example: User
+          nullable: true
           type: string
         email:
           description: Email of the user
@@ -20809,149 +21738,42 @@ components:
       type: object
     usersGroupsBaseSchema:
       additionalProperties: false
+      description: An overview of user groups and users.
       example:
         groups:
-        - createdAt: 2023-06-30T11:41:00.123Z
-          projects:
-          - default
-          - my-project
-          rootRole: 1
-          createdBy: admin
-          mappingsSSO:
-          - SSOGroup1
-          - SSOGroup2
-          name: DX team
-          description: Current members of the DX squad
-          id: 1
-          users:
-          - createdBy: admin
-            joinedAt: 2023-06-30T11:41:00.123Z
-            user:
-              loginAttempts: 3
-              inviteLink: http://localhost:4242/invite-link/some-secret
-              accountType: User
-              isAPI: true
-              createdAt: 2023-06-30T11:41:00.123Z
-              seenAt: 2023-06-30T11:42:00.345Z
-              rootRole: 1
-              emailSent: false
-              permissions:
-              - permissions
-              - permissions
-              imageUrl: https://example.com/242x200.png
-              name: User
-              id: 123
-              email: user@example.com
-              username: hunter
-          - createdBy: admin
-            joinedAt: 2023-06-30T11:41:00.123Z
-            user:
-              loginAttempts: 3
-              inviteLink: http://localhost:4242/invite-link/some-secret
-              accountType: User
-              isAPI: true
-              createdAt: 2023-06-30T11:41:00.123Z
-              seenAt: 2023-06-30T11:42:00.345Z
-              rootRole: 1
-              emailSent: false
-              permissions:
-              - permissions
-              - permissions
-              imageUrl: https://example.com/242x200.png
-              name: User
-              id: 123
-              email: user@example.com
-              username: hunter
-        - createdAt: 2023-06-30T11:41:00.123Z
-          projects:
-          - default
-          - my-project
-          rootRole: 1
-          createdBy: admin
-          mappingsSSO:
-          - SSOGroup1
-          - SSOGroup2
-          name: DX team
-          description: Current members of the DX squad
-          id: 1
-          users:
-          - createdBy: admin
-            joinedAt: 2023-06-30T11:41:00.123Z
-            user:
-              loginAttempts: 3
-              inviteLink: http://localhost:4242/invite-link/some-secret
-              accountType: User
-              isAPI: true
-              createdAt: 2023-06-30T11:41:00.123Z
-              seenAt: 2023-06-30T11:42:00.345Z
-              rootRole: 1
-              emailSent: false
-              permissions:
-              - permissions
-              - permissions
-              imageUrl: https://example.com/242x200.png
-              name: User
-              id: 123
-              email: user@example.com
-              username: hunter
-          - createdBy: admin
-            joinedAt: 2023-06-30T11:41:00.123Z
-            user:
-              loginAttempts: 3
-              inviteLink: http://localhost:4242/invite-link/some-secret
-              accountType: User
-              isAPI: true
-              createdAt: 2023-06-30T11:41:00.123Z
-              seenAt: 2023-06-30T11:42:00.345Z
-              rootRole: 1
-              emailSent: false
-              permissions:
-              - permissions
-              - permissions
-              imageUrl: https://example.com/242x200.png
-              name: User
-              id: 123
-              email: user@example.com
-              username: hunter
+        - id: 1
+          name: unleash-e2e-7095756699593281
+          userCount: 1
+          rootRole: null
         users:
-        - loginAttempts: 3
-          inviteLink: http://localhost:4242/invite-link/some-secret
+        - id: 4
+          name: unleash-e2e-user2-7095756699593281
+          email: unleash-e2e-user2-7095756699593281@test.com
           accountType: User
-          isAPI: true
-          createdAt: 2023-06-30T11:41:00.123Z
-          seenAt: 2023-06-30T11:42:00.345Z
-          rootRole: 1
-          emailSent: false
-          permissions:
-          - permissions
-          - permissions
-          imageUrl: https://example.com/242x200.png
-          name: User
-          id: 123
-          email: user@example.com
-          username: hunter
-        - loginAttempts: 3
-          inviteLink: http://localhost:4242/invite-link/some-secret
+        - id: 1
+          username: admin
           accountType: User
-          isAPI: true
-          createdAt: 2023-06-30T11:41:00.123Z
-          seenAt: 2023-06-30T11:42:00.345Z
-          rootRole: 1
-          emailSent: false
-          permissions:
-          - permissions
-          - permissions
-          imageUrl: https://example.com/242x200.png
-          name: User
-          id: 123
-          email: user@example.com
-          username: hunter
       properties:
         groups:
+          description: A list of user groups and their configuration.
+          example:
+          - id: 1
+            name: unleash-e2e-7095756699593281
+            userCount: 1
+            rootRole: null
           items:
             $ref: '#/components/schemas/groupSchema'
           type: array
         users:
+          description: A list of users.
+          example:
+          - id: 4
+            name: unleash-e2e-user2-7095756699593281
+            email: unleash-e2e-user2-7095756699593281@test.com
+            accountType: User
+          - id: 1
+            username: admin
+            accountType: User
           items:
             $ref: '#/components/schemas/userSchema'
           type: array
@@ -21017,7 +21839,7 @@ components:
             $ref: '#/components/schemas/userSchema'
           type: array
         rootRoles:
-          description: "A list of [root roles](https://docs.getunleash.io/reference/rbac#standard-roles)\
+          description: "A list of [root roles](https://docs.getunleash.io/reference/rbac#predefined-roles)\
             \ in the Unleash instance."
           items:
             $ref: '#/components/schemas/roleSchema'
@@ -21026,6 +21848,7 @@ components:
       - users
       type: object
     usersSearchSchema:
+      description: A list of users
       items:
         $ref: '#/components/schemas/userSchema'
       type: array
@@ -21174,6 +21997,7 @@ components:
           $ref: '#/components/schemas/variantFlagSchema_payload'
       type: object
     variantsSchema:
+      description: A list of variants
       items:
         $ref: '#/components/schemas/variantSchema'
       type: array
@@ -21234,7 +22058,8 @@ components:
         - lastSeenAt: 2023-01-28T16:21:39.975Z
           impressionData: false
           environments:
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -21361,7 +22186,8 @@ components:
             type: development
             enabled: true
             variantCount: 0.8008281904610115
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -21542,7 +22368,8 @@ components:
         - lastSeenAt: 2023-01-28T16:21:39.975Z
           impressionData: false
           environments:
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -21669,7 +22496,8 @@ components:
             type: development
             enabled: true
             variantCount: 0.8008281904610115
-          - environment: development
+          - lastSeenAt: 2023-01-28T16:21:39.975Z
+            environment: development
             featureName: disable-comments
             strategies:
             - featureName: myAwesomeFeature
@@ -21865,8 +22693,9 @@ components:
         stats:
           $ref: '#/components/schemas/projectStatsSchema'
         version:
+          description: The schema version used to describe the project overview
           example: 1
-          type: number
+          type: integer
         name:
           description: The name of this project
           example: dx-squad
@@ -21927,11 +22756,13 @@ components:
             $ref: '#/components/schemas/featureSchema'
           type: array
         updatedAt:
+          description: When the project was last updated.
           example: 2023-02-10T08:36:35.262Z
           format: date-time
           nullable: true
           type: string
         createdAt:
+          description: When the project was created.
           example: 2023-02-10T08:36:35.262Z
           format: date-time
           nullable: true
@@ -22132,7 +22963,6 @@ components:
       - weightType
       type: object
     createStrategyVariantSchema:
-      additionalProperties: true
       description: This is an experimental property. It may change or be removed as
         we work on it. Please don't depend on it yet. A strategy variant allows you
         to attach any data to strategies instead of only returning `true`/`false`.
@@ -22224,7 +23054,6 @@ components:
       - id
       type: object
     createGroupSchema:
-      additionalProperties: true
       description: A detailed information about a user group
       properties:
         name:
@@ -22366,6 +23195,7 @@ components:
       type: object
     adminSegmentSchema:
       additionalProperties: false
+      description: "A description of a [segment](https://docs.getunleash.io/reference/segments)"
       example:
         createdAt: 2023-04-12T11:13:31.96Z
         createdBy: someone@example.com
@@ -22425,12 +23255,15 @@ components:
           nullable: true
           type: integer
         project:
+          description: The project the segment belongs to. Only present if the segment
+            is a project-specific segment.
           example: red-vista
           nullable: true
           type: string
         createdBy:
           description: The creator's email or username
           example: someone@example.com
+          nullable: true
           type: string
         createdAt:
           description: When the segment was created
@@ -22454,6 +23287,7 @@ components:
       - newProjectId
       type: object
     cloneEnvironmentSchema:
+      description: Data used to clone an environment.
       properties:
         name:
           description: "The name of the new cloned environment, this cannot be changed\
@@ -22510,6 +23344,7 @@ components:
       - type
       type: object
     createProjectSchema:
+      description: "Data used to create a new [project](https://docs.getunleash.io/reference/projects)."
       properties:
         id:
           description: The project's identifier.
@@ -22550,17 +23385,29 @@ components:
       - name
       type: object
     createRoleWithPermissionsSchema:
+      description: A write model for the custom role and permissions to allow Unleash
+        to decide what actions a role holder is allowed to perform
       properties:
         name:
+          description: The name of the custom role
+          example: external-contributors
           type: string
         description:
+          description: A more detailed description of the custom role and what use
+            it's intended for
+          example: Users with external-contributors role have limited access to most
+            features in Unleash
           type: string
         type:
+          description: A custom role can either be a global/root custom role (applies
+            to all projects) or a project custom role
           enum:
           - root-custom
           - custom
+          example: custom
           type: string
         permissions:
+          description: A list of permissions assigned to this role
           items:
             $ref: '#/components/schemas/createRoleWithPermissionsSchema_permissions_inner'
           type: array
@@ -22611,6 +23458,7 @@ components:
       - unleashHostname
       type: object
     invoicesSchema:
+      description: A list of invoices
       items:
         $ref: '#/components/schemas/invoicesSchema_inner'
       type: array
@@ -22703,6 +23551,8 @@ components:
       type: object
     projectUsersSchema:
       additionalProperties: false
+      deprecated: true
+      description: An overview of users and available roles within a project.
       example:
         roles:
         - name: Editor
@@ -22722,26 +23572,35 @@ components:
           id: 9
           type: root
         users:
-        - addedAt: 2000-01-23T04:56:07.000+00:00
-          roleId: 6.027456183070403
-          imageUrl: imageUrl
-          name: name
-          id: 0.8008281904610115
-          isAPI: true
-          email: email
-        - addedAt: 2000-01-23T04:56:07.000+00:00
-          roleId: 6.027456183070403
-          imageUrl: imageUrl
-          name: name
-          id: 0.8008281904610115
-          isAPI: true
-          email: email
+        - addedAt: 2023-08-01T14:35:16Z
+          roleId: 5
+          imageUrl: https://openapi-generator.tech
+          roles:
+          - 5
+          - 5
+          name: Hunter Burgan
+          id: 1
+          isAPI: false
+          email: hunter@hunter.com
+        - addedAt: 2023-08-01T14:35:16Z
+          roleId: 5
+          imageUrl: https://openapi-generator.tech
+          roles:
+          - 5
+          - 5
+          name: Hunter Burgan
+          id: 1
+          isAPI: false
+          email: hunter@hunter.com
       properties:
         users:
+          description: A list of users with access to this project and their role
+            within it.
           items:
             $ref: '#/components/schemas/userWithProjectRoleSchema'
           type: array
         roles:
+          description: A list of roles that are available for this project
           items:
             $ref: '#/components/schemas/roleSchema'
           type: array
@@ -22751,6 +23610,7 @@ components:
       type: object
     projectAccessSchema:
       additionalProperties: false
+      description: An object describing access permissions for a given project.
       example:
         roles:
         - name: Editor
@@ -22771,14 +23631,16 @@ components:
           type: root
         groups:
         - createdAt: 2023-06-30T11:41:00.123Z
-          projects:
-          - default
-          - my-project
+          addedAt: 2023-08-01T14:35:16Z
           rootRole: 1
           createdBy: admin
+          roleId: 5
           mappingsSSO:
           - SSOGroup1
           - SSOGroup2
+          roles:
+          - 5
+          - 5
           name: DX team
           description: Current members of the DX squad
           id: 1
@@ -22822,14 +23684,16 @@ components:
               email: user@example.com
               username: hunter
         - createdAt: 2023-06-30T11:41:00.123Z
-          projects:
-          - default
-          - my-project
+          addedAt: 2023-08-01T14:35:16Z
           rootRole: 1
           createdBy: admin
+          roleId: 5
           mappingsSSO:
           - SSOGroup1
           - SSOGroup2
+          roles:
+          - 5
+          - 5
           name: DX team
           description: Current members of the DX squad
           id: 1
@@ -22873,36 +23737,96 @@ components:
               email: user@example.com
               username: hunter
         users:
-        - addedAt: 2000-01-23T04:56:07.000+00:00
-          roleId: 6.027456183070403
-          imageUrl: imageUrl
-          name: name
-          id: 0.8008281904610115
-          isAPI: true
-          email: email
-        - addedAt: 2000-01-23T04:56:07.000+00:00
-          roleId: 6.027456183070403
-          imageUrl: imageUrl
-          name: name
-          id: 0.8008281904610115
-          isAPI: true
-          email: email
+        - addedAt: 2023-08-01T14:35:16Z
+          roleId: 5
+          imageUrl: https://openapi-generator.tech
+          roles:
+          - 5
+          - 5
+          name: Hunter Burgan
+          id: 1
+          isAPI: false
+          email: hunter@hunter.com
+        - addedAt: 2023-08-01T14:35:16Z
+          roleId: 5
+          imageUrl: https://openapi-generator.tech
+          roles:
+          - 5
+          - 5
+          name: Hunter Burgan
+          id: 1
+          isAPI: false
+          email: hunter@hunter.com
       properties:
         groups:
+          description: A list of groups that have access to this project
           items:
-            $ref: '#/components/schemas/groupSchema'
+            $ref: '#/components/schemas/groupWithProjectRoleSchema'
           type: array
         users:
+          description: A list of users and their roles within this project
           items:
             $ref: '#/components/schemas/userWithProjectRoleSchema'
           type: array
         roles:
+          description: A list of roles that are available within this project.
           items:
             $ref: '#/components/schemas/roleSchema'
           type: array
       required:
       - groups
       - roles
+      - users
+      type: object
+    projectAddAccessSchema:
+      description: "An object containing a collection of roles, a collection of groups\
+        \ and a collection of users."
+      properties:
+        roles:
+          description: A list of role IDs
+          items:
+            description: A role ID
+            example: 5
+            minimum: 0
+            type: integer
+          type: array
+        groups:
+          description: A list of group IDs
+          items:
+            description: A group ID
+            example: 5
+            minimum: 0
+            type: integer
+          type: array
+        users:
+          description: A list of user IDs
+          items:
+            description: A user ID
+            example: 5
+            minimum: 0
+            type: integer
+          type: array
+      required:
+      - groups
+      - roles
+      - users
+      type: object
+    projectAddRoleAccessSchema:
+      description: An object containing a collection of users and a collection of
+        groups.
+      properties:
+        groups:
+          description: A list of groups IDs
+          items:
+            $ref: '#/components/schemas/projectAddRoleAccessSchema_groups_inner'
+          type: array
+        users:
+          description: A list of user IDs
+          items:
+            $ref: '#/components/schemas/projectAddRoleAccessSchema_users_inner'
+          type: array
+      required:
+      - groups
       - users
       type: object
     projectCreatedSchema:
@@ -22954,24 +23878,71 @@ components:
       - id
       - name
       type: object
-    projectsOverviewSchema:
+    projectRoleSchema:
       additionalProperties: false
+      description: An overview of how many users and groups are mapped to the specified
+        project with the specified role.
+      example:
+        role: 3
+        userCount: 1
+        groupCount: 1
+        project: project-a
+        serviceAccountCount: 1
       properties:
-        featureCount:
-          type: number
-        memberCount:
-          type: number
-        projects:
-          items:
-            $ref: '#/components/schemas/projectSchema'
-          type: array
+        project:
+          description: The id of the project user and group count are counted for.
+          example: project-a
+          type: string
+        role:
+          description: Id of the role the user and group count are counted for.
+          example: 3
+          type: integer
+        userCount:
+          description: Number of users mapped to this project.
+          example: 1
+          minimum: 0
+          type: integer
+        serviceAccountCount:
+          description: Number of service accounts mapped to this project.
+          example: 1
+          minimum: 0
+          type: integer
+        groupCount:
+          description: Number of groups mapped to this project.
+          example: 1
+          minimum: 0
+          type: integer
       required:
-      - featureCount
-      - memberCount
-      - projects
+      - project
+      type: object
+    projectRoleUsageSchema:
+      additionalProperties: false
+      description: A collection of projects with counts of users and groups mapped
+        to them with specified roles.
+      example:
+        projects:
+        - role: 3
+          userCount: 1
+          groupCount: 1
+          project: project-a
+          serviceAccountCount: 1
+        - role: 3
+          userCount: 1
+          groupCount: 1
+          project: project-a
+          serviceAccountCount: 1
+      properties:
+        projects:
+          description: A collection of projects with counts of users and groups mapped
+            to them with specified roles.
+          items:
+            $ref: '#/components/schemas/projectRoleSchema'
+          type: array
       type: object
     roleWithPermissionsSchema:
       additionalProperties: false
+      description: A read model for the role and permissions to allow Unleash to decide
+        what actions a role holder is allowed to perform
       example:
         permissions:
         - environment: development
@@ -22984,20 +23955,39 @@ components:
           name: UPDATE_FEATURE
           id: 3
           type: project
-        name: name
-        description: description
-        id: 0.8008281904610115
-        type: type
+        name: Editor
+        description: Users with the editor role have access to most features in Unleash
+          but can not manage users and roles in the global scope. Editors will be
+          added as project owners when creating projects and get superuser rights
+          within the context of these projects. Users with the editor role will also
+          get access to most permissions on the default project by default.
+        id: 9
+        type: root
       properties:
         id:
+          description: The role id
+          example: 9
           type: number
         type:
+          description: "A role can either be a global `root` role, or a `project`\
+            \ role or a `custom` project role or a custom global `root-custom` role"
+          example: root
           type: string
         name:
+          description: The name of the role
+          example: Editor
           type: string
         description:
+          description: A more detailed description of the role and what use it's intended
+            for
+          example: Users with the editor role have access to most features in Unleash
+            but can not manage users and roles in the global scope. Editors will be
+            added as project owners when creating projects and get superuser rights
+            within the context of these projects. Users with the editor role will
+            also get access to most permissions on the default project by default.
           type: string
         permissions:
+          description: A list of permissions assigned to this role
           items:
             $ref: '#/components/schemas/adminPermissionSchema'
           type: array
@@ -23009,6 +23999,7 @@ components:
       type: object
     roleWithVersionSchema:
       additionalProperties: false
+      description: A single user role received after creation or update of a role
       example:
         roles:
           name: Editor
@@ -23019,10 +24010,13 @@ components:
             will also get access to most permissions on the default project by default.
           id: 9
           type: root
-        version: 0.8008281904610115
+        version: 1
       properties:
         version:
-          type: number
+          description: The version of this schema
+          example: 1
+          minimum: 1
+          type: integer
         roles:
           $ref: '#/components/schemas/roleSchema'
       required:
@@ -23031,6 +24025,7 @@ components:
       type: object
     rolesWithVersionSchema:
       additionalProperties: false
+      description: A collection of user roles
       example:
         roles:
         - name: Editor
@@ -23049,11 +24044,15 @@ components:
             will also get access to most permissions on the default project by default.
           id: 9
           type: root
-        version: 0.8008281904610115
+        version: 1
       properties:
         version:
-          type: number
+          description: The version of this schema
+          example: 1
+          minimum: 1
+          type: integer
         roles:
+          description: A list of roles
           items:
             $ref: '#/components/schemas/roleSchema'
           type: array
@@ -23253,6 +24252,7 @@ components:
       - strategies
       type: object
     segmentsSchema:
+      description: "Data containing a list of [segments](https://docs.getunleash.io/reference/segments)"
       example:
         segments:
         - createdAt: 2023-04-12T11:13:31.96Z
@@ -23307,13 +24307,25 @@ components:
           usedInProjects: 2
       properties:
         segments:
+          description: A list of segments
           items:
             $ref: '#/components/schemas/adminSegmentSchema'
           type: array
       type: object
-    changeRequestCreateSchema:
+    changeRequestCreateFeatureSchema:
+      description: "Data used to create a [change request](https://docs.getunleash.io/reference/change-requests)\
+        \ for a single feature change."
+      oneOf:
+      - $ref: '#/components/schemas/changeRequestCreateFeatureSchema_oneOf'
+      - $ref: '#/components/schemas/changeRequestCreateFeatureSchema_oneOf_1'
+      - $ref: '#/components/schemas/changeRequestCreateFeatureSchema_oneOf_2'
+      - $ref: '#/components/schemas/changeRequestCreateFeatureSchema_oneOf_3'
+      - $ref: '#/components/schemas/changeRequestCreateFeatureSchema_oneOf_4'
+      - $ref: '#/components/schemas/changeRequestCreateFeatureSchema_oneOf_5'
+      - $ref: '#/components/schemas/changeRequestCreateFeatureSchema_oneOf_6'
       properties:
         feature:
+          description: The name of the feature that this change applies to.
           example: my-best-feature
           type: string
       required:
@@ -23321,10 +24333,13 @@ components:
       type: object
     changeRequestApprovalSchema:
       additionalProperties: false
+      description: "Information about a [change request](https://docs.getunleash.io/reference/change-requests)\
+        \ approval."
       properties:
         createdBy:
           $ref: '#/components/schemas/changeRequestApprovalSchema_createdBy'
         createdAt:
+          description: When the approval was given.
           example: 2022-12-12T12:13:24.218Z
           format: date-time
           type: string
@@ -23333,21 +24348,33 @@ components:
       - createdBy
       type: object
     changeRequestConfigSchema:
+      description: "A list of environment-specific [change request](https://docs.getunleash.io/reference/change-requests)\
+        \ configurations."
       items:
         $ref: '#/components/schemas/changeRequestEnvironmentConfigSchema'
       type: array
     changeRequestEnvironmentConfigSchema:
       additionalProperties: false
+      description: "The [change request](https://docs.getunleash.io/reference/change-requests)\
+        \ configuration for a specific environment."
       properties:
         environment:
-          example: development
+          description: The environment that this configuration applies to.
+          example: my-dev-environment
           type: string
         type:
+          description: "The [type of the environment](https://docs.getunleash.io/reference/environments#environment-types)\
+            \ listed in `environment`."
           example: development
           type: string
         changeRequestEnabled:
+          description: "`true` if this environment has change requests enabled, otherwise\
+            \ `false`."
+          example: true
           type: boolean
         requiredApprovals:
+          description: The number of approvals that are required for a change request
+            to be fully approved and ready to be applied in this environment.
           example: 2
           nullable: true
           type: number
@@ -23359,8 +24386,10 @@ components:
       type: object
     changeRequestAddCommentSchema:
       additionalProperties: false
+      description: "Data used to add a comment to a [change request](https://docs.getunleash.io/reference/change-requests)."
       properties:
         text:
+          description: The content of the comment.
           example: This is a comment
           type: string
       required:
@@ -23368,16 +24397,20 @@ components:
       type: object
     changeRequestCommentSchema:
       additionalProperties: false
+      description: "A comment belonging to a [change request](https://docs.getunleash.io/reference/change-requests)."
       properties:
         id:
+          description: The comment's ID. Unique per change request.
           example: 33
           type: number
         text:
+          description: The content of the comment.
           example: This is a comment
           type: string
         createdBy:
           $ref: '#/components/schemas/changeRequestCommentSchema_createdBy'
         createdAt:
+          description: When the comment was made.
           example: 2022-12-12T12:13:24.218Z
           format: date-time
           type: string
@@ -23387,36 +24420,68 @@ components:
       - text
       type: object
     updateChangeRequestEnvironmentConfigSchema:
-      additionalProperties: false
+      description: Data used to update change request in an environment
       properties:
         changeRequestsEnabled:
+          description: "`true` if change requests should be enabled, otherwise `false`."
           type: boolean
         requiredApprovals:
-          type: number
+          description: The number of approvals required before a change request can
+            be applied in this environment.
+          example: 3
+          minimum: 0
+          type: integer
       required:
       - changeRequestsEnabled
       type: object
-    changeRequestDefaultEventSchema:
+    changeRequestDefaultChangeSchema:
       additionalProperties: false
+      description: |-
+        A description of a default change that will be applied with the change request to prevent invalid states.
+
+        Default changes are changes that are applied in addition to explicit user-specified changes when a change request is applied. Any default changes are applied in the background and are not a real part of the change request.
       properties:
         action:
+          description: The kind of action this is.
           example: addStrategy
           type: string
         payload:
+          description: The necessary data to perform this change.
+          example:
+            name: flexibleRollout
+            title: ""
+            disabled: false
+            segments: []
+            parameters:
+              groupId: my-feature
+              rollout: "100"
+              stickiness: default
+            constraints:
+            - values:
+              - ux
+              inverted: false
+              operator: STR_CONTAINS
+              contextName: userId
+              caseInsensitive: false
           type: object
+          x-enforcer-exception-skip-codes: WSCH006
       required:
       - action
       - payload
       type: object
     changeRequestUpdateTitleSchema:
+      description: "Data used to update a [change request](https://docs.getunleash.io/reference/change-requests)'s\
+        \ title."
       properties:
         title:
+          description: The new title to use for this change request.
           example: Increasing gradual rollout
           type: string
       required:
       - title
       type: object
     updateEnvironmentSchema:
+      description: "Data used to update an [environment](https://docs.getunleash.io/reference/environments)."
       properties:
         type:
           description: Updates the type of environment (i.e. development or production).
@@ -23466,57 +24531,214 @@ components:
       - strategyId
       type: object
     updateProjectSchema:
+      description: "Data used to update a [project](https://docs.getunleash.io/reference/projects)"
       properties:
         name:
+          description: The new name of the project
+          example: my-renamed-project
           type: string
         description:
+          description: A new description for the project
+          example: Anything related to the new UI
           type: string
       required:
       - name
       type: object
     userWithProjectRoleSchema:
+      description: Data about a user including their project role
       example:
-        addedAt: 2000-01-23T04:56:07.000+00:00
-        roleId: 6.027456183070403
-        imageUrl: imageUrl
-        name: name
-        id: 0.8008281904610115
-        isAPI: true
-        email: email
+        addedAt: 2023-08-01T14:35:16Z
+        roleId: 5
+        imageUrl: https://openapi-generator.tech
+        roles:
+        - 5
+        - 5
+        name: Hunter Burgan
+        id: 1
+        isAPI: false
+        email: hunter@hunter.com
       properties:
         isAPI:
+          deprecated: true
+          description: Whether this user is authenticated through Unleash tokens or
+            logged in with a session
+          example: false
           type: boolean
         name:
+          description: The name of the user
+          example: Hunter Burgan
           type: string
         email:
+          description: The user's email address
+          example: hunter@hunter.com
           nullable: true
           type: string
         id:
-          type: number
+          description: The user's ID in the Unleash system
+          example: 1
+          minimum: 0
+          type: integer
         imageUrl:
+          description: A URL pointing to the user's image.
+          format: uri
           nullable: true
           type: string
         addedAt:
+          description: When this user was added to the project
+          example: 2023-08-01T14:35:16Z
           format: date-time
           type: string
         roleId:
-          type: number
+          description: The ID of the role this user has in the given project
+          example: 5
+          minimum: 0
+          type: integer
+        roles:
+          description: A list of roles this user has in the given project
+          items:
+            example: 5
+            minimum: 0
+            type: integer
+          type: array
       required:
       - id
-      - isAPI
+      type: object
+    groupWithProjectRoleSchema:
+      additionalProperties: false
+      description: Data about a group including their project role
+      example:
+        createdAt: 2023-06-30T11:41:00.123Z
+        addedAt: 2023-08-01T14:35:16Z
+        rootRole: 1
+        createdBy: admin
+        roleId: 5
+        mappingsSSO:
+        - SSOGroup1
+        - SSOGroup2
+        roles:
+        - 5
+        - 5
+        name: DX team
+        description: Current members of the DX squad
+        id: 1
+        users:
+        - createdBy: admin
+          joinedAt: 2023-06-30T11:41:00.123Z
+          user:
+            loginAttempts: 3
+            inviteLink: http://localhost:4242/invite-link/some-secret
+            accountType: User
+            isAPI: true
+            createdAt: 2023-06-30T11:41:00.123Z
+            seenAt: 2023-06-30T11:42:00.345Z
+            rootRole: 1
+            emailSent: false
+            permissions:
+            - permissions
+            - permissions
+            imageUrl: https://example.com/242x200.png
+            name: User
+            id: 123
+            email: user@example.com
+            username: hunter
+        - createdBy: admin
+          joinedAt: 2023-06-30T11:41:00.123Z
+          user:
+            loginAttempts: 3
+            inviteLink: http://localhost:4242/invite-link/some-secret
+            accountType: User
+            isAPI: true
+            createdAt: 2023-06-30T11:41:00.123Z
+            seenAt: 2023-06-30T11:42:00.345Z
+            rootRole: 1
+            emailSent: false
+            permissions:
+            - permissions
+            - permissions
+            imageUrl: https://example.com/242x200.png
+            name: User
+            id: 123
+            email: user@example.com
+            username: hunter
+      properties:
+        name:
+          description: The name of the group
+          example: DX team
+          type: string
+        id:
+          description: The group's ID in the Unleash system
+          example: 1
+          minimum: 0
+          type: integer
+        addedAt:
+          description: When this group was added to the project
+          example: 2023-08-01T14:35:16Z
+          format: date-time
+          type: string
+        roleId:
+          description: The ID of the role this group has in the given project
+          example: 5
+          minimum: 0
+          type: integer
+        roles:
+          description: A list of roles this user has in the given project
+          items:
+            example: 5
+            minimum: 0
+            type: integer
+          type: array
+        description:
+          description: A custom description of the group
+          example: Current members of the DX squad
+          nullable: true
+          type: string
+        mappingsSSO:
+          description: A list of SSO groups that should map to this Unleash group
+          example:
+          - SSOGroup1
+          - SSOGroup2
+          items:
+            type: string
+          type: array
+        rootRole:
+          description: "A role id that is used as the root role for all users in this\
+            \ group. This can be either the id of the Viewer, Editor or Admin role."
+          example: 1
+          nullable: true
+          type: number
+        createdBy:
+          description: A user who created this group
+          example: admin
+          nullable: true
+          type: string
+        createdAt:
+          description: When was this group created
+          example: 2023-06-30T11:41:00.123Z
+          format: date-time
+          nullable: true
+          type: string
+        users:
+          description: A list of users belonging to this group
+          items:
+            $ref: '#/components/schemas/groupUserModelSchema'
+          type: array
       type: object
     validateProjectSchema:
+      description: Data used to validate a project ID
       properties:
         id:
+          description: The project ID to validate
+          example: new-project-id
           type: string
       required:
       - id
       type: object
     projectSettingsSchema:
       additionalProperties: false
+      description: Project settings for a given project
       properties:
         defaultStickiness:
-          description: Default stickiness for project
+          description: "The [default stickiness for this project](https://docs.getunleash.io/reference/stickiness#project-default-stickiness)"
           enum:
           - default
           - sessionId
@@ -23525,6 +24747,7 @@ components:
           nullable: true
           type: string
         mode:
+          description: "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode)."
           enum:
           - open
           - protected
@@ -23535,17 +24758,21 @@ components:
       - mode
       type: object
     changeRequestStateSchema:
-      additionalProperties: false
+      description: "Data used to update the state of a [change request](https://docs.getunleash.io/reference/change-requests)."
       properties:
         state:
+          description: The new desired state for the change request
           enum:
           - Draft
           - In review
           - Approved
           - Applied
           - Cancelled
+          - Rejected
           type: string
         comment:
+          description: Any comments accompanying the state changed. Used when sending
+            a draft to review.
           example: This is a comment for my change request
           type: string
       required:
@@ -23767,15 +24994,21 @@ components:
           type: integer
       type: object
     notificationsSchema:
+      description: "A list of [notifications](https://docs.getunleash.io/reference/notifications)"
       items:
         $ref: '#/components/schemas/notificationsSchema_inner'
       type: array
     markNotificationsAsReadSchema:
-      additionalProperties: true
+      description: Data used to mark notifications as being read
       properties:
         notifications:
+          description: A list of IDs belonging to the notifications you want to mark
+            as read.
           items:
-            type: number
+            description: A notification ID
+            example: 5
+            minimum: 0
+            type: integer
           type: array
       required:
       - notifications
@@ -23853,6 +25086,7 @@ components:
           successful: true
       properties:
         events:
+          description: A list of login events
           items:
             $ref: '#/components/schemas/loginEventSchema'
           type: array
@@ -24336,6 +25570,120 @@ components:
       - stop
       - toggles
       type: object
+    createApiTokenSchema_oneOf:
+      properties:
+        type:
+          description: An admin token. Must be the string "admin" (not case sensitive).
+          example: admin
+          pattern: "^[Aa][Dd][Mm][Ii][Nn]$"
+          type: string
+        tokenName:
+          description: The name of the token.
+          example: token-64522
+          type: string
+      required:
+      - tokenName
+      - type
+      type: object
+      example: null
+    createApiTokenSchema_oneOf_1:
+      properties:
+        type:
+          description: An admin token. Must be the string "admin" (not case sensitive).
+          example: admin
+          pattern: "^[Aa][Dd][Mm][Ii][Nn]$"
+          type: string
+        username:
+          deprecated: true
+          description: The name of the token. This property is deprecated. Use `tokenName`
+            instead.
+          example: token-64523
+          type: string
+      required:
+      - type
+      - username
+      type: object
+      example: null
+    createApiTokenSchema_oneOf_2:
+      properties:
+        type:
+          description: A client or frontend token. Must be one of the strings "client"
+            or "frontend" (not case sensitive).
+          example: frontend
+          pattern: "^([Cc][Ll][Ii][Ee][Nn][Tt]|[Ff][Rr][Oo][Nn][Tt][Ee][Nn][Dd])$"
+          type: string
+        environment:
+          description: The environment that the token should be valid for. Defaults
+            to "default"
+          example: development
+          type: string
+        project:
+          description: "The project that the token should be valid for. Defaults to\
+            \ \"*\" meaning every project. This property is mutually incompatible\
+            \ with the `projects` property. If you specify one, you cannot specify\
+            \ the other."
+          example: project-851
+          type: string
+        projects:
+          description: "A list of projects that the token should be valid for. This\
+            \ property is mutually incompatible with the `project` property. If you\
+            \ specify one, you cannot specify the other."
+          example:
+          - project-851
+          - project-852
+          items:
+            type: string
+          type: array
+        tokenName:
+          description: The name of the token.
+          example: token-64522
+          type: string
+      required:
+      - tokenName
+      - type
+      type: object
+      example: null
+    createApiTokenSchema_oneOf_3:
+      properties:
+        type:
+          description: A client or frontend token. Must be one of the strings "client"
+            or "frontend" (not case sensitive).
+          example: frontend
+          pattern: "^([Cc][Ll][Ii][Ee][Nn][Tt]|[Ff][Rr][Oo][Nn][Tt][Ee][Nn][Dd])$"
+          type: string
+        environment:
+          description: The environment that the token should be valid for. Defaults
+            to "default"
+          example: development
+          type: string
+        project:
+          description: "The project that the token should be valid for. Defaults to\
+            \ \"*\" meaning every project. This property is mutually incompatible\
+            \ with the `projects` property. If you specify one, you cannot specify\
+            \ the other."
+          example: project-851
+          type: string
+        projects:
+          description: "A list of projects that the token should be valid for. This\
+            \ property is mutually incompatible with the `project` property. If you\
+            \ specify one, you cannot specify the other."
+          example:
+          - project-851
+          - project-852
+          items:
+            type: string
+          type: array
+        username:
+          deprecated: true
+          description: The name of the token. This property is deprecated. Use `tokenName`
+            instead.
+          example: token-64523
+          type: string
+      required:
+      - type
+      - username
+      type: object
+      example: null
     createUserSchema_rootRole:
       description: The role to assign to the user. Can be either the role's ID or
         its unique name.
@@ -24578,9 +25926,7 @@ components:
       type: object
     playgroundStrategySchema_result_anyOf_enabled:
       anyOf:
-      - enum:
-        - false
-        type: boolean
+      - type: boolean
       - enum:
         - unknown
         type: string
@@ -24916,7 +26262,7 @@ components:
       - type
       type: object
     createUserResponseSchema_rootRole:
-      description: "Which [root role](https://docs.getunleash.io/reference/rbac#standard-roles)\
+      description: "Which [root role](https://docs.getunleash.io/reference/rbac#predefined-roles)\
         \ this user is assigned. Usually a numeric role ID, but can be a string when\
         \ returning newly created user with an explicit string role."
       oneOf:
@@ -25182,26 +26528,46 @@ components:
     createRoleWithPermissionsSchema_permissions_inner:
       properties:
         id:
+          description: The id of the permission
+          example: 2
           type: number
         environment:
+          description: The environments of the permission if the permission is environment
+            specific
+          example: development
           type: string
       required:
       - id
       type: object
     invoicesSchema_inner:
       additionalProperties: false
+      description: Data describing an invoice
       properties:
         amountFormatted:
+          description: A formatted representation of the amount due.
+          example: € 123.00
           type: string
         paid:
+          description: "`true` if the invoice has been paid, `false` if it has not."
+          example: true
           type: boolean
         status:
+          description: The current status of the invoice
+          example: pending
           type: string
         dueDate:
+          description: When the invoice is due
+          example: 2018-11-13
           type: string
         invoiceURL:
+          description: A URL pointing to where the invoice can be found.
+          example: https://invoice.url
+          format: uri
           type: string
         invoicePDF:
+          description: A link to a PDF-version of the invoice.
+          example: https://invoice.url/pdf
+          format: uri
           type: string
       required:
       - amountFormatted
@@ -25209,6 +26575,26 @@ components:
       - invoiceURL
       - paid
       - status
+      type: object
+    projectAddRoleAccessSchema_groups_inner:
+      properties:
+        id:
+          description: A group ID
+          example: 5
+          minimum: 0
+          type: integer
+      required:
+      - id
+      type: object
+    projectAddRoleAccessSchema_users_inner:
+      properties:
+        id:
+          description: A user ID
+          example: 5
+          minimum: 0
+          type: integer
+      required:
+      - id
       type: object
     adminStrategiesSchema_strategies_inner:
       example:
@@ -25245,24 +26631,168 @@ components:
       - projectId
       - strategyName
       type: object
-    changeRequestApprovalSchema_createdBy:
+    changeRequestCreateFeatureSchema_oneOf_payload:
+      properties:
+        enabled:
+          description: The new state of the feature.
+          example: true
+          type: boolean
+      required:
+      - enabled
+      type: object
+      example: null
+    changeRequestCreateFeatureSchema_oneOf:
+      description: Update the enabled state for a feature.
+      properties:
+        action:
+          description: The name of this action.
+          enum:
+          - updateEnabled
+          type: string
+        payload:
+          $ref: '#/components/schemas/changeRequestCreateFeatureSchema_oneOf_payload'
+      required:
+      - action
+      - payload
+      type: object
+      example: null
+    changeRequestCreateFeatureSchema_oneOf_1:
+      description: Add a strategy to the feature
+      properties:
+        action:
+          description: The name of this action.
+          enum:
+          - addStrategy
+          type: string
+        payload:
+          $ref: '#/components/schemas/createFeatureStrategySchema'
+      required:
+      - action
+      - payload
+      type: object
+      example: null
+    changeRequestCreateFeatureSchema_oneOf_2:
+      description: Update a strategy belonging to this feature.
+      properties:
+        action:
+          description: The name of this action.
+          enum:
+          - updateStrategy
+          type: string
+        payload:
+          $ref: '#/components/schemas/updateFeatureStrategySchema'
+      required:
+      - action
+      - payload
+      type: object
+      example: null
+    changeRequestCreateFeatureSchema_oneOf_3_payload:
       properties:
         id:
+          description: The ID of the strategy to update.
+          example: 0103487d-8788-4cda-af59-0a68642dbc5a
+          type: string
+      required:
+      - id
+      type: object
+      example: null
+    changeRequestCreateFeatureSchema_oneOf_3:
+      description: Delete a strategy from this feature.
+      properties:
+        action:
+          description: The name of this action.
+          enum:
+          - deleteStrategy
+          type: string
+        payload:
+          $ref: '#/components/schemas/changeRequestCreateFeatureSchema_oneOf_3_payload'
+      required:
+      - action
+      - payload
+      type: object
+      example: null
+    changeRequestCreateFeatureSchema_oneOf_4:
+      description: Archive a feature.
+      properties:
+        action:
+          description: The name of this action.
+          enum:
+          - archiveFeature
+          type: string
+      required:
+      - action
+      type: object
+      example: null
+    changeRequestCreateFeatureSchema_oneOf_5_payload:
+      properties:
+        variants:
+          items:
+            $ref: '#/components/schemas/variantSchema'
+          type: array
+      required:
+      - variants
+      type: object
+      example: null
+    changeRequestCreateFeatureSchema_oneOf_5:
+      description: Update variants for this feature.
+      properties:
+        action:
+          description: The name of this action.
+          enum:
+          - patchVariant
+          type: string
+        payload:
+          $ref: '#/components/schemas/changeRequestCreateFeatureSchema_oneOf_5_payload'
+      required:
+      - action
+      - payload
+      type: object
+      example: null
+    changeRequestCreateFeatureSchema_oneOf_6:
+      description: Reorder strategies for this feature
+      properties:
+        action:
+          description: The name of this action.
+          enum:
+          - reorderStrategy
+          type: string
+        payload:
+          description: An array of strategies with their new sort order
+          items:
+            $ref: '#/components/schemas/setStrategySortOrderSchema_inner'
+          type: array
+      required:
+      - action
+      - payload
+      type: object
+      example: null
+    changeRequestApprovalSchema_createdBy:
+      description: Information about the user who gave this approval.
+      properties:
+        id:
+          description: The ID of the user who gave this approval.
           example: 33
           type: number
         username:
+          description: The approving user's username.
           example: unleash-user
           type: string
         imageUrl:
+          description: The URL where the user's image can be found.
+          format: uri
           type: string
       type: object
     changeRequestCommentSchema_createdBy:
+      description: Information about the user who posted the comment
       properties:
         username:
+          description: The user's username.
           example: unleash-user
           nullable: true
           type: string
         imageUrl:
+          description: The URL where the user's image can be found.
+          format: uri
           nullable: true
           type: string
       type: object
