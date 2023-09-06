@@ -124,6 +124,7 @@ docs/CreateApiTokenSchemaOneOf3.md
 docs/CreateApplicationSchema.md
 docs/CreateContextFieldSchema.md
 docs/CreateEnvironmentSchema.md
+docs/CreateFeatureNamingPatternSchema.md
 docs/CreateFeatureSchema.md
 docs/CreateFeatureStrategySchema.md
 docs/CreateGroup409Response.md
@@ -143,6 +144,7 @@ docs/CreateUserResponseSchemaRootRole.md
 docs/CreateUserSchema.md
 docs/CreateUserSchemaRootRole.md
 docs/DateSchema.md
+docs/DoraFeaturesSchema.md
 docs/EdgeAPI.md
 docs/EdgeTokenSchema.md
 docs/EmailSchema.md
@@ -196,6 +198,7 @@ docs/ImportTogglesValidateItemSchema.md
 docs/ImportTogglesValidateSchema.md
 docs/InstanceAdminAPI.md
 docs/InstanceAdminStatsSchema.md
+docs/InstanceAdminStatsSchemaActiveUsers.md
 docs/InstanceAdminStatsSchemaClientAppsInner.md
 docs/InvoicesSchemaInner.md
 docs/LegalValueSchema.md
@@ -245,6 +248,7 @@ docs/ProjectAddRoleAccessSchema.md
 docs/ProjectAddRoleAccessSchemaGroupsInner.md
 docs/ProjectAddRoleAccessSchemaUsersInner.md
 docs/ProjectCreatedSchema.md
+docs/ProjectDoraMetricsSchema.md
 docs/ProjectEnvironmentSchema.md
 docs/ProjectOverviewSchema.md
 docs/ProjectRoleSchema.md
@@ -432,6 +436,7 @@ model_create_api_token_schema_one_of_3.go
 model_create_application_schema.go
 model_create_context_field_schema.go
 model_create_environment_schema.go
+model_create_feature_naming_pattern_schema.go
 model_create_feature_schema.go
 model_create_feature_strategy_schema.go
 model_create_group_409_response.go
@@ -451,6 +456,7 @@ model_create_user_response_schema_root_role.go
 model_create_user_schema.go
 model_create_user_schema_root_role.go
 model_date_schema.go
+model_dora_features_schema.go
 model_edge_token_schema.go
 model_email_schema.go
 model_environment_project_schema.go
@@ -496,6 +502,7 @@ model_import_toggles_schema.go
 model_import_toggles_validate_item_schema.go
 model_import_toggles_validate_schema.go
 model_instance_admin_stats_schema.go
+model_instance_admin_stats_schema_active_users.go
 model_instance_admin_stats_schema_client_apps_inner.go
 model_invoices_schema_inner.go
 model_legal_value_schema.go
@@ -539,6 +546,7 @@ model_project_add_role_access_schema.go
 model_project_add_role_access_schema_groups_inner.go
 model_project_add_role_access_schema_users_inner.go
 model_project_created_schema.go
+model_project_dora_metrics_schema.go
 model_project_environment_schema.go
 model_project_overview_schema.go
 model_project_role_schema.go

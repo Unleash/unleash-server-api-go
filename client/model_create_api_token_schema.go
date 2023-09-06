@@ -13,7 +13,6 @@ package client
 import (
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 // CreateApiTokenSchema - The data required to create an [Unleash API token](https://docs.getunleash.io/reference/api-tokens-and-client-keys).

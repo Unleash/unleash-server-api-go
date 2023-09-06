@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**DeleteProjectApiToken**](ProjectsAPI.md#DeleteProjectApiToken) | **Delete** /api/admin/projects/{projectId}/api-tokens/{token} | Delete a project API token.
 [**GetProjectAccess**](ProjectsAPI.md#GetProjectAccess) | **Get** /api/admin/projects/{projectId}/access | Get users and groups in project
 [**GetProjectApiTokens**](ProjectsAPI.md#GetProjectApiTokens) | **Get** /api/admin/projects/{projectId}/api-tokens | Get api tokens for project.
+[**GetProjectDora**](ProjectsAPI.md#GetProjectDora) | **Get** /api/admin/projects/{projectId}/dora | Get an overview project dora metrics.
 [**GetProjectHealthReport**](ProjectsAPI.md#GetProjectHealthReport) | **Get** /api/admin/projects/{projectId}/health-report | Get a health report for a project.
 [**GetProjectOverview**](ProjectsAPI.md#GetProjectOverview) | **Get** /api/admin/projects/{projectId} | Get an overview of a project.
 [**GetProjectUsers**](ProjectsAPI.md#GetProjectUsers) | **Get** /api/admin/projects/{projectId}/users | Get users in project
@@ -946,6 +947,76 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ApiTokensSchema**](ApiTokensSchema.md)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetProjectDora
+
+> ProjectDoraMetricsSchema GetProjectDora(ctx, projectId).Execute()
+
+Get an overview project dora metrics.
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+    projectId := "projectId_example" // string | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsAPI.GetProjectDora(context.Background(), projectId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.GetProjectDora``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetProjectDora`: ProjectDoraMetricsSchema
+    fmt.Fprintf(os.Stdout, "Response from `ProjectsAPI.GetProjectDora`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**projectId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetProjectDoraRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**ProjectDoraMetricsSchema**](ProjectDoraMetricsSchema.md)
 
 ### Authorization
 

@@ -12,6 +12,7 @@ package client
 
 import (
 	"encoding/json"
+	"time"
 )
 
 // checks if the CreateApiTokenSchemaOneOf1 type satisfies the MappedNullable interface at compile time
@@ -19,6 +20,8 @@ var _ MappedNullable = &CreateApiTokenSchemaOneOf1{}
 
 // CreateApiTokenSchemaOneOf1 struct for CreateApiTokenSchemaOneOf1
 type CreateApiTokenSchemaOneOf1 struct {
+	// The time when this token should expire.
+	ExpiresAt *time.Time `json:"expiresAt,omitempty"`
 	// An admin token. Must be the string \"admin\" (not case sensitive).
 	Type string `json:"type"`
 	// The name of the token. This property is deprecated. Use `tokenName` instead.
@@ -43,6 +46,38 @@ func NewCreateApiTokenSchemaOneOf1(type_ string, username string) *CreateApiToke
 func NewCreateApiTokenSchemaOneOf1WithDefaults() *CreateApiTokenSchemaOneOf1 {
 	this := CreateApiTokenSchemaOneOf1{}
 	return &this
+}
+
+// GetExpiresAt returns the ExpiresAt field value if set, zero value otherwise.
+func (o *CreateApiTokenSchemaOneOf1) GetExpiresAt() time.Time {
+	if o == nil || IsNil(o.ExpiresAt) {
+		var ret time.Time
+		return ret
+	}
+	return *o.ExpiresAt
+}
+
+// GetExpiresAtOk returns a tuple with the ExpiresAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateApiTokenSchemaOneOf1) GetExpiresAtOk() (*time.Time, bool) {
+	if o == nil || IsNil(o.ExpiresAt) {
+		return nil, false
+	}
+	return o.ExpiresAt, true
+}
+
+// HasExpiresAt returns a boolean if a field has been set.
+func (o *CreateApiTokenSchemaOneOf1) HasExpiresAt() bool {
+	if o != nil && !IsNil(o.ExpiresAt) {
+		return true
+	}
+
+	return false
+}
+
+// SetExpiresAt gets a reference to the given time.Time and assigns it to the ExpiresAt field.
+func (o *CreateApiTokenSchemaOneOf1) SetExpiresAt(v time.Time) {
+	o.ExpiresAt = &v
 }
 
 // GetType returns the Type field value
@@ -106,6 +141,9 @@ func (o CreateApiTokenSchemaOneOf1) MarshalJSON() ([]byte, error) {
 
 func (o CreateApiTokenSchemaOneOf1) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.ExpiresAt) {
+		toSerialize["expiresAt"] = o.ExpiresAt
+	}
 	toSerialize["type"] = o.Type
 	toSerialize["username"] = o.Username
 	return toSerialize, nil

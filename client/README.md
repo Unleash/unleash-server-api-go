@@ -220,6 +220,7 @@ Class | Method | HTTP request | Description
 *ProjectsAPI* | [**DeleteProjectApiToken**](docs/ProjectsAPI.md#deleteprojectapitoken) | **Delete** /api/admin/projects/{projectId}/api-tokens/{token} | Delete a project API token.
 *ProjectsAPI* | [**GetProjectAccess**](docs/ProjectsAPI.md#getprojectaccess) | **Get** /api/admin/projects/{projectId}/access | Get users and groups in project
 *ProjectsAPI* | [**GetProjectApiTokens**](docs/ProjectsAPI.md#getprojectapitokens) | **Get** /api/admin/projects/{projectId}/api-tokens | Get api tokens for project.
+*ProjectsAPI* | [**GetProjectDora**](docs/ProjectsAPI.md#getprojectdora) | **Get** /api/admin/projects/{projectId}/dora | Get an overview project dora metrics.
 *ProjectsAPI* | [**GetProjectHealthReport**](docs/ProjectsAPI.md#getprojecthealthreport) | **Get** /api/admin/projects/{projectId}/health-report | Get a health report for a project.
 *ProjectsAPI* | [**GetProjectOverview**](docs/ProjectsAPI.md#getprojectoverview) | **Get** /api/admin/projects/{projectId} | Get an overview of a project.
 *ProjectsAPI* | [**GetProjectUsers**](docs/ProjectsAPI.md#getprojectusers) | **Get** /api/admin/projects/{projectId}/users | Get users in project
@@ -389,6 +390,7 @@ Class | Method | HTTP request | Description
  - [CreateApplicationSchema](docs/CreateApplicationSchema.md)
  - [CreateContextFieldSchema](docs/CreateContextFieldSchema.md)
  - [CreateEnvironmentSchema](docs/CreateEnvironmentSchema.md)
+ - [CreateFeatureNamingPatternSchema](docs/CreateFeatureNamingPatternSchema.md)
  - [CreateFeatureSchema](docs/CreateFeatureSchema.md)
  - [CreateFeatureStrategySchema](docs/CreateFeatureStrategySchema.md)
  - [CreateGroup409Response](docs/CreateGroup409Response.md)
@@ -408,6 +410,7 @@ Class | Method | HTTP request | Description
  - [CreateUserSchema](docs/CreateUserSchema.md)
  - [CreateUserSchemaRootRole](docs/CreateUserSchemaRootRole.md)
  - [DateSchema](docs/DateSchema.md)
+ - [DoraFeaturesSchema](docs/DoraFeaturesSchema.md)
  - [EdgeTokenSchema](docs/EdgeTokenSchema.md)
  - [EmailSchema](docs/EmailSchema.md)
  - [EnvironmentProjectSchema](docs/EnvironmentProjectSchema.md)
@@ -453,6 +456,7 @@ Class | Method | HTTP request | Description
  - [ImportTogglesValidateItemSchema](docs/ImportTogglesValidateItemSchema.md)
  - [ImportTogglesValidateSchema](docs/ImportTogglesValidateSchema.md)
  - [InstanceAdminStatsSchema](docs/InstanceAdminStatsSchema.md)
+ - [InstanceAdminStatsSchemaActiveUsers](docs/InstanceAdminStatsSchemaActiveUsers.md)
  - [InstanceAdminStatsSchemaClientAppsInner](docs/InstanceAdminStatsSchemaClientAppsInner.md)
  - [InvoicesSchemaInner](docs/InvoicesSchemaInner.md)
  - [LegalValueSchema](docs/LegalValueSchema.md)
@@ -496,6 +500,7 @@ Class | Method | HTTP request | Description
  - [ProjectAddRoleAccessSchemaGroupsInner](docs/ProjectAddRoleAccessSchemaGroupsInner.md)
  - [ProjectAddRoleAccessSchemaUsersInner](docs/ProjectAddRoleAccessSchemaUsersInner.md)
  - [ProjectCreatedSchema](docs/ProjectCreatedSchema.md)
+ - [ProjectDoraMetricsSchema](docs/ProjectDoraMetricsSchema.md)
  - [ProjectEnvironmentSchema](docs/ProjectEnvironmentSchema.md)
  - [ProjectOverviewSchema](docs/ProjectOverviewSchema.md)
  - [ProjectRoleSchema](docs/ProjectRoleSchema.md)

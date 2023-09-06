@@ -1820,182 +1820,154 @@
       "createApiTokenSchema": {
         "type": "object",
         "description": "The data required to create an [Unleash API token](https://docs.getunleash.io/reference/api-tokens-and-client-keys).",
-        "properties": {
-          "expiresAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "The time when this token should expire.",
-            "example": "2023-07-04T11:26:24+02:00"
-          }
-        },
         "oneOf": [
           {
-            "allOf": [
-              {
-                "required": [
-                  "type"
-                ],
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "pattern": "^[Aa][Dd][Mm][Ii][Nn]$",
-                    "description": "An admin token. Must be the string \"admin\" (not case sensitive).",
-                    "example": "admin"
-                  }
-                }
+            "required": [
+              "type",
+              "tokenName"
+            ],
+            "type": "object",
+            "properties": {
+              "expiresAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The time when this token should expire.",
+                "example": "2023-07-04T11:26:24+02:00"
               },
-              {
-                "type": "object",
-                "required": [
-                  "tokenName"
-                ],
-                "properties": {
-                  "tokenName": {
-                    "type": "string",
-                    "description": "The name of the token.",
-                    "example": "token-64522"
-                  }
-                }
+              "type": {
+                "type": "string",
+                "pattern": "^[Aa][Dd][Mm][Ii][Nn]$",
+                "description": "An admin token. Must be the string \"admin\" (not case sensitive).",
+                "example": "admin"
+              },
+              "tokenName": {
+                "type": "string",
+                "description": "The name of the token.",
+                "example": "token-64522"
               }
-            ]
+            }
           },
           {
-            "allOf": [
-              {
-                "required": [
-                  "type"
-                ],
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "pattern": "^[Aa][Dd][Mm][Ii][Nn]$",
-                    "description": "An admin token. Must be the string \"admin\" (not case sensitive).",
-                    "example": "admin"
-                  }
-                }
+            "required": [
+              "type",
+              "username"
+            ],
+            "type": "object",
+            "properties": {
+              "expiresAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The time when this token should expire.",
+                "example": "2023-07-04T11:26:24+02:00"
               },
-              {
-                "type": "object",
-                "required": [
-                  "username"
-                ],
-                "properties": {
-                  "username": {
-                    "deprecated": true,
-                    "type": "string",
-                    "description": "The name of the token. This property is deprecated. Use `tokenName` instead.",
-                    "example": "token-64523"
-                  }
-                }
+              "type": {
+                "type": "string",
+                "pattern": "^[Aa][Dd][Mm][Ii][Nn]$",
+                "description": "An admin token. Must be the string \"admin\" (not case sensitive).",
+                "example": "admin"
+              },
+              "username": {
+                "deprecated": true,
+                "type": "string",
+                "description": "The name of the token. This property is deprecated. Use `tokenName` instead.",
+                "example": "token-64523"
               }
-            ]
+            }
           },
           {
-            "allOf": [
-              {
-                "required": [
-                  "type"
+            "required": [
+              "type",
+              "tokenName"
+            ],
+            "type": "object",
+            "properties": {
+              "expiresAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The time when this token should expire.",
+                "example": "2023-07-04T11:26:24+02:00"
+              },
+              "type": {
+                "type": "string",
+                "pattern": "^([Cc][Ll][Ii][Ee][Nn][Tt]|[Ff][Rr][Oo][Nn][Tt][Ee][Nn][Dd])$",
+                "description": "A client or frontend token. Must be one of the strings \"client\" or \"frontend\" (not case sensitive).",
+                "example": "frontend"
+              },
+              "environment": {
+                "type": "string",
+                "description": "The environment that the token should be valid for. Defaults to \"default\"",
+                "example": "development"
+              },
+              "project": {
+                "type": "string",
+                "description": "The project that the token should be valid for. Defaults to \"*\" meaning every project. This property is mutually incompatible with the `projects` property. If you specify one, you cannot specify the other.",
+                "example": "project-851"
+              },
+              "projects": {
+                "type": "array",
+                "description": "A list of projects that the token should be valid for. This property is mutually incompatible with the `project` property. If you specify one, you cannot specify the other.",
+                "example": [
+                  "project-851",
+                  "project-852"
                 ],
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "pattern": "^([Cc][Ll][Ii][Ee][Nn][Tt]|[Ff][Rr][Oo][Nn][Tt][Ee][Nn][Dd])$",
-                    "description": "A client or frontend token. Must be one of the strings \"client\" or \"frontend\" (not case sensitive).",
-                    "example": "frontend"
-                  },
-                  "environment": {
-                    "type": "string",
-                    "description": "The environment that the token should be valid for. Defaults to \"default\"",
-                    "example": "development"
-                  },
-                  "project": {
-                    "type": "string",
-                    "description": "The project that the token should be valid for. Defaults to \"*\" meaning every project. This property is mutually incompatible with the `projects` property. If you specify one, you cannot specify the other.",
-                    "example": "project-851"
-                  },
-                  "projects": {
-                    "type": "array",
-                    "description": "A list of projects that the token should be valid for. This property is mutually incompatible with the `project` property. If you specify one, you cannot specify the other.",
-                    "example": [
-                      "project-851",
-                      "project-852"
-                    ],
-                    "items": {
-                      "type": "string"
-                    }
-                  }
+                "items": {
+                  "type": "string"
                 }
               },
-              {
-                "type": "object",
-                "required": [
-                  "tokenName"
-                ],
-                "properties": {
-                  "tokenName": {
-                    "type": "string",
-                    "description": "The name of the token.",
-                    "example": "token-64522"
-                  }
-                }
+              "tokenName": {
+                "type": "string",
+                "description": "The name of the token.",
+                "example": "token-64522"
               }
-            ]
+            }
           },
           {
-            "allOf": [
-              {
-                "required": [
-                  "type"
+            "required": [
+              "type",
+              "username"
+            ],
+            "type": "object",
+            "properties": {
+              "expiresAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The time when this token should expire.",
+                "example": "2023-07-04T11:26:24+02:00"
+              },
+              "type": {
+                "type": "string",
+                "pattern": "^([Cc][Ll][Ii][Ee][Nn][Tt]|[Ff][Rr][Oo][Nn][Tt][Ee][Nn][Dd])$",
+                "description": "A client or frontend token. Must be one of the strings \"client\" or \"frontend\" (not case sensitive).",
+                "example": "frontend"
+              },
+              "environment": {
+                "type": "string",
+                "description": "The environment that the token should be valid for. Defaults to \"default\"",
+                "example": "development"
+              },
+              "project": {
+                "type": "string",
+                "description": "The project that the token should be valid for. Defaults to \"*\" meaning every project. This property is mutually incompatible with the `projects` property. If you specify one, you cannot specify the other.",
+                "example": "project-851"
+              },
+              "projects": {
+                "type": "array",
+                "description": "A list of projects that the token should be valid for. This property is mutually incompatible with the `project` property. If you specify one, you cannot specify the other.",
+                "example": [
+                  "project-851",
+                  "project-852"
                 ],
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "pattern": "^([Cc][Ll][Ii][Ee][Nn][Tt]|[Ff][Rr][Oo][Nn][Tt][Ee][Nn][Dd])$",
-                    "description": "A client or frontend token. Must be one of the strings \"client\" or \"frontend\" (not case sensitive).",
-                    "example": "frontend"
-                  },
-                  "environment": {
-                    "type": "string",
-                    "description": "The environment that the token should be valid for. Defaults to \"default\"",
-                    "example": "development"
-                  },
-                  "project": {
-                    "type": "string",
-                    "description": "The project that the token should be valid for. Defaults to \"*\" meaning every project. This property is mutually incompatible with the `projects` property. If you specify one, you cannot specify the other.",
-                    "example": "project-851"
-                  },
-                  "projects": {
-                    "type": "array",
-                    "description": "A list of projects that the token should be valid for. This property is mutually incompatible with the `project` property. If you specify one, you cannot specify the other.",
-                    "example": [
-                      "project-851",
-                      "project-852"
-                    ],
-                    "items": {
-                      "type": "string"
-                    }
-                  }
+                "items": {
+                  "type": "string"
                 }
               },
-              {
-                "type": "object",
-                "required": [
-                  "username"
-                ],
-                "properties": {
-                  "username": {
-                    "deprecated": true,
-                    "type": "string",
-                    "description": "The name of the token. This property is deprecated. Use `tokenName` instead.",
-                    "example": "token-64523"
-                  }
-                }
+              "username": {
+                "deprecated": true,
+                "type": "string",
+                "description": "The name of the token. This property is deprecated. Use `tokenName` instead.",
+                "example": "token-64523"
               }
-            ]
+            }
           }
         ]
       },
@@ -3829,6 +3801,9 @@
           "stats": {
             "$ref": "#/components/schemas/projectStatsSchema",
             "description": "Project statistics"
+          },
+          "featureNaming": {
+            "$ref": "#/components/schemas/createFeatureNamingPatternSchema"
           }
         }
       },
@@ -3934,6 +3909,9 @@
             "$ref": "#/components/schemas/projectStatsSchema",
             "description": "Project statistics"
           },
+          "featureNaming": {
+            "$ref": "#/components/schemas/createFeatureNamingPatternSchema"
+          },
           "potentiallyStaleCount": {
             "type": "number",
             "description": "The number of potentially stale feature toggles.",
@@ -4001,6 +3979,30 @@
             "description": "The number of users this instance has",
             "example": 8,
             "minimum": 0
+          },
+          "activeUsers": {
+            "type": "object",
+            "description": "The number of active users in the last 7, 30 and 90 days",
+            "properties": {
+              "last7": {
+                "type": "number",
+                "description": "The number of active users in the last 7 days",
+                "example": 5,
+                "minimum": 0
+              },
+              "last30": {
+                "type": "number",
+                "description": "The number of active users in the last 30 days",
+                "example": 10,
+                "minimum": 0
+              },
+              "last90": {
+                "type": "number",
+                "description": "The number of active users in the last 90 days",
+                "example": 15,
+                "minimum": 0
+              }
+            }
           },
           "featureToggles": {
             "type": "number",
@@ -4084,6 +4086,18 @@
                 }
               }
             }
+          },
+          "featureExports": {
+            "type": "number",
+            "description": "The number of export operations on this instance",
+            "example": 0,
+            "minimum": 0
+          },
+          "featureImports": {
+            "type": "number",
+            "description": "The number of import operations on this instance",
+            "example": 0,
+            "minimum": 0
           },
           "sum": {
             "type": "string",
@@ -7136,6 +7150,12 @@
             "description": "The feature name to validate.",
             "type": "string",
             "example": "my-feature-3"
+          },
+          "projectId": {
+            "description": "The id of the project that the feature flag will belong to. If the target project has a feature naming pattern defined, the name will be validated against that pattern.",
+            "nullable": true,
+            "type": "string",
+            "example": "project-y"
           }
         }
       },
@@ -7393,6 +7413,9 @@
             "nullable": true,
             "example": 100,
             "description": "A limit on the number of features allowed in the project. Null if no limit."
+          },
+          "featureNaming": {
+            "$ref": "#/components/schemas/createFeatureNamingPatternSchema"
           },
           "members": {
             "type": "number",
@@ -7843,6 +7866,64 @@
                 }
               }
             }
+          }
+        }
+      },
+      "createFeatureNamingPatternSchema": {
+        "type": "object",
+        "description": "Create a feature naming pattern",
+        "required": [
+          "pattern"
+        ],
+        "properties": {
+          "pattern": {
+            "type": "string",
+            "nullable": true,
+            "description": "A JavaScript regular expression pattern, without the start and end delimiters. Optional flags are not allowed.",
+            "example": "[a-z]{2,5}.team-[a-z]+.[a-z-]+",
+            "pattern": ".*"
+          },
+          "example": {
+            "type": "string",
+            "nullable": true,
+            "description": "An example of a feature name that matches the pattern. Must itself match the pattern supplied.",
+            "example": "new-project.team-red.feature-1"
+          }
+        }
+      },
+      "doraFeaturesSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "timeToProduction"
+        ],
+        "description": "The representation of a dora time to production feature metric",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of a feature toggle"
+          },
+          "timeToProduction": {
+            "type": "number",
+            "description": "The average number of days it takes a feature toggle to get into production"
+          }
+        }
+      },
+      "projectDoraMetricsSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "features"
+        ],
+        "description": "A projects dora metrics",
+        "properties": {
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/doraFeaturesSchema"
+            },
+            "description": "An array of objects containing feature toggle name and timeToProduction values"
           }
         }
       },
@@ -26711,6 +26792,119 @@
         ]
       }
     },
+    "/api/admin/projects/{projectId}/dora": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "getProjectDora",
+        "summary": "Get an overview project dora metrics.",
+        "description": "This endpoint returns an overview of the specified dora metrics",
+        "responses": {
+          "200": {
+            "description": "projectDoraMetricsSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/projectDoraMetricsSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
     "/api/admin/projects/{projectId}/features/{featureName}/environments/{environment}": {
       "get": {
         "summary": "Get a feature environment",
@@ -31510,6 +31704,33 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -33113,7 +33334,7 @@
             "description": "instanceAdminStatsSchemaCsv",
             "content": {
               "text/csv": {
-                "example": "\"OIDCenabled\",\"SAMLenabled\",\"clientApps\",\"contextFields\",\"environments\",\"featureExports\",\"featureImports\",\"featureToggles\",\"groups\",\"instanceId\",\"projects\",\"roles\",\"customRootRoles\",\"customRootRolesInUse\",\"segments\",\"strategies\",\"sum\",\"timestamp\",\"users\",\"versionEnterprise\",\"versionOSS\"\ntrue,false,\"[{\"\"range\"\":\"\"allTime\"\",\"\"count\"\":15},{\"\"range\"\":\"\"30d\"\",\"\"count\"\":9},{\"\"range\"\":\"\"7d\"\",\"\"count\"\":5}]\",6,2,0,0,29,3,\"ed3861ae-78f9-4e8c-8e57-b57efc15f82b\",1,5,2,1,2,8,\"some-sha256-hash\",\"2023-07-12T10:00:00.000Z\",10,\"5.1.7\",\"5.1.7\"",
+                "example": "\"OIDCenabled\",\"SAMLenabled\",\"clientApps\",\"contextFields\",\"environments\",\"featureExports\",\"featureImports\",\"featureToggles\",\"groups\",\"instanceId\",\"projects\",\"roles\",\"customRootRoles\",\"customRootRolesInUse\",\"segments\",\"strategies\",\"sum\",\"timestamp\",\"users\",\"versionEnterprise\",\"versionOSS\",\"activeUsers\"\ntrue,false,\"[{\"\"range\"\":\"\"allTime\"\",\"\"count\"\":15},{\"\"range\"\":\"\"30d\"\",\"\"count\"\":9},{\"\"range\"\":\"\"7d\"\",\"\"count\"\":5}]\",6,2,0,0,29,3,\"ed3861ae-78f9-4e8c-8e57-b57efc15f82b\",1,5,2,1,2,8,\"some-sha256-hash\",\"2023-07-12T10:00:00.000Z\",10,\"5.1.7\",\"5.1.7\",\"{\"\"last90\"\":15,\"\"last30\"\":10,\"\"last7\"\":5}\"",
                 "schema": {
                   "type": "string"
                 }

@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **DefaultStickiness** | Pointer to **string** | A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy | [optional] 
 **Mode** | Pointer to **string** | The project&#39;s [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not. | [optional] 
 **FeatureLimit** | Pointer to **NullableFloat32** | A limit on the number of features allowed in the project. Null if no limit. | [optional] 
+**FeatureNaming** | Pointer to [**CreateFeatureNamingPatternSchema**](CreateFeatureNamingPatternSchema.md) |  | [optional] 
 **Members** | Pointer to **float32** | The number of members this project has | [optional] 
 **Health** | Pointer to **float32** | An indicator of the [project&#39;s health](https://docs.getunleash.io/reference/technical-debt#health-rating) on a scale from 0 to 100 | [optional] 
 **Environments** | Pointer to [**[]ProjectEnvironmentSchema**](ProjectEnvironmentSchema.md) | The environments that are enabled for this project | [optional] 
@@ -223,6 +224,31 @@ HasFeatureLimit returns a boolean if a field has been set.
 `func (o *ProjectOverviewSchema) UnsetFeatureLimit()`
 
 UnsetFeatureLimit ensures that no value is present for FeatureLimit, not even an explicit nil
+### GetFeatureNaming
+
+`func (o *ProjectOverviewSchema) GetFeatureNaming() CreateFeatureNamingPatternSchema`
+
+GetFeatureNaming returns the FeatureNaming field if non-nil, zero value otherwise.
+
+### GetFeatureNamingOk
+
+`func (o *ProjectOverviewSchema) GetFeatureNamingOk() (*CreateFeatureNamingPatternSchema, bool)`
+
+GetFeatureNamingOk returns a tuple with the FeatureNaming field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFeatureNaming
+
+`func (o *ProjectOverviewSchema) SetFeatureNaming(v CreateFeatureNamingPatternSchema)`
+
+SetFeatureNaming sets FeatureNaming field to given value.
+
+### HasFeatureNaming
+
+`func (o *ProjectOverviewSchema) HasFeatureNaming() bool`
+
+HasFeatureNaming returns a boolean if a field has been set.
+
 ### GetMembers
 
 `func (o *ProjectOverviewSchema) GetMembers() float32`

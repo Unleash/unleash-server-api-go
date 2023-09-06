@@ -32,7 +32,8 @@ type ProjectOverviewSchema struct {
 	// The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not.
 	Mode *string `json:"mode,omitempty"`
 	// A limit on the number of features allowed in the project. Null if no limit.
-	FeatureLimit NullableFloat32 `json:"featureLimit,omitempty"`
+	FeatureLimit  NullableFloat32                   `json:"featureLimit,omitempty"`
+	FeatureNaming *CreateFeatureNamingPatternSchema `json:"featureNaming,omitempty"`
 	// The number of members this project has
 	Members *float32 `json:"members,omitempty"`
 	// An indicator of the [project's health](https://docs.getunleash.io/reference/technical-debt#health-rating) on a scale from 0 to 100
@@ -296,6 +297,38 @@ func (o *ProjectOverviewSchema) SetFeatureLimitNil() {
 // UnsetFeatureLimit ensures that no value is present for FeatureLimit, not even an explicit nil
 func (o *ProjectOverviewSchema) UnsetFeatureLimit() {
 	o.FeatureLimit.Unset()
+}
+
+// GetFeatureNaming returns the FeatureNaming field value if set, zero value otherwise.
+func (o *ProjectOverviewSchema) GetFeatureNaming() CreateFeatureNamingPatternSchema {
+	if o == nil || IsNil(o.FeatureNaming) {
+		var ret CreateFeatureNamingPatternSchema
+		return ret
+	}
+	return *o.FeatureNaming
+}
+
+// GetFeatureNamingOk returns a tuple with the FeatureNaming field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ProjectOverviewSchema) GetFeatureNamingOk() (*CreateFeatureNamingPatternSchema, bool) {
+	if o == nil || IsNil(o.FeatureNaming) {
+		return nil, false
+	}
+	return o.FeatureNaming, true
+}
+
+// HasFeatureNaming returns a boolean if a field has been set.
+func (o *ProjectOverviewSchema) HasFeatureNaming() bool {
+	if o != nil && !IsNil(o.FeatureNaming) {
+		return true
+	}
+
+	return false
+}
+
+// SetFeatureNaming gets a reference to the given CreateFeatureNamingPatternSchema and assigns it to the FeatureNaming field.
+func (o *ProjectOverviewSchema) SetFeatureNaming(v CreateFeatureNamingPatternSchema) {
+	o.FeatureNaming = &v
 }
 
 // GetMembers returns the Members field value if set, zero value otherwise.
@@ -570,6 +603,9 @@ func (o ProjectOverviewSchema) ToMap() (map[string]interface{}, error) {
 	}
 	if o.FeatureLimit.IsSet() {
 		toSerialize["featureLimit"] = o.FeatureLimit.Get()
+	}
+	if !IsNil(o.FeatureNaming) {
+		toSerialize["featureNaming"] = o.FeatureNaming
 	}
 	if !IsNil(o.Members) {
 		toSerialize["members"] = o.Members

@@ -6388,6 +6388,48 @@ paths:
       summary: Update Unleash feedback
       tags:
       - Admin UI
+  /api/admin/projects/{projectId}/dora:
+    get:
+      description: This endpoint returns an overview of the specified dora metrics
+      operationId: getProjectDora
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectDoraMetricsSchema'
+          description: projectDoraMetricsSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGoogleSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
+      summary: Get an overview project dora metrics.
+      tags:
+      - Projects
   /api/admin/projects/{projectId}/features/{featureName}/environments/{environment}:
     get:
       description: Information about the enablement status and strategies for a feature
@@ -8399,6 +8441,12 @@ paths:
                 $ref: '#/components/schemas/getGoogleSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGroup_404_response'
+          description: The requested resource was not found.
       summary: Create a project API token.
       tags:
       - Projects
@@ -9022,8 +9070,8 @@ paths:
           content:
             text/csv:
               example: |-
-                "OIDCenabled","SAMLenabled","clientApps","contextFields","environments","featureExports","featureImports","featureToggles","groups","instanceId","projects","roles","customRootRoles","customRootRolesInUse","segments","strategies","sum","timestamp","users","versionEnterprise","versionOSS"
-                true,false,"[{""range"":""allTime"",""count"":15},{""range"":""30d"",""count"":9},{""range"":""7d"",""count"":5}]",6,2,0,0,29,3,"ed3861ae-78f9-4e8c-8e57-b57efc15f82b",1,5,2,1,2,8,"some-sha256-hash","2023-07-12T10:00:00.000Z",10,"5.1.7","5.1.7"
+                "OIDCenabled","SAMLenabled","clientApps","contextFields","environments","featureExports","featureImports","featureToggles","groups","instanceId","projects","roles","customRootRoles","customRootRolesInUse","segments","strategies","sum","timestamp","users","versionEnterprise","versionOSS","activeUsers"
+                true,false,"[{""range"":""allTime"",""count"":15},{""range"":""30d"",""count"":9},{""range"":""7d"",""count"":5}]",6,2,0,0,29,3,"ed3861ae-78f9-4e8c-8e57-b57efc15f82b",1,5,2,1,2,8,"some-sha256-hash","2023-07-12T10:00:00.000Z",10,"5.1.7","5.1.7","{""last90"":15,""last30"":10,""last7"":5}"
               schema:
                 type: string
           description: instanceAdminStatsSchemaCsv
@@ -13171,12 +13219,6 @@ components:
       - $ref: '#/components/schemas/createApiTokenSchema_oneOf_1'
       - $ref: '#/components/schemas/createApiTokenSchema_oneOf_2'
       - $ref: '#/components/schemas/createApiTokenSchema_oneOf_3'
-      properties:
-        expiresAt:
-          description: The time when this token should expire.
-          example: 2023-07-04T11:26:24+02:00
-          format: date-time
-          type: string
       type: object
     createApplicationSchema:
       description: Reported application information from Unleash SDKs
@@ -16431,6 +16473,8 @@ components:
           type: boolean
         stats:
           $ref: '#/components/schemas/projectStatsSchema'
+        featureNaming:
+          $ref: '#/components/schemas/createFeatureNamingPatternSchema'
       required:
       - defaultStickiness
       - environments
@@ -16448,6 +16492,9 @@ components:
         \ feature toggles."
       example:
         activeCount: 2
+        featureNaming:
+          pattern: "[a-z]{2,5}.team-[a-z]+.[a-z-]+"
+          example: new-project.team-red.feature-1
         environments:
         - environment: development
           defaultStrategy:
@@ -17237,6 +17284,8 @@ components:
           type: boolean
         stats:
           $ref: '#/components/schemas/projectStatsSchema'
+        featureNaming:
+          $ref: '#/components/schemas/createFeatureNamingPatternSchema'
         potentiallyStaleCount:
           description: The number of potentially stale feature toggles.
           example: 5
@@ -17285,6 +17334,10 @@ components:
         roles: 5
         versionEnterprise: 5.1.7
         groups: 12
+        activeUsers:
+          last90: 15
+          last30: 10
+          last7: 5
         sum: b023323477abb1eb145bebf3cdb30a1c2063e3edc1f7ae474ed8ed6c80de9a3b
         users: 8
         segments: 19
@@ -17295,8 +17348,10 @@ components:
           range: 30d
         instanceId: ed3861ae-78f9-4e8c-8e57-b57efc15f82b
         OIDCenabled: true
+        featureExports: 0
         featureToggles: 47
         SAMLenabled: false
+        featureImports: 0
         timestamp: 2023-06-12T12:25:06Z
         versionOSS: 5.1.7
       properties:
@@ -17324,6 +17379,8 @@ components:
           example: 8
           minimum: 0
           type: number
+        activeUsers:
+          $ref: '#/components/schemas/instanceAdminStatsSchema_activeUsers'
         featureToggles:
           description: The number of feature-toggles this instance has
           example: 47
@@ -17378,6 +17435,16 @@ components:
           items:
             $ref: '#/components/schemas/instanceAdminStatsSchema_clientApps_inner'
           type: array
+        featureExports:
+          description: The number of export operations on this instance
+          example: 0
+          minimum: 0
+          type: number
+        featureImports:
+          description: The number of import operations on this instance
+          example: 0
+          minimum: 0
+          type: number
         sum:
           description: A SHA-256 checksum of the instance statistics to be used to
             verify that the data in this object has not been tampered with
@@ -21884,6 +21951,13 @@ components:
           description: The feature name to validate.
           example: my-feature-3
           type: string
+        projectId:
+          description: "The id of the project that the feature flag will belong to.\
+            \ If the target project has a feature naming pattern defined, the name\
+            \ will be validated against that pattern."
+          example: project-y
+          nullable: true
+          type: string
       required:
       - name
       type: object
@@ -22038,6 +22112,9 @@ components:
         \ as project statistics, the name of the project, what members and what features\
         \ it contains, etc."
       example:
+        featureNaming:
+          pattern: "[a-z]{2,5}.team-[a-z]+.[a-z-]+"
+          example: new-project.team-red.feature-1
         environments:
         - environment: development
         - environment: production
@@ -22725,6 +22802,8 @@ components:
           example: 100
           nullable: true
           type: number
+        featureNaming:
+          $ref: '#/components/schemas/createFeatureNamingPatternSchema'
         members:
           description: The number of members this project has
           example: 4
@@ -23086,6 +23165,65 @@ components:
           type: array
       required:
       - name
+      type: object
+    createFeatureNamingPatternSchema:
+      description: Create a feature naming pattern
+      example:
+        pattern: "[a-z]{2,5}.team-[a-z]+.[a-z-]+"
+        example: new-project.team-red.feature-1
+      properties:
+        pattern:
+          description: "A JavaScript regular expression pattern, without the start\
+            \ and end delimiters. Optional flags are not allowed."
+          example: "[a-z]{2,5}.team-[a-z]+.[a-z-]+"
+          nullable: true
+          pattern: .*
+          type: string
+        example:
+          description: An example of a feature name that matches the pattern. Must
+            itself match the pattern supplied.
+          example: new-project.team-red.feature-1
+          nullable: true
+          type: string
+      required:
+      - pattern
+      type: object
+    doraFeaturesSchema:
+      additionalProperties: false
+      description: The representation of a dora time to production feature metric
+      example:
+        name: name
+        timeToProduction: 0.8008281904610115
+      properties:
+        name:
+          description: The name of a feature toggle
+          type: string
+        timeToProduction:
+          description: The average number of days it takes a feature toggle to get
+            into production
+          type: number
+      required:
+      - name
+      - timeToProduction
+      type: object
+    projectDoraMetricsSchema:
+      additionalProperties: false
+      description: A projects dora metrics
+      example:
+        features:
+        - name: name
+          timeToProduction: 0.8008281904610115
+        - name: name
+          timeToProduction: 0.8008281904610115
+      properties:
+        features:
+          description: An array of objects containing feature toggle name and timeToProduction
+            values
+          items:
+            $ref: '#/components/schemas/doraFeaturesSchema'
+          type: array
+      required:
+      - features
       type: object
     adminPermissionSchema:
       additionalProperties: false
@@ -25572,6 +25710,11 @@ components:
       type: object
     createApiTokenSchema_oneOf:
       properties:
+        expiresAt:
+          description: The time when this token should expire.
+          example: 2023-07-04T11:26:24+02:00
+          format: date-time
+          type: string
         type:
           description: An admin token. Must be the string "admin" (not case sensitive).
           example: admin
@@ -25585,9 +25728,13 @@ components:
       - tokenName
       - type
       type: object
-      example: null
     createApiTokenSchema_oneOf_1:
       properties:
+        expiresAt:
+          description: The time when this token should expire.
+          example: 2023-07-04T11:26:24+02:00
+          format: date-time
+          type: string
         type:
           description: An admin token. Must be the string "admin" (not case sensitive).
           example: admin
@@ -25603,9 +25750,13 @@ components:
       - type
       - username
       type: object
-      example: null
     createApiTokenSchema_oneOf_2:
       properties:
+        expiresAt:
+          description: The time when this token should expire.
+          example: 2023-07-04T11:26:24+02:00
+          format: date-time
+          type: string
         type:
           description: A client or frontend token. Must be one of the strings "client"
             or "frontend" (not case sensitive).
@@ -25642,9 +25793,13 @@ components:
       - tokenName
       - type
       type: object
-      example: null
     createApiTokenSchema_oneOf_3:
       properties:
+        expiresAt:
+          description: The time when this token should expire.
+          example: 2023-07-04T11:26:24+02:00
+          format: date-time
+          type: string
         type:
           description: A client or frontend token. Must be one of the strings "client"
             or "frontend" (not case sensitive).
@@ -25683,7 +25838,6 @@ components:
       - type
       - username
       type: object
-      example: null
     createUserSchema_rootRole:
       description: The role to assign to the user. Can be either the role's ID or
         its unique name.
@@ -25708,6 +25862,29 @@ components:
           type: string
       required:
       - id
+      type: object
+    instanceAdminStatsSchema_activeUsers:
+      description: "The number of active users in the last 7, 30 and 90 days"
+      example:
+        last90: 15
+        last30: 10
+        last7: 5
+      properties:
+        last7:
+          description: The number of active users in the last 7 days
+          example: 5
+          minimum: 0
+          type: number
+        last30:
+          description: The number of active users in the last 30 days
+          example: 10
+          minimum: 0
+          type: number
+        last90:
+          description: The number of active users in the last 90 days
+          example: 15
+          minimum: 0
+          type: number
       type: object
     instanceAdminStatsSchema_clientApps_inner:
       description: An entry describing how many client applications has been observed

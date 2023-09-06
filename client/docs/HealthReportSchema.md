@@ -18,6 +18,7 @@ Name | Type | Description | Notes
 **CreatedAt** | Pointer to **NullableTime** | When the project was last updated. | [optional] 
 **Favorite** | Pointer to **bool** | Indicates if the project has been marked as a favorite by the current user requesting the project health overview. | [optional] 
 **Stats** | Pointer to [**ProjectStatsSchema**](ProjectStatsSchema.md) |  | [optional] 
+**FeatureNaming** | Pointer to [**CreateFeatureNamingPatternSchema**](CreateFeatureNamingPatternSchema.md) |  | [optional] 
 **PotentiallyStaleCount** | **float32** | The number of potentially stale feature toggles. | 
 **ActiveCount** | **float32** | The number of active feature toggles. | 
 **StaleCount** | **float32** | The number of stale feature toggles. | 
@@ -390,6 +391,31 @@ SetStats sets Stats field to given value.
 `func (o *HealthReportSchema) HasStats() bool`
 
 HasStats returns a boolean if a field has been set.
+
+### GetFeatureNaming
+
+`func (o *HealthReportSchema) GetFeatureNaming() CreateFeatureNamingPatternSchema`
+
+GetFeatureNaming returns the FeatureNaming field if non-nil, zero value otherwise.
+
+### GetFeatureNamingOk
+
+`func (o *HealthReportSchema) GetFeatureNamingOk() (*CreateFeatureNamingPatternSchema, bool)`
+
+GetFeatureNamingOk returns a tuple with the FeatureNaming field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFeatureNaming
+
+`func (o *HealthReportSchema) SetFeatureNaming(v CreateFeatureNamingPatternSchema)`
+
+SetFeatureNaming sets FeatureNaming field to given value.
+
+### HasFeatureNaming
+
+`func (o *HealthReportSchema) HasFeatureNaming() bool`
+
+HasFeatureNaming returns a boolean if a field has been set.
 
 ### GetPotentiallyStaleCount
 
