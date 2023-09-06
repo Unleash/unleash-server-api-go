@@ -89,14 +89,28 @@ func Test_client_APITokensAPIService(t *testing.T) {
 
 	t.Run("Test APITokensAPIService DeleteApiToken", func(t *testing.T) {
 
-		for i := 0; i < len(createdTokens); i++ {
-			token := createdTokens[i]
-
-			httpRes, err := apiClient.APITokensAPI.DeleteApiToken(context.Background(), token).Execute()
-
-			require.Nil(t, err)
-			assert.Equal(t, 200, httpRes.StatusCode)
+		expireDate, err := time.Parse(time.RFC3339, "2021-01-01T00:00:00.000Z")
+		require.Nil(t, err)
+		tokenBody := client.CreateApiTokenSchemaOneOf{
+			Type:      "admin",
+			TokenName: "test admin token",
+			ExpiresAt: &expireDate,
 		}
+		createTokenSchema := client.CreateApiTokenSchemaOneOfAsCreateApiTokenSchema(&tokenBody)
+		resp, httpRes, err := apiClient.APITokensAPI.CreateApiToken(context.Background()).CreateApiTokenSchema(createTokenSchema).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 201, httpRes.StatusCode)
+
+		createdTokens = append(createdTokens, resp.Secret)
+
+		token := resp.Secret
+
+		httpRes, err = apiClient.APITokensAPI.DeleteApiToken(context.Background(), token).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
@@ -112,16 +126,14 @@ func Test_client_APITokensAPIService(t *testing.T) {
 
 	t.Run("Test APITokensAPIService GetApiTokensByName", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
-
-		var name string
+		name := "admin"
 
 		resp, httpRes, err := apiClient.APITokensAPI.GetApiTokensByName(context.Background(), name).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
-
+		assert.Equal(t, apiClient.GetConfig().DefaultHeader["Authorization"], resp.Tokens[0].Secret)
 	})
 
 	t.Run("Test APITokensAPIService GetApiTokensByName and UpdateApiToken", func(t *testing.T) {
