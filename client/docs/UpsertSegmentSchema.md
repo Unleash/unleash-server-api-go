@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  | 
-**Description** | Pointer to **NullableString** |  | [optional] 
-**Project** | Pointer to **NullableString** |  | [optional] 
-**Constraints** | [**[]ConstraintSchema**](ConstraintSchema.md) |  | 
+**Name** | **string** | The name of the segment | 
+**Description** | Pointer to **NullableString** | A description of what the segment is for | [optional] 
+**Project** | Pointer to **NullableString** | The project the segment belongs to if any. | [optional] 
+**Constraints** | [**[]ConstraintSchema**](ConstraintSchema.md) | The list of constraints that make up this segment | 
 
 ## Methods
 

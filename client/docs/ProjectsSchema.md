@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Version** | **int32** |  | 
+**Version** | **int32** | The schema version used to represent the project data. | 
 **Projects** | [**[]ProjectSchema**](ProjectSchema.md) | A list of projects in the Unleash instance | 
 
 ## Methods

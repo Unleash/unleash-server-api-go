@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **int32** | The user id | 
-**Name** | **string** | The name of the user | 
+**Name** | Pointer to **string** | The name of the user | [optional] 
 **Email** | **string** | The email of the user | 
 **Token** | **string** | A token uniquely identifying a user | 
 **CreatedBy** | **NullableString** | A username or email identifying which user created this token | 
@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewTokenUserSchema
 
-`func NewTokenUserSchema(id int32, name string, email string, token string, createdBy NullableString, role RoleSchema, ) *TokenUserSchema`
+`func NewTokenUserSchema(id int32, email string, token string, createdBy NullableString, role RoleSchema, ) *TokenUserSchema`
 
 NewTokenUserSchema instantiates a new TokenUserSchema object
 This constructor will assign default values to properties that have it defined,
@@ -69,6 +69,11 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+### HasName
+
+`func (o *TokenUserSchema) HasName() bool`
+
+HasName returns a boolean if a field has been set.
 
 ### GetEmail
 

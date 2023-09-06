@@ -10,8 +10,8 @@ Name | Type | Description | Notes
 **Constraints** | [**[]ConstraintSchema**](ConstraintSchema.md) | The list of constraints that are used in this segment | 
 **UsedInFeatures** | Pointer to **NullableInt32** | The number of projects that use this segment | [optional] 
 **UsedInProjects** | Pointer to **NullableInt32** | The number of projects that use this segment | [optional] 
-**Project** | Pointer to **NullableString** |  | [optional] 
-**CreatedBy** | Pointer to **string** | The creator&#39;s email or username | [optional] 
+**Project** | Pointer to **NullableString** | The project the segment belongs to. Only present if the segment is a project-specific segment. | [optional] 
+**CreatedBy** | Pointer to **NullableString** | The creator&#39;s email or username | [optional] 
 **CreatedAt** | **time.Time** | When the segment was created | 
 
 ## Methods
@@ -258,6 +258,16 @@ SetCreatedBy sets CreatedBy field to given value.
 
 HasCreatedBy returns a boolean if a field has been set.
 
+### SetCreatedByNil
+
+`func (o *AdminSegmentSchema) SetCreatedByNil(b bool)`
+
+ SetCreatedByNil sets the value for CreatedBy to be an explicit nil
+
+### UnsetCreatedBy
+`func (o *AdminSegmentSchema) UnsetCreatedBy()`
+
+UnsetCreatedBy ensures that no value is present for CreatedBy, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *AdminSegmentSchema) GetCreatedAt() time.Time`

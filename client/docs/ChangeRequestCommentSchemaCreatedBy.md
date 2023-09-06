@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Username** | Pointer to **NullableString** |  | [optional] 
-**ImageUrl** | Pointer to **NullableString** |  | [optional] 
+**Username** | Pointer to **NullableString** | The user&#39;s username. | [optional] 
+**ImageUrl** | Pointer to **NullableString** | The URL where the user&#39;s image can be found. | [optional] 
 
 ## Methods
 

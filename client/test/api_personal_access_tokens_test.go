@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing PersonalAccessTokensApiService
+Testing PersonalAccessTokensAPIService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	"testing"
 )
 
-func Test_client_PersonalAccessTokensApiService(t *testing.T) {
+func Test_client_PersonalAccessTokensAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test PersonalAccessTokensApiService CreatePat", func(t *testing.T) {
+	t.Run("Test PersonalAccessTokensAPIService CreatePat", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.PersonalAccessTokensApi.CreatePat(context.Background()).Execute()
+		resp, httpRes, err := apiClient.PersonalAccessTokensAPI.CreatePat(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -34,24 +34,24 @@ func Test_client_PersonalAccessTokensApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test PersonalAccessTokensApiService DeletePat", func(t *testing.T) {
+	t.Run("Test PersonalAccessTokensAPIService DeletePat", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		httpRes, err := apiClient.PersonalAccessTokensApi.DeletePat(context.Background(), id).Execute()
+		httpRes, err := apiClient.PersonalAccessTokensAPI.DeletePat(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test PersonalAccessTokensApiService GetPats", func(t *testing.T) {
+	t.Run("Test PersonalAccessTokensAPIService GetPats", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.PersonalAccessTokensApi.GetPats(context.Background()).Execute()
+		resp, httpRes, err := apiClient.PersonalAccessTokensAPI.GetPats(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing UsersApiService
+Testing UsersAPIService
 
 */
 
@@ -17,40 +17,40 @@ import (
 	"testing"
 )
 
-func Test_client_UsersApiService(t *testing.T) {
+func Test_client_UsersAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test UsersApiService ChangeMyPassword", func(t *testing.T) {
+	t.Run("Test UsersAPIService ChangeMyPassword", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.UsersApi.ChangeMyPassword(context.Background()).Execute()
+		httpRes, err := apiClient.UsersAPI.ChangeMyPassword(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test UsersApiService ChangeUserPassword", func(t *testing.T) {
+	t.Run("Test UsersAPIService ChangeUserPassword", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		httpRes, err := apiClient.UsersApi.ChangeUserPassword(context.Background(), id).Execute()
+		httpRes, err := apiClient.UsersAPI.ChangeUserPassword(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test UsersApiService CreateGroup", func(t *testing.T) {
+	t.Run("Test UsersAPIService CreateGroup", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.UsersApi.CreateGroup(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.CreateGroup(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -58,11 +58,11 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService CreateRole", func(t *testing.T) {
+	t.Run("Test UsersAPIService CreateRole", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.UsersApi.CreateRole(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -70,11 +70,11 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService CreateUser", func(t *testing.T) {
+	t.Run("Test UsersAPIService CreateUser", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.UsersApi.CreateUser(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.CreateUser(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -82,50 +82,50 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService DeleteGroup", func(t *testing.T) {
+	t.Run("Test UsersAPIService DeleteGroup", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var groupId string
 
-		httpRes, err := apiClient.UsersApi.DeleteGroup(context.Background(), groupId).Execute()
+		httpRes, err := apiClient.UsersAPI.DeleteGroup(context.Background(), groupId).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test UsersApiService DeleteRole", func(t *testing.T) {
+	t.Run("Test UsersAPIService DeleteRole", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var roleId string
 
-		httpRes, err := apiClient.UsersApi.DeleteRole(context.Background(), roleId).Execute()
+		httpRes, err := apiClient.UsersAPI.DeleteRole(context.Background(), roleId).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test UsersApiService DeleteUser", func(t *testing.T) {
+	t.Run("Test UsersAPIService DeleteUser", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		httpRes, err := apiClient.UsersApi.DeleteUser(context.Background(), id).Execute()
+		httpRes, err := apiClient.UsersAPI.DeleteUser(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test UsersApiService GetAdminCount", func(t *testing.T) {
+	t.Run("Test UsersAPIService GetAdminCount", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.UsersApi.GetAdminCount(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.GetAdminCount(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -133,11 +133,11 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService GetBaseUsersAndGroups", func(t *testing.T) {
+	t.Run("Test UsersAPIService GetBaseUsersAndGroups", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.UsersApi.GetBaseUsersAndGroups(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.GetBaseUsersAndGroups(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -145,13 +145,13 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService GetGroup", func(t *testing.T) {
+	t.Run("Test UsersAPIService GetGroup", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var groupId string
 
-		resp, httpRes, err := apiClient.UsersApi.GetGroup(context.Background(), groupId).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.GetGroup(context.Background(), groupId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -159,11 +159,11 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService GetGroups", func(t *testing.T) {
+	t.Run("Test UsersAPIService GetGroups", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.UsersApi.GetGroups(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.GetGroups(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -171,11 +171,11 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService GetMe", func(t *testing.T) {
+	t.Run("Test UsersAPIService GetMe", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.UsersApi.GetMe(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.GetMe(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -183,11 +183,11 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService GetProfile", func(t *testing.T) {
+	t.Run("Test UsersAPIService GetProfile", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.UsersApi.GetProfile(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.GetProfile(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -195,13 +195,13 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService GetRoleById", func(t *testing.T) {
+	t.Run("Test UsersAPIService GetRoleById", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var roleId string
 
-		resp, httpRes, err := apiClient.UsersApi.GetRoleById(context.Background(), roleId).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.GetRoleById(context.Background(), roleId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -209,11 +209,11 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService GetRoles", func(t *testing.T) {
+	t.Run("Test UsersAPIService GetRoles", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.UsersApi.GetRoles(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.GetRoles(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -221,13 +221,13 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService GetUser", func(t *testing.T) {
+	t.Run("Test UsersAPIService GetUser", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		resp, httpRes, err := apiClient.UsersApi.GetUser(context.Background(), id).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.GetUser(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -235,11 +235,11 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService GetUsers", func(t *testing.T) {
+	t.Run("Test UsersAPIService GetUsers", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.UsersApi.GetUsers(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.GetUsers(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -247,11 +247,11 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService ResetUserPassword", func(t *testing.T) {
+	t.Run("Test UsersAPIService ResetUserPassword", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.UsersApi.ResetUserPassword(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.ResetUserPassword(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -259,11 +259,11 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService SearchUsers", func(t *testing.T) {
+	t.Run("Test UsersAPIService SearchUsers", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.UsersApi.SearchUsers(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.SearchUsers(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -271,13 +271,13 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService UpdateGroup", func(t *testing.T) {
+	t.Run("Test UsersAPIService UpdateGroup", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var groupId string
 
-		resp, httpRes, err := apiClient.UsersApi.UpdateGroup(context.Background(), groupId).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.UpdateGroup(context.Background(), groupId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -285,13 +285,13 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService UpdateRole", func(t *testing.T) {
+	t.Run("Test UsersAPIService UpdateRole", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var roleId string
 
-		resp, httpRes, err := apiClient.UsersApi.UpdateRole(context.Background(), roleId).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.UpdateRole(context.Background(), roleId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -299,13 +299,13 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService UpdateUser", func(t *testing.T) {
+	t.Run("Test UsersAPIService UpdateUser", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		resp, httpRes, err := apiClient.UsersApi.UpdateUser(context.Background(), id).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.UpdateUser(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -313,22 +313,22 @@ func Test_client_UsersApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersApiService ValidateRole", func(t *testing.T) {
+	t.Run("Test UsersAPIService ValidateRole", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.UsersApi.ValidateRole(context.Background()).Execute()
+		httpRes, err := apiClient.UsersAPI.ValidateRole(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test UsersApiService ValidateUserPassword", func(t *testing.T) {
+	t.Run("Test UsersAPIService ValidateUserPassword", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.UsersApi.ValidateUserPassword(context.Background()).Execute()
+		httpRes, err := apiClient.UsersAPI.ValidateUserPassword(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

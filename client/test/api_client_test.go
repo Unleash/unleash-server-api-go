@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing ClientApiService
+Testing ClientAPIService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	"testing"
 )
 
-func Test_client_ClientApiService(t *testing.T) {
+func Test_client_ClientAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test ClientApiService GetAllClientFeatures", func(t *testing.T) {
+	t.Run("Test ClientAPIService GetAllClientFeatures", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.ClientApi.GetAllClientFeatures(context.Background()).Execute()
+		resp, httpRes, err := apiClient.ClientAPI.GetAllClientFeatures(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -34,13 +34,13 @@ func Test_client_ClientApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test ClientApiService GetClientFeature", func(t *testing.T) {
+	t.Run("Test ClientAPIService GetClientFeature", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var featureName string
 
-		resp, httpRes, err := apiClient.ClientApi.GetClientFeature(context.Background(), featureName).Execute()
+		resp, httpRes, err := apiClient.ClientAPI.GetClientFeature(context.Background(), featureName).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,22 +48,22 @@ func Test_client_ClientApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test ClientApiService RegisterClientApplication", func(t *testing.T) {
+	t.Run("Test ClientAPIService RegisterClientApplication", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.ClientApi.RegisterClientApplication(context.Background()).Execute()
+		httpRes, err := apiClient.ClientAPI.RegisterClientApplication(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test ClientApiService RegisterClientMetrics", func(t *testing.T) {
+	t.Run("Test ClientAPIService RegisterClientMetrics", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.ClientApi.RegisterClientMetrics(context.Background()).Execute()
+		httpRes, err := apiClient.ClientAPI.RegisterClientMetrics(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

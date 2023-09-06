@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Groups** | Pointer to [**[]GroupSchema**](GroupSchema.md) |  | [optional] 
-**Users** | Pointer to [**[]UserSchema**](UserSchema.md) |  | [optional] 
+**Groups** | Pointer to [**[]GroupSchema**](GroupSchema.md) | A list of user groups and their configuration. | [optional] 
+**Users** | Pointer to [**[]UserSchema**](UserSchema.md) | A list of users. | [optional] 
 
 ## Methods
 

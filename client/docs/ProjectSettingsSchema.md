@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**DefaultStickiness** | **NullableString** | Default stickiness for project | 
-**Mode** | **NullableString** |  | 
+**DefaultStickiness** | **NullableString** | The [default stickiness for this project](https://docs.getunleash.io/reference/stickiness#project-default-stickiness) | 
+**Mode** | **NullableString** | The project&#39;s [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). | 
 
 ## Methods
 

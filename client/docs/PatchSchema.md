@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Path** | **string** |  | 
-**Op** | **string** |  | 
-**From** | Pointer to **string** |  | [optional] 
-**Value** | Pointer to **interface{}** |  | [optional] 
+**Path** | **string** | The path to the property to operate on | 
+**Op** | **string** | The kind of operation to perform | 
+**From** | Pointer to **string** | The target to move or copy from, if performing one of those operations | [optional] 
+**Value** | Pointer to **interface{}** | The value to add or replace, if performing one of those operations | [optional] 
 
 ## Methods
 

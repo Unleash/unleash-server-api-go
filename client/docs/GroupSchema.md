@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **CreatedAt** | Pointer to **NullableTime** | When was this group created | [optional] 
 **Users** | Pointer to [**[]GroupUserModelSchema**](GroupUserModelSchema.md) | A list of users belonging to this group | [optional] 
 **Projects** | Pointer to **[]string** | A list of projects where this group is used | [optional] 
+**UserCount** | Pointer to **int32** | The number of users that belong to this group | [optional] 
 
 ## Methods
 
@@ -292,6 +293,31 @@ SetProjects sets Projects field to given value.
 `func (o *GroupSchema) HasProjects() bool`
 
 HasProjects returns a boolean if a field has been set.
+
+### GetUserCount
+
+`func (o *GroupSchema) GetUserCount() int32`
+
+GetUserCount returns the UserCount field if non-nil, zero value otherwise.
+
+### GetUserCountOk
+
+`func (o *GroupSchema) GetUserCountOk() (*int32, bool)`
+
+GetUserCountOk returns a tuple with the UserCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUserCount
+
+`func (o *GroupSchema) SetUserCount(v int32)`
+
+SetUserCount sets UserCount field to given value.
+
+### HasUserCount
+
+`func (o *GroupSchema) HasUserCount() bool`
+
+HasUserCount returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing EventsApiService
+Testing EventsAPIService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	"testing"
 )
 
-func Test_client_EventsApiService(t *testing.T) {
+func Test_client_EventsAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test EventsApiService GetEvents", func(t *testing.T) {
+	t.Run("Test EventsAPIService GetEvents", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.EventsApi.GetEvents(context.Background()).Execute()
+		resp, httpRes, err := apiClient.EventsAPI.GetEvents(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -34,13 +34,13 @@ func Test_client_EventsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test EventsApiService GetEventsForToggle", func(t *testing.T) {
+	t.Run("Test EventsAPIService GetEventsForToggle", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var featureName string
 
-		resp, httpRes, err := apiClient.EventsApi.GetEventsForToggle(context.Background(), featureName).Execute()
+		resp, httpRes, err := apiClient.EventsAPI.GetEventsForToggle(context.Background(), featureName).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,11 +48,11 @@ func Test_client_EventsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test EventsApiService SearchEvents", func(t *testing.T) {
+	t.Run("Test EventsAPIService SearchEvents", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.EventsApi.SearchEvents(context.Background()).Execute()
+		resp, httpRes, err := apiClient.EventsAPI.SearchEvents(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

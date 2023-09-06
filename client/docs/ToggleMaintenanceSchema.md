@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Enabled** | **bool** |  | 
+**Enabled** | **bool** | &#x60;true&#x60; if you want to activate maintenance mode, &#x60;false&#x60; if you want to deactivate it. | 
 
 ## Methods
 

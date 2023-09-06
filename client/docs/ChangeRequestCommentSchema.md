@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **float32** |  | [optional] 
-**Text** | **string** |  | 
+**Id** | Pointer to **float32** | The comment&#39;s ID. Unique per change request. | [optional] 
+**Text** | **string** | The content of the comment. | 
 **CreatedBy** | [**ChangeRequestCommentSchemaCreatedBy**](ChangeRequestCommentSchemaCreatedBy.md) |  | 
-**CreatedAt** | **time.Time** |  | 
+**CreatedAt** | **time.Time** | When the comment was made. | 
 
 ## Methods
 

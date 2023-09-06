@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **int32** | The user id | 
 **IsAPI** | Pointer to **bool** | (Deprecated): Used internally to know which operations the user should be allowed to perform | [optional] 
-**Name** | Pointer to **string** | Name of the user | [optional] 
+**Name** | Pointer to **NullableString** | Name of the user | [optional] 
 **Email** | Pointer to **string** | Email of the user | [optional] 
 **Username** | Pointer to **string** | A unique username for the user | [optional] 
 **ImageUrl** | Pointer to **string** | URL used for the userprofile image | [optional] 
@@ -108,6 +108,16 @@ SetName sets Name field to given value.
 
 HasName returns a boolean if a field has been set.
 
+### SetNameNil
+
+`func (o *CreateUserResponseSchema) SetNameNil(b bool)`
+
+ SetNameNil sets the value for Name to be an explicit nil
+
+### UnsetName
+`func (o *CreateUserResponseSchema) UnsetName()`
+
+UnsetName ensures that no value is present for Name, not even an explicit nil
 ### GetEmail
 
 `func (o *CreateUserResponseSchema) GetEmail() string`

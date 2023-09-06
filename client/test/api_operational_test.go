@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing OperationalApiService
+Testing OperationalAPIService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	"testing"
 )
 
-func Test_client_OperationalApiService(t *testing.T) {
+func Test_client_OperationalAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test OperationalApiService GetHealth", func(t *testing.T) {
+	t.Run("Test OperationalAPIService GetHealth", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.OperationalApi.GetHealth(context.Background()).Execute()
+		resp, httpRes, err := apiClient.OperationalAPI.GetHealth(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

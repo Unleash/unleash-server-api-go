@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Version** | **float32** |  | 
-**Roles** | [**[]RoleSchema**](RoleSchema.md) |  | 
+**Version** | **int32** | The version of this schema | 
+**Roles** | [**[]RoleSchema**](RoleSchema.md) | A list of roles | 
 
 ## Methods
 
 ### NewRolesWithVersionSchema
 
-`func NewRolesWithVersionSchema(version float32, roles []RoleSchema, ) *RolesWithVersionSchema`
+`func NewRolesWithVersionSchema(version int32, roles []RoleSchema, ) *RolesWithVersionSchema`
 
 NewRolesWithVersionSchema instantiates a new RolesWithVersionSchema object
 This constructor will assign default values to properties that have it defined,
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetVersion
 
-`func (o *RolesWithVersionSchema) GetVersion() float32`
+`func (o *RolesWithVersionSchema) GetVersion() int32`
 
 GetVersion returns the Version field if non-nil, zero value otherwise.
 
 ### GetVersionOk
 
-`func (o *RolesWithVersionSchema) GetVersionOk() (*float32, bool)`
+`func (o *RolesWithVersionSchema) GetVersionOk() (*int32, bool)`
 
 GetVersionOk returns a tuple with the Version field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVersion
 
-`func (o *RolesWithVersionSchema) SetVersion(v float32)`
+`func (o *RolesWithVersionSchema) SetVersion(v int32)`
 
 SetVersion sets Version field to given value.
 

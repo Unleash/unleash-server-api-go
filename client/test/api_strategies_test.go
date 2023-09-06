@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing StrategiesApiService
+Testing StrategiesAPIService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	"testing"
 )
 
-func Test_client_StrategiesApiService(t *testing.T) {
+func Test_client_StrategiesAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test StrategiesApiService CreateStrategy", func(t *testing.T) {
+	t.Run("Test StrategiesAPIService CreateStrategy", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.StrategiesApi.CreateStrategy(context.Background()).Execute()
+		resp, httpRes, err := apiClient.StrategiesAPI.CreateStrategy(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -34,24 +34,24 @@ func Test_client_StrategiesApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test StrategiesApiService DeprecateStrategy", func(t *testing.T) {
+	t.Run("Test StrategiesAPIService DeprecateStrategy", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var strategyName string
 
-		httpRes, err := apiClient.StrategiesApi.DeprecateStrategy(context.Background(), strategyName).Execute()
+		httpRes, err := apiClient.StrategiesAPI.DeprecateStrategy(context.Background(), strategyName).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test StrategiesApiService GetAllStrategies", func(t *testing.T) {
+	t.Run("Test StrategiesAPIService GetAllStrategies", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.StrategiesApi.GetAllStrategies(context.Background()).Execute()
+		resp, httpRes, err := apiClient.StrategiesAPI.GetAllStrategies(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -59,13 +59,13 @@ func Test_client_StrategiesApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test StrategiesApiService GetStrategiesByContextField", func(t *testing.T) {
+	t.Run("Test StrategiesAPIService GetStrategiesByContextField", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var contextField string
 
-		resp, httpRes, err := apiClient.StrategiesApi.GetStrategiesByContextField(context.Background(), contextField).Execute()
+		resp, httpRes, err := apiClient.StrategiesAPI.GetStrategiesByContextField(context.Background(), contextField).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -73,13 +73,13 @@ func Test_client_StrategiesApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test StrategiesApiService GetStrategy", func(t *testing.T) {
+	t.Run("Test StrategiesAPIService GetStrategy", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var name string
 
-		resp, httpRes, err := apiClient.StrategiesApi.GetStrategy(context.Background(), name).Execute()
+		resp, httpRes, err := apiClient.StrategiesAPI.GetStrategy(context.Background(), name).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -87,37 +87,37 @@ func Test_client_StrategiesApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test StrategiesApiService ReactivateStrategy", func(t *testing.T) {
+	t.Run("Test StrategiesAPIService ReactivateStrategy", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var strategyName string
 
-		httpRes, err := apiClient.StrategiesApi.ReactivateStrategy(context.Background(), strategyName).Execute()
+		httpRes, err := apiClient.StrategiesAPI.ReactivateStrategy(context.Background(), strategyName).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test StrategiesApiService RemoveStrategy", func(t *testing.T) {
+	t.Run("Test StrategiesAPIService RemoveStrategy", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var name string
 
-		httpRes, err := apiClient.StrategiesApi.RemoveStrategy(context.Background(), name).Execute()
+		httpRes, err := apiClient.StrategiesAPI.RemoveStrategy(context.Background(), name).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test StrategiesApiService UpdateFeatureStrategySegments", func(t *testing.T) {
+	t.Run("Test StrategiesAPIService UpdateFeatureStrategySegments", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.StrategiesApi.UpdateFeatureStrategySegments(context.Background()).Execute()
+		resp, httpRes, err := apiClient.StrategiesAPI.UpdateFeatureStrategySegments(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -125,13 +125,13 @@ func Test_client_StrategiesApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test StrategiesApiService UpdateStrategy", func(t *testing.T) {
+	t.Run("Test StrategiesAPIService UpdateStrategy", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		var strategyName string
+		var name string
 
-		httpRes, err := apiClient.StrategiesApi.UpdateStrategy(context.Background(), strategyName).Execute()
+		httpRes, err := apiClient.StrategiesAPI.UpdateStrategy(context.Background(), name).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

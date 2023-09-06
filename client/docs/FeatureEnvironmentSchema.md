@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **VariantCount** | Pointer to **float32** | The number of defined variants | [optional] 
 **Strategies** | Pointer to [**[]FeatureStrategySchema**](FeatureStrategySchema.md) | A list of activation strategies for the feature environment | [optional] 
 **Variants** | Pointer to [**[]VariantSchema**](VariantSchema.md) | A list of variants for the feature environment | [optional] 
+**LastSeenAt** | Pointer to **NullableTime** | The date when metrics where last collected for the feature environment | [optional] 
 
 ## Methods
 
@@ -248,6 +249,41 @@ SetVariants sets Variants field to given value.
 
 HasVariants returns a boolean if a field has been set.
 
+### GetLastSeenAt
+
+`func (o *FeatureEnvironmentSchema) GetLastSeenAt() time.Time`
+
+GetLastSeenAt returns the LastSeenAt field if non-nil, zero value otherwise.
+
+### GetLastSeenAtOk
+
+`func (o *FeatureEnvironmentSchema) GetLastSeenAtOk() (*time.Time, bool)`
+
+GetLastSeenAtOk returns a tuple with the LastSeenAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLastSeenAt
+
+`func (o *FeatureEnvironmentSchema) SetLastSeenAt(v time.Time)`
+
+SetLastSeenAt sets LastSeenAt field to given value.
+
+### HasLastSeenAt
+
+`func (o *FeatureEnvironmentSchema) HasLastSeenAt() bool`
+
+HasLastSeenAt returns a boolean if a field has been set.
+
+### SetLastSeenAtNil
+
+`func (o *FeatureEnvironmentSchema) SetLastSeenAtNil(b bool)`
+
+ SetLastSeenAtNil sets the value for LastSeenAt to be an explicit nil
+
+### UnsetLastSeenAt
+`func (o *FeatureEnvironmentSchema) UnsetLastSeenAt()`
+
+UnsetLastSeenAt ensures that no value is present for LastSeenAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

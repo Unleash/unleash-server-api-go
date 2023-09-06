@@ -18,6 +18,7 @@ Name | Type | Description | Notes
 **CreatedAt** | Pointer to **NullableTime** | When the project was last updated. | [optional] 
 **Favorite** | Pointer to **bool** | Indicates if the project has been marked as a favorite by the current user requesting the project health overview. | [optional] 
 **Stats** | Pointer to [**ProjectStatsSchema**](ProjectStatsSchema.md) |  | [optional] 
+**FeatureNaming** | Pointer to [**CreateFeatureNamingPatternSchema**](CreateFeatureNamingPatternSchema.md) |  | [optional] 
 
 ## Methods
 
@@ -387,6 +388,31 @@ SetStats sets Stats field to given value.
 `func (o *HealthOverviewSchema) HasStats() bool`
 
 HasStats returns a boolean if a field has been set.
+
+### GetFeatureNaming
+
+`func (o *HealthOverviewSchema) GetFeatureNaming() CreateFeatureNamingPatternSchema`
+
+GetFeatureNaming returns the FeatureNaming field if non-nil, zero value otherwise.
+
+### GetFeatureNamingOk
+
+`func (o *HealthOverviewSchema) GetFeatureNamingOk() (*CreateFeatureNamingPatternSchema, bool)`
+
+GetFeatureNamingOk returns a tuple with the FeatureNaming field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFeatureNaming
+
+`func (o *HealthOverviewSchema) SetFeatureNaming(v CreateFeatureNamingPatternSchema)`
+
+SetFeatureNaming sets FeatureNaming field to given value.
+
+### HasFeatureNaming
+
+`func (o *HealthOverviewSchema) HasFeatureNaming() bool`
+
+HasFeatureNaming returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

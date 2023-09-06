@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing PlaygroundApiService
+Testing PlaygroundAPIService
 
 */
 
@@ -17,16 +17,28 @@ import (
 	"testing"
 )
 
-func Test_client_PlaygroundApiService(t *testing.T) {
+func Test_client_PlaygroundAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test PlaygroundApiService GetPlayground", func(t *testing.T) {
+	t.Run("Test PlaygroundAPIService GetAdvancedPlayground", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.PlaygroundApi.GetPlayground(context.Background()).Execute()
+		resp, httpRes, err := apiClient.PlaygroundAPI.GetAdvancedPlayground(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PlaygroundAPIService GetPlayground", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		resp, httpRes, err := apiClient.PlaygroundAPI.GetPlayground(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

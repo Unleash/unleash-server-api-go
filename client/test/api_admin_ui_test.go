@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing AdminUIApiService
+Testing AdminUIAPIService
 
 */
 
@@ -11,24 +11,22 @@ package client
 
 import (
 	"context"
-
-	"testing"
-
 	"github.com/Unleash/unleash-server-api-go/client"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"testing"
 )
 
-func Test_client_AdminUIApiService(t *testing.T) {
+func Test_client_AdminUIAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test AdminUIApiService CreateFeedback", func(t *testing.T) {
+	t.Run("Test AdminUIAPIService CreateFeedback", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.AdminUIApi.CreateFeedback(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AdminUIAPI.CreateFeedback(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -36,11 +34,11 @@ func Test_client_AdminUIApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test AdminUIApiService GetUiConfig", func(t *testing.T) {
+	t.Run("Test AdminUIAPIService GetUiConfig", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.AdminUIApi.GetUiConfig(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AdminUIAPI.GetUiConfig(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,24 +46,24 @@ func Test_client_AdminUIApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test AdminUIApiService SetUiConfig", func(t *testing.T) {
+	t.Run("Test AdminUIAPIService SetUiConfig", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		httpRes, err := apiClient.AdminUIApi.SetUiConfig(context.Background()).Execute()
+		httpRes, err := apiClient.AdminUIAPI.SetUiConfig(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test AdminUIApiService UpdateFeedback", func(t *testing.T) {
+	t.Run("Test AdminUIAPIService UpdateFeedback", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		resp, httpRes, err := apiClient.AdminUIApi.UpdateFeedback(context.Background(), id).Execute()
+		resp, httpRes, err := apiClient.AdminUIAPI.UpdateFeedback(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -73,13 +71,13 @@ func Test_client_AdminUIApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test AdminUIApiService UpdateSplashSettings", func(t *testing.T) {
+	t.Run("Test AdminUIAPIService UpdateSplashSettings", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var id string
 
-		resp, httpRes, err := apiClient.AdminUIApi.UpdateSplashSettings(context.Background(), id).Execute()
+		resp, httpRes, err := apiClient.AdminUIAPI.UpdateSplashSettings(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ChangeRequestsEnabled** | **bool** |  | 
-**RequiredApprovals** | Pointer to **float32** |  | [optional] 
+**ChangeRequestsEnabled** | **bool** | &#x60;true&#x60; if change requests should be enabled, otherwise &#x60;false&#x60;. | 
+**RequiredApprovals** | Pointer to **int32** | The number of approvals required before a change request can be applied in this environment. | [optional] 
 
 ## Methods
 
@@ -48,20 +48,20 @@ SetChangeRequestsEnabled sets ChangeRequestsEnabled field to given value.
 
 ### GetRequiredApprovals
 
-`func (o *UpdateChangeRequestEnvironmentConfigSchema) GetRequiredApprovals() float32`
+`func (o *UpdateChangeRequestEnvironmentConfigSchema) GetRequiredApprovals() int32`
 
 GetRequiredApprovals returns the RequiredApprovals field if non-nil, zero value otherwise.
 
 ### GetRequiredApprovalsOk
 
-`func (o *UpdateChangeRequestEnvironmentConfigSchema) GetRequiredApprovalsOk() (*float32, bool)`
+`func (o *UpdateChangeRequestEnvironmentConfigSchema) GetRequiredApprovalsOk() (*int32, bool)`
 
 GetRequiredApprovalsOk returns a tuple with the RequiredApprovals field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRequiredApprovals
 
-`func (o *UpdateChangeRequestEnvironmentConfigSchema) SetRequiredApprovals(v float32)`
+`func (o *UpdateChangeRequestEnvironmentConfigSchema) SetRequiredApprovals(v int32)`
 
 SetRequiredApprovals sets RequiredApprovals field to given value.
 

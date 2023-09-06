@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Segments** | Pointer to [**[]AdminSegmentSchema**](AdminSegmentSchema.md) |  | [optional] 
+**Segments** | Pointer to [**[]AdminSegmentSchema**](AdminSegmentSchema.md) | A list of segments | [optional] 
 
 ## Methods
 

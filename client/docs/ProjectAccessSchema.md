@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Groups** | [**[]GroupSchema**](GroupSchema.md) |  | 
-**Users** | [**[]UserWithProjectRoleSchema**](UserWithProjectRoleSchema.md) |  | 
-**Roles** | [**[]RoleSchema**](RoleSchema.md) |  | 
+**Groups** | [**[]GroupWithProjectRoleSchema**](GroupWithProjectRoleSchema.md) | A list of groups that have access to this project | 
+**Users** | [**[]UserWithProjectRoleSchema**](UserWithProjectRoleSchema.md) | A list of users and their roles within this project | 
+**Roles** | [**[]RoleSchema**](RoleSchema.md) | A list of roles that are available within this project. | 
 
 ## Methods
 
 ### NewProjectAccessSchema
 
-`func NewProjectAccessSchema(groups []GroupSchema, users []UserWithProjectRoleSchema, roles []RoleSchema, ) *ProjectAccessSchema`
+`func NewProjectAccessSchema(groups []GroupWithProjectRoleSchema, users []UserWithProjectRoleSchema, roles []RoleSchema, ) *ProjectAccessSchema`
 
 NewProjectAccessSchema instantiates a new ProjectAccessSchema object
 This constructor will assign default values to properties that have it defined,
@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetGroups
 
-`func (o *ProjectAccessSchema) GetGroups() []GroupSchema`
+`func (o *ProjectAccessSchema) GetGroups() []GroupWithProjectRoleSchema`
 
 GetGroups returns the Groups field if non-nil, zero value otherwise.
 
 ### GetGroupsOk
 
-`func (o *ProjectAccessSchema) GetGroupsOk() (*[]GroupSchema, bool)`
+`func (o *ProjectAccessSchema) GetGroupsOk() (*[]GroupWithProjectRoleSchema, bool)`
 
 GetGroupsOk returns a tuple with the Groups field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetGroups
 
-`func (o *ProjectAccessSchema) SetGroups(v []GroupSchema)`
+`func (o *ProjectAccessSchema) SetGroups(v []GroupWithProjectRoleSchema)`
 
 SetGroups sets Groups field to given value.
 

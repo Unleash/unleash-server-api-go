@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **ImpressionData** | Pointer to **bool** | &#x60;true&#x60; if the impression data collection is enabled for the feature, otherwise &#x60;false&#x60;. | [optional] 
 **CreatedAt** | Pointer to **NullableTime** | The date the feature was created | [optional] 
 **ArchivedAt** | Pointer to **NullableTime** | The date the feature was archived | [optional] 
-**LastSeenAt** | Pointer to **NullableTime** | The date when metrics where last collected for the feature | [optional] 
+**LastSeenAt** | Pointer to **NullableTime** | The date when metrics where last collected for the feature. This field is deprecated, use the one in featureEnvironmentSchema | [optional] 
 **Environments** | Pointer to [**[]FeatureEnvironmentSchema**](FeatureEnvironmentSchema.md) | The list of environments where the feature can be used | [optional] 
 **Variants** | Pointer to [**[]VariantSchema**](VariantSchema.md) | The list of feature variants | [optional] 
 **Strategies** | Pointer to **[]map[string]interface{}** | This is a legacy field that will be deprecated | [optional] 

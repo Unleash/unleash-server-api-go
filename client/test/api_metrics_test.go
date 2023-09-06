@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing MetricsApiService
+Testing MetricsAPIService
 
 */
 
@@ -17,44 +17,44 @@ import (
 	"testing"
 )
 
-func Test_client_MetricsApiService(t *testing.T) {
+func Test_client_MetricsAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test MetricsApiService CreateApplication", func(t *testing.T) {
+	t.Run("Test MetricsAPIService CreateApplication", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var appName string
 
-		httpRes, err := apiClient.MetricsApi.CreateApplication(context.Background(), appName).Execute()
+		httpRes, err := apiClient.MetricsAPI.CreateApplication(context.Background(), appName).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test MetricsApiService DeleteApplication", func(t *testing.T) {
+	t.Run("Test MetricsAPIService DeleteApplication", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var appName string
 
-		httpRes, err := apiClient.MetricsApi.DeleteApplication(context.Background(), appName).Execute()
+		httpRes, err := apiClient.MetricsAPI.DeleteApplication(context.Background(), appName).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test MetricsApiService GetApplication", func(t *testing.T) {
+	t.Run("Test MetricsAPIService GetApplication", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var appName string
 
-		resp, httpRes, err := apiClient.MetricsApi.GetApplication(context.Background(), appName).Execute()
+		resp, httpRes, err := apiClient.MetricsAPI.GetApplication(context.Background(), appName).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -62,11 +62,11 @@ func Test_client_MetricsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test MetricsApiService GetApplications", func(t *testing.T) {
+	t.Run("Test MetricsAPIService GetApplications", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.MetricsApi.GetApplications(context.Background()).Execute()
+		resp, httpRes, err := apiClient.MetricsAPI.GetApplications(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -74,13 +74,13 @@ func Test_client_MetricsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test MetricsApiService GetFeatureUsageSummary", func(t *testing.T) {
+	t.Run("Test MetricsAPIService GetFeatureUsageSummary", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var name string
 
-		resp, httpRes, err := apiClient.MetricsApi.GetFeatureUsageSummary(context.Background(), name).Execute()
+		resp, httpRes, err := apiClient.MetricsAPI.GetFeatureUsageSummary(context.Background(), name).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -88,13 +88,13 @@ func Test_client_MetricsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test MetricsApiService GetRawFeatureMetrics", func(t *testing.T) {
+	t.Run("Test MetricsAPIService GetRawFeatureMetrics", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var name string
 
-		resp, httpRes, err := apiClient.MetricsApi.GetRawFeatureMetrics(context.Background(), name).Execute()
+		resp, httpRes, err := apiClient.MetricsAPI.GetRawFeatureMetrics(context.Background(), name).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -102,11 +102,11 @@ func Test_client_MetricsApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test MetricsApiService GetRequestsPerSecond", func(t *testing.T) {
+	t.Run("Test MetricsAPIService GetRequestsPerSecond", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.MetricsApi.GetRequestsPerSecond(context.Background()).Execute()
+		resp, httpRes, err := apiClient.MetricsAPI.GetRequestsPerSecond(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

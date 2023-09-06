@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**State** | **string** |  | 
-**Comment** | Pointer to **string** |  | [optional] 
+**State** | **string** | The new desired state for the change request | 
+**Comment** | Pointer to **string** | Any comments accompanying the state changed. Used when sending a draft to review. | [optional] 
 
 ## Methods
 

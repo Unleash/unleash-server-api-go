@@ -1,7 +1,7 @@
 /*
 Unleash API
 
-Testing ArchiveApiService
+Testing ArchiveAPIService
 
 */
 
@@ -17,42 +17,42 @@ import (
 	"testing"
 )
 
-func Test_client_ArchiveApiService(t *testing.T) {
+func Test_client_ArchiveAPIService(t *testing.T) {
 
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test ArchiveApiService DeleteFeature", func(t *testing.T) {
+	t.Run("Test ArchiveAPIService DeleteFeature", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var featureName string
 
-		httpRes, err := apiClient.ArchiveApi.DeleteFeature(context.Background(), featureName).Execute()
+		httpRes, err := apiClient.ArchiveAPI.DeleteFeature(context.Background(), featureName).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test ArchiveApiService DeleteFeatures", func(t *testing.T) {
+	t.Run("Test ArchiveAPIService DeleteFeatures", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var projectId string
 
-		httpRes, err := apiClient.ArchiveApi.DeleteFeatures(context.Background(), projectId).Execute()
+		httpRes, err := apiClient.ArchiveAPI.DeleteFeatures(context.Background(), projectId).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test ArchiveApiService GetArchivedFeatures", func(t *testing.T) {
+	t.Run("Test ArchiveAPIService GetArchivedFeatures", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
-		resp, httpRes, err := apiClient.ArchiveApi.GetArchivedFeatures(context.Background()).Execute()
+		resp, httpRes, err := apiClient.ArchiveAPI.GetArchivedFeatures(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -60,13 +60,13 @@ func Test_client_ArchiveApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test ArchiveApiService GetArchivedFeaturesByProjectId", func(t *testing.T) {
+	t.Run("Test ArchiveAPIService GetArchivedFeaturesByProjectId", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var projectId string
 
-		resp, httpRes, err := apiClient.ArchiveApi.GetArchivedFeaturesByProjectId(context.Background(), projectId).Execute()
+		resp, httpRes, err := apiClient.ArchiveAPI.GetArchivedFeaturesByProjectId(context.Background(), projectId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -74,26 +74,26 @@ func Test_client_ArchiveApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test ArchiveApiService ReviveFeature", func(t *testing.T) {
+	t.Run("Test ArchiveAPIService ReviveFeature", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var featureName string
 
-		httpRes, err := apiClient.ArchiveApi.ReviveFeature(context.Background(), featureName).Execute()
+		httpRes, err := apiClient.ArchiveAPI.ReviveFeature(context.Background(), featureName).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test ArchiveApiService ReviveFeatures", func(t *testing.T) {
+	t.Run("Test ArchiveAPIService ReviveFeatures", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
 
 		var projectId string
 
-		httpRes, err := apiClient.ArchiveApi.ReviveFeatures(context.Background(), projectId).Execute()
+		httpRes, err := apiClient.ArchiveAPI.ReviveFeatures(context.Background(), projectId).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **VersionOSS** | Pointer to **string** | The version of Unleash OSS that is bundled in this instance | [optional] 
 **VersionEnterprise** | Pointer to **string** | The version of Unleash Enterprise that is bundled in this instance | [optional] 
 **Users** | Pointer to **float32** | The number of users this instance has | [optional] 
+**ActiveUsers** | Pointer to [**InstanceAdminStatsSchemaActiveUsers**](InstanceAdminStatsSchemaActiveUsers.md) |  | [optional] 
 **FeatureToggles** | Pointer to **float32** | The number of feature-toggles this instance has | [optional] 
 **Projects** | Pointer to **float32** | The number of projects defined in this instance. | [optional] 
 **ContextFields** | Pointer to **float32** | The number of context fields defined in this instance. | [optional] 
@@ -20,6 +21,8 @@ Name | Type | Description | Notes
 **SAMLenabled** | Pointer to **bool** | Whether or not SAML authentication is enabled for this instance | [optional] 
 **OIDCenabled** | Pointer to **bool** | Whether or not OIDC authentication is enabled for this instance | [optional] 
 **ClientApps** | Pointer to [**[]InstanceAdminStatsSchemaClientAppsInner**](InstanceAdminStatsSchemaClientAppsInner.md) | A count of connected applications in the last week, last month and all time since last restart | [optional] 
+**FeatureExports** | Pointer to **float32** | The number of export operations on this instance | [optional] 
+**FeatureImports** | Pointer to **float32** | The number of import operations on this instance | [optional] 
 **Sum** | Pointer to **string** | A SHA-256 checksum of the instance statistics to be used to verify that the data in this object has not been tampered with | [optional] 
 
 ## Methods
@@ -170,6 +173,31 @@ SetUsers sets Users field to given value.
 `func (o *InstanceAdminStatsSchema) HasUsers() bool`
 
 HasUsers returns a boolean if a field has been set.
+
+### GetActiveUsers
+
+`func (o *InstanceAdminStatsSchema) GetActiveUsers() InstanceAdminStatsSchemaActiveUsers`
+
+GetActiveUsers returns the ActiveUsers field if non-nil, zero value otherwise.
+
+### GetActiveUsersOk
+
+`func (o *InstanceAdminStatsSchema) GetActiveUsersOk() (*InstanceAdminStatsSchemaActiveUsers, bool)`
+
+GetActiveUsersOk returns a tuple with the ActiveUsers field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetActiveUsers
+
+`func (o *InstanceAdminStatsSchema) SetActiveUsers(v InstanceAdminStatsSchemaActiveUsers)`
+
+SetActiveUsers sets ActiveUsers field to given value.
+
+### HasActiveUsers
+
+`func (o *InstanceAdminStatsSchema) HasActiveUsers() bool`
+
+HasActiveUsers returns a boolean if a field has been set.
 
 ### GetFeatureToggles
 
@@ -445,6 +473,56 @@ SetClientApps sets ClientApps field to given value.
 `func (o *InstanceAdminStatsSchema) HasClientApps() bool`
 
 HasClientApps returns a boolean if a field has been set.
+
+### GetFeatureExports
+
+`func (o *InstanceAdminStatsSchema) GetFeatureExports() float32`
+
+GetFeatureExports returns the FeatureExports field if non-nil, zero value otherwise.
+
+### GetFeatureExportsOk
+
+`func (o *InstanceAdminStatsSchema) GetFeatureExportsOk() (*float32, bool)`
+
+GetFeatureExportsOk returns a tuple with the FeatureExports field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFeatureExports
+
+`func (o *InstanceAdminStatsSchema) SetFeatureExports(v float32)`
+
+SetFeatureExports sets FeatureExports field to given value.
+
+### HasFeatureExports
+
+`func (o *InstanceAdminStatsSchema) HasFeatureExports() bool`
+
+HasFeatureExports returns a boolean if a field has been set.
+
+### GetFeatureImports
+
+`func (o *InstanceAdminStatsSchema) GetFeatureImports() float32`
+
+GetFeatureImports returns the FeatureImports field if non-nil, zero value otherwise.
+
+### GetFeatureImportsOk
+
+`func (o *InstanceAdminStatsSchema) GetFeatureImportsOk() (*float32, bool)`
+
+GetFeatureImportsOk returns a tuple with the FeatureImports field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFeatureImports
+
+`func (o *InstanceAdminStatsSchema) SetFeatureImports(v float32)`
+
+SetFeatureImports sets FeatureImports field to given value.
+
+### HasFeatureImports
+
+`func (o *InstanceAdminStatsSchema) HasFeatureImports() bool`
+
+HasFeatureImports returns a boolean if a field has been set.
 
 ### GetSum
 

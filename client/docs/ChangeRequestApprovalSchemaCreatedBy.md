@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **float32** |  | [optional] 
-**Username** | Pointer to **string** |  | [optional] 
-**ImageUrl** | Pointer to **string** |  | [optional] 
+**Id** | Pointer to **float32** | The ID of the user who gave this approval. | [optional] 
+**Username** | Pointer to **string** | The approving user&#39;s username. | [optional] 
+**ImageUrl** | Pointer to **string** | The URL where the user&#39;s image can be found. | [optional] 
 
 ## Methods
 

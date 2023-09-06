@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Users** | [**[]UserWithProjectRoleSchema**](UserWithProjectRoleSchema.md) |  | 
-**Roles** | [**[]RoleSchema**](RoleSchema.md) |  | 
+**Users** | [**[]UserWithProjectRoleSchema**](UserWithProjectRoleSchema.md) | A list of users with access to this project and their role within it. | 
+**Roles** | [**[]RoleSchema**](RoleSchema.md) | A list of roles that are available for this project | 
 
 ## Methods
 
