@@ -6,9 +6,9 @@
 
 - Go > 1.18
 
-# OpenAPI generator used
+# Requirements
 
-Instalation instructions: https://openapi-generator.tech/docs/installation#bash-launcher-script
+1. OpenAPI generator: https://openapi-generator.tech/docs/installation#bash-launcher-script
 
 Version used:
 
@@ -19,6 +19,8 @@ openapi-generator-cli 6.6.0
   source : https://github.com/openapitools/openapi-generator
   docs   : https://openapi-generator.tech/
 ```
+
+2. openapi format: https://github.com/thim81/openapi-format
 
 # Generating the client:
 

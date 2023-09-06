@@ -11,6 +11,7 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/Unleash/unleash-server-api-go/client"
@@ -18,109 +19,45 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func createUser(t *testing.T, apiClient *client.APIClient, prefix string) *client.CreateUserResponseSchema {
+	name := "A name"
+	email := prefix + "username@getunleash.io"
+	username := prefix + "username"
+	sendEmail := false
+	rootRoleId := int32(1)
+
+	createUserSchema := *client.NewCreateUserSchemaWithDefaults()
+	createUserSchema.Name = &name
+	createUserSchema.Email = &email
+	createUserSchema.Username = &username
+	createUserSchema.RootRole = client.Int32AsCreateUserSchemaRootRole(&rootRoleId)
+	createUserSchema.SendEmail = &sendEmail
+
+	resp, httpRes, err := apiClient.UsersAPI.CreateUser(context.Background()).CreateUserSchema(createUserSchema).Execute()
+
+	require.Nil(t, err)
+	require.NotNil(t, resp)
+	assert.Equal(t, 201, httpRes.StatusCode)
+	return resp
+}
+
 func Test_client_UsersAPIService(t *testing.T) {
 	apiClient := testClient()
 
-	t.Run("Test UsersAPIService ChangeMyPassword", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		httpRes, err := apiClient.UsersAPI.ChangeMyPassword(context.Background()).Execute()
-
-		require.Nil(t, err)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService ChangeUserPassword", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		var id string
-
-		httpRes, err := apiClient.UsersAPI.ChangeUserPassword(context.Background(), id).Execute()
-
-		require.Nil(t, err)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 	t.Run("Test UsersAPIService CreateUser", func(t *testing.T) {
 
-		name := "A name"
-		email := "test-username@getunleash.io"
-		username := "test-username"
-		sendEmail := false
-		rootRoleId := int32(1)
-
-		createUserSchema := *client.NewCreateUserSchemaWithDefaults()
-		createUserSchema.Name = &name
-		createUserSchema.Email = &email
-		createUserSchema.Username = &username
-		createUserSchema.RootRole = client.Int32AsCreateUserSchemaRootRole(&rootRoleId)
-		createUserSchema.SendEmail = &sendEmail
-
-		resp, httpRes, err := apiClient.UsersAPI.CreateUser(context.Background()).CreateUserSchema(createUserSchema).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 201, httpRes.StatusCode)
+		createUser(t, apiClient, "test-")
 
 	})
 
 	t.Run("Test UsersAPIService DeleteUser", func(t *testing.T) {
 
-		var id = "2"
+		user := createUser(t, apiClient, "to-be-deleted-")
+		id := fmt.Sprint(user.Id)
 
 		httpRes, err := apiClient.UsersAPI.DeleteUser(context.Background(), id).Execute()
 
 		require.Nil(t, err)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetAdminCount", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.GetAdminCount(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetBaseUsersAndGroups", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.GetBaseUsersAndGroups(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetMe", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.UsersAPI.GetMe(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetProfile", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.GetProfile(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
@@ -136,60 +73,22 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test UsersAPIService GetUsers", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.UsersAPI.GetUsers(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-	})
-
-	t.Run("Test UsersAPIService ResetUserPassword", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.ResetUserPassword(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService SearchUsers", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.SearchUsers(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 	t.Run("Test UsersAPIService UpdateUser", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		user := createUser(t, apiClient, "to-be-updated-")
+		id := fmt.Sprint(user.Id)
 
-		var id string
+		role := int32(2)
+		rootRole := client.Int32AsCreateUserSchemaRootRole(&role)
+		newName := "newName"
+		updateUser := client.NewUpdateUserSchema()
+		updateUser.Name = &newName
+		updateUser.RootRole = &rootRole
 
-		resp, httpRes, err := apiClient.UsersAPI.UpdateUser(context.Background(), id).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.UpdateUser(context.Background(), id).UpdateUserSchema(*updateUser).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService ValidateUserPassword", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		httpRes, err := apiClient.UsersAPI.ValidateUserPassword(context.Background()).Execute()
-
-		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})

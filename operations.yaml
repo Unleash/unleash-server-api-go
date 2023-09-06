@@ -1,0 +1,24 @@
+unusedComponents:
+  - schemas
+  - parameters
+  - examples
+  - requestBodies
+  - responses
+  - headers
+# This is a list of 
+inverseOperationIds:
+  - createApiToken
+  - updateApiToken
+  - deleteApiToken
+  - getApiTokensByName
+  - getAllApiTokens
+
+  - createUser
+  - updateUser
+  - getUser
+  - deleteUser
+
+  - getProjects
+  - createProject
+  - updateProject
+  - deleteProject
