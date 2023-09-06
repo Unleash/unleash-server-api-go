@@ -50,59 +50,7 @@ type APIClient struct {
 
 	APITokensAPI *APITokensAPIService
 
-	AddonsAPI *AddonsAPIService
-
-	AdminUIAPI *AdminUIAPIService
-
-	ArchiveAPI *ArchiveAPIService
-
-	AuthAPI *AuthAPIService
-
-	ClientAPI *ClientAPIService
-
-	ContextAPI *ContextAPIService
-
-	EdgeAPI *EdgeAPIService
-
-	EnvironmentsAPI *EnvironmentsAPIService
-
-	EventsAPI *EventsAPIService
-
-	FeatureTypesAPI *FeatureTypesAPIService
-
-	FeaturesAPI *FeaturesAPIService
-
-	FrontendAPIAPI *FrontendAPIAPIService
-
-	ImportExportAPI *ImportExportAPIService
-
-	InstanceAdminAPI *InstanceAdminAPIService
-
-	MaintenanceAPI *MaintenanceAPIService
-
-	MetricsAPI *MetricsAPIService
-
-	NotificationsAPI *NotificationsAPIService
-
-	OperationalAPI *OperationalAPIService
-
-	PersonalAccessTokensAPI *PersonalAccessTokensAPIService
-
-	PlaygroundAPI *PlaygroundAPIService
-
 	ProjectsAPI *ProjectsAPIService
-
-	PublicSignupTokensAPI *PublicSignupTokensAPIService
-
-	SegmentsAPI *SegmentsAPIService
-
-	ServiceAccountsAPI *ServiceAccountsAPIService
-
-	StrategiesAPI *StrategiesAPIService
-
-	TagsAPI *TagsAPIService
-
-	TelemetryAPI *TelemetryAPIService
 
 	UsersAPI *UsersAPIService
 }
@@ -124,33 +72,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 
 	// API Services
 	c.APITokensAPI = (*APITokensAPIService)(&c.common)
-	c.AddonsAPI = (*AddonsAPIService)(&c.common)
-	c.AdminUIAPI = (*AdminUIAPIService)(&c.common)
-	c.ArchiveAPI = (*ArchiveAPIService)(&c.common)
-	c.AuthAPI = (*AuthAPIService)(&c.common)
-	c.ClientAPI = (*ClientAPIService)(&c.common)
-	c.ContextAPI = (*ContextAPIService)(&c.common)
-	c.EdgeAPI = (*EdgeAPIService)(&c.common)
-	c.EnvironmentsAPI = (*EnvironmentsAPIService)(&c.common)
-	c.EventsAPI = (*EventsAPIService)(&c.common)
-	c.FeatureTypesAPI = (*FeatureTypesAPIService)(&c.common)
-	c.FeaturesAPI = (*FeaturesAPIService)(&c.common)
-	c.FrontendAPIAPI = (*FrontendAPIAPIService)(&c.common)
-	c.ImportExportAPI = (*ImportExportAPIService)(&c.common)
-	c.InstanceAdminAPI = (*InstanceAdminAPIService)(&c.common)
-	c.MaintenanceAPI = (*MaintenanceAPIService)(&c.common)
-	c.MetricsAPI = (*MetricsAPIService)(&c.common)
-	c.NotificationsAPI = (*NotificationsAPIService)(&c.common)
-	c.OperationalAPI = (*OperationalAPIService)(&c.common)
-	c.PersonalAccessTokensAPI = (*PersonalAccessTokensAPIService)(&c.common)
-	c.PlaygroundAPI = (*PlaygroundAPIService)(&c.common)
 	c.ProjectsAPI = (*ProjectsAPIService)(&c.common)
-	c.PublicSignupTokensAPI = (*PublicSignupTokensAPIService)(&c.common)
-	c.SegmentsAPI = (*SegmentsAPIService)(&c.common)
-	c.ServiceAccountsAPI = (*ServiceAccountsAPIService)(&c.common)
-	c.StrategiesAPI = (*StrategiesAPIService)(&c.common)
-	c.TagsAPI = (*TagsAPIService)(&c.common)
-	c.TelemetryAPI = (*TelemetryAPIService)(&c.common)
 	c.UsersAPI = (*UsersAPIService)(&c.common)
 
 	return c
