@@ -81,7 +81,9 @@
             }
           }
         },
-        "tags": ["Projects"]
+        "tags": [
+          "Projects"
+        ]
       },
       "post": {
         "operationId": "createProject",
@@ -227,7 +229,9 @@
             }
           }
         },
-        "tags": ["Projects"]
+        "tags": [
+          "Projects"
+        ]
       }
     },
     "/api/admin/projects/{projectId}": {
@@ -396,7 +400,9 @@
             }
           }
         },
-        "tags": ["Projects"]
+        "tags": [
+          "Projects"
+        ]
       },
       "delete": {
         "operationId": "deleteProject",
@@ -498,7 +504,9 @@
             }
           }
         },
-        "tags": ["Projects"]
+        "tags": [
+          "Projects"
+        ]
       }
     },
     "/api/admin/api-tokens": {
@@ -572,7 +580,9 @@
             }
           }
         },
-        "tags": ["API tokens"]
+        "tags": [
+          "API tokens"
+        ]
       },
       "post": {
         "operationId": "createApiToken",
@@ -691,7 +701,9 @@
             }
           }
         },
-        "tags": ["API tokens"]
+        "tags": [
+          "API tokens"
+        ]
       }
     },
     "/api/admin/api-tokens/{name}": {
@@ -775,7 +787,9 @@
             }
           }
         },
-        "tags": ["API tokens"]
+        "tags": [
+          "API tokens"
+        ]
       }
     },
     "/api/admin/api-tokens/{token}": {
@@ -890,7 +904,9 @@
             }
           }
         },
-        "tags": ["API tokens"]
+        "tags": [
+          "API tokens"
+        ]
       },
       "delete": {
         "operationId": "deleteApiToken",
@@ -965,7 +981,9 @@
             }
           }
         },
-        "tags": ["API tokens"]
+        "tags": [
+          "API tokens"
+        ]
       }
     },
     "/api/admin/user-admin": {
@@ -1086,7 +1104,9 @@
             }
           }
         },
-        "tags": ["Users"]
+        "tags": [
+          "Users"
+        ]
       }
     },
     "/api/admin/user-admin/{id}": {
@@ -1197,7 +1217,9 @@
             }
           }
         },
-        "tags": ["Users"]
+        "tags": [
+          "Users"
+        ]
       },
       "put": {
         "operationId": "updateUser",
@@ -1344,7 +1366,9 @@
             }
           }
         },
-        "tags": ["Users"]
+        "tags": [
+          "Users"
+        ]
       },
       "delete": {
         "operationId": "deleteUser",
@@ -1446,7 +1470,9 @@
             }
           }
         },
-        "tags": ["Users"]
+        "tags": [
+          "Users"
+        ]
       }
     }
   },
@@ -1476,7 +1502,11 @@
             "description": "The type of API token",
             "type": "string",
             "example": "client",
-            "enum": ["client", "admin", "frontend"]
+            "enum": [
+              "client",
+              "admin",
+              "frontend"
+            ]
           },
           "environment": {
             "description": "The environment the token has access to. `*` if it has access to all environments.",
@@ -1494,7 +1524,10 @@
             "items": {
               "type": "string"
             },
-            "example": ["developerexperience", "enterprisegrowth"]
+            "example": [
+              "developerexperience",
+              "enterprisegrowth"
+            ]
           },
           "expiresAt": {
             "description": "The token's expiration date. NULL if the token doesn't have an expiration set.",
@@ -1524,7 +1557,14 @@
           }
         },
         "additionalProperties": false,
-        "required": ["secret", "tokenName", "type", "createdAt"]
+        "required": [
+          "secret",
+          "tokenName",
+          "type",
+          "project",
+          "projects",
+          "createdAt"
+        ]
       },
       "apiTokensSchema": {
         "description": "An object with [Unleash API tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys)",
@@ -1539,14 +1579,19 @@
           }
         },
         "additionalProperties": false,
-        "required": ["tokens"]
+        "required": [
+          "tokens"
+        ]
       },
       "createApiTokenSchema": {
         "description": "The data required to create an [Unleash API token](https://docs.getunleash.io/reference/api-tokens-and-client-keys).",
         "type": "object",
         "oneOf": [
           {
-            "required": ["type", "tokenName"],
+            "required": [
+              "type",
+              "tokenName"
+            ],
             "type": "object",
             "properties": {
               "expiresAt": {
@@ -1569,7 +1614,10 @@
             }
           },
           {
-            "required": ["type", "username"],
+            "required": [
+              "type",
+              "username"
+            ],
             "type": "object",
             "properties": {
               "expiresAt": {
@@ -1593,7 +1641,10 @@
             }
           },
           {
-            "required": ["type", "tokenName"],
+            "required": [
+              "type",
+              "tokenName"
+            ],
             "type": "object",
             "properties": {
               "expiresAt": {
@@ -1624,7 +1675,10 @@
                 "items": {
                   "type": "string"
                 },
-                "example": ["project-851", "project-852"]
+                "example": [
+                  "project-851",
+                  "project-852"
+                ]
               },
               "tokenName": {
                 "description": "The name of the token.",
@@ -1634,7 +1688,10 @@
             }
           },
           {
-            "required": ["type", "username"],
+            "required": [
+              "type",
+              "username"
+            ],
             "type": "object",
             "properties": {
               "expiresAt": {
@@ -1665,7 +1722,10 @@
                 "items": {
                   "type": "string"
                 },
-                "example": ["project-851", "project-852"]
+                "example": [
+                  "project-851",
+                  "project-852"
+                ]
               },
               "username": {
                 "description": "The name of the token. This property is deprecated. Use `tokenName` instead.",
@@ -1712,7 +1772,13 @@
               {
                 "type": "string",
                 "example": "Admin",
-                "enum": ["Admin", "Editor", "Viewer", "Owner", "Member"]
+                "enum": [
+                  "Admin",
+                  "Editor",
+                  "Viewer",
+                  "Owner",
+                  "Member"
+                ]
               }
             ]
           },
@@ -1723,7 +1789,9 @@
           }
         },
         "additionalProperties": false,
-        "required": ["rootRole"]
+        "required": [
+          "rootRole"
+        ]
       },
       "projectSchema": {
         "description": "A definition of the project used for projects listing purposes",
@@ -1782,7 +1850,10 @@
             "description": "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not.",
             "type": "string",
             "example": "open",
-            "enum": ["open", "protected"]
+            "enum": [
+              "open",
+              "protected"
+            ]
           },
           "defaultStickiness": {
             "description": "A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy",
@@ -1791,7 +1862,10 @@
           }
         },
         "additionalProperties": false,
-        "required": ["id", "name"]
+        "required": [
+          "id",
+          "name"
+        ]
       },
       "projectsSchema": {
         "description": "An overview of all the projects in the Unleash instance",
@@ -1811,7 +1885,10 @@
           }
         },
         "additionalProperties": false,
-        "required": ["version", "projects"]
+        "required": [
+          "version",
+          "projects"
+        ]
       },
       "updateApiTokenSchema": {
         "description": "An object with fields to updated for a given API token.",
@@ -1824,7 +1901,9 @@
             "example": "2023-09-04T11:26:24+02:00"
           }
         },
-        "required": ["expiresAt"]
+        "required": [
+          "expiresAt"
+        ]
       },
       "updateUserSchema": {
         "description": "All fields that can be directly changed for the user",
@@ -1851,7 +1930,13 @@
               {
                 "type": "string",
                 "example": "Admin",
-                "enum": ["Admin", "Editor", "Viewer", "Owner", "Member"]
+                "enum": [
+                  "Admin",
+                  "Editor",
+                  "Viewer",
+                  "Owner",
+                  "Member"
+                ]
               }
             ]
           }
@@ -1943,7 +2028,9 @@
           }
         },
         "additionalProperties": false,
-        "required": ["id"]
+        "required": [
+          "id"
+        ]
       },
       "createUserResponseSchema": {
         "description": "An Unleash user after creation",
@@ -2009,7 +2096,13 @@
               {
                 "type": "string",
                 "example": "Admin",
-                "enum": ["Admin", "Editor", "Viewer", "Owner", "Member"]
+                "enum": [
+                  "Admin",
+                  "Editor",
+                  "Viewer",
+                  "Owner",
+                  "Member"
+                ]
               }
             ]
           },
@@ -2040,7 +2133,9 @@
           }
         },
         "additionalProperties": false,
-        "required": ["id"]
+        "required": [
+          "id"
+        ]
       },
       "createProjectSchema": {
         "description": "Data used to create a new [project](https://docs.getunleash.io/reference/projects).",
@@ -2074,7 +2169,10 @@
             "description": "A mode of the project affecting what actions are possible in this project",
             "type": "string",
             "example": "open",
-            "enum": ["open", "protected"]
+            "enum": [
+              "open",
+              "protected"
+            ]
           },
           "defaultStickiness": {
             "description": "A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy",
@@ -2082,7 +2180,10 @@
             "example": "userId"
           }
         },
-        "required": ["id", "name"]
+        "required": [
+          "id",
+          "name"
+        ]
       },
       "projectCreatedSchema": {
         "description": "Details about the newly created project.",
@@ -2116,7 +2217,10 @@
             "description": "A mode of the project affecting what actions are possible in this project",
             "type": "string",
             "example": "open",
-            "enum": ["open", "protected"]
+            "enum": [
+              "open",
+              "protected"
+            ]
           },
           "defaultStickiness": {
             "description": "A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy",
@@ -2125,7 +2229,10 @@
           }
         },
         "additionalProperties": false,
-        "required": ["id", "name"]
+        "required": [
+          "id",
+          "name"
+        ]
       },
       "updateProjectSchema": {
         "description": "Data used to update a [project](https://docs.getunleash.io/reference/projects)",
@@ -2142,7 +2249,9 @@
             "example": "Anything related to the new UI"
           }
         },
-        "required": ["name"]
+        "required": [
+          "name"
+        ]
       }
     },
     "securitySchemes": {
