@@ -9,8 +9,8 @@ Name | Type | Description | Notes
 **TokenName** | **string** | A unique name for this particular token | 
 **Type** | **string** | The type of API token | 
 **Environment** | Pointer to **string** | The environment the token has access to. &#x60;*&#x60; if it has access to all environments. | [optional] 
-**Project** | **string** | The project this token belongs to. | 
-**Projects** | **[]string** | The list of projects this token has access to. If the token has access to specific projects they will be listed here. If the token has access to all projects it will be represented as &#x60;[*]&#x60; | 
+**Project** | Pointer to **string** | The project this token belongs to. | [optional] 
+**Projects** | Pointer to **[]string** | The list of projects this token has access to. If the token has access to specific projects they will be listed here. If the token has access to all projects it will be represented as &#x60;[*]&#x60; | [optional] 
 **ExpiresAt** | Pointer to **NullableTime** | The token&#39;s expiration date. NULL if the token doesn&#39;t have an expiration set. | [optional] 
 **CreatedAt** | **time.Time** | When the token was created. | 
 **SeenAt** | Pointer to **NullableTime** | When the token was last seen/used to authenticate with. NULL if the token has not yet been used for authentication. | [optional] 
@@ -20,7 +20,7 @@ Name | Type | Description | Notes
 
 ### NewApiTokenSchema
 
-`func NewApiTokenSchema(secret string, tokenName string, type_ string, project string, projects []string, createdAt time.Time, ) *ApiTokenSchema`
+`func NewApiTokenSchema(secret string, tokenName string, type_ string, createdAt time.Time, ) *ApiTokenSchema`
 
 NewApiTokenSchema instantiates a new ApiTokenSchema object
 This constructor will assign default values to properties that have it defined,
@@ -164,6 +164,11 @@ and a boolean to check if the value has been set.
 
 SetProject sets Project field to given value.
 
+### HasProject
+
+`func (o *ApiTokenSchema) HasProject() bool`
+
+HasProject returns a boolean if a field has been set.
 
 ### GetProjects
 
@@ -184,6 +189,11 @@ and a boolean to check if the value has been set.
 
 SetProjects sets Projects field to given value.
 
+### HasProjects
+
+`func (o *ApiTokenSchema) HasProjects() bool`
+
+HasProjects returns a boolean if a field has been set.
 
 ### GetExpiresAt
 
