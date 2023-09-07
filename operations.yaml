@@ -5,8 +5,7 @@ unusedComponents:
   - requestBodies
   - responses
   - headers
-
-# This is a list of all supported operations in this SDK
+# This is a list of 
 inverseOperationIds:
   - createApiToken
   - updateApiToken
