@@ -733,8 +733,6 @@ components:
           type: string
       required:
       - createdAt
-      - project
-      - projects
       - secret
       - tokenName
       - type
