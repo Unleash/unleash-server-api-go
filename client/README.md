@@ -82,18 +82,28 @@ Class | Method | HTTP request | Description
 *APITokensAPI* | [**GetAllApiTokens**](docs/APITokensAPI.md#getallapitokens) | **Get** /api/admin/api-tokens | Get API tokens
 *APITokensAPI* | [**GetApiTokensByName**](docs/APITokensAPI.md#getapitokensbyname) | **Get** /api/admin/api-tokens/{name} | Get API tokens by name
 *APITokensAPI* | [**UpdateApiToken**](docs/APITokensAPI.md#updateapitoken) | **Put** /api/admin/api-tokens/{token} | Update API token
+*AuthAPI* | [**GetPermissions**](docs/AuthAPI.md#getpermissions) | **Get** /api/admin/permissions | Gets available permissions
+*ProjectsAPI* | [**AddAccessToProject**](docs/ProjectsAPI.md#addaccesstoproject) | **Post** /api/admin/projects/{projectId}/access | Configure project access
 *ProjectsAPI* | [**CreateProject**](docs/ProjectsAPI.md#createproject) | **Post** /api/admin/projects | Create project
 *ProjectsAPI* | [**DeleteProject**](docs/ProjectsAPI.md#deleteproject) | **Delete** /api/admin/projects/{projectId} | Delete project
 *ProjectsAPI* | [**GetProjects**](docs/ProjectsAPI.md#getprojects) | **Get** /api/admin/projects | Get a list of all projects.
 *ProjectsAPI* | [**UpdateProject**](docs/ProjectsAPI.md#updateproject) | **Put** /api/admin/projects/{projectId} | Update project
+*UsersAPI* | [**CreateRole**](docs/UsersAPI.md#createrole) | **Post** /api/admin/roles | Create a new role
 *UsersAPI* | [**CreateUser**](docs/UsersAPI.md#createuser) | **Post** /api/admin/user-admin | Create a new user
+*UsersAPI* | [**DeleteRole**](docs/UsersAPI.md#deleterole) | **Delete** /api/admin/roles/{roleId} | Delete a custom role
 *UsersAPI* | [**DeleteUser**](docs/UsersAPI.md#deleteuser) | **Delete** /api/admin/user-admin/{id} | Delete a user
+*UsersAPI* | [**GetRoles**](docs/UsersAPI.md#getroles) | **Get** /api/admin/roles | Get a list of roles
 *UsersAPI* | [**GetUser**](docs/UsersAPI.md#getuser) | **Get** /api/admin/user-admin/{id} | Get user
+*UsersAPI* | [**UpdateRole**](docs/UsersAPI.md#updaterole) | **Put** /api/admin/roles/{roleId} | Update a role
 *UsersAPI* | [**UpdateUser**](docs/UsersAPI.md#updateuser) | **Put** /api/admin/user-admin/{id} | Update a user
 
 
 ## Documentation For Models
 
+ - [AdminPermissionSchema](docs/AdminPermissionSchema.md)
+ - [AdminPermissionsSchema](docs/AdminPermissionsSchema.md)
+ - [AdminPermissionsSchemaPermissions](docs/AdminPermissionsSchemaPermissions.md)
+ - [AdminPermissionsSchemaPermissionsEnvironmentsInner](docs/AdminPermissionsSchemaPermissionsEnvironmentsInner.md)
  - [ApiTokenSchema](docs/ApiTokenSchema.md)
  - [ApiTokensSchema](docs/ApiTokensSchema.md)
  - [CreateApiTokenSchema](docs/CreateApiTokenSchema.md)
@@ -101,21 +111,31 @@ Class | Method | HTTP request | Description
  - [CreateApiTokenSchemaOneOf1](docs/CreateApiTokenSchemaOneOf1.md)
  - [CreateApiTokenSchemaOneOf2](docs/CreateApiTokenSchemaOneOf2.md)
  - [CreateApiTokenSchemaOneOf3](docs/CreateApiTokenSchemaOneOf3.md)
- - [CreateProject400Response](docs/CreateProject400Response.md)
  - [CreateProject415Response](docs/CreateProject415Response.md)
  - [CreateProjectSchema](docs/CreateProjectSchema.md)
+ - [CreateRole400Response](docs/CreateRole400Response.md)
+ - [CreateRole409Response](docs/CreateRole409Response.md)
+ - [CreateRoleWithPermissionsSchema](docs/CreateRoleWithPermissionsSchema.md)
+ - [CreateRoleWithPermissionsSchemaOneOf](docs/CreateRoleWithPermissionsSchemaOneOf.md)
+ - [CreateRoleWithPermissionsSchemaOneOf1](docs/CreateRoleWithPermissionsSchemaOneOf1.md)
+ - [CreateRoleWithPermissionsSchemaOneOf1PermissionsInner](docs/CreateRoleWithPermissionsSchemaOneOf1PermissionsInner.md)
+ - [CreateRoleWithPermissionsSchemaOneOfPermissionsInner](docs/CreateRoleWithPermissionsSchemaOneOfPermissionsInner.md)
  - [CreateUserResponseSchema](docs/CreateUserResponseSchema.md)
  - [CreateUserResponseSchemaRootRole](docs/CreateUserResponseSchemaRootRole.md)
  - [CreateUserSchema](docs/CreateUserSchema.md)
  - [CreateUserSchemaRootRole](docs/CreateUserSchemaRootRole.md)
- - [GetProjects401Response](docs/GetProjects401Response.md)
- - [GetProjects403Response](docs/GetProjects403Response.md)
+ - [GetRoles401Response](docs/GetRoles401Response.md)
+ - [GetRoles403Response](docs/GetRoles403Response.md)
+ - [ProjectAddAccessSchema](docs/ProjectAddAccessSchema.md)
  - [ProjectCreatedSchema](docs/ProjectCreatedSchema.md)
  - [ProjectSchema](docs/ProjectSchema.md)
  - [ProjectsSchema](docs/ProjectsSchema.md)
+ - [RoleSchema](docs/RoleSchema.md)
+ - [RoleWithVersionSchema](docs/RoleWithVersionSchema.md)
+ - [RolesWithVersionSchema](docs/RolesWithVersionSchema.md)
  - [UpdateApiTokenSchema](docs/UpdateApiTokenSchema.md)
- - [UpdateProject404Response](docs/UpdateProject404Response.md)
  - [UpdateProjectSchema](docs/UpdateProjectSchema.md)
+ - [UpdateRole404Response](docs/UpdateRole404Response.md)
  - [UpdateUserSchema](docs/UpdateUserSchema.md)
  - [UserSchema](docs/UserSchema.md)
 

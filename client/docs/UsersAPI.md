@@ -4,11 +4,81 @@ All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**CreateRole**](UsersAPI.md#CreateRole) | **Post** /api/admin/roles | Create a new role
 [**CreateUser**](UsersAPI.md#CreateUser) | **Post** /api/admin/user-admin | Create a new user
+[**DeleteRole**](UsersAPI.md#DeleteRole) | **Delete** /api/admin/roles/{roleId} | Delete a custom role
 [**DeleteUser**](UsersAPI.md#DeleteUser) | **Delete** /api/admin/user-admin/{id} | Delete a user
+[**GetRoles**](UsersAPI.md#GetRoles) | **Get** /api/admin/roles | Get a list of roles
 [**GetUser**](UsersAPI.md#GetUser) | **Get** /api/admin/user-admin/{id} | Get user
+[**UpdateRole**](UsersAPI.md#UpdateRole) | **Put** /api/admin/roles/{roleId} | Update a role
 [**UpdateUser**](UsersAPI.md#UpdateUser) | **Put** /api/admin/user-admin/{id} | Update a user
 
+
+
+## CreateRole
+
+> RoleWithVersionSchema CreateRole(ctx).CreateRoleWithPermissionsSchema(createRoleWithPermissionsSchema).Execute()
+
+Create a new role
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+    createRoleWithPermissionsSchema := openapiclient.createRoleWithPermissionsSchema{CreateRoleWithPermissionsSchemaOneOf: openapiclient.NewCreateRoleWithPermissionsSchemaOneOf("external-contributors", "root-custom")} // CreateRoleWithPermissionsSchema | createRoleWithPermissionsSchema
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(createRoleWithPermissionsSchema).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.CreateRole``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateRole`: RoleWithVersionSchema
+    fmt.Fprintf(os.Stdout, "Response from `UsersAPI.CreateRole`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateRoleRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **createRoleWithPermissionsSchema** | [**CreateRoleWithPermissionsSchema**](CreateRoleWithPermissionsSchema.md) | createRoleWithPermissionsSchema | 
+
+### Return type
+
+[**RoleWithVersionSchema**](RoleWithVersionSchema.md)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## CreateUser
@@ -77,6 +147,74 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## DeleteRole
+
+> DeleteRole(ctx, roleId).Execute()
+
+Delete a custom role
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+    roleId := "roleId_example" // string | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.UsersAPI.DeleteRole(context.Background(), roleId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.DeleteRole``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**roleId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteRoleRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## DeleteUser
 
 > DeleteUser(ctx, id).Execute()
@@ -130,6 +268,67 @@ Name | Type | Description  | Notes
 ### Return type
 
  (empty response body)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetRoles
+
+> RolesWithVersionSchema GetRoles(ctx).Execute()
+
+Get a list of roles
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UsersAPI.GetRoles(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.GetRoles``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetRoles`: RolesWithVersionSchema
+    fmt.Fprintf(os.Stdout, "Response from `UsersAPI.GetRoles`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetRolesRequest struct via the builder pattern
+
+
+### Return type
+
+[**RolesWithVersionSchema**](RolesWithVersionSchema.md)
 
 ### Authorization
 
@@ -208,6 +407,78 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateRole
+
+> RoleWithVersionSchema UpdateRole(ctx, roleId).CreateRoleWithPermissionsSchema(createRoleWithPermissionsSchema).Execute()
+
+Update a role
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+    roleId := "roleId_example" // string | 
+    createRoleWithPermissionsSchema := openapiclient.createRoleWithPermissionsSchema{CreateRoleWithPermissionsSchemaOneOf: openapiclient.NewCreateRoleWithPermissionsSchemaOneOf("external-contributors", "root-custom")} // CreateRoleWithPermissionsSchema | createRoleWithPermissionsSchema
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UsersAPI.UpdateRole(context.Background(), roleId).CreateRoleWithPermissionsSchema(createRoleWithPermissionsSchema).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.UpdateRole``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UpdateRole`: RoleWithVersionSchema
+    fmt.Fprintf(os.Stdout, "Response from `UsersAPI.UpdateRole`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**roleId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateRoleRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **createRoleWithPermissionsSchema** | [**CreateRoleWithPermissionsSchema**](CreateRoleWithPermissionsSchema.md) | createRoleWithPermissionsSchema | 
+
+### Return type
+
+[**RoleWithVersionSchema**](RoleWithVersionSchema.md)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

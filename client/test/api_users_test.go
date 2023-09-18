@@ -22,6 +22,18 @@ func Test_client_UsersAPIService(t *testing.T) {
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
+	t.Run("Test UsersAPIService CreateRole", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test UsersAPIService CreateUser", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
@@ -30,6 +42,19 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test UsersAPIService DeleteRole", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		var roleId string
+
+		httpRes, err := apiClient.UsersAPI.DeleteRole(context.Background(), roleId).Execute()
+
+		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
@@ -47,6 +72,18 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test UsersAPIService GetRoles", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		resp, httpRes, err := apiClient.UsersAPI.GetRoles(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test UsersAPIService GetUser", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
@@ -54,6 +91,20 @@ func Test_client_UsersAPIService(t *testing.T) {
 		var id string
 
 		resp, httpRes, err := apiClient.UsersAPI.GetUser(context.Background(), id).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test UsersAPIService UpdateRole", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		var roleId string
+
+		resp, httpRes, err := apiClient.UsersAPI.UpdateRole(context.Background(), roleId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

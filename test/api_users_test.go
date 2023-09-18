@@ -21,8 +21,8 @@ import (
 
 func createUser(t *testing.T, apiClient *client.APIClient, prefix string) *client.CreateUserResponseSchema {
 	name := "A name"
-	email := prefix + "username@getunleash.io"
-	username := prefix + "username"
+	email := prefix + "-username@getunleash.io"
+	username := prefix + "-username"
 	sendEmail := false
 	rootRoleId := int32(1)
 
@@ -35,10 +35,44 @@ func createUser(t *testing.T, apiClient *client.APIClient, prefix string) *clien
 
 	resp, httpRes, err := apiClient.UsersAPI.CreateUser(context.Background()).CreateUserSchema(createUserSchema).Execute()
 
+	fmt.Println(err)
 	require.Nil(t, err)
 	require.NotNil(t, resp)
 	assert.Equal(t, 201, httpRes.StatusCode)
 	return resp
+}
+func createRole(name string, description string, roleType string) *client.CreateRoleWithPermissionsSchema {
+	var newRole *client.CreateRoleWithPermissionsSchema
+	if roleType == "root-custom" {
+		inner := client.NewCreateRoleWithPermissionsSchemaOneOf(name, roleType)
+		inner.Description = &description
+		permission1 := client.NewCreateRoleWithPermissionsSchemaOneOfPermissionsInner("CREATE_PROJECT")
+		permission2 := client.NewCreateRoleWithPermissionsSchemaOneOfPermissionsInner("UPDATE_APPLICATION")
+		permissions := []client.CreateRoleWithPermissionsSchemaOneOfPermissionsInner{}
+		permissions = append(permissions, *permission1)
+		permissions = append(permissions, *permission2)
+		inner.SetPermissions(permissions)
+		wrapper := client.CreateRoleWithPermissionsSchemaOneOfAsCreateRoleWithPermissionsSchema(inner)
+		newRole = &wrapper
+	}
+	if roleType == "custom" {
+		env := "*"
+		inner := client.NewCreateRoleWithPermissionsSchemaOneOf1(name)
+		inner.Type = &roleType
+		inner.Description = &description
+		// permission1 is a project permission
+		permission1 := client.NewCreateRoleWithPermissionsSchemaOneOf1PermissionsInner(float32(2))
+		// permission2 is an environment permission
+		permission2 := client.NewCreateRoleWithPermissionsSchemaOneOf1PermissionsInner(float32(37))
+		permission2.Environment = &env
+		permissions := []client.CreateRoleWithPermissionsSchemaOneOf1PermissionsInner{}
+		permissions = append(permissions, *permission1)
+		permissions = append(permissions, *permission2)
+		inner.SetPermissions(permissions)
+		wrapper := client.CreateRoleWithPermissionsSchemaOneOf1AsCreateRoleWithPermissionsSchema(inner)
+		newRole = &wrapper
+	}
+	return newRole
 }
 
 func Test_client_UsersAPIService(t *testing.T) {
@@ -46,13 +80,13 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService CreateUser", func(t *testing.T) {
 
-		createUser(t, apiClient, "test-")
+		createUser(t, apiClient, "test")
 
 	})
 
 	t.Run("Test UsersAPIService DeleteUser", func(t *testing.T) {
 
-		user := createUser(t, apiClient, "to-be-deleted-")
+		user := createUser(t, apiClient, "to-be-deleted")
 		id := fmt.Sprint(user.Id)
 
 		httpRes, err := apiClient.UsersAPI.DeleteUser(context.Background(), id).Execute()
@@ -75,7 +109,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService UpdateUser", func(t *testing.T) {
 
-		user := createUser(t, apiClient, "to-be-updated-")
+		user := createUser(t, apiClient, "to-be-updated")
 		id := fmt.Sprint(user.Id)
 
 		role := int32(2)
@@ -92,5 +126,75 @@ func Test_client_UsersAPIService(t *testing.T) {
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
+	t.Run("Test UsersAPIService CreateRole (root-custom)", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			newRole := createRole("test-root-role", "test role description", "root-custom")
 
+			resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+		}
+	})
+
+	t.Run("Test UsersAPIService CreateRole (custom)", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			newRole := createRole("test-custom-role", "test role description", "custom")
+
+			resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+		}
+	})
+
+	t.Run("Test UsersAPIService UpdateRole", func(t *testing.T) {
+
+		newRole := createRole("to-update-role", "test role description", "root-custom")
+
+		resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+		roleId := fmt.Sprint(resp.Roles.Id)
+		updatedRole := createRole("updated-role-name", "New role description", "root-custom")
+		resp, httpRes, err = apiClient.UsersAPI.UpdateRole(context.Background(), roleId).CreateRoleWithPermissionsSchema(*updatedRole).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test UsersAPIService GetRoles", func(t *testing.T) {
+
+		resp, httpRes, err := apiClient.UsersAPI.GetRoles(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+		assert.NotEmpty(t, resp.Roles)
+	})
+
+	t.Run("Test UsersAPIService DeleteRole", func(t *testing.T) {
+
+		newRole := createRole("role-to-be-deleted", "ephimeral role", "root-custom")
+		resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+		// convert resp.Roles.Id to string and assign to roleId
+		roleId := fmt.Sprint(resp.Roles.Id)
+
+		httpRes, err = apiClient.UsersAPI.DeleteRole(context.Background(), roleId).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+	})
 }

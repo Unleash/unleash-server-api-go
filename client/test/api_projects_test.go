@@ -22,6 +22,19 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
+	t.Run("Test ProjectsAPIService AddAccessToProject", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		var projectId string
+
+		httpRes, err := apiClient.ProjectsAPI.AddAccessToProject(context.Background(), projectId).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test ProjectsAPIService CreateProject", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test

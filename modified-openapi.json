@@ -10,6 +10,530 @@
     }
   ],
   "paths": {
+    "/api/admin/roles": {
+      "get": {
+        "operationId": "getRoles",
+        "summary": "Get a list of roles",
+        "description": "Get a list of project, root and custom roles for Role-Based Access Control",
+        "responses": {
+          "200": {
+            "description": "rolesWithVersionSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rolesWithVersionSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      },
+      "post": {
+        "operationId": "createRole",
+        "summary": "Create a new role",
+        "description": "Create a new custom role for Role-Based Access Control",
+        "requestBody": {
+          "description": "createRoleWithPermissionsSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createRoleWithPermissionsSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "roleWithVersionSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/roleWithVersionSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NameExistsError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "There is already a feature called \"my-awesome-feature\"."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/admin/roles/{roleId}": {
+      "put": {
+        "operationId": "updateRole",
+        "summary": "Update a role",
+        "description": "Update a custom role by role id",
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "createRoleWithPermissionsSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createRoleWithPermissionsSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "roleWithVersionSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/roleWithVersionSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NotFoundError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\"."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NameExistsError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "There is already a feature called \"my-awesome-feature\"."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      },
+      "delete": {
+        "operationId": "deleteRole",
+        "summary": "Delete a custom role",
+        "description": "Delete a custom role by id. You cannot delete built-in roles or roles that are in use.",
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This response has no body."
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NotFoundError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\"."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
     "/api/admin/projects": {
       "get": {
         "operationId": "getProjects",
@@ -81,7 +605,9 @@
             }
           }
         },
-        "tags": ["Projects"]
+        "tags": [
+          "Projects"
+        ]
       },
       "post": {
         "operationId": "createProject",
@@ -227,7 +753,9 @@
             }
           }
         },
-        "tags": ["Projects"]
+        "tags": [
+          "Projects"
+        ]
       }
     },
     "/api/admin/projects/{projectId}": {
@@ -396,7 +924,9 @@
             }
           }
         },
-        "tags": ["Projects"]
+        "tags": [
+          "Projects"
+        ]
       },
       "delete": {
         "operationId": "deleteProject",
@@ -498,7 +1028,202 @@
             }
           }
         },
-        "tags": ["Projects"]
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/access": {
+      "post": {
+        "operationId": "addAccessToProject",
+        "summary": "Configure project access",
+        "description": "Configure project access for groups and single users. The provided users and groups will be given the roles specified in the payload.",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "projectAddAccessSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/projectAddAccessSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "This response has no body."
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NotFoundError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\"."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ContentTypeerror"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/api/admin/permissions": {
+      "get": {
+        "operationId": "getPermissions",
+        "summary": "Gets available permissions",
+        "description": "Returns a list of available permissions",
+        "responses": {
+          "200": {
+            "description": "adminPermissionsSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/adminPermissionsSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
       }
     },
     "/api/admin/api-tokens": {
@@ -572,7 +1297,9 @@
             }
           }
         },
-        "tags": ["API tokens"]
+        "tags": [
+          "API tokens"
+        ]
       },
       "post": {
         "operationId": "createApiToken",
@@ -691,7 +1418,9 @@
             }
           }
         },
-        "tags": ["API tokens"]
+        "tags": [
+          "API tokens"
+        ]
       }
     },
     "/api/admin/api-tokens/{name}": {
@@ -775,7 +1504,9 @@
             }
           }
         },
-        "tags": ["API tokens"]
+        "tags": [
+          "API tokens"
+        ]
       }
     },
     "/api/admin/api-tokens/{token}": {
@@ -890,7 +1621,9 @@
             }
           }
         },
-        "tags": ["API tokens"]
+        "tags": [
+          "API tokens"
+        ]
       },
       "delete": {
         "operationId": "deleteApiToken",
@@ -965,7 +1698,9 @@
             }
           }
         },
-        "tags": ["API tokens"]
+        "tags": [
+          "API tokens"
+        ]
       }
     },
     "/api/admin/user-admin": {
@@ -1086,7 +1821,9 @@
             }
           }
         },
-        "tags": ["Users"]
+        "tags": [
+          "Users"
+        ]
       }
     },
     "/api/admin/user-admin/{id}": {
@@ -1197,7 +1934,9 @@
             }
           }
         },
-        "tags": ["Users"]
+        "tags": [
+          "Users"
+        ]
       },
       "put": {
         "operationId": "updateUser",
@@ -1344,7 +2083,9 @@
             }
           }
         },
-        "tags": ["Users"]
+        "tags": [
+          "Users"
+        ]
       },
       "delete": {
         "operationId": "deleteUser",
@@ -1446,7 +2187,9 @@
             }
           }
         },
-        "tags": ["Users"]
+        "tags": [
+          "Users"
+        ]
       }
     }
   },
@@ -1476,7 +2219,11 @@
             "description": "The type of API token",
             "type": "string",
             "example": "client",
-            "enum": ["client", "admin", "frontend"]
+            "enum": [
+              "client",
+              "admin",
+              "frontend"
+            ]
           },
           "environment": {
             "description": "The environment the token has access to. `*` if it has access to all environments.",
@@ -1494,7 +2241,10 @@
             "items": {
               "type": "string"
             },
-            "example": ["developerexperience", "enterprisegrowth"]
+            "example": [
+              "developerexperience",
+              "enterprisegrowth"
+            ]
           },
           "expiresAt": {
             "description": "The token's expiration date. NULL if the token doesn't have an expiration set.",
@@ -1524,7 +2274,14 @@
           }
         },
         "additionalProperties": false,
-        "required": ["secret", "tokenName", "type", "createdAt"]
+        "required": [
+          "secret",
+          "tokenName",
+          "type",
+          "project",
+          "projects",
+          "createdAt"
+        ]
       },
       "apiTokensSchema": {
         "description": "An object with [Unleash API tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys)",
@@ -1539,14 +2296,19 @@
           }
         },
         "additionalProperties": false,
-        "required": ["tokens"]
+        "required": [
+          "tokens"
+        ]
       },
       "createApiTokenSchema": {
         "description": "The data required to create an [Unleash API token](https://docs.getunleash.io/reference/api-tokens-and-client-keys).",
         "type": "object",
         "oneOf": [
           {
-            "required": ["type", "tokenName"],
+            "required": [
+              "type",
+              "tokenName"
+            ],
             "type": "object",
             "properties": {
               "expiresAt": {
@@ -1569,7 +2331,10 @@
             }
           },
           {
-            "required": ["type", "username"],
+            "required": [
+              "type",
+              "username"
+            ],
             "type": "object",
             "properties": {
               "expiresAt": {
@@ -1593,7 +2358,10 @@
             }
           },
           {
-            "required": ["type", "tokenName"],
+            "required": [
+              "type",
+              "tokenName"
+            ],
             "type": "object",
             "properties": {
               "expiresAt": {
@@ -1624,7 +2392,10 @@
                 "items": {
                   "type": "string"
                 },
-                "example": ["project-851", "project-852"]
+                "example": [
+                  "project-851",
+                  "project-852"
+                ]
               },
               "tokenName": {
                 "description": "The name of the token.",
@@ -1634,7 +2405,10 @@
             }
           },
           {
-            "required": ["type", "username"],
+            "required": [
+              "type",
+              "username"
+            ],
             "type": "object",
             "properties": {
               "expiresAt": {
@@ -1665,7 +2439,10 @@
                 "items": {
                   "type": "string"
                 },
-                "example": ["project-851", "project-852"]
+                "example": [
+                  "project-851",
+                  "project-852"
+                ]
               },
               "username": {
                 "description": "The name of the token. This property is deprecated. Use `tokenName` instead.",
@@ -1712,7 +2489,13 @@
               {
                 "type": "string",
                 "example": "Admin",
-                "enum": ["Admin", "Editor", "Viewer", "Owner", "Member"]
+                "enum": [
+                  "Admin",
+                  "Editor",
+                  "Viewer",
+                  "Owner",
+                  "Member"
+                ]
               }
             ]
           },
@@ -1723,7 +2506,9 @@
           }
         },
         "additionalProperties": false,
-        "required": ["rootRole"]
+        "required": [
+          "rootRole"
+        ]
       },
       "projectSchema": {
         "description": "A definition of the project used for projects listing purposes",
@@ -1782,7 +2567,11 @@
             "description": "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not.",
             "type": "string",
             "example": "open",
-            "enum": ["open", "protected"]
+            "enum": [
+              "open",
+              "protected",
+              "private"
+            ]
           },
           "defaultStickiness": {
             "description": "A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy",
@@ -1791,7 +2580,10 @@
           }
         },
         "additionalProperties": false,
-        "required": ["id", "name"]
+        "required": [
+          "id",
+          "name"
+        ]
       },
       "projectsSchema": {
         "description": "An overview of all the projects in the Unleash instance",
@@ -1811,7 +2603,43 @@
           }
         },
         "additionalProperties": false,
-        "required": ["version", "projects"]
+        "required": [
+          "version",
+          "projects"
+        ]
+      },
+      "roleSchema": {
+        "description": "A role holds permissions to allow Unleash to decide what actions a role holder is allowed to perform",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "The role id",
+            "type": "integer",
+            "example": 9,
+            "minimum": 0
+          },
+          "type": {
+            "description": "A role can either be a global root role (applies to all projects) or a project role",
+            "type": "string",
+            "example": "root"
+          },
+          "name": {
+            "description": "The name of the role",
+            "type": "string",
+            "example": "Editor"
+          },
+          "description": {
+            "description": "A more detailed description of the role and what use it's intended for",
+            "type": "string",
+            "example": "Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "name"
+        ]
       },
       "updateApiTokenSchema": {
         "description": "An object with fields to updated for a given API token.",
@@ -1824,7 +2652,9 @@
             "example": "2023-09-04T11:26:24+02:00"
           }
         },
-        "required": ["expiresAt"]
+        "required": [
+          "expiresAt"
+        ]
       },
       "updateUserSchema": {
         "description": "All fields that can be directly changed for the user",
@@ -1851,7 +2681,13 @@
               {
                 "type": "string",
                 "example": "Admin",
-                "enum": ["Admin", "Editor", "Viewer", "Owner", "Member"]
+                "enum": [
+                  "Admin",
+                  "Editor",
+                  "Viewer",
+                  "Owner",
+                  "Member"
+                ]
               }
             ]
           }
@@ -1943,7 +2779,9 @@
           }
         },
         "additionalProperties": false,
-        "required": ["id"]
+        "required": [
+          "id"
+        ]
       },
       "createUserResponseSchema": {
         "description": "An Unleash user after creation",
@@ -2009,7 +2847,13 @@
               {
                 "type": "string",
                 "example": "Admin",
-                "enum": ["Admin", "Editor", "Viewer", "Owner", "Member"]
+                "enum": [
+                  "Admin",
+                  "Editor",
+                  "Viewer",
+                  "Owner",
+                  "Member"
+                ]
               }
             ]
           },
@@ -2040,7 +2884,119 @@
           }
         },
         "additionalProperties": false,
-        "required": ["id"]
+        "required": [
+          "id"
+        ]
+      },
+      "adminPermissionSchema": {
+        "description": "Describes a single permission",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "The identifier for this permission",
+            "type": "integer",
+            "example": 3
+          },
+          "name": {
+            "description": "The name of this permission",
+            "type": "string",
+            "example": "UPDATE_FEATURE"
+          },
+          "displayName": {
+            "description": "The name to display in listings of permissions",
+            "type": "string",
+            "example": "Update feature toggles"
+          },
+          "type": {
+            "description": "What level this permission applies to. Either root, project or the name of the environment it applies to",
+            "type": "string",
+            "example": "project"
+          },
+          "environment": {
+            "description": "Which environment this permission applies to",
+            "type": "string",
+            "example": "development"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "displayName",
+          "type"
+        ]
+      },
+      "adminPermissionsSchema": {
+        "description": "What kind of permissions are available",
+        "type": "object",
+        "properties": {
+          "permissions": {
+            "description": "Returns permissions available at all three levels (root|project|environment)",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "root": {
+                "description": "Permissions available at the root level, i.e. not connected to any specific project or environment",
+                "items": {
+                  "$ref": "#/components/schemas/adminPermissionSchema"
+                },
+                "type": "array"
+              },
+              "project": {
+                "description": "Permissions available at the project level",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/adminPermissionSchema"
+                }
+              },
+              "environments": {
+                "description": "A list of environments with available permissions per environment",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "permissions"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "description": "The name of the environment",
+                      "type": "string",
+                      "example": "development"
+                    },
+                    "permissions": {
+                      "description": "Permissions available for this environment",
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/adminPermissionSchema"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "project",
+              "environments"
+            ]
+          },
+          "version": {
+            "description": "The api version of this response. A natural increasing number. Only increases if format changes",
+            "type": "integer",
+            "example": 1,
+            "enum": [
+              1,
+              2
+            ],
+            "minimum": 1
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "permissions",
+          "version"
+        ]
       },
       "createProjectSchema": {
         "description": "Data used to create a new [project](https://docs.getunleash.io/reference/projects).",
@@ -2074,7 +3030,11 @@
             "description": "A mode of the project affecting what actions are possible in this project",
             "type": "string",
             "example": "open",
-            "enum": ["open", "protected"]
+            "enum": [
+              "open",
+              "protected",
+              "private"
+            ]
           },
           "defaultStickiness": {
             "description": "A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy",
@@ -2082,7 +3042,159 @@
             "example": "userId"
           }
         },
-        "required": ["id", "name"]
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "createRoleWithPermissionsSchema": {
+        "description": "A write model for the custom role and permissions to allow Unleash to decide what actions a role holder is allowed to perform",
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "type",
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "description": "The name of the custom role",
+                "type": "string",
+                "example": "external-contributors"
+              },
+              "description": {
+                "description": "A more detailed description of the custom role and what use it's intended for",
+                "type": "string",
+                "example": "Users with external-contributors role have limited access to most features in Unleash"
+              },
+              "type": {
+                "description": "[Custom root roles](https://docs.getunleash.io/reference/rbac#custom-root-roles) are root roles with a custom set of permissions.",
+                "type": "string",
+                "example": "root-custom",
+                "enum": [
+                  "root-custom"
+                ]
+              },
+              "permissions": {
+                "description": "A list of permissions assigned to this role",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name"
+                  ],
+                  "properties": {
+                    "name": {
+                      "description": "The name of the permission",
+                      "type": "string",
+                      "example": "CREATE_PROJECT"
+                    },
+                    "environment": {
+                      "description": "The environments of the permission if the permission is environment specific",
+                      "type": "string",
+                      "example": "development"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "description": "The name of the custom role",
+                "type": "string",
+                "example": "external-contributors"
+              },
+              "description": {
+                "description": "A more detailed description of the custom role and what use it's intended for",
+                "type": "string",
+                "example": "Users with external-contributors role have limited access to most features in Unleash"
+              },
+              "type": {
+                "description": "[Custom project roles](https://docs.getunleash.io/reference/rbac#custom-project-roles) contain a specific set of permissions for project resources.",
+                "type": "string",
+                "example": "custom",
+                "enum": [
+                  "custom"
+                ]
+              },
+              "permissions": {
+                "description": "A list of permissions assigned to this role",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "description": "The id of the permission",
+                      "type": "number",
+                      "example": 2
+                    },
+                    "name": {
+                      "description": "The name of the permission",
+                      "type": "string",
+                      "example": "CREATE_PROJECT"
+                    },
+                    "environment": {
+                      "description": "The environments of the permission if the permission is environment specific",
+                      "type": "string",
+                      "example": "development"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "projectAddAccessSchema": {
+        "description": "An object containing a collection of roles, a collection of groups and a collection of users.",
+        "type": "object",
+        "properties": {
+          "roles": {
+            "description": "A list of role IDs",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "example": 5,
+              "description": "A role ID"
+            }
+          },
+          "groups": {
+            "description": "A list of group IDs",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "example": 5,
+              "description": "A group ID"
+            }
+          },
+          "users": {
+            "description": "A list of user IDs",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "example": 5,
+              "description": "A user ID"
+            }
+          }
+        },
+        "required": [
+          "roles",
+          "groups",
+          "users"
+        ]
       },
       "projectCreatedSchema": {
         "description": "Details about the newly created project.",
@@ -2116,7 +3228,11 @@
             "description": "A mode of the project affecting what actions are possible in this project",
             "type": "string",
             "example": "open",
-            "enum": ["open", "protected"]
+            "enum": [
+              "open",
+              "protected",
+              "private"
+            ]
           },
           "defaultStickiness": {
             "description": "A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy",
@@ -2125,7 +3241,55 @@
           }
         },
         "additionalProperties": false,
-        "required": ["id", "name"]
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "roleWithVersionSchema": {
+        "description": "A single user role received after creation or update of a role",
+        "type": "object",
+        "properties": {
+          "version": {
+            "description": "The version of this schema",
+            "type": "integer",
+            "example": 1,
+            "minimum": 1
+          },
+          "roles": {
+            "description": "A single role",
+            "$ref": "#/components/schemas/roleSchema"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "version",
+          "roles"
+        ]
+      },
+      "rolesWithVersionSchema": {
+        "description": "A collection of user roles",
+        "type": "object",
+        "properties": {
+          "version": {
+            "description": "The version of this schema",
+            "type": "integer",
+            "example": 1,
+            "minimum": 1
+          },
+          "roles": {
+            "description": "A list of roles",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/roleSchema"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "version",
+          "roles"
+        ]
       },
       "updateProjectSchema": {
         "description": "Data used to update a [project](https://docs.getunleash.io/reference/projects)",
@@ -2142,7 +3306,9 @@
             "example": "Anything related to the new UI"
           }
         },
-        "required": ["name"]
+        "required": [
+          "name"
+        ]
       }
     },
     "securitySchemes": {

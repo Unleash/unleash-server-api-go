@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the CreateProject400Response type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &CreateProject400Response{}
+// checks if the CreateRole400Response type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &CreateRole400Response{}
 
-// CreateProject400Response struct for CreateProject400Response
-type CreateProject400Response struct {
+// CreateRole400Response struct for CreateRole400Response
+type CreateRole400Response struct {
 	// The ID of the error instance
 	Id *string `json:"id,omitempty"`
 	// The name of the error kind
@@ -27,25 +27,25 @@ type CreateProject400Response struct {
 	Message *string `json:"message,omitempty"`
 }
 
-// NewCreateProject400Response instantiates a new CreateProject400Response object
+// NewCreateRole400Response instantiates a new CreateRole400Response object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateProject400Response() *CreateProject400Response {
-	this := CreateProject400Response{}
+func NewCreateRole400Response() *CreateRole400Response {
+	this := CreateRole400Response{}
 	return &this
 }
 
-// NewCreateProject400ResponseWithDefaults instantiates a new CreateProject400Response object
+// NewCreateRole400ResponseWithDefaults instantiates a new CreateRole400Response object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewCreateProject400ResponseWithDefaults() *CreateProject400Response {
-	this := CreateProject400Response{}
+func NewCreateRole400ResponseWithDefaults() *CreateRole400Response {
+	this := CreateRole400Response{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *CreateProject400Response) GetId() string {
+func (o *CreateRole400Response) GetId() string {
 	if o == nil || IsNil(o.Id) {
 		var ret string
 		return ret
@@ -55,7 +55,7 @@ func (o *CreateProject400Response) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateProject400Response) GetIdOk() (*string, bool) {
+func (o *CreateRole400Response) GetIdOk() (*string, bool) {
 	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
@@ -63,7 +63,7 @@ func (o *CreateProject400Response) GetIdOk() (*string, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *CreateProject400Response) HasId() bool {
+func (o *CreateRole400Response) HasId() bool {
 	if o != nil && !IsNil(o.Id) {
 		return true
 	}
@@ -72,12 +72,12 @@ func (o *CreateProject400Response) HasId() bool {
 }
 
 // SetId gets a reference to the given string and assigns it to the Id field.
-func (o *CreateProject400Response) SetId(v string) {
+func (o *CreateRole400Response) SetId(v string) {
 	o.Id = &v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *CreateProject400Response) GetName() string {
+func (o *CreateRole400Response) GetName() string {
 	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
@@ -87,7 +87,7 @@ func (o *CreateProject400Response) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateProject400Response) GetNameOk() (*string, bool) {
+func (o *CreateRole400Response) GetNameOk() (*string, bool) {
 	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
@@ -95,7 +95,7 @@ func (o *CreateProject400Response) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *CreateProject400Response) HasName() bool {
+func (o *CreateRole400Response) HasName() bool {
 	if o != nil && !IsNil(o.Name) {
 		return true
 	}
@@ -104,12 +104,12 @@ func (o *CreateProject400Response) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *CreateProject400Response) SetName(v string) {
+func (o *CreateRole400Response) SetName(v string) {
 	o.Name = &v
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
-func (o *CreateProject400Response) GetMessage() string {
+func (o *CreateRole400Response) GetMessage() string {
 	if o == nil || IsNil(o.Message) {
 		var ret string
 		return ret
@@ -119,7 +119,7 @@ func (o *CreateProject400Response) GetMessage() string {
 
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateProject400Response) GetMessageOk() (*string, bool) {
+func (o *CreateRole400Response) GetMessageOk() (*string, bool) {
 	if o == nil || IsNil(o.Message) {
 		return nil, false
 	}
@@ -127,7 +127,7 @@ func (o *CreateProject400Response) GetMessageOk() (*string, bool) {
 }
 
 // HasMessage returns a boolean if a field has been set.
-func (o *CreateProject400Response) HasMessage() bool {
+func (o *CreateRole400Response) HasMessage() bool {
 	if o != nil && !IsNil(o.Message) {
 		return true
 	}
@@ -136,11 +136,11 @@ func (o *CreateProject400Response) HasMessage() bool {
 }
 
 // SetMessage gets a reference to the given string and assigns it to the Message field.
-func (o *CreateProject400Response) SetMessage(v string) {
+func (o *CreateRole400Response) SetMessage(v string) {
 	o.Message = &v
 }
 
-func (o CreateProject400Response) MarshalJSON() ([]byte, error) {
+func (o CreateRole400Response) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -148,7 +148,7 @@ func (o CreateProject400Response) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o CreateProject400Response) ToMap() (map[string]interface{}, error) {
+func (o CreateRole400Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
@@ -162,38 +162,38 @@ func (o CreateProject400Response) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-type NullableCreateProject400Response struct {
-	value *CreateProject400Response
+type NullableCreateRole400Response struct {
+	value *CreateRole400Response
 	isSet bool
 }
 
-func (v NullableCreateProject400Response) Get() *CreateProject400Response {
+func (v NullableCreateRole400Response) Get() *CreateRole400Response {
 	return v.value
 }
 
-func (v *NullableCreateProject400Response) Set(val *CreateProject400Response) {
+func (v *NullableCreateRole400Response) Set(val *CreateRole400Response) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableCreateProject400Response) IsSet() bool {
+func (v NullableCreateRole400Response) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableCreateProject400Response) Unset() {
+func (v *NullableCreateRole400Response) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableCreateProject400Response(val *CreateProject400Response) *NullableCreateProject400Response {
-	return &NullableCreateProject400Response{value: val, isSet: true}
+func NewNullableCreateRole400Response(val *CreateRole400Response) *NullableCreateRole400Response {
+	return &NullableCreateRole400Response{value: val, isSet: true}
 }
 
-func (v NullableCreateProject400Response) MarshalJSON() ([]byte, error) {
+func (v NullableCreateRole400Response) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableCreateProject400Response) UnmarshalJSON(src []byte) error {
+func (v *NullableCreateRole400Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

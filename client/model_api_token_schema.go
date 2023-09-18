@@ -32,9 +32,9 @@ type ApiTokenSchema struct {
 	// The environment the token has access to. `*` if it has access to all environments.
 	Environment *string `json:"environment,omitempty"`
 	// The project this token belongs to.
-	Project *string `json:"project,omitempty"`
+	Project string `json:"project"`
 	// The list of projects this token has access to. If the token has access to specific projects they will be listed here. If the token has access to all projects it will be represented as `[*]`
-	Projects []string `json:"projects,omitempty"`
+	Projects []string `json:"projects"`
 	// The token's expiration date. NULL if the token doesn't have an expiration set.
 	ExpiresAt NullableTime `json:"expiresAt,omitempty"`
 	// When the token was created.
@@ -49,11 +49,13 @@ type ApiTokenSchema struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewApiTokenSchema(secret string, tokenName string, type_ string, createdAt time.Time) *ApiTokenSchema {
+func NewApiTokenSchema(secret string, tokenName string, type_ string, project string, projects []string, createdAt time.Time) *ApiTokenSchema {
 	this := ApiTokenSchema{}
 	this.Secret = secret
 	this.TokenName = tokenName
 	this.Type = type_
+	this.Project = project
+	this.Projects = projects
 	this.CreatedAt = createdAt
 	return &this
 }
@@ -205,66 +207,50 @@ func (o *ApiTokenSchema) SetEnvironment(v string) {
 	o.Environment = &v
 }
 
-// GetProject returns the Project field value if set, zero value otherwise.
+// GetProject returns the Project field value
 func (o *ApiTokenSchema) GetProject() string {
-	if o == nil || IsNil(o.Project) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Project
+
+	return o.Project
 }
 
-// GetProjectOk returns a tuple with the Project field value if set, nil otherwise
+// GetProjectOk returns a tuple with the Project field value
 // and a boolean to check if the value has been set.
 func (o *ApiTokenSchema) GetProjectOk() (*string, bool) {
-	if o == nil || IsNil(o.Project) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Project, true
+	return &o.Project, true
 }
 
-// HasProject returns a boolean if a field has been set.
-func (o *ApiTokenSchema) HasProject() bool {
-	if o != nil && !IsNil(o.Project) {
-		return true
-	}
-
-	return false
-}
-
-// SetProject gets a reference to the given string and assigns it to the Project field.
+// SetProject sets field value
 func (o *ApiTokenSchema) SetProject(v string) {
-	o.Project = &v
+	o.Project = v
 }
 
-// GetProjects returns the Projects field value if set, zero value otherwise.
+// GetProjects returns the Projects field value
 func (o *ApiTokenSchema) GetProjects() []string {
-	if o == nil || IsNil(o.Projects) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
+
 	return o.Projects
 }
 
-// GetProjectsOk returns a tuple with the Projects field value if set, nil otherwise
+// GetProjectsOk returns a tuple with the Projects field value
 // and a boolean to check if the value has been set.
 func (o *ApiTokenSchema) GetProjectsOk() ([]string, bool) {
-	if o == nil || IsNil(o.Projects) {
+	if o == nil {
 		return nil, false
 	}
 	return o.Projects, true
 }
 
-// HasProjects returns a boolean if a field has been set.
-func (o *ApiTokenSchema) HasProjects() bool {
-	if o != nil && !IsNil(o.Projects) {
-		return true
-	}
-
-	return false
-}
-
-// SetProjects gets a reference to the given []string and assigns it to the Projects field.
+// SetProjects sets field value
 func (o *ApiTokenSchema) SetProjects(v []string) {
 	o.Projects = v
 }
@@ -441,12 +427,8 @@ func (o ApiTokenSchema) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Environment) {
 		toSerialize["environment"] = o.Environment
 	}
-	if !IsNil(o.Project) {
-		toSerialize["project"] = o.Project
-	}
-	if !IsNil(o.Projects) {
-		toSerialize["projects"] = o.Projects
-	}
+	toSerialize["project"] = o.Project
+	toSerialize["projects"] = o.Projects
 	if o.ExpiresAt.IsSet() {
 		toSerialize["expiresAt"] = o.ExpiresAt.Get()
 	}
