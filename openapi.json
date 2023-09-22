@@ -457,7 +457,7 @@
                   {
                     "name": "url",
                     "displayName": "Datadog Events URL",
-                    "description": "Default url: https://api.datadoghq.com/api/v1/events. Needs to be changed if your not using the US1 site.",
+                    "description": "Default URL: https://api.datadoghq.com/api/v1/events. Needs to be changed if your're not using the US1 site.",
                     "type": "url",
                     "required": false,
                     "sensitive": false
@@ -466,7 +466,7 @@
                     "name": "apiKey",
                     "displayName": "Datadog API key",
                     "placeholder": "j96c23b0f12a6b3434a8d710110bd862",
-                    "description": "(Required) API key from Datadog",
+                    "description": "(Required) API key to connect to Datadog",
                     "type": "text",
                     "required": true,
                     "sensitive": true
@@ -533,6 +533,11 @@
             "type": "string",
             "description": "A description of the addon type.",
             "example": "Allows Unleash to post updates to Slack."
+          },
+          "howTo": {
+            "type": "string",
+            "description": "A long description of how to use this addon type. This will be displayed on the top of configuration page. Can contain markdown.",
+            "example": "This is **how you use** this addon type...\n  - Step 1\n  - Step 2\n  - Step 3"
           },
           "tagTypes": {
             "type": "array",
@@ -672,7 +677,7 @@
           "deprecated": {
             "type": "string",
             "description": "This should be used to inform the user that this addon type is deprecated and should not be used. Deprecated addons will show a badge with this information on the UI.",
-            "example": "This addon is deprecated. Please try the new addon instead."
+            "example": "This integration is deprecated. Please try the new integration instead."
           }
         }
       },
@@ -704,7 +709,7 @@
           },
           "context": {
             "description": "The context to use when evaluating toggles",
-            "$ref": "#/components/schemas/sdkContextSchema"
+            "$ref": "#/components/schemas/sdkFlatContextSchema"
           },
           "projectId": {
             "type": "string",
@@ -3743,7 +3748,8 @@
             "type": "string",
             "enum": [
               "open",
-              "protected"
+              "protected",
+              "private"
             ],
             "example": "open",
             "description": "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not."
@@ -3850,7 +3856,8 @@
             "type": "string",
             "enum": [
               "open",
-              "protected"
+              "protected",
+              "private"
             ],
             "example": "open",
             "description": "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not."
@@ -4806,7 +4813,8 @@
                             "enum": [
                               "json",
                               "csv",
-                              "string"
+                              "string",
+                              "number"
                             ]
                           },
                           "value": {
@@ -4996,7 +5004,8 @@
             "type": "string",
             "enum": [
               "open",
-              "protected"
+              "protected",
+              "private"
             ],
             "example": "open",
             "description": "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not."
@@ -5539,6 +5548,7 @@
         "required": [
           "appName"
         ],
+        "additionalProperties": true,
         "properties": {
           "appName": {
             "type": "string",
@@ -5567,6 +5577,50 @@
               "customContextField": "this is one!",
               "otherCustomField": "3"
             }
+          },
+          "remoteAddress": {
+            "type": "string",
+            "example": "192.168.1.1",
+            "description": "The app's IP address"
+          },
+          "sessionId": {
+            "type": "string",
+            "example": "b65e7b23-fec0-4814-a129-0e9861ef18fc",
+            "description": "An identifier for the current session"
+          },
+          "userId": {
+            "type": "string",
+            "example": "username@provider.com",
+            "description": "An identifier for the current user"
+          }
+        }
+      },
+      "sdkFlatContextSchema": {
+        "description": "The Unleash context with flattened properties",
+        "type": "object",
+        "required": [
+          "appName"
+        ],
+        "additionalProperties": {
+          "type": "string"
+        },
+        "properties": {
+          "appName": {
+            "type": "string",
+            "minLength": 1,
+            "example": "My cool application.",
+            "description": "The name of the application."
+          },
+          "currentTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2022-07-05T12:56:41+02:00",
+            "description": "A DateTime (or similar) data class instance or a string in an RFC3339-compatible format. Defaults to the current time if not set by the user."
+          },
+          "environment": {
+            "type": "string",
+            "deprecated": true,
+            "description": "The environment the app is running in."
           },
           "remoteAddress": {
             "type": "string",
@@ -6736,10 +6790,25 @@
             "description": "The name of the strategy type. Must be unique.",
             "example": "my-custom-strategy"
           },
+          "title": {
+            "type": "string",
+            "description": "The title of the strategy",
+            "example": "My awesome strategy"
+          },
           "description": {
             "type": "string",
             "description": "A description of the strategy type.",
             "example": "Enable the feature for users who have not logged in before."
+          },
+          "editable": {
+            "type": "boolean",
+            "description": "Whether the strategy type is editable or not. Defaults to `true`.",
+            "example": false
+          },
+          "deprecated": {
+            "type": "boolean",
+            "description": "Whether the strategy type is deprecated or not. Defaults to `false`.",
+            "example": true
           },
           "parameters": {
             "type": "array",
@@ -7236,12 +7305,13 @@
             "additionalProperties": false,
             "properties": {
               "type": {
-                "description": "The type of the value. Commonly used types are string, json and csv.",
+                "description": "The type of the value. Commonly used types are string, number, json and csv.",
                 "type": "string",
                 "enum": [
                   "json",
                   "csv",
-                  "string"
+                  "string",
+                  "number"
                 ]
               },
               "value": {
@@ -7403,7 +7473,8 @@
             "type": "string",
             "enum": [
               "open",
-              "protected"
+              "protected",
+              "private"
             ],
             "example": "open",
             "description": "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not."
@@ -7693,12 +7764,13 @@
             "description": "Extra data configured for this variant",
             "properties": {
               "type": {
-                "description": "The type of the value. Commonly used types are string, json and csv.",
+                "description": "The type of the value. Commonly used types are string, number, json and csv.",
                 "type": "string",
                 "enum": [
                   "json",
                   "csv",
-                  "string"
+                  "string",
+                  "number"
                 ]
               },
               "value": {
@@ -7757,12 +7829,13 @@
             "description": "Extra data configured for this variant",
             "properties": {
               "type": {
-                "description": "The type of the value. Commonly used types are string, json and csv.",
+                "description": "The type of the value. Commonly used types are string, number, json and csv.",
                 "type": "string",
                 "enum": [
                   "json",
                   "csv",
-                  "string"
+                  "string",
+                  "number"
                 ]
               },
               "value": {
@@ -7923,12 +7996,16 @@
         ],
         "description": "A projects dora metrics",
         "properties": {
+          "projectAverage": {
+            "type": "number",
+            "description": "The average time it takes a feature toggle to be enabled in production. The measurement unit is days."
+          },
           "features": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/doraFeaturesSchema"
             },
-            "description": "An array of objects containing feature toggle name and timeToProduction values"
+            "description": "An array of objects containing feature toggle name and timeToProduction values. The measurement unit of timeToProduction is days."
           }
         }
       },
@@ -8220,7 +8297,8 @@
             "type": "string",
             "enum": [
               "open",
-              "protected"
+              "protected",
+              "private"
             ],
             "example": "open",
             "description": "A mode of the project affecting what actions are possible in this project"
@@ -8235,52 +8313,110 @@
       "createRoleWithPermissionsSchema": {
         "type": "object",
         "description": "A write model for the custom role and permissions to allow Unleash to decide what actions a role holder is allowed to perform",
-        "required": [
-          "name"
-        ],
-        "properties": {
-          "name": {
-            "description": "The name of the custom role",
-            "type": "string",
-            "example": "external-contributors"
-          },
-          "description": {
-            "description": "A more detailed description of the custom role and what use it's intended for",
-            "type": "string",
-            "example": "Users with external-contributors role have limited access to most features in Unleash"
-          },
-          "type": {
-            "description": "A custom role can either be a global/root custom role (applies to all projects) or a project custom role",
-            "type": "string",
-            "enum": [
-              "root-custom",
-              "custom"
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "type",
+              "name"
             ],
-            "example": "custom"
+            "properties": {
+              "name": {
+                "description": "The name of the custom role",
+                "type": "string",
+                "example": "external-contributors"
+              },
+              "description": {
+                "description": "A more detailed description of the custom role and what use it's intended for",
+                "type": "string",
+                "example": "Users with external-contributors role have limited access to most features in Unleash"
+              },
+              "type": {
+                "description": "[Custom root roles](https://docs.getunleash.io/reference/rbac#custom-root-roles) are root roles with a custom set of permissions.",
+                "type": "string",
+                "enum": [
+                  "root-custom"
+                ],
+                "example": "root-custom"
+              },
+              "permissions": {
+                "type": "array",
+                "description": "A list of permissions assigned to this role",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name"
+                  ],
+                  "properties": {
+                    "name": {
+                      "description": "The name of the permission",
+                      "type": "string",
+                      "example": "CREATE_PROJECT"
+                    },
+                    "environment": {
+                      "type": "string",
+                      "example": "development",
+                      "description": "The environments of the permission if the permission is environment specific"
+                    }
+                  }
+                }
+              }
+            }
           },
-          "permissions": {
-            "type": "array",
-            "description": "A list of permissions assigned to this role",
-            "items": {
-              "type": "object",
-              "required": [
-                "id"
-              ],
-              "properties": {
-                "id": {
-                  "description": "The id of the permission",
-                  "type": "number",
-                  "example": 2
-                },
-                "environment": {
-                  "type": "string",
-                  "example": "development",
-                  "description": "The environments of the permission if the permission is environment specific"
+          {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "description": "The name of the custom role",
+                "type": "string",
+                "example": "external-contributors"
+              },
+              "description": {
+                "description": "A more detailed description of the custom role and what use it's intended for",
+                "type": "string",
+                "example": "Users with external-contributors role have limited access to most features in Unleash"
+              },
+              "type": {
+                "description": "[Custom project roles](https://docs.getunleash.io/reference/rbac#custom-project-roles) contain a specific set of permissions for project resources.",
+                "type": "string",
+                "enum": [
+                  "custom"
+                ],
+                "example": "custom"
+              },
+              "permissions": {
+                "type": "array",
+                "description": "A list of permissions assigned to this role",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "description": "The id of the permission",
+                      "type": "number",
+                      "example": 2
+                    },
+                    "name": {
+                      "description": "The name of the permission",
+                      "type": "string",
+                      "example": "CREATE_PROJECT"
+                    },
+                    "environment": {
+                      "type": "string",
+                      "example": "development",
+                      "description": "The environments of the permission if the permission is environment specific"
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        ]
       },
       "googleSettingsSchema": {
         "type": "object",
@@ -8634,7 +8770,8 @@
             "type": "string",
             "enum": [
               "open",
-              "protected"
+              "protected",
+              "private"
             ],
             "example": "open",
             "description": "A mode of the project affecting what actions are possible in this project"
@@ -8967,25 +9104,21 @@
       "changeRequestCreateFeatureSchema": {
         "type": "object",
         "description": "Data used to create a [change request](https://docs.getunleash.io/reference/change-requests) for a single feature change.",
-        "required": [
-          "feature"
-        ],
-        "properties": {
-          "feature": {
-            "type": "string",
-            "example": "my-best-feature",
-            "description": "The name of the feature that this change applies to."
-          }
-        },
         "oneOf": [
           {
             "type": "object",
             "description": "Update the enabled state for a feature.",
             "required": [
+              "feature",
               "payload",
               "action"
             ],
             "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
               "action": {
                 "type": "string",
                 "enum": [
@@ -9011,11 +9144,17 @@
           {
             "type": "object",
             "required": [
+              "feature",
               "payload",
               "action"
             ],
             "description": "Add a strategy to the feature",
             "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
               "action": {
                 "type": "string",
                 "enum": [
@@ -9037,11 +9176,17 @@
           {
             "type": "object",
             "required": [
+              "feature",
               "payload",
               "action"
             ],
             "description": "Update a strategy belonging to this feature.",
             "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
               "action": {
                 "type": "string",
                 "enum": [
@@ -9068,11 +9213,17 @@
           {
             "type": "object",
             "required": [
+              "feature",
               "payload",
               "action"
             ],
             "description": "Delete a strategy from this feature.",
             "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
               "action": {
                 "type": "string",
                 "enum": [
@@ -9098,10 +9249,16 @@
           {
             "type": "object",
             "required": [
+              "feature",
               "action"
             ],
             "description": "Archive a feature.",
             "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
               "action": {
                 "type": "string",
                 "enum": [
@@ -9114,11 +9271,17 @@
           {
             "type": "object",
             "required": [
+              "feature",
               "payload",
               "action"
             ],
             "description": "Update variants for this feature.",
             "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
               "action": {
                 "type": "string",
                 "enum": [
@@ -9145,11 +9308,17 @@
           {
             "type": "object",
             "required": [
+              "feature",
               "payload",
               "action"
             ],
             "description": "Reorder strategies for this feature",
             "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
               "action": {
                 "type": "string",
                 "enum": [
@@ -10306,6 +10475,90 @@
             "items": {
               "$ref": "#/components/schemas/loginEventSchema"
             }
+          }
+        }
+      },
+      "accessOverviewSchema": {
+        "description": "Data containing an overview of all the projects and groups users have access to",
+        "type": "object",
+        "properties": {
+          "overview": {
+            "type": "array",
+            "description": "A list of user access details",
+            "items": {
+              "$ref": "#/components/schemas/userAccessSchema"
+            }
+          }
+        }
+      },
+      "userAccessSchema": {
+        "type": "object",
+        "required": [
+          "userId",
+          "userEmail",
+          "accessibleProjects",
+          "groups",
+          "rootRole"
+        ],
+        "additionalProperties": false,
+        "description": "Describes a single set of access for a user",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "description": "The identifier for the user",
+            "example": 3
+          },
+          "createdAt": {
+            "type": "string",
+            "nullable": true,
+            "description": "When the user was created",
+            "format": "date-time",
+            "example": "2023-03-01T12:04:26.061Z"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true,
+            "description": "The name of the user",
+            "example": "SomeUser"
+          },
+          "lastSeen": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "The last time the user logged in",
+            "example": "2023-03-01T12:04:26.061Z"
+          },
+          "accessibleProjects": {
+            "description": "A list of project ids that this user has access to",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "default",
+              "project2"
+            ]
+          },
+          "groups": {
+            "description": "A list of group names that this user is a member of",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "group1",
+              "group2"
+            ]
+          },
+          "rootRole": {
+            "description": "The name of the root role that this user has",
+            "type": "string",
+            "example": "ADMIN"
+          },
+          "userEmail": {
+            "description": "The email address of the user",
+            "type": "string",
+            "example": "some-user@example.com"
           }
         }
       }
@@ -15219,6 +15472,114 @@
         },
         "description": "Returns **all** login events in the Unleash system. You can optionally get them in CSV format by specifying the `Accept` header as `text/csv`.",
         "summary": "Get all login events."
+      }
+    },
+    "/api/admin/access/overview": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "getAccessOverview",
+        "summary": "Gets access overview",
+        "description": "Gets an overview of what access all users have to all projects and groups",
+        "responses": {
+          "200": {
+            "description": "accessOverviewSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessOverviewSchema"
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ContentTypeerror",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/admin/projects": {

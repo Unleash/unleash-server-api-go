@@ -75,6 +75,190 @@ tags:
 - description: Manage users and passwords.
   name: Users
 paths:
+  /api/admin/roles:
+    get:
+      description: "Get a list of project, root and custom roles for Role-Based Access\
+        \ Control"
+      operationId: getRoles
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rolesWithVersionSchema'
+          description: rolesWithVersionSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get a list of roles
+      tags:
+      - Users
+    post:
+      description: Create a new custom role for Role-Based Access Control
+      operationId: createRole
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createRoleWithPermissionsSchema'
+        description: createRoleWithPermissionsSchema
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/roleWithVersionSchema'
+          description: roleWithVersionSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createRole_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createRole_409_response'
+          description: "The provided resource can not be created or updated because\
+            \ it would conflict with the current state of the resource or with an\
+            \ already existing resource, respectively."
+      summary: Create a new role
+      tags:
+      - Users
+  /api/admin/roles/{roleId}:
+    delete:
+      description: Delete a custom role by id. You cannot delete built-in roles or
+        roles that are in use.
+      operationId: deleteRole
+      parameters:
+      - explode: false
+        in: path
+        name: roleId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createRole_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updateRole_404_response'
+          description: The requested resource was not found.
+      summary: Delete a custom role
+      tags:
+      - Users
+    put:
+      description: Update a custom role by role id
+      operationId: updateRole
+      parameters:
+      - explode: false
+        in: path
+        name: roleId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createRoleWithPermissionsSchema'
+        description: createRoleWithPermissionsSchema
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/roleWithVersionSchema'
+          description: roleWithVersionSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createRole_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updateRole_404_response'
+          description: The requested resource was not found.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createRole_409_response'
+          description: "The provided resource can not be created or updated because\
+            \ it would conflict with the current state of the resource or with an\
+            \ already existing resource, respectively."
+      summary: Update a role
+      tags:
+      - Users
   /api/admin/projects:
     get:
       description: This endpoint returns an list of all the projects in the Unleash
@@ -91,14 +275,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_401_response'
+                $ref: '#/components/schemas/getRoles_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_403_response'
+                $ref: '#/components/schemas/getRoles_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get a list of all projects.
@@ -133,20 +317,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createProject_400_response'
+                $ref: '#/components/schemas/createRole_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_401_response'
+                $ref: '#/components/schemas/getRoles_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_403_response'
+                $ref: '#/components/schemas/getRoles_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "415":
@@ -182,20 +366,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createProject_400_response'
+                $ref: '#/components/schemas/createRole_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_401_response'
+                $ref: '#/components/schemas/getRoles_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_403_response'
+                $ref: '#/components/schemas/getRoles_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Delete project
@@ -227,27 +411,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createProject_400_response'
+                $ref: '#/components/schemas/createRole_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_401_response'
+                $ref: '#/components/schemas/getRoles_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_403_response'
+                $ref: '#/components/schemas/getRoles_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/updateProject_404_response'
+                $ref: '#/components/schemas/updateRole_404_response'
           description: The requested resource was not found.
         "415":
           content:
@@ -261,6 +445,81 @@ paths:
       summary: Update project
       tags:
       - Projects
+  /api/admin/projects/{projectId}/access:
+    post:
+      description: Configure project access for groups and single users. The provided
+        users and groups will be given the roles specified in the payload.
+      operationId: addAccessToProject
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/projectAddAccessSchema'
+        description: projectAddAccessSchema
+        required: true
+      responses:
+        "200":
+          description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createRole_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updateRole_404_response'
+          description: The requested resource was not found.
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createProject_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Configure project access
+      tags:
+      - Projects
+  /api/admin/permissions:
+    get:
+      description: Returns a list of available permissions
+      operationId: getPermissions
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminPermissionsSchema'
+          description: adminPermissionsSchema
+      summary: Gets available permissions
+      tags:
+      - Auth
   /api/admin/api-tokens:
     get:
       description: Retrieves all API tokens that exist in the Unleash instance.
@@ -276,14 +535,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_401_response'
+                $ref: '#/components/schemas/getRoles_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_403_response'
+                $ref: '#/components/schemas/getRoles_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get API tokens
@@ -319,14 +578,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_401_response'
+                $ref: '#/components/schemas/getRoles_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_403_response'
+                $ref: '#/components/schemas/getRoles_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "415":
@@ -367,14 +626,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_401_response'
+                $ref: '#/components/schemas/getRoles_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_403_response'
+                $ref: '#/components/schemas/getRoles_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get API tokens by name
@@ -401,14 +660,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_401_response'
+                $ref: '#/components/schemas/getRoles_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_403_response'
+                $ref: '#/components/schemas/getRoles_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Delete API token
@@ -441,14 +700,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_401_response'
+                $ref: '#/components/schemas/getRoles_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_403_response'
+                $ref: '#/components/schemas/getRoles_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "415":
@@ -493,20 +752,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createProject_400_response'
+                $ref: '#/components/schemas/createRole_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_401_response'
+                $ref: '#/components/schemas/getRoles_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_403_response'
+                $ref: '#/components/schemas/getRoles_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Create a new user
@@ -531,21 +790,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_401_response'
+                $ref: '#/components/schemas/getRoles_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_403_response'
+                $ref: '#/components/schemas/getRoles_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/updateProject_404_response'
+                $ref: '#/components/schemas/updateRole_404_response'
           description: The requested resource was not found.
       summary: Delete a user
       tags:
@@ -572,20 +831,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createProject_400_response'
+                $ref: '#/components/schemas/createRole_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_401_response'
+                $ref: '#/components/schemas/getRoles_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/updateProject_404_response'
+                $ref: '#/components/schemas/updateRole_404_response'
           description: The requested resource was not found.
       summary: Get user
       tags:
@@ -619,27 +878,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createProject_400_response'
+                $ref: '#/components/schemas/createRole_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_401_response'
+                $ref: '#/components/schemas/getRoles_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getProjects_403_response'
+                $ref: '#/components/schemas/getRoles_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/updateProject_404_response'
+                $ref: '#/components/schemas/updateRole_404_response'
           description: The requested resource was not found.
       summary: Update a user
       tags:
@@ -884,6 +1143,7 @@ components:
           enum:
           - open
           - protected
+          - private
           example: open
           type: string
         defaultStickiness:
@@ -936,6 +1196,48 @@ components:
       required:
       - projects
       - version
+      type: object
+    roleSchema:
+      additionalProperties: false
+      description: A role holds permissions to allow Unleash to decide what actions
+        a role holder is allowed to perform
+      example:
+        name: Editor
+        description: Users with the editor role have access to most features in Unleash
+          but can not manage users and roles in the global scope. Editors will be
+          added as project owners when creating projects and get superuser rights
+          within the context of these projects. Users with the editor role will also
+          get access to most permissions on the default project by default.
+        id: 9
+        type: root
+      properties:
+        id:
+          description: The role id
+          example: 9
+          minimum: 0
+          type: integer
+        type:
+          description: A role can either be a global root role (applies to all projects)
+            or a project role
+          example: root
+          type: string
+        name:
+          description: The name of the role
+          example: Editor
+          type: string
+        description:
+          description: A more detailed description of the role and what use it's intended
+            for
+          example: Users with the editor role have access to most features in Unleash
+            but can not manage users and roles in the global scope. Editors will be
+            added as project owners when creating projects and get superuser rights
+            within the context of these projects. Users with the editor role will
+            also get access to most permissions on the default project by default.
+          type: string
+      required:
+      - id
+      - name
+      - type
       type: object
     updateApiTokenSchema:
       description: An object with fields to updated for a given API token.
@@ -1143,6 +1445,112 @@ components:
       required:
       - id
       type: object
+    adminPermissionSchema:
+      additionalProperties: false
+      description: Describes a single permission
+      example:
+        environment: development
+        displayName: Update feature toggles
+        name: UPDATE_FEATURE
+        id: 3
+        type: project
+      properties:
+        id:
+          description: The identifier for this permission
+          example: 3
+          type: integer
+        name:
+          description: The name of this permission
+          example: UPDATE_FEATURE
+          type: string
+        displayName:
+          description: The name to display in listings of permissions
+          example: Update feature toggles
+          type: string
+        type:
+          description: "What level this permission applies to. Either root, project\
+            \ or the name of the environment it applies to"
+          example: project
+          type: string
+        environment:
+          description: Which environment this permission applies to
+          example: development
+          type: string
+      required:
+      - displayName
+      - id
+      - name
+      - type
+      type: object
+    adminPermissionsSchema:
+      additionalProperties: false
+      description: What kind of permissions are available
+      example:
+        permissions:
+          environments:
+          - permissions:
+            - environment: development
+              displayName: Update feature toggles
+              name: UPDATE_FEATURE
+              id: 3
+              type: project
+            - environment: development
+              displayName: Update feature toggles
+              name: UPDATE_FEATURE
+              id: 3
+              type: project
+            name: development
+          - permissions:
+            - environment: development
+              displayName: Update feature toggles
+              name: UPDATE_FEATURE
+              id: 3
+              type: project
+            - environment: development
+              displayName: Update feature toggles
+              name: UPDATE_FEATURE
+              id: 3
+              type: project
+            name: development
+          root:
+          - environment: development
+            displayName: Update feature toggles
+            name: UPDATE_FEATURE
+            id: 3
+            type: project
+          - environment: development
+            displayName: Update feature toggles
+            name: UPDATE_FEATURE
+            id: 3
+            type: project
+          project:
+          - environment: development
+            displayName: Update feature toggles
+            name: UPDATE_FEATURE
+            id: 3
+            type: project
+          - environment: development
+            displayName: Update feature toggles
+            name: UPDATE_FEATURE
+            id: 3
+            type: project
+        version: 1
+      properties:
+        permissions:
+          $ref: '#/components/schemas/adminPermissionsSchema_permissions'
+        version:
+          description: The api version of this response. A natural increasing number.
+            Only increases if format changes
+          enum:
+          - 1
+          - 2
+          example: 1
+          minimum: 1
+          type: integer
+      required:
+      - permissions
+      - version
+      type: object
     createProjectSchema:
       description: "Data used to create a new [project](https://docs.getunleash.io/reference/projects)."
       properties:
@@ -1173,6 +1581,7 @@ components:
           enum:
           - open
           - protected
+          - private
           example: open
           type: string
         defaultStickiness:
@@ -1183,6 +1592,46 @@ components:
       required:
       - id
       - name
+      type: object
+    createRoleWithPermissionsSchema:
+      description: A write model for the custom role and permissions to allow Unleash
+        to decide what actions a role holder is allowed to perform
+      oneOf:
+      - $ref: '#/components/schemas/createRoleWithPermissionsSchema_oneOf'
+      - $ref: '#/components/schemas/createRoleWithPermissionsSchema_oneOf_1'
+      type: object
+    projectAddAccessSchema:
+      description: "An object containing a collection of roles, a collection of groups\
+        \ and a collection of users."
+      properties:
+        roles:
+          description: A list of role IDs
+          items:
+            description: A role ID
+            example: 5
+            minimum: 0
+            type: integer
+          type: array
+        groups:
+          description: A list of group IDs
+          items:
+            description: A group ID
+            example: 5
+            minimum: 0
+            type: integer
+          type: array
+        users:
+          description: A list of user IDs
+          items:
+            description: A user ID
+            example: 5
+            minimum: 0
+            type: integer
+          type: array
+      required:
+      - groups
+      - roles
+      - users
       type: object
     projectCreatedSchema:
       additionalProperties: false
@@ -1222,6 +1671,7 @@ components:
           enum:
           - open
           - protected
+          - private
           example: open
           type: string
         defaultStickiness:
@@ -1232,6 +1682,69 @@ components:
       required:
       - id
       - name
+      type: object
+    roleWithVersionSchema:
+      additionalProperties: false
+      description: A single user role received after creation or update of a role
+      example:
+        roles:
+          name: Editor
+          description: Users with the editor role have access to most features in
+            Unleash but can not manage users and roles in the global scope. Editors
+            will be added as project owners when creating projects and get superuser
+            rights within the context of these projects. Users with the editor role
+            will also get access to most permissions on the default project by default.
+          id: 9
+          type: root
+        version: 1
+      properties:
+        version:
+          description: The version of this schema
+          example: 1
+          minimum: 1
+          type: integer
+        roles:
+          $ref: '#/components/schemas/roleSchema'
+      required:
+      - roles
+      - version
+      type: object
+    rolesWithVersionSchema:
+      additionalProperties: false
+      description: A collection of user roles
+      example:
+        roles:
+        - name: Editor
+          description: Users with the editor role have access to most features in
+            Unleash but can not manage users and roles in the global scope. Editors
+            will be added as project owners when creating projects and get superuser
+            rights within the context of these projects. Users with the editor role
+            will also get access to most permissions on the default project by default.
+          id: 9
+          type: root
+        - name: Editor
+          description: Users with the editor role have access to most features in
+            Unleash but can not manage users and roles in the global scope. Editors
+            will be added as project owners when creating projects and get superuser
+            rights within the context of these projects. Users with the editor role
+            will also get access to most permissions on the default project by default.
+          id: 9
+          type: root
+        version: 1
+      properties:
+        version:
+          description: The version of this schema
+          example: 1
+          minimum: 1
+          type: integer
+        roles:
+          description: A list of roles
+          items:
+            $ref: '#/components/schemas/roleSchema'
+          type: array
+      required:
+      - roles
+      - version
       type: object
     updateProjectSchema:
       description: "Data used to update a [project](https://docs.getunleash.io/reference/projects)"
@@ -1247,7 +1760,7 @@ components:
       required:
       - name
       type: object
-    getProjects_401_response:
+    getRoles_401_response:
       properties:
         id:
           description: The ID of the error instance
@@ -1263,7 +1776,7 @@ components:
             \ header, so we could not authorize you. Try logging in at /auth/simple/login."
           type: string
       type: object
-    getProjects_403_response:
+    getRoles_403_response:
       properties:
         id:
           description: The ID of the error instance
@@ -1279,7 +1792,7 @@ components:
             the "development" environment.
           type: string
       type: object
-    createProject_400_response:
+    createRole_400_response:
       properties:
         id:
           description: The ID of the error instance
@@ -1293,6 +1806,36 @@ components:
           description: A description of what went wrong.
           example: "The request payload you provided doesn't conform to the schema.\
             \ The .parameters property should be object. You sent []."
+          type: string
+      type: object
+    createRole_409_response:
+      properties:
+        id:
+          description: The ID of the error instance
+          example: 9c40958a-daac-400e-98fb-3bb438567008
+          type: string
+        name:
+          description: The name of the error kind
+          example: NameExistsError
+          type: string
+        message:
+          description: A description of what went wrong.
+          example: There is already a feature called "my-awesome-feature".
+          type: string
+      type: object
+    updateRole_404_response:
+      properties:
+        id:
+          description: The ID of the error instance
+          example: 9c40958a-daac-400e-98fb-3bb438567008
+          type: string
+        name:
+          description: The name of the error kind
+          example: NotFoundError
+          type: string
+        message:
+          description: A description of what went wrong.
+          example: Could not find the addon with ID "12345".
           type: string
       type: object
     createProject_415_response:
@@ -1310,21 +1853,6 @@ components:
           example: We do not accept the content-type you provided (application/xml).
             Try using one of the content-types we do accept instead (application/json)
             and make sure the body is in the corresponding format.
-          type: string
-      type: object
-    updateProject_404_response:
-      properties:
-        id:
-          description: The ID of the error instance
-          example: 9c40958a-daac-400e-98fb-3bb438567008
-          type: string
-        name:
-          description: The name of the error kind
-          example: NotFoundError
-          type: string
-        message:
-          description: A description of what went wrong.
-          example: Could not find the addon with ID "12345".
           type: string
       type: object
     createApiTokenSchema_oneOf:
@@ -1488,6 +2016,195 @@ components:
         - Member
         example: Admin
         type: string
+    adminPermissionsSchema_permissions_environments_inner:
+      additionalProperties: false
+      example:
+        permissions:
+        - environment: development
+          displayName: Update feature toggles
+          name: UPDATE_FEATURE
+          id: 3
+          type: project
+        - environment: development
+          displayName: Update feature toggles
+          name: UPDATE_FEATURE
+          id: 3
+          type: project
+        name: development
+      properties:
+        name:
+          description: The name of the environment
+          example: development
+          type: string
+        permissions:
+          description: Permissions available for this environment
+          items:
+            $ref: '#/components/schemas/adminPermissionSchema'
+          type: array
+      required:
+      - name
+      - permissions
+      type: object
+    adminPermissionsSchema_permissions:
+      additionalProperties: false
+      description: Returns permissions available at all three levels (root|project|environment)
+      example:
+        environments:
+        - permissions:
+          - environment: development
+            displayName: Update feature toggles
+            name: UPDATE_FEATURE
+            id: 3
+            type: project
+          - environment: development
+            displayName: Update feature toggles
+            name: UPDATE_FEATURE
+            id: 3
+            type: project
+          name: development
+        - permissions:
+          - environment: development
+            displayName: Update feature toggles
+            name: UPDATE_FEATURE
+            id: 3
+            type: project
+          - environment: development
+            displayName: Update feature toggles
+            name: UPDATE_FEATURE
+            id: 3
+            type: project
+          name: development
+        root:
+        - environment: development
+          displayName: Update feature toggles
+          name: UPDATE_FEATURE
+          id: 3
+          type: project
+        - environment: development
+          displayName: Update feature toggles
+          name: UPDATE_FEATURE
+          id: 3
+          type: project
+        project:
+        - environment: development
+          displayName: Update feature toggles
+          name: UPDATE_FEATURE
+          id: 3
+          type: project
+        - environment: development
+          displayName: Update feature toggles
+          name: UPDATE_FEATURE
+          id: 3
+          type: project
+      properties:
+        root:
+          description: "Permissions available at the root level, i.e. not connected\
+            \ to any specific project or environment"
+          items:
+            $ref: '#/components/schemas/adminPermissionSchema'
+          type: array
+        project:
+          description: Permissions available at the project level
+          items:
+            $ref: '#/components/schemas/adminPermissionSchema'
+          type: array
+        environments:
+          description: A list of environments with available permissions per environment
+          items:
+            $ref: '#/components/schemas/adminPermissionsSchema_permissions_environments_inner'
+          type: array
+      required:
+      - environments
+      - project
+      type: object
+    createRoleWithPermissionsSchema_oneOf_permissions_inner:
+      properties:
+        name:
+          description: The name of the permission
+          example: CREATE_PROJECT
+          type: string
+        environment:
+          description: The environments of the permission if the permission is environment
+            specific
+          example: development
+          type: string
+      required:
+      - name
+      type: object
+    createRoleWithPermissionsSchema_oneOf:
+      properties:
+        name:
+          description: The name of the custom role
+          example: external-contributors
+          type: string
+        description:
+          description: A more detailed description of the custom role and what use
+            it's intended for
+          example: Users with external-contributors role have limited access to most
+            features in Unleash
+          type: string
+        type:
+          description: "[Custom root roles](https://docs.getunleash.io/reference/rbac#custom-root-roles)\
+            \ are root roles with a custom set of permissions."
+          enum:
+          - root-custom
+          - custom
+          example: root-custom
+          type: string
+        permissions:
+          description: A list of permissions assigned to this role
+          items:
+            $ref: '#/components/schemas/createRoleWithPermissionsSchema_oneOf_permissions_inner'
+          type: array
+      required:
+      - name
+      - type
+      type: object
+    createRoleWithPermissionsSchema_oneOf_1_permissions_inner:
+      properties:
+        id:
+          description: The id of the permission
+          example: 2
+          type: number
+        name:
+          description: The name of the permission
+          example: CREATE_PROJECT
+          type: string
+        environment:
+          description: The environments of the permission if the permission is environment
+            specific
+          example: development
+          type: string
+      required:
+      - id
+      type: object
+    createRoleWithPermissionsSchema_oneOf_1:
+      properties:
+        name:
+          description: The name of the custom role
+          example: external-contributors
+          type: string
+        description:
+          description: A more detailed description of the custom role and what use
+            it's intended for
+          example: Users with external-contributors role have limited access to most
+            features in Unleash
+          type: string
+        type:
+          description: "[Custom project roles](https://docs.getunleash.io/reference/rbac#custom-project-roles)\
+            \ contain a specific set of permissions for project resources."
+          enum:
+          - custom
+          example: custom
+          type: string
+        permissions:
+          description: A list of permissions assigned to this role
+          items:
+            $ref: '#/components/schemas/createRoleWithPermissionsSchema_oneOf_1_permissions_inner'
+          type: array
+      required:
+      - name
+      type: object
   securitySchemes:
     apiKey:
       in: header

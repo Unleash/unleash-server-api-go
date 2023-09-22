@@ -5,7 +5,8 @@ unusedComponents:
   - requestBodies
   - responses
   - headers
-# This is a list of 
+
+# This is a list of all supported operations in this SDK
 inverseOperationIds:
   - createApiToken
   - updateApiToken
@@ -22,3 +23,13 @@ inverseOperationIds:
   - createProject
   - updateProject
   - deleteProject
+
+  - getPermissions
+  - addAccessToProject
+  
+  - createRole
+  - getRoles
+  - updateRole
+  - deleteRole
+  # - setRolesForUser
+  # - setRolesForGroup

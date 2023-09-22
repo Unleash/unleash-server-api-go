@@ -14,6 +14,9 @@ permissions:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        build-type: ["oss", "enterprise"]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -22,16 +25,18 @@ jobs:
         with:
           go-version: "1.20"
       - name: Login to ghcr
+        if: matrix.build-type == 'enterprise'
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: gastonfournier
           password: ${{ secrets.GHCR_TOKEN }}
-      - name: Startup services
+      - name: Setup enterprise docker image
+        if: matrix.build-type == 'enterprise'
+        run: |
+          echo UNLEASH_DOCKER_IMAGE=${{ secrets.ENTERPRISE_IMAGE }} >> $GITHUB_ENV
+          echo ENTERPRISE=true >> $GITHUB_ENV
+      - name: Startup services ${{ matrix.build-type }}
         run: docker compose up -d --wait -t 60
-        env:
-          UNLEASH_DOCKER_IMAGE: ${{ secrets.ENTERPRISE_IMAGE }}
-      - name: Tests
+      - name: Tests ${{ matrix.build-type }}
         run: go test ./...
-        env:
-          ENTERPRISE: "true"
