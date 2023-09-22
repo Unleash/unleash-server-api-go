@@ -149,50 +149,52 @@ func Test_client_UsersAPIService(t *testing.T) {
 	})
 
 	t.Run("Test UsersAPIService UpdateRole", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			newRole := createRole("to-update-role", "test role description", "root-custom")
 
-		newRole := createRole("to-update-role", "test role description", "root-custom")
+			resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
 
-		resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+			roleId := fmt.Sprint(resp.Roles.Id)
+			updatedRole := createRole("updated-role-name", "New role description", "root-custom")
+			resp, httpRes, err = apiClient.UsersAPI.UpdateRole(context.Background(), roleId).CreateRoleWithPermissionsSchema(*updatedRole).Execute()
 
-		roleId := fmt.Sprint(resp.Roles.Id)
-		updatedRole := createRole("updated-role-name", "New role description", "root-custom")
-		resp, httpRes, err = apiClient.UsersAPI.UpdateRole(context.Background(), roleId).CreateRoleWithPermissionsSchema(*updatedRole).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+		}
 	})
 
 	t.Run("Test UsersAPIService GetRoles", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			resp, httpRes, err := apiClient.UsersAPI.GetRoles(context.Background()).Execute()
 
-		resp, httpRes, err := apiClient.UsersAPI.GetRoles(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-		assert.NotEmpty(t, resp.Roles)
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+			assert.NotEmpty(t, resp.Roles)
+		}
 	})
 
 	t.Run("Test UsersAPIService DeleteRole", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			newRole := createRole("role-to-be-deleted", "ephimeral role", "root-custom")
+			resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
 
-		newRole := createRole("role-to-be-deleted", "ephimeral role", "root-custom")
-		resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+			// convert resp.Roles.Id to string and assign to roleId
+			roleId := fmt.Sprint(resp.Roles.Id)
 
-		// convert resp.Roles.Id to string and assign to roleId
-		roleId := fmt.Sprint(resp.Roles.Id)
+			httpRes, err = apiClient.UsersAPI.DeleteRole(context.Background(), roleId).Execute()
 
-		httpRes, err = apiClient.UsersAPI.DeleteRole(context.Background(), roleId).Execute()
-
-		require.Nil(t, err)
-		assert.Equal(t, 200, httpRes.StatusCode)
+			require.Nil(t, err)
+			assert.Equal(t, 200, httpRes.StatusCode)
+		}
 	})
 }

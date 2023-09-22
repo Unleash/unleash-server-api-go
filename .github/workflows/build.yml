@@ -25,6 +25,7 @@ jobs:
         with:
           go-version: "1.20"
       - name: Login to ghcr
+        if: matrix.build-type == 'enterprise'
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
