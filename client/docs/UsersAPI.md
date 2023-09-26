@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**CreateUser**](UsersAPI.md#CreateUser) | **Post** /api/admin/user-admin | Create a new user
 [**DeleteRole**](UsersAPI.md#DeleteRole) | **Delete** /api/admin/roles/{roleId} | Delete a custom role
 [**DeleteUser**](UsersAPI.md#DeleteUser) | **Delete** /api/admin/user-admin/{id} | Delete a user
+[**GetRoleById**](UsersAPI.md#GetRoleById) | **Get** /api/admin/roles/{roleId} | Get a single role
 [**GetRoles**](UsersAPI.md#GetRoles) | **Get** /api/admin/roles | Get a list of roles
 [**GetUser**](UsersAPI.md#GetUser) | **Get** /api/admin/user-admin/{id} | Get user
 [**UpdateRole**](UsersAPI.md#UpdateRole) | **Put** /api/admin/roles/{roleId} | Update a role
@@ -268,6 +269,76 @@ Name | Type | Description  | Notes
 ### Return type
 
  (empty response body)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetRoleById
+
+> RoleWithPermissionsSchema GetRoleById(ctx, roleId).Execute()
+
+Get a single role
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+    roleId := "roleId_example" // string | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UsersAPI.GetRoleById(context.Background(), roleId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.GetRoleById``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetRoleById`: RoleWithPermissionsSchema
+    fmt.Fprintf(os.Stdout, "Response from `UsersAPI.GetRoleById`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**roleId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetRoleByIdRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**RoleWithPermissionsSchema**](RoleWithPermissionsSchema.md)
 
 ### Authorization
 

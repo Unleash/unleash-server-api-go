@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the UpdateRole404Response type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &UpdateRole404Response{}
+// checks if the GetRoleById404Response type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &GetRoleById404Response{}
 
-// UpdateRole404Response struct for UpdateRole404Response
-type UpdateRole404Response struct {
+// GetRoleById404Response struct for GetRoleById404Response
+type GetRoleById404Response struct {
 	// The ID of the error instance
 	Id *string `json:"id,omitempty"`
 	// The name of the error kind
@@ -27,25 +27,25 @@ type UpdateRole404Response struct {
 	Message *string `json:"message,omitempty"`
 }
 
-// NewUpdateRole404Response instantiates a new UpdateRole404Response object
+// NewGetRoleById404Response instantiates a new GetRoleById404Response object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUpdateRole404Response() *UpdateRole404Response {
-	this := UpdateRole404Response{}
+func NewGetRoleById404Response() *GetRoleById404Response {
+	this := GetRoleById404Response{}
 	return &this
 }
 
-// NewUpdateRole404ResponseWithDefaults instantiates a new UpdateRole404Response object
+// NewGetRoleById404ResponseWithDefaults instantiates a new GetRoleById404Response object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewUpdateRole404ResponseWithDefaults() *UpdateRole404Response {
-	this := UpdateRole404Response{}
+func NewGetRoleById404ResponseWithDefaults() *GetRoleById404Response {
+	this := GetRoleById404Response{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *UpdateRole404Response) GetId() string {
+func (o *GetRoleById404Response) GetId() string {
 	if o == nil || IsNil(o.Id) {
 		var ret string
 		return ret
@@ -55,7 +55,7 @@ func (o *UpdateRole404Response) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UpdateRole404Response) GetIdOk() (*string, bool) {
+func (o *GetRoleById404Response) GetIdOk() (*string, bool) {
 	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
@@ -63,7 +63,7 @@ func (o *UpdateRole404Response) GetIdOk() (*string, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *UpdateRole404Response) HasId() bool {
+func (o *GetRoleById404Response) HasId() bool {
 	if o != nil && !IsNil(o.Id) {
 		return true
 	}
@@ -72,12 +72,12 @@ func (o *UpdateRole404Response) HasId() bool {
 }
 
 // SetId gets a reference to the given string and assigns it to the Id field.
-func (o *UpdateRole404Response) SetId(v string) {
+func (o *GetRoleById404Response) SetId(v string) {
 	o.Id = &v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *UpdateRole404Response) GetName() string {
+func (o *GetRoleById404Response) GetName() string {
 	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
@@ -87,7 +87,7 @@ func (o *UpdateRole404Response) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UpdateRole404Response) GetNameOk() (*string, bool) {
+func (o *GetRoleById404Response) GetNameOk() (*string, bool) {
 	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
@@ -95,7 +95,7 @@ func (o *UpdateRole404Response) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *UpdateRole404Response) HasName() bool {
+func (o *GetRoleById404Response) HasName() bool {
 	if o != nil && !IsNil(o.Name) {
 		return true
 	}
@@ -104,12 +104,12 @@ func (o *UpdateRole404Response) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *UpdateRole404Response) SetName(v string) {
+func (o *GetRoleById404Response) SetName(v string) {
 	o.Name = &v
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
-func (o *UpdateRole404Response) GetMessage() string {
+func (o *GetRoleById404Response) GetMessage() string {
 	if o == nil || IsNil(o.Message) {
 		var ret string
 		return ret
@@ -119,7 +119,7 @@ func (o *UpdateRole404Response) GetMessage() string {
 
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UpdateRole404Response) GetMessageOk() (*string, bool) {
+func (o *GetRoleById404Response) GetMessageOk() (*string, bool) {
 	if o == nil || IsNil(o.Message) {
 		return nil, false
 	}
@@ -127,7 +127,7 @@ func (o *UpdateRole404Response) GetMessageOk() (*string, bool) {
 }
 
 // HasMessage returns a boolean if a field has been set.
-func (o *UpdateRole404Response) HasMessage() bool {
+func (o *GetRoleById404Response) HasMessage() bool {
 	if o != nil && !IsNil(o.Message) {
 		return true
 	}
@@ -136,11 +136,11 @@ func (o *UpdateRole404Response) HasMessage() bool {
 }
 
 // SetMessage gets a reference to the given string and assigns it to the Message field.
-func (o *UpdateRole404Response) SetMessage(v string) {
+func (o *GetRoleById404Response) SetMessage(v string) {
 	o.Message = &v
 }
 
-func (o UpdateRole404Response) MarshalJSON() ([]byte, error) {
+func (o GetRoleById404Response) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -148,7 +148,7 @@ func (o UpdateRole404Response) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o UpdateRole404Response) ToMap() (map[string]interface{}, error) {
+func (o GetRoleById404Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
@@ -162,38 +162,38 @@ func (o UpdateRole404Response) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-type NullableUpdateRole404Response struct {
-	value *UpdateRole404Response
+type NullableGetRoleById404Response struct {
+	value *GetRoleById404Response
 	isSet bool
 }
 
-func (v NullableUpdateRole404Response) Get() *UpdateRole404Response {
+func (v NullableGetRoleById404Response) Get() *GetRoleById404Response {
 	return v.value
 }
 
-func (v *NullableUpdateRole404Response) Set(val *UpdateRole404Response) {
+func (v *NullableGetRoleById404Response) Set(val *GetRoleById404Response) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableUpdateRole404Response) IsSet() bool {
+func (v NullableGetRoleById404Response) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableUpdateRole404Response) Unset() {
+func (v *NullableGetRoleById404Response) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableUpdateRole404Response(val *UpdateRole404Response) *NullableUpdateRole404Response {
-	return &NullableUpdateRole404Response{value: val, isSet: true}
+func NewNullableGetRoleById404Response(val *GetRoleById404Response) *NullableGetRoleById404Response {
+	return &NullableGetRoleById404Response{value: val, isSet: true}
 }
 
-func (v NullableUpdateRole404Response) MarshalJSON() ([]byte, error) {
+func (v NullableGetRoleById404Response) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableUpdateRole404Response) UnmarshalJSON(src []byte) error {
+func (v *NullableGetRoleById404Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

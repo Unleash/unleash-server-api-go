@@ -92,6 +92,7 @@ Class | Method | HTTP request | Description
 *UsersAPI* | [**CreateUser**](docs/UsersAPI.md#createuser) | **Post** /api/admin/user-admin | Create a new user
 *UsersAPI* | [**DeleteRole**](docs/UsersAPI.md#deleterole) | **Delete** /api/admin/roles/{roleId} | Delete a custom role
 *UsersAPI* | [**DeleteUser**](docs/UsersAPI.md#deleteuser) | **Delete** /api/admin/user-admin/{id} | Delete a user
+*UsersAPI* | [**GetRoleById**](docs/UsersAPI.md#getrolebyid) | **Get** /api/admin/roles/{roleId} | Get a single role
 *UsersAPI* | [**GetRoles**](docs/UsersAPI.md#getroles) | **Get** /api/admin/roles | Get a list of roles
 *UsersAPI* | [**GetUser**](docs/UsersAPI.md#getuser) | **Get** /api/admin/user-admin/{id} | Get user
 *UsersAPI* | [**UpdateRole**](docs/UsersAPI.md#updaterole) | **Put** /api/admin/roles/{roleId} | Update a role
@@ -124,6 +125,7 @@ Class | Method | HTTP request | Description
  - [CreateUserResponseSchemaRootRole](docs/CreateUserResponseSchemaRootRole.md)
  - [CreateUserSchema](docs/CreateUserSchema.md)
  - [CreateUserSchemaRootRole](docs/CreateUserSchemaRootRole.md)
+ - [GetRoleById404Response](docs/GetRoleById404Response.md)
  - [GetRoles401Response](docs/GetRoles401Response.md)
  - [GetRoles403Response](docs/GetRoles403Response.md)
  - [ProjectAddAccessSchema](docs/ProjectAddAccessSchema.md)
@@ -131,11 +133,11 @@ Class | Method | HTTP request | Description
  - [ProjectSchema](docs/ProjectSchema.md)
  - [ProjectsSchema](docs/ProjectsSchema.md)
  - [RoleSchema](docs/RoleSchema.md)
+ - [RoleWithPermissionsSchema](docs/RoleWithPermissionsSchema.md)
  - [RoleWithVersionSchema](docs/RoleWithVersionSchema.md)
  - [RolesWithVersionSchema](docs/RolesWithVersionSchema.md)
  - [UpdateApiTokenSchema](docs/UpdateApiTokenSchema.md)
  - [UpdateProjectSchema](docs/UpdateProjectSchema.md)
- - [UpdateRole404Response](docs/UpdateRole404Response.md)
  - [UpdateUserSchema](docs/UpdateUserSchema.md)
  - [UserSchema](docs/UserSchema.md)
 

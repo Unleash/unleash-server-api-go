@@ -192,9 +192,49 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/updateRole_404_response'
+                $ref: '#/components/schemas/getRoleById_404_response'
           description: The requested resource was not found.
       summary: Delete a custom role
+      tags:
+      - Users
+    get:
+      description: Get a single role by role id
+      operationId: getRoleById
+      parameters:
+      - explode: false
+        in: path
+        name: roleId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/roleWithPermissionsSchema'
+          description: roleWithPermissionsSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createRole_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoleById_404_response'
+          description: The requested resource was not found.
+      summary: Get a single role
       tags:
       - Users
     put:
@@ -246,7 +286,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/updateRole_404_response'
+                $ref: '#/components/schemas/getRoleById_404_response'
           description: The requested resource was not found.
         "409":
           content:
@@ -431,7 +471,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/updateRole_404_response'
+                $ref: '#/components/schemas/getRoleById_404_response'
           description: The requested resource was not found.
         "415":
           content:
@@ -492,7 +532,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/updateRole_404_response'
+                $ref: '#/components/schemas/getRoleById_404_response'
           description: The requested resource was not found.
         "415":
           content:
@@ -804,7 +844,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/updateRole_404_response'
+                $ref: '#/components/schemas/getRoleById_404_response'
           description: The requested resource was not found.
       summary: Delete a user
       tags:
@@ -844,7 +884,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/updateRole_404_response'
+                $ref: '#/components/schemas/getRoleById_404_response'
           description: The requested resource was not found.
       summary: Get user
       tags:
@@ -898,7 +938,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/updateRole_404_response'
+                $ref: '#/components/schemas/getRoleById_404_response'
           description: The requested resource was not found.
       summary: Update a user
       tags:
@@ -1683,6 +1723,64 @@ components:
       - id
       - name
       type: object
+    roleWithPermissionsSchema:
+      additionalProperties: false
+      description: A read model for the role and permissions to allow Unleash to decide
+        what actions a role holder is allowed to perform
+      example:
+        permissions:
+        - environment: development
+          displayName: Update feature toggles
+          name: UPDATE_FEATURE
+          id: 3
+          type: project
+        - environment: development
+          displayName: Update feature toggles
+          name: UPDATE_FEATURE
+          id: 3
+          type: project
+        name: Editor
+        description: Users with the editor role have access to most features in Unleash
+          but can not manage users and roles in the global scope. Editors will be
+          added as project owners when creating projects and get superuser rights
+          within the context of these projects. Users with the editor role will also
+          get access to most permissions on the default project by default.
+        id: 9
+        type: root
+      properties:
+        id:
+          description: The role id
+          example: 9
+          type: number
+        type:
+          description: "A role can either be a global `root` role, or a `project`\
+            \ role or a `custom` project role or a custom global `root-custom` role"
+          example: root
+          type: string
+        name:
+          description: The name of the role
+          example: Editor
+          type: string
+        description:
+          description: A more detailed description of the role and what use it's intended
+            for
+          example: Users with the editor role have access to most features in Unleash
+            but can not manage users and roles in the global scope. Editors will be
+            added as project owners when creating projects and get superuser rights
+            within the context of these projects. Users with the editor role will
+            also get access to most permissions on the default project by default.
+          type: string
+        permissions:
+          description: A list of permissions assigned to this role
+          items:
+            $ref: '#/components/schemas/adminPermissionSchema'
+          type: array
+      required:
+      - id
+      - name
+      - permissions
+      - type
+      type: object
     roleWithVersionSchema:
       additionalProperties: false
       description: A single user role received after creation or update of a role
@@ -1823,7 +1921,7 @@ components:
           example: There is already a feature called "my-awesome-feature".
           type: string
       type: object
-    updateRole_404_response:
+    getRoleById_404_response:
       properties:
         id:
           description: The ID of the error instance
