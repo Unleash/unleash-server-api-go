@@ -29,6 +29,7 @@ inverseOperationIds:
   
   - createRole
   - getRoles
+  - getRoleById
   - updateRole
   - deleteRole
   # - setRolesForUser

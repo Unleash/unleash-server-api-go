@@ -133,6 +133,8 @@ func Test_client_UsersAPIService(t *testing.T) {
 			require.Nil(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
+		} else {
+			t.Skip("Enterprise only feature")
 		}
 	})
 
@@ -145,6 +147,8 @@ func Test_client_UsersAPIService(t *testing.T) {
 			require.Nil(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
+		} else {
+			t.Skip("Enterprise only feature")
 		}
 	})
 
@@ -165,6 +169,8 @@ func Test_client_UsersAPIService(t *testing.T) {
 			require.Nil(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
+		} else {
+			t.Skip("Enterprise only feature")
 		}
 	})
 
@@ -176,6 +182,25 @@ func Test_client_UsersAPIService(t *testing.T) {
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 			assert.NotEmpty(t, resp.Roles)
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+
+	t.Run("Test UsersAPIService GetRoleById", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+
+			roleId := "2"
+
+			resp, httpRes, err := apiClient.UsersAPI.GetRoleById(context.Background(), roleId).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+			assert.Equal(t, resp.Name, "Editor")
+			assert.Equal(t, resp.Type, "root")
+		} else {
+			t.Skip("Enterprise only feature")
 		}
 	})
 
@@ -195,6 +220,8 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 			require.Nil(t, err)
 			assert.Equal(t, 200, httpRes.StatusCode)
+		} else {
+			t.Skip("Enterprise only feature")
 		}
 	})
 }

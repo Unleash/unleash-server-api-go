@@ -35,6 +35,7 @@ docs/CreateUserResponseSchema.md
 docs/CreateUserResponseSchemaRootRole.md
 docs/CreateUserSchema.md
 docs/CreateUserSchemaRootRole.md
+docs/GetRoleById404Response.md
 docs/GetRoles401Response.md
 docs/GetRoles403Response.md
 docs/ProjectAddAccessSchema.md
@@ -43,11 +44,11 @@ docs/ProjectSchema.md
 docs/ProjectsAPI.md
 docs/ProjectsSchema.md
 docs/RoleSchema.md
+docs/RoleWithPermissionsSchema.md
 docs/RoleWithVersionSchema.md
 docs/RolesWithVersionSchema.md
 docs/UpdateApiTokenSchema.md
 docs/UpdateProjectSchema.md
-docs/UpdateRole404Response.md
 docs/UpdateUserSchema.md
 docs/UserSchema.md
 docs/UsersAPI.md
@@ -78,6 +79,7 @@ model_create_user_response_schema.go
 model_create_user_response_schema_root_role.go
 model_create_user_schema.go
 model_create_user_schema_root_role.go
+model_get_role_by_id_404_response.go
 model_get_roles_401_response.go
 model_get_roles_403_response.go
 model_project_add_access_schema.go
@@ -85,11 +87,11 @@ model_project_created_schema.go
 model_project_schema.go
 model_projects_schema.go
 model_role_schema.go
+model_role_with_permissions_schema.go
 model_role_with_version_schema.go
 model_roles_with_version_schema.go
 model_update_api_token_schema.go
 model_update_project_schema.go
-model_update_role_404_response.go
 model_update_user_schema.go
 model_user_schema.go
 response.go

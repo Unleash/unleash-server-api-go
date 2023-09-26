@@ -226,6 +226,117 @@
       }
     },
     "/api/admin/roles/{roleId}": {
+      "get": {
+        "operationId": "getRoleById",
+        "summary": "Get a single role",
+        "description": "Get a single role by role id",
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "roleWithPermissionsSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/roleWithPermissionsSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NotFoundError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\"."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      },
       "put": {
         "operationId": "updateRole",
         "summary": "Update a role",
@@ -3244,6 +3355,46 @@
         "required": [
           "id",
           "name"
+        ]
+      },
+      "roleWithPermissionsSchema": {
+        "description": "A read model for the role and permissions to allow Unleash to decide what actions a role holder is allowed to perform",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "The role id",
+            "type": "number",
+            "example": 9
+          },
+          "type": {
+            "description": "A role can either be a global `root` role, or a `project` role or a `custom` project role or a custom global `root-custom` role",
+            "type": "string",
+            "example": "root"
+          },
+          "name": {
+            "description": "The name of the role",
+            "type": "string",
+            "example": "Editor"
+          },
+          "description": {
+            "description": "A more detailed description of the role and what use it's intended for",
+            "type": "string",
+            "example": "Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default."
+          },
+          "permissions": {
+            "description": "A list of permissions assigned to this role",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/adminPermissionSchema"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "name",
+          "permissions"
         ]
       },
       "roleWithVersionSchema": {
