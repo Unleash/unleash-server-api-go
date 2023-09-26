@@ -1,6 +1,10 @@
 {
   "openapi": "3.0.3",
-  "servers": [],
+  "servers": [
+    {
+      "url": "https://us.app.unleash-hosted.com/ushosted"
+    }
+  ],
   "info": {
     "title": "Unleash API",
     "version": "5.4.0-main"
