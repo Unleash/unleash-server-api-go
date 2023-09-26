@@ -4,11 +4,7 @@
     "title": "Unleash API",
     "version": "5.4.0-main"
   },
-  "servers": [
-    {
-      "url": "https://us.app.unleash-hosted.com/ushosted"
-    }
-  ],
+  "servers": [],
   "paths": {
     "/api/admin/roles": {
       "get": {
