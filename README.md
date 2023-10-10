@@ -55,4 +55,5 @@ We recommend copying specific tests from `client/test` into `test` and adapting 
 
 1. (optional but recommended) `docker compose rm --force`
 1. `docker compose up`
-1. `go test ./test/... -count=1`
+1. `go test ./test/... -count=1 -v`
+1. `UNLEASH_ENTERPRISE=true go test ./test/... -count=1 -v`

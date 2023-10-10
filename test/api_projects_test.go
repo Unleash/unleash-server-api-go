@@ -9,6 +9,7 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/Unleash/unleash-server-api-go/client"
@@ -27,6 +28,8 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 			require.Nil(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 201, httpRes.StatusCode)
+		} else {
+			t.Skip("Enterprise only feature")
 		}
 	})
 
@@ -39,6 +42,8 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 
 			require.Nil(t, err)
 			assert.Equal(t, 200, httpRes.StatusCode)
+		} else {
+			t.Skip("Enterprise only feature")
 		}
 	})
 
@@ -51,21 +56,36 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 			roles := make([]client.ProjectAccessConfigurationSchemaRolesInner, 2)
 			roles[0] = *client.NewProjectAccessConfigurationSchemaRolesInnerWithDefaults()
 			roles[0].Id = &ownerRole
-			ownerUsers := make([]int32, 1)
-			ownerUsers = append(ownerUsers, adminUser)
-			roles[0].Users = ownerUsers
+			roles[0].Users = []int32{adminUser}
 
 			roles[1] = *client.NewProjectAccessConfigurationSchemaRolesInnerWithDefaults()
 			roles[1].Id = &memberRole
-			memberUsers := make([]int32, 1)
-			memberUsers = append(memberUsers, adminUser)
-			roles[0].Users = memberUsers
+			roles[1].Users = []int32{adminUser}
 
 			setAccess := client.NewProjectAccessConfigurationSchema(roles)
 			httpRes, err := apiClient.ProjectsAPI.SetProjectAccess(context.Background(), projectId).ProjectAccessConfigurationSchema(*setAccess).Execute()
 
 			require.Nil(t, err)
 			assert.Equal(t, 200, httpRes.StatusCode)
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+
+	t.Run("Test ProjectsAPIService GetProjectAccess", func(t *testing.T) {
+
+		if enterpriseEnvironmentAvailable() {
+
+			projectId := "default"
+
+			resp, httpRes, err := apiClient.ProjectsAPI.GetProjectAccess(context.Background(), projectId).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+			fmt.Printf("%+v", resp)
+		} else {
+			t.Skip("Enterprise only feature")
 		}
 	})
 
