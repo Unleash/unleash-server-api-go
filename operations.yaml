@@ -25,7 +25,8 @@ inverseOperationIds:
   - deleteProject
 
   - getPermissions
-  - addAccessToProject
+  - getProjectAccess
+  - setProjectAccess
   
   - createRole
   - getRoles

@@ -1,9 +1,9 @@
 openapi: 3.0.3
 info:
   title: Unleash API
-  version: 5.4.0-main
+  version: 5.6.0-main
 servers:
-- url: https://us.app.unleash-hosted.com/ushosted
+- url: /
 security:
 - apiKey: []
 tags:
@@ -486,10 +486,10 @@ paths:
       tags:
       - Projects
   /api/admin/projects/{projectId}/access:
-    post:
-      description: Configure project access for groups and single users. The provided
-        users and groups will be given the roles specified in the payload.
-      operationId: addAccessToProject
+    get:
+      description: "Get all groups, users and their roles, and available roles for\
+        \ the given project."
+      operationId: getProjectAccess
       parameters:
       - explode: false
         in: path
@@ -498,22 +498,13 @@ paths:
         schema:
           type: string
         style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/projectAddAccessSchema'
-        description: projectAddAccessSchema
-        required: true
       responses:
         "200":
-          description: This response has no body.
-        "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
-          description: The request data does not match what we expect.
+                $ref: '#/components/schemas/projectAccessSchema'
+          description: projectAccessSchema
         "401":
           content:
             application/json:
@@ -528,22 +519,46 @@ paths:
                 $ref: '#/components/schemas/getRoles_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
-        "404":
+      summary: Get users and groups in project
+      tags:
+      - Projects
+    put:
+      description: "Sets all groups, users and their roles for the given project,\
+        \ overriding any existing configuration."
+      operationId: setProjectAccess
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/projectAccessConfigurationSchema'
+        description: projectAccessConfigurationSchema
+        required: true
+      responses:
+        "200":
+          description: This response has no body.
+        "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
-          description: The requested resource was not found.
-        "415":
+                $ref: '#/components/schemas/getRoles_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createProject_415_response'
-          description: The operation does not support request payloads of the provided
-            type. Please ensure that you're using one of the listed payload types
-            and that you have specified the right content type in the "content-type"
-            header.
-      summary: Configure project access
+                $ref: '#/components/schemas/getRoles_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Set users and groups to roles in the current project
       tags:
       - Projects
   /api/admin/permissions:
@@ -1119,6 +1134,45 @@ components:
       required:
       - rootRole
       type: object
+    groupUserModelSchema:
+      additionalProperties: false
+      description: Details for a single user belonging to a group
+      example:
+        createdBy: admin
+        joinedAt: 2023-06-30T11:41:00.123Z
+        user:
+          loginAttempts: 3
+          inviteLink: http://localhost:4242/invite-link/some-secret
+          accountType: User
+          isAPI: true
+          createdAt: 2023-06-30T11:41:00.123Z
+          seenAt: 2023-06-30T11:42:00.345Z
+          rootRole: 1
+          emailSent: false
+          permissions:
+          - permissions
+          - permissions
+          imageUrl: https://example.com/242x200.png
+          name: User
+          id: 123
+          email: user@example.com
+          username: hunter
+      properties:
+        joinedAt:
+          description: The date when the user joined the group
+          example: 2023-06-30T11:41:00.123Z
+          format: date-time
+          type: string
+        createdBy:
+          description: The username of the user who added this user to this group
+          example: admin
+          nullable: true
+          type: string
+        user:
+          $ref: '#/components/schemas/userSchema'
+      required:
+      - user
+      type: object
     projectSchema:
       additionalProperties: false
       description: A definition of the project used for projects listing purposes
@@ -1609,12 +1663,6 @@ components:
           example: This project contains features related to the new pet shop.
           nullable: true
           type: string
-        featureLimit:
-          description: A limit on the number of features allowed in the project. `null`
-            if no limit.
-          example: 100
-          nullable: true
-          type: integer
         mode:
           description: A mode of the project affecting what actions are possible in
             this project
@@ -1634,39 +1682,189 @@ components:
       - name
       type: object
     createRoleWithPermissionsSchema:
+      anyOf:
+      - $ref: '#/components/schemas/createRoleWithPermissionsSchema_anyOf'
+      - $ref: '#/components/schemas/createRoleWithPermissionsSchema_anyOf_1'
       description: A write model for the custom role and permissions to allow Unleash
         to decide what actions a role holder is allowed to perform
-      oneOf:
-      - $ref: '#/components/schemas/createRoleWithPermissionsSchema_oneOf'
-      - $ref: '#/components/schemas/createRoleWithPermissionsSchema_oneOf_1'
       type: object
-    projectAddAccessSchema:
-      description: "An object containing a collection of roles, a collection of groups\
-        \ and a collection of users."
+    projectAccessConfigurationSchema:
+      additionalProperties: false
+      description: An object describing roles for a project and what users and groups
+        are part of that role.
       properties:
         roles:
-          description: A list of role IDs
+          description: A list of roles that are available within this project.
           items:
-            description: A role ID
-            example: 5
-            minimum: 0
-            type: integer
+            $ref: '#/components/schemas/projectAccessConfigurationSchema_roles_inner'
           type: array
+      required:
+      - roles
+      type: object
+    projectAccessSchema:
+      additionalProperties: false
+      description: An object describing access permissions for a given project.
+      example:
+        roles:
+        - name: Editor
+          description: Users with the editor role have access to most features in
+            Unleash but can not manage users and roles in the global scope. Editors
+            will be added as project owners when creating projects and get superuser
+            rights within the context of these projects. Users with the editor role
+            will also get access to most permissions on the default project by default.
+          id: 9
+          type: root
+        - name: Editor
+          description: Users with the editor role have access to most features in
+            Unleash but can not manage users and roles in the global scope. Editors
+            will be added as project owners when creating projects and get superuser
+            rights within the context of these projects. Users with the editor role
+            will also get access to most permissions on the default project by default.
+          id: 9
+          type: root
         groups:
-          description: A list of group IDs
+        - createdAt: 2023-06-30T11:41:00.123Z
+          addedAt: 2023-08-01T14:35:16Z
+          rootRole: 1
+          createdBy: admin
+          roleId: 5
+          mappingsSSO:
+          - SSOGroup1
+          - SSOGroup2
+          roles:
+          - 5
+          - 5
+          name: DX team
+          description: Current members of the DX squad
+          id: 1
+          users:
+          - createdBy: admin
+            joinedAt: 2023-06-30T11:41:00.123Z
+            user:
+              loginAttempts: 3
+              inviteLink: http://localhost:4242/invite-link/some-secret
+              accountType: User
+              isAPI: true
+              createdAt: 2023-06-30T11:41:00.123Z
+              seenAt: 2023-06-30T11:42:00.345Z
+              rootRole: 1
+              emailSent: false
+              permissions:
+              - permissions
+              - permissions
+              imageUrl: https://example.com/242x200.png
+              name: User
+              id: 123
+              email: user@example.com
+              username: hunter
+          - createdBy: admin
+            joinedAt: 2023-06-30T11:41:00.123Z
+            user:
+              loginAttempts: 3
+              inviteLink: http://localhost:4242/invite-link/some-secret
+              accountType: User
+              isAPI: true
+              createdAt: 2023-06-30T11:41:00.123Z
+              seenAt: 2023-06-30T11:42:00.345Z
+              rootRole: 1
+              emailSent: false
+              permissions:
+              - permissions
+              - permissions
+              imageUrl: https://example.com/242x200.png
+              name: User
+              id: 123
+              email: user@example.com
+              username: hunter
+        - createdAt: 2023-06-30T11:41:00.123Z
+          addedAt: 2023-08-01T14:35:16Z
+          rootRole: 1
+          createdBy: admin
+          roleId: 5
+          mappingsSSO:
+          - SSOGroup1
+          - SSOGroup2
+          roles:
+          - 5
+          - 5
+          name: DX team
+          description: Current members of the DX squad
+          id: 1
+          users:
+          - createdBy: admin
+            joinedAt: 2023-06-30T11:41:00.123Z
+            user:
+              loginAttempts: 3
+              inviteLink: http://localhost:4242/invite-link/some-secret
+              accountType: User
+              isAPI: true
+              createdAt: 2023-06-30T11:41:00.123Z
+              seenAt: 2023-06-30T11:42:00.345Z
+              rootRole: 1
+              emailSent: false
+              permissions:
+              - permissions
+              - permissions
+              imageUrl: https://example.com/242x200.png
+              name: User
+              id: 123
+              email: user@example.com
+              username: hunter
+          - createdBy: admin
+            joinedAt: 2023-06-30T11:41:00.123Z
+            user:
+              loginAttempts: 3
+              inviteLink: http://localhost:4242/invite-link/some-secret
+              accountType: User
+              isAPI: true
+              createdAt: 2023-06-30T11:41:00.123Z
+              seenAt: 2023-06-30T11:42:00.345Z
+              rootRole: 1
+              emailSent: false
+              permissions:
+              - permissions
+              - permissions
+              imageUrl: https://example.com/242x200.png
+              name: User
+              id: 123
+              email: user@example.com
+              username: hunter
+        users:
+        - addedAt: 2023-08-01T14:35:16Z
+          roleId: 5
+          imageUrl: https://openapi-generator.tech
+          roles:
+          - 5
+          - 5
+          name: Hunter Burgan
+          id: 1
+          isAPI: false
+          email: hunter@hunter.com
+        - addedAt: 2023-08-01T14:35:16Z
+          roleId: 5
+          imageUrl: https://openapi-generator.tech
+          roles:
+          - 5
+          - 5
+          name: Hunter Burgan
+          id: 1
+          isAPI: false
+          email: hunter@hunter.com
+      properties:
+        groups:
+          description: A list of groups that have access to this project
           items:
-            description: A group ID
-            example: 5
-            minimum: 0
-            type: integer
+            $ref: '#/components/schemas/groupWithProjectRoleSchema'
           type: array
         users:
-          description: A list of user IDs
+          description: A list of users and their roles within this project
           items:
-            description: A user ID
-            example: 5
-            minimum: 0
-            type: integer
+            $ref: '#/components/schemas/userWithProjectRoleSchema'
+          type: array
+        roles:
+          description: A list of roles that are available within this project.
+          items:
+            $ref: '#/components/schemas/roleSchema'
           type: array
       required:
       - groups
@@ -1855,8 +2053,203 @@ components:
           description: A new description for the project
           example: Anything related to the new UI
           type: string
+        mode:
+          description: A mode of the project affecting what actions are possible in
+            this project
+          enum:
+          - open
+          - protected
+          - private
+          example: open
+          type: string
+        defaultStickiness:
+          description: A default stickiness for the project affecting the default
+            stickiness value for variants and Gradual Rollout strategy
+          example: userId
+          type: string
       required:
       - name
+      type: object
+    userWithProjectRoleSchema:
+      description: Data about a user including their project role
+      example:
+        addedAt: 2023-08-01T14:35:16Z
+        roleId: 5
+        imageUrl: https://openapi-generator.tech
+        roles:
+        - 5
+        - 5
+        name: Hunter Burgan
+        id: 1
+        isAPI: false
+        email: hunter@hunter.com
+      properties:
+        isAPI:
+          deprecated: true
+          description: Whether this user is authenticated through Unleash tokens or
+            logged in with a session
+          example: false
+          type: boolean
+        name:
+          description: The name of the user
+          example: Hunter Burgan
+          type: string
+        email:
+          description: The user's email address
+          example: hunter@hunter.com
+          nullable: true
+          type: string
+        id:
+          description: The user's ID in the Unleash system
+          example: 1
+          minimum: 0
+          type: integer
+        imageUrl:
+          description: A URL pointing to the user's image.
+          format: uri
+          nullable: true
+          type: string
+        addedAt:
+          description: When this user was added to the project
+          example: 2023-08-01T14:35:16Z
+          format: date-time
+          type: string
+        roleId:
+          description: The ID of the role this user has in the given project
+          example: 5
+          minimum: 0
+          type: integer
+        roles:
+          description: A list of roles this user has in the given project
+          items:
+            example: 5
+            minimum: 0
+            type: integer
+          type: array
+      required:
+      - id
+      type: object
+    groupWithProjectRoleSchema:
+      additionalProperties: false
+      description: Data about a group including their project role
+      example:
+        createdAt: 2023-06-30T11:41:00.123Z
+        addedAt: 2023-08-01T14:35:16Z
+        rootRole: 1
+        createdBy: admin
+        roleId: 5
+        mappingsSSO:
+        - SSOGroup1
+        - SSOGroup2
+        roles:
+        - 5
+        - 5
+        name: DX team
+        description: Current members of the DX squad
+        id: 1
+        users:
+        - createdBy: admin
+          joinedAt: 2023-06-30T11:41:00.123Z
+          user:
+            loginAttempts: 3
+            inviteLink: http://localhost:4242/invite-link/some-secret
+            accountType: User
+            isAPI: true
+            createdAt: 2023-06-30T11:41:00.123Z
+            seenAt: 2023-06-30T11:42:00.345Z
+            rootRole: 1
+            emailSent: false
+            permissions:
+            - permissions
+            - permissions
+            imageUrl: https://example.com/242x200.png
+            name: User
+            id: 123
+            email: user@example.com
+            username: hunter
+        - createdBy: admin
+          joinedAt: 2023-06-30T11:41:00.123Z
+          user:
+            loginAttempts: 3
+            inviteLink: http://localhost:4242/invite-link/some-secret
+            accountType: User
+            isAPI: true
+            createdAt: 2023-06-30T11:41:00.123Z
+            seenAt: 2023-06-30T11:42:00.345Z
+            rootRole: 1
+            emailSent: false
+            permissions:
+            - permissions
+            - permissions
+            imageUrl: https://example.com/242x200.png
+            name: User
+            id: 123
+            email: user@example.com
+            username: hunter
+      properties:
+        name:
+          description: The name of the group
+          example: DX team
+          type: string
+        id:
+          description: The group's ID in the Unleash system
+          example: 1
+          minimum: 0
+          type: integer
+        addedAt:
+          description: When this group was added to the project
+          example: 2023-08-01T14:35:16Z
+          format: date-time
+          type: string
+        roleId:
+          description: The ID of the role this group has in the given project
+          example: 5
+          minimum: 0
+          type: integer
+        roles:
+          description: A list of roles this user has in the given project
+          items:
+            example: 5
+            minimum: 0
+            type: integer
+          type: array
+        description:
+          description: A custom description of the group
+          example: Current members of the DX squad
+          nullable: true
+          type: string
+        mappingsSSO:
+          description: A list of SSO groups that should map to this Unleash group
+          example:
+          - SSOGroup1
+          - SSOGroup2
+          items:
+            type: string
+          type: array
+        rootRole:
+          description: "A role id that is used as the root role for all users in this\
+            \ group. This can be either the id of the Viewer, Editor or Admin role."
+          example: 1
+          nullable: true
+          type: number
+        createdBy:
+          description: A user who created this group
+          example: admin
+          nullable: true
+          type: string
+        createdAt:
+          description: When was this group created
+          example: 2023-06-30T11:41:00.123Z
+          format: date-time
+          nullable: true
+          type: string
+        users:
+          description: A list of users belonging to this group
+          items:
+            $ref: '#/components/schemas/groupUserModelSchema'
+          type: array
+      required:
+      - id
       type: object
     getRoles_401_response:
       properties:
@@ -2215,7 +2608,7 @@ components:
       - environments
       - project
       type: object
-    createRoleWithPermissionsSchema_oneOf_permissions_inner:
+    createRoleWithPermissionsSchema_anyOf_permissions_inner:
       properties:
         name:
           description: The name of the permission
@@ -2229,7 +2622,7 @@ components:
       required:
       - name
       type: object
-    createRoleWithPermissionsSchema_oneOf:
+    createRoleWithPermissionsSchema_anyOf:
       properties:
         name:
           description: The name of the custom role
@@ -2243,7 +2636,9 @@ components:
           type: string
         type:
           description: "[Custom root roles](https://docs.getunleash.io/reference/rbac#custom-root-roles)\
-            \ are root roles with a custom set of permissions."
+            \ (type=root-custom) are root roles with a custom set of permissions.\
+            \ [Custom project roles](https://docs.getunleash.io/reference/rbac#custom-project-roles)\
+            \ (type=custom) contain a specific set of permissions for project resources."
           enum:
           - root-custom
           - custom
@@ -2252,13 +2647,12 @@ components:
         permissions:
           description: A list of permissions assigned to this role
           items:
-            $ref: '#/components/schemas/createRoleWithPermissionsSchema_oneOf_permissions_inner'
+            $ref: '#/components/schemas/createRoleWithPermissionsSchema_anyOf_permissions_inner'
           type: array
       required:
       - name
-      - type
       type: object
-    createRoleWithPermissionsSchema_oneOf_1_permissions_inner:
+    createRoleWithPermissionsSchema_anyOf_1_permissions_inner:
       properties:
         id:
           description: The id of the permission
@@ -2276,7 +2670,7 @@ components:
       required:
       - id
       type: object
-    createRoleWithPermissionsSchema_oneOf_1:
+    createRoleWithPermissionsSchema_anyOf_1:
       properties:
         name:
           description: The name of the custom role
@@ -2298,10 +2692,36 @@ components:
         permissions:
           description: A list of permissions assigned to this role
           items:
-            $ref: '#/components/schemas/createRoleWithPermissionsSchema_oneOf_1_permissions_inner'
+            $ref: '#/components/schemas/createRoleWithPermissionsSchema_anyOf_1_permissions_inner'
           type: array
       required:
       - name
+      type: object
+    projectAccessConfigurationSchema_roles_inner:
+      properties:
+        id:
+          description: The id of the role.
+          example: 1
+          minimum: 1
+          type: integer
+        groups:
+          description: A list of group ids that will be assigned this role
+          example:
+          - 1
+          - 2
+          - 3
+          items:
+            type: integer
+          type: array
+        users:
+          description: A list of user ids that will be assigned this role
+          example:
+          - 1
+          - 2
+          - 3
+          items:
+            type: integer
+          type: array
       type: object
   securitySchemes:
     apiKey:

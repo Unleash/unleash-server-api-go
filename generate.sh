@@ -1,6 +1,7 @@
 #!/bin/bash
 
 rm -rf client
+set -e
 
 # Download the latest OpenAPI specification
 # This should be another step
