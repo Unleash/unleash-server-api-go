@@ -1,85 +1,16 @@
 # \ProjectsAPI
 
-All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AddAccessToProject**](ProjectsAPI.md#AddAccessToProject) | **Post** /api/admin/projects/{projectId}/access | Configure project access
 [**CreateProject**](ProjectsAPI.md#CreateProject) | **Post** /api/admin/projects | Create project
 [**DeleteProject**](ProjectsAPI.md#DeleteProject) | **Delete** /api/admin/projects/{projectId} | Delete project
+[**GetProjectAccess**](ProjectsAPI.md#GetProjectAccess) | **Get** /api/admin/projects/{projectId}/access | Get users and groups in project
 [**GetProjects**](ProjectsAPI.md#GetProjects) | **Get** /api/admin/projects | Get a list of all projects.
+[**SetProjectAccess**](ProjectsAPI.md#SetProjectAccess) | **Put** /api/admin/projects/{projectId}/access | Set users and groups to roles in the current project
 [**UpdateProject**](ProjectsAPI.md#UpdateProject) | **Put** /api/admin/projects/{projectId} | Update project
 
-
-
-## AddAccessToProject
-
-> AddAccessToProject(ctx, projectId).ProjectAddAccessSchema(projectAddAccessSchema).Execute()
-
-Configure project access
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go"
-)
-
-func main() {
-    projectId := "projectId_example" // string | 
-    projectAddAccessSchema := *openapiclient.NewProjectAddAccessSchema([]int32{int32(5)}, []int32{int32(5)}, []int32{int32(5)}) // ProjectAddAccessSchema | projectAddAccessSchema
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.ProjectsAPI.AddAccessToProject(context.Background(), projectId).ProjectAddAccessSchema(projectAddAccessSchema).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.AddAccessToProject``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**projectId** | **string** |  | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiAddAccessToProjectRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **projectAddAccessSchema** | [**ProjectAddAccessSchema**](ProjectAddAccessSchema.md) | projectAddAccessSchema | 
-
-### Return type
-
- (empty response body)
-
-### Authorization
-
-[apiKey](../README.md#apiKey)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
 
 
 ## CreateProject
@@ -216,6 +147,76 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## GetProjectAccess
+
+> ProjectAccessSchema GetProjectAccess(ctx, projectId).Execute()
+
+Get users and groups in project
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+    projectId := "projectId_example" // string | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ProjectsAPI.GetProjectAccess(context.Background(), projectId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.GetProjectAccess``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetProjectAccess`: ProjectAccessSchema
+    fmt.Fprintf(os.Stdout, "Response from `ProjectsAPI.GetProjectAccess`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**projectId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetProjectAccessRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**ProjectAccessSchema**](ProjectAccessSchema.md)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## GetProjects
 
 > ProjectsSchema GetProjects(ctx).Execute()
@@ -270,6 +271,76 @@ Other parameters are passed through a pointer to a apiGetProjectsRequest struct 
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SetProjectAccess
+
+> SetProjectAccess(ctx, projectId).ProjectAccessConfigurationSchema(projectAccessConfigurationSchema).Execute()
+
+Set users and groups to roles in the current project
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+    projectId := "projectId_example" // string | 
+    projectAccessConfigurationSchema := *openapiclient.NewProjectAccessConfigurationSchema([]openapiclient.ProjectAccessConfigurationSchemaRolesInner{*openapiclient.NewProjectAccessConfigurationSchemaRolesInner()}) // ProjectAccessConfigurationSchema | projectAccessConfigurationSchema
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.ProjectsAPI.SetProjectAccess(context.Background(), projectId).ProjectAccessConfigurationSchema(projectAccessConfigurationSchema).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.SetProjectAccess``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**projectId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSetProjectAccessRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **projectAccessConfigurationSchema** | [**ProjectAccessConfigurationSchema**](ProjectAccessConfigurationSchema.md) | projectAccessConfigurationSchema | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

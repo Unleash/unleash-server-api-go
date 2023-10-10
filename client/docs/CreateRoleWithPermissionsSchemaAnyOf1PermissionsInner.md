@@ -1,4 +1,4 @@
-# CreateRoleWithPermissionsSchemaOneOf1PermissionsInner
+# CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner
 
 ## Properties
 
@@ -10,90 +10,90 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewCreateRoleWithPermissionsSchemaOneOf1PermissionsInner
+### NewCreateRoleWithPermissionsSchemaAnyOf1PermissionsInner
 
-`func NewCreateRoleWithPermissionsSchemaOneOf1PermissionsInner(id float32, ) *CreateRoleWithPermissionsSchemaOneOf1PermissionsInner`
+`func NewCreateRoleWithPermissionsSchemaAnyOf1PermissionsInner(id float32, ) *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner`
 
-NewCreateRoleWithPermissionsSchemaOneOf1PermissionsInner instantiates a new CreateRoleWithPermissionsSchemaOneOf1PermissionsInner object
+NewCreateRoleWithPermissionsSchemaAnyOf1PermissionsInner instantiates a new CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewCreateRoleWithPermissionsSchemaOneOf1PermissionsInnerWithDefaults
+### NewCreateRoleWithPermissionsSchemaAnyOf1PermissionsInnerWithDefaults
 
-`func NewCreateRoleWithPermissionsSchemaOneOf1PermissionsInnerWithDefaults() *CreateRoleWithPermissionsSchemaOneOf1PermissionsInner`
+`func NewCreateRoleWithPermissionsSchemaAnyOf1PermissionsInnerWithDefaults() *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner`
 
-NewCreateRoleWithPermissionsSchemaOneOf1PermissionsInnerWithDefaults instantiates a new CreateRoleWithPermissionsSchemaOneOf1PermissionsInner object
+NewCreateRoleWithPermissionsSchemaAnyOf1PermissionsInnerWithDefaults instantiates a new CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *CreateRoleWithPermissionsSchemaOneOf1PermissionsInner) GetId() float32`
+`func (o *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner) GetId() float32`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *CreateRoleWithPermissionsSchemaOneOf1PermissionsInner) GetIdOk() (*float32, bool)`
+`func (o *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner) GetIdOk() (*float32, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *CreateRoleWithPermissionsSchemaOneOf1PermissionsInner) SetId(v float32)`
+`func (o *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner) SetId(v float32)`
 
 SetId sets Id field to given value.
 
 
 ### GetName
 
-`func (o *CreateRoleWithPermissionsSchemaOneOf1PermissionsInner) GetName() string`
+`func (o *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *CreateRoleWithPermissionsSchemaOneOf1PermissionsInner) GetNameOk() (*string, bool)`
+`func (o *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *CreateRoleWithPermissionsSchemaOneOf1PermissionsInner) SetName(v string)`
+`func (o *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner) SetName(v string)`
 
 SetName sets Name field to given value.
 
 ### HasName
 
-`func (o *CreateRoleWithPermissionsSchemaOneOf1PermissionsInner) HasName() bool`
+`func (o *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner) HasName() bool`
 
 HasName returns a boolean if a field has been set.
 
 ### GetEnvironment
 
-`func (o *CreateRoleWithPermissionsSchemaOneOf1PermissionsInner) GetEnvironment() string`
+`func (o *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner) GetEnvironment() string`
 
 GetEnvironment returns the Environment field if non-nil, zero value otherwise.
 
 ### GetEnvironmentOk
 
-`func (o *CreateRoleWithPermissionsSchemaOneOf1PermissionsInner) GetEnvironmentOk() (*string, bool)`
+`func (o *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner) GetEnvironmentOk() (*string, bool)`
 
 GetEnvironmentOk returns a tuple with the Environment field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEnvironment
 
-`func (o *CreateRoleWithPermissionsSchemaOneOf1PermissionsInner) SetEnvironment(v string)`
+`func (o *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner) SetEnvironment(v string)`
 
 SetEnvironment sets Environment field to given value.
 
 ### HasEnvironment
 
-`func (o *CreateRoleWithPermissionsSchemaOneOf1PermissionsInner) HasEnvironment() bool`
+`func (o *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner) HasEnvironment() bool`
 
 HasEnvironment returns a boolean if a field has been set.
 

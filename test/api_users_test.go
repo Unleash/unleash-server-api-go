@@ -42,32 +42,35 @@ func createUser(t *testing.T, apiClient *client.APIClient, prefix string) *clien
 func createRole(name string, description string, roleType string) *client.CreateRoleWithPermissionsSchema {
 	var newRole *client.CreateRoleWithPermissionsSchema
 	if roleType == "root-custom" {
-		inner := client.NewCreateRoleWithPermissionsSchemaOneOf(name, roleType)
+		inner := client.NewCreateRoleWithPermissionsSchemaAnyOf(name)
+		inner.Type = &roleType
 		inner.Description = &description
-		permission1 := client.NewCreateRoleWithPermissionsSchemaOneOfPermissionsInner("CREATE_PROJECT")
-		permission2 := client.NewCreateRoleWithPermissionsSchemaOneOfPermissionsInner("UPDATE_APPLICATION")
-		permissions := []client.CreateRoleWithPermissionsSchemaOneOfPermissionsInner{}
+		permission1 := client.NewCreateRoleWithPermissionsSchemaAnyOfPermissionsInner("CREATE_PROJECT")
+		permission2 := client.NewCreateRoleWithPermissionsSchemaAnyOfPermissionsInner("UPDATE_APPLICATION")
+		permissions := []client.CreateRoleWithPermissionsSchemaAnyOfPermissionsInner{}
 		permissions = append(permissions, *permission1)
 		permissions = append(permissions, *permission2)
 		inner.SetPermissions(permissions)
-		wrapper := client.CreateRoleWithPermissionsSchemaOneOfAsCreateRoleWithPermissionsSchema(inner)
+		wrapper := client.CreateRoleWithPermissionsSchema{}
+		wrapper.CreateRoleWithPermissionsSchemaAnyOf = inner
 		newRole = &wrapper
 	}
 	if roleType == "custom" {
 		env := "*"
-		inner := client.NewCreateRoleWithPermissionsSchemaOneOf1(name)
+		inner := client.NewCreateRoleWithPermissionsSchemaAnyOf1(name)
 		inner.Type = &roleType
 		inner.Description = &description
 		// permission1 is a project permission
-		permission1 := client.NewCreateRoleWithPermissionsSchemaOneOf1PermissionsInner(float32(2))
+		permission1 := client.NewCreateRoleWithPermissionsSchemaAnyOf1PermissionsInner(float32(2))
 		// permission2 is an environment permission
-		permission2 := client.NewCreateRoleWithPermissionsSchemaOneOf1PermissionsInner(float32(37))
+		permission2 := client.NewCreateRoleWithPermissionsSchemaAnyOf1PermissionsInner(float32(37))
 		permission2.Environment = &env
-		permissions := []client.CreateRoleWithPermissionsSchemaOneOf1PermissionsInner{}
+		permissions := []client.CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner{}
 		permissions = append(permissions, *permission1)
 		permissions = append(permissions, *permission2)
 		inner.SetPermissions(permissions)
-		wrapper := client.CreateRoleWithPermissionsSchemaOneOf1AsCreateRoleWithPermissionsSchema(inner)
+		wrapper := client.CreateRoleWithPermissionsSchema{}
+		wrapper.CreateRoleWithPermissionsSchemaAnyOf1 = inner
 		newRole = &wrapper
 	}
 	return newRole

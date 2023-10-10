@@ -1,6 +1,6 @@
 # \UsersAPI
 
-All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -37,7 +37,7 @@ import (
 )
 
 func main() {
-    createRoleWithPermissionsSchema := openapiclient.createRoleWithPermissionsSchema{CreateRoleWithPermissionsSchemaOneOf: openapiclient.NewCreateRoleWithPermissionsSchemaOneOf("external-contributors", "root-custom")} // CreateRoleWithPermissionsSchema | createRoleWithPermissionsSchema
+    createRoleWithPermissionsSchema := *openapiclient.NewCreateRoleWithPermissionsSchema("external-contributors") // CreateRoleWithPermissionsSchema | createRoleWithPermissionsSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -507,7 +507,7 @@ import (
 
 func main() {
     roleId := "roleId_example" // string | 
-    createRoleWithPermissionsSchema := openapiclient.createRoleWithPermissionsSchema{CreateRoleWithPermissionsSchemaOneOf: openapiclient.NewCreateRoleWithPermissionsSchemaOneOf("external-contributors", "root-custom")} // CreateRoleWithPermissionsSchema | createRoleWithPermissionsSchema
+    createRoleWithPermissionsSchema := *openapiclient.NewCreateRoleWithPermissionsSchema("external-contributors") // CreateRoleWithPermissionsSchema | createRoleWithPermissionsSchema
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

@@ -42,18 +42,27 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 		}
 	})
 
-	t.Run("Test ProjectsAPIService AddAccessToProject", func(t *testing.T) {
+	t.Run("Test ProjectsAPIService SetAccessToProject", func(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
 			projectId := "default"
-			adminUser := 1
-			memberRole := 5
-			roles := make([]int32, 1)
-			roles[0] = int32(memberRole)
-			users := make([]int32, 1)
-			users[0] = int32(adminUser)
-			groups := make([]int32, 0)
-			addAccess := client.NewProjectAddAccessSchema(roles, groups, users)
-			httpRes, err := apiClient.ProjectsAPI.AddAccessToProject(context.Background(), projectId).ProjectAddAccessSchema(*addAccess).Execute()
+			adminUser := int32(1)
+			ownerRole := int32(4)
+			memberRole := int32(5)
+			roles := make([]client.ProjectAccessConfigurationSchemaRolesInner, 2)
+			roles[0] = *client.NewProjectAccessConfigurationSchemaRolesInnerWithDefaults()
+			roles[0].Id = &ownerRole
+			ownerUsers := make([]int32, 1)
+			ownerUsers = append(ownerUsers, adminUser)
+			roles[0].Users = ownerUsers
+
+			roles[1] = *client.NewProjectAccessConfigurationSchemaRolesInnerWithDefaults()
+			roles[1].Id = &memberRole
+			memberUsers := make([]int32, 1)
+			memberUsers = append(memberUsers, adminUser)
+			roles[0].Users = memberUsers
+
+			setAccess := client.NewProjectAccessConfigurationSchema(roles)
+			httpRes, err := apiClient.ProjectsAPI.SetProjectAccess(context.Background(), projectId).ProjectAccessConfigurationSchema(*setAccess).Execute()
 
 			require.Nil(t, err)
 			assert.Equal(t, 200, httpRes.StatusCode)
