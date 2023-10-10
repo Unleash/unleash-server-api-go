@@ -9,7 +9,6 @@ package client
 
 import (
 	"context"
-	"fmt"
 	"testing"
 
 	"github.com/Unleash/unleash-server-api-go/client"
@@ -83,7 +82,8 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 			require.Nil(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
-			fmt.Printf("%+v", resp)
+			assert.Equal(t, int32(1), resp.Users[0].Id)
+			assert.Equal(t, []int32{4,5}, resp.Users[0].Roles)
 		} else {
 			t.Skip("Enterprise only feature")
 		}
