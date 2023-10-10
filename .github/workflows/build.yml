@@ -18,6 +18,7 @@ jobs:
       matrix:
         image: 
           - "ghcr.io/ivarconr/unleash-enterprise:latest"
+          - "unleashorg/unleash-server:5.3.5"
           - "unleashorg/unleash-server:5.4.4"
           - "unleashorg/unleash-server:latest"
     runs-on: ubuntu-latest
@@ -42,4 +43,4 @@ jobs:
       - name: Startup services ${{ matrix.image }}
         run: docker compose up -d --wait -t 60
       - name: Tests ${{ matrix.image }}
-        run: go test ./...
+        run: go test -v -cover ./...
