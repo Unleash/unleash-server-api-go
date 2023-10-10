@@ -16,7 +16,10 @@ jobs:
   build:
     strategy:
       matrix:
-        build-type: ["oss", "enterprise"]
+        image: 
+          - "ghcr.io/ivarconr/unleash-enterprise:latest"
+          - "unleashorg/unleash-server:5.4.4"
+          - "unleashorg/unleash-server:latest"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -25,18 +28,18 @@ jobs:
         with:
           go-version: "1.20"
       - name: Login to ghcr
-        if: matrix.build-type == 'enterprise'
+        if: startsWith(matrix.image, 'ghcr.io/ivarconr')
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: gastonfournier
           password: ${{ secrets.GHCR_TOKEN }}
       - name: Setup enterprise docker image
-        if: matrix.build-type == 'enterprise'
+        if: startsWith(matrix.image, 'ghcr.io/ivarconr')
         run: |
           echo UNLEASH_DOCKER_IMAGE=${{ secrets.ENTERPRISE_IMAGE }} >> $GITHUB_ENV
           echo ENTERPRISE=true >> $GITHUB_ENV
-      - name: Startup services ${{ matrix.build-type }}
+      - name: Startup services ${{ matrix.image }}
         run: docker compose up -d --wait -t 60
-      - name: Tests ${{ matrix.build-type }}
+      - name: Tests ${{ matrix.image }}
         run: go test ./...
