@@ -82,8 +82,8 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 			require.Nil(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
-			assert.Equal(t, int32(1), resp.Users[0].Id)
-			assert.Equal(t, []int32{4,5}, resp.Users[0].Roles)
+			assert.Equal(t, "Owner", resp.Roles[0].Name)
+			assert.Equal(t, "Member", resp.Roles[1].Name)
 		} else {
 			t.Skip("Enterprise only feature")
 		}
