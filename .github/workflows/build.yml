@@ -17,6 +17,7 @@ jobs:
     strategy:
       matrix:
         image: 
+          - "ghcr.io/ivarconr/unleash-enterprise:5.3.5"
           - "ghcr.io/ivarconr/unleash-enterprise:latest"
           - "unleashorg/unleash-server:5.3.5"
           - "unleashorg/unleash-server:5.4.4"
