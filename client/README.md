@@ -73,7 +73,7 @@ ctx = context.WithValue(context.Background(), client.ContextOperationServerVaria
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

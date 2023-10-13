@@ -1,6 +1,10 @@
 {
   "openapi": "3.0.3",
-  "servers": [],
+  "servers": [
+    {
+      "url": "https://us.app.unleash-hosted.com/ushosted"
+    }
+  ],
   "info": {
     "title": "Unleash API",
     "version": "5.6.0-main"
@@ -2933,7 +2937,8 @@
               "type": "object",
               "additionalProperties": false,
               "required": [
-                "id"
+                "id",
+                "name"
               ],
               "properties": {
                 "id": {
@@ -2957,6 +2962,13 @@
             ],
             "items": {
               "$ref": "#/components/schemas/tagTypeSchema"
+            }
+          },
+          "dependencies": {
+            "type": "array",
+            "description": "A list of all the dependencies for features in `features` list.",
+            "items": {
+              "$ref": "#/components/schemas/featureDependenciesSchema"
             }
           }
         }
@@ -4184,6 +4196,30 @@
               "last90": {
                 "type": "number",
                 "description": "The number of active users in the last 90 days",
+                "example": 15,
+                "minimum": 0
+              }
+            }
+          },
+          "productionChanges": {
+            "type": "object",
+            "description": "The number of changes to the production environment in the last 30, 60 and 90 days",
+            "properties": {
+              "last30": {
+                "type": "number",
+                "description": "The number of changes in production in the last 30 days",
+                "example": 10,
+                "minimum": 0
+              },
+              "last60": {
+                "type": "number",
+                "description": "The number of changes in production in the last 60 days",
+                "example": 12,
+                "minimum": 0
+              },
+              "last90": {
+                "type": "number",
+                "description": "The number of changes in production in the last 90 days",
                 "example": 15,
                 "minimum": 0
               }
@@ -8314,6 +8350,29 @@
           "type": "string"
         }
       },
+      "featureDependenciesSchema": {
+        "type": "object",
+        "description": "Feature dependency connection between a child feature and its dependencies",
+        "required": [
+          "feature",
+          "dependencies"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "feature": {
+            "type": "string",
+            "description": "The name of the child feature.",
+            "example": "child_feature"
+          },
+          "dependencies": {
+            "type": "array",
+            "description": "List of parent features for the child feature",
+            "items": {
+              "$ref": "#/components/schemas/dependentFeatureSchema"
+            }
+          }
+        }
+      },
       "adminPermissionSchema": {
         "type": "object",
         "required": [
@@ -9576,6 +9635,28 @@
                 "type": "object"
               }
             }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "action"
+            ],
+            "description": "Remove a parent feature dependency or all dependencies if no payload.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "deleteDependency"
+                ],
+                "description": "The name of this action."
+              }
+            }
           }
         ]
       },
@@ -9896,6 +9977,28 @@
             }
           },
           {
+            "type": "object",
+            "required": [
+              "feature",
+              "action"
+            ],
+            "description": "Remove a parent feature dependency or all dependencies if no payload.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "deleteDependency"
+                ],
+                "description": "The name of this action."
+              }
+            }
+          },
+          {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/changeRequestCreateSchema"
@@ -10188,6 +10291,28 @@
               "payload": {
                 "$ref": "#/components/schemas/createDependentFeatureSchema",
                 "type": "object"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "action"
+            ],
+            "description": "Remove a parent feature dependency or all dependencies if no payload.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "deleteDependency"
+                ],
+                "description": "The name of this action."
               }
             }
           }
@@ -34430,7 +34555,7 @@
             "description": "instanceAdminStatsSchemaCsv",
             "content": {
               "text/csv": {
-                "example": "\"OIDCenabled\",\"SAMLenabled\",\"clientApps\",\"contextFields\",\"environments\",\"featureExports\",\"featureImports\",\"featureToggles\",\"groups\",\"instanceId\",\"projects\",\"roles\",\"customRootRoles\",\"customRootRolesInUse\",\"segments\",\"strategies\",\"sum\",\"timestamp\",\"users\",\"versionEnterprise\",\"versionOSS\",\"activeUsers\"\ntrue,false,\"[{\"\"range\"\":\"\"allTime\"\",\"\"count\"\":15},{\"\"range\"\":\"\"30d\"\",\"\"count\"\":9},{\"\"range\"\":\"\"7d\"\",\"\"count\"\":5}]\",6,2,0,0,29,3,\"ed3861ae-78f9-4e8c-8e57-b57efc15f82b\",4,5,2,1,2,8,\"some-sha256-hash\",\"2023-07-12T10:00:00.000Z\",10,\"5.1.7\",\"5.1.7\",\"{\"\"last90\"\":15,\"\"last60\"\":12,\"\"last30\"\":10,\"\"last7\"\":5}\"",
+                "example": "\"OIDCenabled\",\"SAMLenabled\",\"clientApps\",\"contextFields\",\"environments\",\"featureExports\",\"featureImports\",\"featureToggles\",\"groups\",\"instanceId\",\"projects\",\"roles\",\"customRootRoles\",\"customRootRolesInUse\",\"segments\",\"strategies\",\"sum\",\"timestamp\",\"users\",\"versionEnterprise\",\"versionOSS\",\"activeUsers\",\"productionChanges\"\ntrue,false,\"[{\"\"range\"\":\"\"allTime\"\",\"\"count\"\":15},{\"\"range\"\":\"\"30d\"\",\"\"count\"\":9},{\"\"range\"\":\"\"7d\"\",\"\"count\"\":5}]\",6,2,0,0,29,3,\"ed3861ae-78f9-4e8c-8e57-b57efc15f82b\",4,5,2,1,2,8,\"some-sha256-hash\",\"2023-07-12T10:00:00.000Z\",10,\"5.1.7\",\"5.1.7\",\"{\"\"last90\"\":15,\"\"last60\"\":12,\"\"last30\"\":10,\"\"last7\"\":5}\",\"{\"\"last30\"\":100,\"\"last60\"\":200,\"\"last90\"\":200}\"",
                 "schema": {
                   "type": "string"
                 }

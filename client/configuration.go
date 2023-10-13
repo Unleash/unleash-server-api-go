@@ -93,7 +93,7 @@ func NewConfiguration() *Configuration {
 		Debug:         false,
 		Servers: ServerConfigurations{
 			{
-				URL:         "",
+				URL:         "https://us.app.unleash-hosted.com/ushosted",
 				Description: "No description provided",
 			},
 		},

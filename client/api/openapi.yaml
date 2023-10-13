@@ -3,7 +3,7 @@ info:
   title: Unleash API
   version: 5.6.0-main
 servers:
-- url: /
+- url: https://us.app.unleash-hosted.com/ushosted
 security:
 - apiKey: []
 tags:
