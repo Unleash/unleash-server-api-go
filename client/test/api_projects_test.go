@@ -22,19 +22,6 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 	configuration := client.NewConfiguration()
 	apiClient := client.NewAPIClient(configuration)
 
-	t.Run("Test ProjectsAPIService AddAccessToProject", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		var projectId string
-
-		httpRes, err := apiClient.ProjectsAPI.AddAccessToProject(context.Background(), projectId).Execute()
-
-		require.Nil(t, err)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 	t.Run("Test ProjectsAPIService CreateProject", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
@@ -60,6 +47,20 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test ProjectsAPIService GetProjectAccess", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		var projectId string
+
+		resp, httpRes, err := apiClient.ProjectsAPI.GetProjectAccess(context.Background(), projectId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test ProjectsAPIService GetProjects", func(t *testing.T) {
 
 		t.Skip("skip test") // remove to run test
@@ -68,6 +69,19 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test ProjectsAPIService SetProjectAccess", func(t *testing.T) {
+
+		t.Skip("skip test") // remove to run test
+
+		var projectId string
+
+		httpRes, err := apiClient.ProjectsAPI.SetProjectAccess(context.Background(), projectId).Execute()
+
+		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})

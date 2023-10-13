@@ -27,6 +27,8 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 			require.Nil(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 201, httpRes.StatusCode)
+		} else {
+			t.Skip("Enterprise only feature")
 		}
 	})
 
@@ -39,24 +41,51 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 
 			require.Nil(t, err)
 			assert.Equal(t, 200, httpRes.StatusCode)
+		} else {
+			t.Skip("Enterprise only feature")
 		}
 	})
 
-	t.Run("Test ProjectsAPIService AddAccessToProject", func(t *testing.T) {
+	t.Run("Test ProjectsAPIService SetAccessToProject", func(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
 			projectId := "default"
-			adminUser := 1
-			memberRole := 5
-			roles := make([]int32, 1)
-			roles[0] = int32(memberRole)
-			users := make([]int32, 1)
-			users[0] = int32(adminUser)
-			groups := make([]int32, 0)
-			addAccess := client.NewProjectAddAccessSchema(roles, groups, users)
-			httpRes, err := apiClient.ProjectsAPI.AddAccessToProject(context.Background(), projectId).ProjectAddAccessSchema(*addAccess).Execute()
+			adminUser := int32(1)
+			ownerRole := int32(4)
+			memberRole := int32(5)
+			roles := make([]client.ProjectAccessConfigurationSchemaRolesInner, 2)
+			roles[0] = *client.NewProjectAccessConfigurationSchemaRolesInnerWithDefaults()
+			roles[0].Id = &ownerRole
+			roles[0].Users = []int32{adminUser}
+
+			roles[1] = *client.NewProjectAccessConfigurationSchemaRolesInnerWithDefaults()
+			roles[1].Id = &memberRole
+			roles[1].Users = []int32{adminUser}
+
+			setAccess := client.NewProjectAccessConfigurationSchema(roles)
+			httpRes, err := apiClient.ProjectsAPI.SetProjectAccess(context.Background(), projectId).ProjectAccessConfigurationSchema(*setAccess).Execute()
 
 			require.Nil(t, err)
 			assert.Equal(t, 200, httpRes.StatusCode)
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+
+	t.Run("Test ProjectsAPIService GetProjectAccess", func(t *testing.T) {
+
+		if enterpriseEnvironmentAvailable() {
+
+			projectId := "default"
+
+			resp, httpRes, err := apiClient.ProjectsAPI.GetProjectAccess(context.Background(), projectId).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+			assert.Equal(t, "Owner", resp.Roles[0].Name)
+			assert.Equal(t, "Member", resp.Roles[1].Name)
+		} else {
+			t.Skip("Enterprise only feature")
 		}
 	})
 

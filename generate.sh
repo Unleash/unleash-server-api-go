@@ -1,11 +1,12 @@
 #!/bin/bash
 
 rm -rf client
+set -e
 
 # Download the latest OpenAPI specification
 # This should be another step
 # get enterprise version
-curl -s http://localhost:4242/docs/openapi.json | jq > openapi.json
+curl -s https://us.app.unleash-hosted.com/ushosted/docs/openapi.json | jq > openapi.json
 
 # Keep only the operations we support
 openapi-format openapi.json --filterFile operations.yaml --json -o modified-openapi.json

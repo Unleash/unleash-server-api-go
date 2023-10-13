@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Unleash API",
-    "version": "5.4.0-main"
+    "version": "5.6.0-main"
   },
   "servers": [
     {
@@ -1145,10 +1145,10 @@
       }
     },
     "/api/admin/projects/{projectId}/access": {
-      "post": {
-        "operationId": "addAccessToProject",
-        "summary": "Configure project access",
-        "description": "Configure project access for groups and single users. The provided users and groups will be given the roles specified in the payload.",
+      "get": {
+        "operationId": "getProjectAccess",
+        "summary": "Get users and groups in project",
+        "description": "Get all groups, users and their roles, and available roles for the given project.",
         "parameters": [
           {
             "name": "projectId",
@@ -1159,44 +1159,13 @@
             }
           }
         ],
-        "requestBody": {
-          "description": "projectAddAccessSchema",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/projectAddAccessSchema"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
-            "description": "This response has no body."
-          },
-          "400": {
-            "description": "The request data does not match what we expect.",
+            "description": "projectAccessSchema",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "description": "The ID of the error instance",
-                      "type": "string",
-                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
-                    },
-                    "name": {
-                      "description": "The name of the error kind",
-                      "type": "string",
-                      "example": "ValidationError"
-                    },
-                    "message": {
-                      "description": "A description of what went wrong.",
-                      "type": "string",
-                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
-                    }
-                  }
+                  "$ref": "#/components/schemas/projectAccessSchema"
                 }
               }
             }
@@ -1254,9 +1223,43 @@
                 }
               }
             }
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      },
+      "put": {
+        "operationId": "setProjectAccess",
+        "summary": "Set users and groups to roles in the current project",
+        "description": "Sets all groups, users and their roles for the given project, overriding any existing configuration.",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "projectAccessConfigurationSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/projectAccessConfigurationSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "This response has no body."
           },
-          "404": {
-            "description": "The requested resource was not found.",
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1270,20 +1273,20 @@
                     "name": {
                       "description": "The name of the error kind",
                       "type": "string",
-                      "example": "NotFoundError"
+                      "example": "AuthenticationRequired"
                     },
                     "message": {
                       "description": "A description of what went wrong.",
                       "type": "string",
-                      "example": "Could not find the addon with ID \"12345\"."
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
                     }
                   }
                 }
               }
             }
           },
-          "415": {
-            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
             "content": {
               "application/json": {
                 "schema": {
@@ -1297,12 +1300,12 @@
                     "name": {
                       "description": "The name of the error kind",
                       "type": "string",
-                      "example": "ContentTypeerror"
+                      "example": "NoAccessError"
                     },
                     "message": {
                       "description": "A description of what went wrong.",
                       "type": "string",
-                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format."
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
                     }
                   }
                 }
@@ -2621,6 +2624,31 @@
           "rootRole"
         ]
       },
+      "groupUserModelSchema": {
+        "description": "Details for a single user belonging to a group",
+        "type": "object",
+        "properties": {
+          "joinedAt": {
+            "description": "The date when the user joined the group",
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-06-30T11:41:00.123Z"
+          },
+          "createdBy": {
+            "description": "The username of the user who added this user to this group",
+            "type": "string",
+            "example": "admin",
+            "nullable": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/userSchema"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "user"
+        ]
+      },
       "projectSchema": {
         "description": "A definition of the project used for projects listing purposes",
         "type": "object",
@@ -3131,12 +3159,6 @@
             "example": "This project contains features related to the new pet shop.",
             "nullable": true
           },
-          "featureLimit": {
-            "description": "A limit on the number of features allowed in the project. `null` if no limit.",
-            "type": "integer",
-            "example": 100,
-            "nullable": true
-          },
           "mode": {
             "description": "A mode of the project affecting what actions are possible in this project",
             "type": "string",
@@ -3161,11 +3183,10 @@
       "createRoleWithPermissionsSchema": {
         "description": "A write model for the custom role and permissions to allow Unleash to decide what actions a role holder is allowed to perform",
         "type": "object",
-        "oneOf": [
+        "anyOf": [
           {
             "type": "object",
             "required": [
-              "type",
               "name"
             ],
             "properties": {
@@ -3180,11 +3201,12 @@
                 "example": "Users with external-contributors role have limited access to most features in Unleash"
               },
               "type": {
-                "description": "[Custom root roles](https://docs.getunleash.io/reference/rbac#custom-root-roles) are root roles with a custom set of permissions.",
+                "description": "[Custom root roles](https://docs.getunleash.io/reference/rbac#custom-root-roles) (type=root-custom) are root roles with a custom set of permissions. [Custom project roles](https://docs.getunleash.io/reference/rbac#custom-project-roles) (type=custom) contain a specific set of permissions for project resources.",
                 "type": "string",
                 "example": "root-custom",
                 "enum": [
-                  "root-custom"
+                  "root-custom",
+                  "custom"
                 ]
               },
               "permissions": {
@@ -3266,45 +3288,86 @@
           }
         ]
       },
-      "projectAddAccessSchema": {
-        "description": "An object containing a collection of roles, a collection of groups and a collection of users.",
+      "projectAccessConfigurationSchema": {
+        "description": "An object describing roles for a project and what users and groups are part of that role.",
         "type": "object",
         "properties": {
           "roles": {
-            "description": "A list of role IDs",
+            "description": "A list of roles that are available within this project.",
             "type": "array",
             "items": {
-              "type": "integer",
-              "minimum": 0,
-              "example": 5,
-              "description": "A role ID"
-            }
-          },
-          "groups": {
-            "description": "A list of group IDs",
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "minimum": 0,
-              "example": 5,
-              "description": "A group ID"
-            }
-          },
-          "users": {
-            "description": "A list of user IDs",
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "minimum": 0,
-              "example": 5,
-              "description": "A user ID"
+              "type": "object",
+              "properties": {
+                "id": {
+                  "description": "The id of the role.",
+                  "type": "integer",
+                  "example": 1,
+                  "minimum": 1
+                },
+                "groups": {
+                  "description": "A list of group ids that will be assigned this role",
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "example": [
+                    1,
+                    2,
+                    3
+                  ]
+                },
+                "users": {
+                  "description": "A list of user ids that will be assigned this role",
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "example": [
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              }
             }
           }
         },
+        "additionalProperties": false,
+        "required": [
+          "roles"
+        ]
+      },
+      "projectAccessSchema": {
+        "description": "An object describing access permissions for a given project.",
+        "type": "object",
+        "properties": {
+          "groups": {
+            "description": "A list of groups that have access to this project",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/groupWithProjectRoleSchema"
+            }
+          },
+          "users": {
+            "description": "A list of users and their roles within this project",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/userWithProjectRoleSchema"
+            }
+          },
+          "roles": {
+            "description": "A list of roles that are available within this project.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/roleSchema"
+            }
+          }
+        },
+        "additionalProperties": false,
         "required": [
           "roles",
-          "groups",
-          "users"
+          "users",
+          "groups"
         ]
       },
       "projectCreatedSchema": {
@@ -3455,10 +3518,169 @@
             "description": "A new description for the project",
             "type": "string",
             "example": "Anything related to the new UI"
+          },
+          "mode": {
+            "description": "A mode of the project affecting what actions are possible in this project",
+            "type": "string",
+            "example": "open",
+            "enum": [
+              "open",
+              "protected",
+              "private"
+            ]
+          },
+          "defaultStickiness": {
+            "description": "A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy",
+            "type": "string",
+            "example": "userId"
           }
         },
         "required": [
           "name"
+        ]
+      },
+      "userWithProjectRoleSchema": {
+        "description": "Data about a user including their project role",
+        "type": "object",
+        "properties": {
+          "isAPI": {
+            "description": "Whether this user is authenticated through Unleash tokens or logged in with a session",
+            "type": "boolean",
+            "example": false,
+            "deprecated": true
+          },
+          "name": {
+            "description": "The name of the user",
+            "type": "string",
+            "example": "Hunter Burgan"
+          },
+          "email": {
+            "description": "The user's email address",
+            "type": "string",
+            "example": "hunter@hunter.com",
+            "nullable": true
+          },
+          "id": {
+            "description": "The user's ID in the Unleash system",
+            "type": "integer",
+            "example": 1,
+            "minimum": 0
+          },
+          "imageUrl": {
+            "description": "A URL pointing to the user's image.",
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "addedAt": {
+            "description": "When this user was added to the project",
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-08-01T14:35:16Z"
+          },
+          "roleId": {
+            "description": "The ID of the role this user has in the given project",
+            "type": "integer",
+            "example": 5,
+            "minimum": 0
+          },
+          "roles": {
+            "description": "A list of roles this user has in the given project",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "example": 5
+            }
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "groupWithProjectRoleSchema": {
+        "description": "Data about a group including their project role",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The name of the group",
+            "type": "string",
+            "example": "DX team"
+          },
+          "id": {
+            "description": "The group's ID in the Unleash system",
+            "type": "integer",
+            "example": 1,
+            "minimum": 0
+          },
+          "addedAt": {
+            "description": "When this group was added to the project",
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-08-01T14:35:16Z"
+          },
+          "roleId": {
+            "description": "The ID of the role this group has in the given project",
+            "type": "integer",
+            "example": 5,
+            "minimum": 0
+          },
+          "roles": {
+            "description": "A list of roles this user has in the given project",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "example": 5
+            }
+          },
+          "description": {
+            "description": "A custom description of the group",
+            "type": "string",
+            "example": "Current members of the DX squad",
+            "nullable": true
+          },
+          "mappingsSSO": {
+            "description": "A list of SSO groups that should map to this Unleash group",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "SSOGroup1",
+              "SSOGroup2"
+            ]
+          },
+          "rootRole": {
+            "description": "A role id that is used as the root role for all users in this group. This can be either the id of the Viewer, Editor or Admin role.",
+            "type": "number",
+            "example": 1,
+            "nullable": true
+          },
+          "createdBy": {
+            "description": "A user who created this group",
+            "type": "string",
+            "example": "admin",
+            "nullable": true
+          },
+          "createdAt": {
+            "description": "When was this group created",
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-06-30T11:41:00.123Z",
+            "nullable": true
+          },
+          "users": {
+            "description": "A list of users belonging to this group",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/groupUserModelSchema"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
         ]
       }
     },

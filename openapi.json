@@ -7,7 +7,7 @@
   ],
   "info": {
     "title": "Unleash API",
-    "version": "5.4.0-main"
+    "version": "5.6.0-main"
   },
   "security": [
     {
@@ -2669,6 +2669,7 @@
               "segment-deleted",
               "group-created",
               "group-updated",
+              "group-deleted",
               "setting-created",
               "setting-updated",
               "setting-deleted",
@@ -2702,7 +2703,10 @@
               "service-account-created",
               "service-account-deleted",
               "service-account-updated",
-              "feature-potentially-stale-on"
+              "feature-potentially-stale-on",
+              "feature-dependency-added",
+              "feature-dependency-removed",
+              "feature-dependencies-removed"
             ],
             "example": "feature-created"
           },
@@ -2933,7 +2937,8 @@
               "type": "object",
               "additionalProperties": false,
               "required": [
-                "id"
+                "id",
+                "name"
               ],
               "properties": {
                 "id": {
@@ -2957,6 +2962,13 @@
             ],
             "items": {
               "$ref": "#/components/schemas/tagTypeSchema"
+            }
+          },
+          "dependencies": {
+            "type": "array",
+            "description": "A list of all the dependencies for features in `features` list.",
+            "items": {
+              "$ref": "#/components/schemas/featureDependenciesSchema"
             }
           }
         }
@@ -3315,6 +3327,45 @@
             },
             "nullable": true,
             "description": "The list of feature tags"
+          },
+          "children": {
+            "type": "array",
+            "description": "The list of child feature names. This is an experimental field and may change.",
+            "items": {
+              "type": "string",
+              "example": "some-feature"
+            }
+          },
+          "dependencies": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "feature"
+              ],
+              "properties": {
+                "feature": {
+                  "description": "The name of the parent feature",
+                  "type": "string",
+                  "example": "some-feature"
+                },
+                "enabled": {
+                  "description": "Whether the parent feature is enabled or not",
+                  "type": "boolean",
+                  "example": true
+                },
+                "variants": {
+                  "description": "The list of variants the parent feature should resolve to. Only valid when feature is enabled.",
+                  "type": "array",
+                  "items": {
+                    "example": "some-feature-blue-variant",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": "The list of parent dependencies. This is an experimental field and may change."
           }
         }
       },
@@ -4150,6 +4201,30 @@
               }
             }
           },
+          "productionChanges": {
+            "type": "object",
+            "description": "The number of changes to the production environment in the last 30, 60 and 90 days",
+            "properties": {
+              "last30": {
+                "type": "number",
+                "description": "The number of changes in production in the last 30 days",
+                "example": 10,
+                "minimum": 0
+              },
+              "last60": {
+                "type": "number",
+                "description": "The number of changes in production in the last 60 days",
+                "example": 12,
+                "minimum": 0
+              },
+              "last90": {
+                "type": "number",
+                "description": "The number of changes in production in the last 90 days",
+                "example": 15,
+                "minimum": 0
+              }
+            }
+          },
           "featureToggles": {
             "type": "number",
             "description": "The number of feature-toggles this instance has",
@@ -4675,6 +4750,10 @@
                 }
               }
             }
+          },
+          "hasUnsatisfiedDependency": {
+            "type": "boolean",
+            "description": "Whether the feature has a parent dependency that is not satisfied"
           },
           "isEnabledInCurrentEnvironment": {
             "type": "boolean",
@@ -5740,9 +5819,7 @@
         "required": [
           "appName"
         ],
-        "additionalProperties": {
-          "type": "string"
-        },
+        "additionalProperties": true,
         "properties": {
           "appName": {
             "type": "string",
@@ -5859,6 +5936,7 @@
               "segment-deleted",
               "group-created",
               "group-updated",
+              "group-deleted",
               "setting-created",
               "setting-updated",
               "setting-deleted",
@@ -5892,7 +5970,10 @@
               "service-account-created",
               "service-account-deleted",
               "service-account-updated",
-              "feature-potentially-stale-on"
+              "feature-potentially-stale-on",
+              "feature-dependency-added",
+              "feature-dependency-removed",
+              "feature-dependencies-removed"
             ],
             "example": "feature-created"
           },
@@ -8262,6 +8343,36 @@
           }
         }
       },
+      "parentFeatureOptionsSchema": {
+        "type": "array",
+        "description": "A list of parent feature names available for a given child feature. Features that have their own parents are excluded.",
+        "items": {
+          "type": "string"
+        }
+      },
+      "featureDependenciesSchema": {
+        "type": "object",
+        "description": "Feature dependency connection between a child feature and its dependencies",
+        "required": [
+          "feature",
+          "dependencies"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "feature": {
+            "type": "string",
+            "description": "The name of the child feature.",
+            "example": "child_feature"
+          },
+          "dependencies": {
+            "type": "array",
+            "description": "List of parent features for the child feature",
+            "items": {
+              "$ref": "#/components/schemas/dependentFeatureSchema"
+            }
+          }
+        }
+      },
       "adminPermissionSchema": {
         "type": "object",
         "required": [
@@ -8471,12 +8582,6 @@
             "nullable": true,
             "example": "This project contains features related to the new pet shop."
           },
-          "featureLimit": {
-            "type": "integer",
-            "nullable": true,
-            "example": 100,
-            "description": "A limit on the number of features allowed in the project. `null` if no limit."
-          },
           "mode": {
             "type": "string",
             "enum": [
@@ -8497,11 +8602,10 @@
       "createRoleWithPermissionsSchema": {
         "type": "object",
         "description": "A write model for the custom role and permissions to allow Unleash to decide what actions a role holder is allowed to perform",
-        "oneOf": [
+        "anyOf": [
           {
             "type": "object",
             "required": [
-              "type",
               "name"
             ],
             "properties": {
@@ -8516,10 +8620,11 @@
                 "example": "Users with external-contributors role have limited access to most features in Unleash"
               },
               "type": {
-                "description": "[Custom root roles](https://docs.getunleash.io/reference/rbac#custom-root-roles) are root roles with a custom set of permissions.",
+                "description": "[Custom root roles](https://docs.getunleash.io/reference/rbac#custom-root-roles) (type=root-custom) are root roles with a custom set of permissions. [Custom project roles](https://docs.getunleash.io/reference/rbac#custom-project-roles) (type=custom) contain a specific set of permissions for project resources.",
                 "type": "string",
                 "enum": [
-                  "root-custom"
+                  "root-custom",
+                  "custom"
                 ],
                 "example": "root-custom"
               },
@@ -8793,6 +8898,55 @@
             "description": "A list of roles that are available for this project",
             "items": {
               "$ref": "#/components/schemas/roleSchema"
+            }
+          }
+        }
+      },
+      "projectAccessConfigurationSchema": {
+        "type": "object",
+        "required": [
+          "roles"
+        ],
+        "description": "An object describing roles for a project and what users and groups are part of that role.",
+        "additionalProperties": false,
+        "properties": {
+          "roles": {
+            "type": "array",
+            "description": "A list of roles that are available within this project.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "The id of the role.",
+                  "example": 1,
+                  "minimum": 1
+                },
+                "groups": {
+                  "description": "A list of group ids that will be assigned this role",
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "example": [
+                    1,
+                    2,
+                    3
+                  ]
+                },
+                "users": {
+                  "type": "array",
+                  "description": "A list of user ids that will be assigned this role",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "example": [
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              }
             }
           }
         }
@@ -9170,10 +9324,339 @@
         "description": "Data used to create a [change request](https://docs.getunleash.io/reference/change-requests) for a single feature or segment change.",
         "oneOf": [
           {
-            "$ref": "#/components/schemas/changeRequestCreateSegmentSchema"
+            "type": "object",
+            "required": [
+              "payload",
+              "action"
+            ],
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": [
+                  "updateSegment"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "id"
+                ],
+                "$ref": "#/components/schemas/upsertSegmentSchema",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The ID of the segment to update.",
+                    "example": 1
+                  }
+                }
+              }
+            }
           },
           {
-            "$ref": "#/components/schemas/changeRequestCreateFeatureSchema"
+            "type": "object",
+            "required": [
+              "payload",
+              "action"
+            ],
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": [
+                  "deleteSegment"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "id"
+                ],
+                "type": "object",
+                "description": "Required data to delete a segment.",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The ID of the segment to delete.",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "description": "Update the enabled state for a feature.",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "updateEnabled"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "enabled"
+                ],
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "example": true,
+                    "description": "The new state of the feature."
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "description": "Add a strategy to the feature",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "addStrategy"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "constraints",
+                  "parameters",
+                  "name"
+                ],
+                "$ref": "#/components/schemas/createFeatureStrategySchema",
+                "type": "object"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "description": "Update a strategy belonging to this feature.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "updateStrategy"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "id"
+                ],
+                "$ref": "#/components/schemas/updateFeatureStrategySchema",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "0103487d-8788-4cda-af59-0a68642dbc5a",
+                    "description": "The ID of the strategy to update."
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "description": "Delete a strategy from this feature.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "deleteStrategy"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "id"
+                ],
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "0103487d-8788-4cda-af59-0a68642dbc5a",
+                    "description": "The ID of the strategy to update."
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "action"
+            ],
+            "description": "Archive a feature.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "archiveFeature"
+                ],
+                "description": "The name of this action."
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "description": "Update variants for this feature.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "patchVariant"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "type": "object",
+                "required": [
+                  "variants"
+                ],
+                "properties": {
+                  "variants": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/variantSchema"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "description": "Reorder strategies for this feature",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "reorderStrategy"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "$ref": "#/components/schemas/setStrategySortOrderSchema"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "description": "Add a parent feature dependency.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "addDependency"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "$ref": "#/components/schemas/createDependentFeatureSchema",
+                "type": "object"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "action"
+            ],
+            "description": "Remove a parent feature dependency or all dependencies if no payload.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "deleteDependency"
+                ],
+                "description": "The name of this action."
+              }
+            }
           }
         ]
       },
@@ -9181,7 +9664,339 @@
         "description": "Either a single change or a list of changes to create a change request from.",
         "oneOf": [
           {
-            "$ref": "#/components/schemas/changeRequestCreateSchema"
+            "type": "object",
+            "required": [
+              "payload",
+              "action"
+            ],
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": [
+                  "updateSegment"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "id"
+                ],
+                "$ref": "#/components/schemas/upsertSegmentSchema",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The ID of the segment to update.",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "payload",
+              "action"
+            ],
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": [
+                  "deleteSegment"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "id"
+                ],
+                "type": "object",
+                "description": "Required data to delete a segment.",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The ID of the segment to delete.",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "description": "Update the enabled state for a feature.",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "updateEnabled"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "enabled"
+                ],
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "example": true,
+                    "description": "The new state of the feature."
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "description": "Add a strategy to the feature",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "addStrategy"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "constraints",
+                  "parameters",
+                  "name"
+                ],
+                "$ref": "#/components/schemas/createFeatureStrategySchema",
+                "type": "object"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "description": "Update a strategy belonging to this feature.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "updateStrategy"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "id"
+                ],
+                "$ref": "#/components/schemas/updateFeatureStrategySchema",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "0103487d-8788-4cda-af59-0a68642dbc5a",
+                    "description": "The ID of the strategy to update."
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "description": "Delete a strategy from this feature.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "deleteStrategy"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "id"
+                ],
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "0103487d-8788-4cda-af59-0a68642dbc5a",
+                    "description": "The ID of the strategy to update."
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "action"
+            ],
+            "description": "Archive a feature.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "archiveFeature"
+                ],
+                "description": "The name of this action."
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "description": "Update variants for this feature.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "patchVariant"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "type": "object",
+                "required": [
+                  "variants"
+                ],
+                "properties": {
+                  "variants": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/variantSchema"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "description": "Reorder strategies for this feature",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "reorderStrategy"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "$ref": "#/components/schemas/setStrategySortOrderSchema"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "description": "Add a parent feature dependency.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "addDependency"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "$ref": "#/components/schemas/createDependentFeatureSchema",
+                "type": "object"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "action"
+            ],
+            "description": "Remove a parent feature dependency or all dependencies if no payload.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "deleteDependency"
+                ],
+                "description": "The name of this action."
+              }
+            }
           },
           {
             "type": "array",
@@ -9449,6 +10264,55 @@
               },
               "payload": {
                 "$ref": "#/components/schemas/setStrategySortOrderSchema"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "description": "Add a parent feature dependency.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "addDependency"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "$ref": "#/components/schemas/createDependentFeatureSchema",
+                "type": "object"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "action"
+            ],
+            "description": "Remove a parent feature dependency or all dependencies if no payload.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "deleteDependency"
+                ],
+                "description": "The name of this action."
               }
             }
           }
@@ -10032,6 +10896,40 @@
             "type": "string",
             "description": "A new description for the project",
             "example": "Anything related to the new UI"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "open",
+              "protected",
+              "private"
+            ],
+            "example": "open",
+            "description": "A mode of the project affecting what actions are possible in this project"
+          },
+          "defaultStickiness": {
+            "type": "string",
+            "example": "userId",
+            "description": "A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy"
+          }
+        }
+      },
+      "updateProjectEnterpriseSettingsSchema": {
+        "type": "object",
+        "description": "Data used to update a [project](https://docs.getunleash.io/reference/projects) settings",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "open",
+              "protected",
+              "private"
+            ],
+            "example": "open",
+            "description": "A mode of the project affecting what actions are possible in this project"
+          },
+          "featureNaming": {
+            "$ref": "#/components/schemas/createFeatureNamingPatternSchema"
           }
         }
       },
@@ -16407,6 +17305,177 @@
         ]
       }
     },
+    "/api/admin/projects/{projectId}/settings": {
+      "put": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "updateProjectEnterpriseSettings",
+        "summary": "Update project enterprise settings",
+        "description": "Update project enterprise settings with new values. Any fields not provided are ignored.",
+        "requestBody": {
+          "description": "updateProjectEnterpriseSettingsSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateProjectEnterpriseSettingsSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "This response has no body."
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ValidationError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ContentTypeerror",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
     "/api/admin/projects/{projectId}/users": {
       "get": {
         "tags": [
@@ -16512,6 +17581,94 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Set users and groups to roles in the current project",
+        "description": "Sets all groups, users and their roles for the given project, overriding any existing configuration.",
+        "operationId": "setProjectAccess",
+        "requestBody": {
+          "description": "projectAccessConfigurationSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/projectAccessConfigurationSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "This response has no body."
           },
           "401": {
             "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
@@ -29636,7 +30793,7 @@
         ]
       }
     },
-    "/api/admin/projects/{projectId}/features/{featureName}/dependencies": {
+    "/api/admin/projects/{projectId}/features/{child}/dependencies": {
       "post": {
         "tags": [
           "Features"
@@ -29751,7 +30908,362 @@
             }
           },
           {
-            "name": "featureName",
+            "name": "child",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Features"
+        ],
+        "summary": "Deletes feature dependencies.",
+        "description": "Remove dependencies to all parent features.",
+        "operationId": "deleteFeatureDependencies",
+        "responses": {
+          "200": {
+            "description": "This response has no body."
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "child",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/features/{child}/dependencies/{parent}": {
+      "delete": {
+        "tags": [
+          "Features"
+        ],
+        "summary": "Deletes a feature dependency.",
+        "description": "Remove a dependency to a parent feature.",
+        "operationId": "deleteFeatureDependency",
+        "responses": {
+          "200": {
+            "description": "This response has no body."
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "child",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "parent",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/features/{child}/parents": {
+      "get": {
+        "tags": [
+          "Features"
+        ],
+        "summary": "List parent options.",
+        "description": "List available parents who have no transitive dependencies.",
+        "operationId": "listParentOptions",
+        "responses": {
+          "200": {
+            "description": "parentFeatureOptionsSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/parentFeatureOptionsSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NotFoundError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "child",
             "in": "path",
             "required": true,
             "schema": {
@@ -33043,7 +34555,7 @@
             "description": "instanceAdminStatsSchemaCsv",
             "content": {
               "text/csv": {
-                "example": "\"OIDCenabled\",\"SAMLenabled\",\"clientApps\",\"contextFields\",\"environments\",\"featureExports\",\"featureImports\",\"featureToggles\",\"groups\",\"instanceId\",\"projects\",\"roles\",\"customRootRoles\",\"customRootRolesInUse\",\"segments\",\"strategies\",\"sum\",\"timestamp\",\"users\",\"versionEnterprise\",\"versionOSS\",\"activeUsers\"\ntrue,false,\"[{\"\"range\"\":\"\"allTime\"\",\"\"count\"\":15},{\"\"range\"\":\"\"30d\"\",\"\"count\"\":9},{\"\"range\"\":\"\"7d\"\",\"\"count\"\":5}]\",6,2,0,0,29,3,\"ed3861ae-78f9-4e8c-8e57-b57efc15f82b\",1,5,2,1,2,8,\"some-sha256-hash\",\"2023-07-12T10:00:00.000Z\",10,\"5.1.7\",\"5.1.7\",\"{\"\"last90\"\":15,\"\"last60\"\":12,\"\"last30\"\":10,\"\"last7\"\":5}\"",
+                "example": "\"OIDCenabled\",\"SAMLenabled\",\"clientApps\",\"contextFields\",\"environments\",\"featureExports\",\"featureImports\",\"featureToggles\",\"groups\",\"instanceId\",\"projects\",\"roles\",\"customRootRoles\",\"customRootRolesInUse\",\"segments\",\"strategies\",\"sum\",\"timestamp\",\"users\",\"versionEnterprise\",\"versionOSS\",\"activeUsers\",\"productionChanges\"\ntrue,false,\"[{\"\"range\"\":\"\"allTime\"\",\"\"count\"\":15},{\"\"range\"\":\"\"30d\"\",\"\"count\"\":9},{\"\"range\"\":\"\"7d\"\",\"\"count\"\":5}]\",6,2,0,0,29,3,\"ed3861ae-78f9-4e8c-8e57-b57efc15f82b\",4,5,2,1,2,8,\"some-sha256-hash\",\"2023-07-12T10:00:00.000Z\",10,\"5.1.7\",\"5.1.7\",\"{\"\"last90\"\":15,\"\"last60\"\":12,\"\"last30\"\":10,\"\"last7\"\":5}\",\"{\"\"last30\"\":100,\"\"last60\"\":200,\"\"last90\"\":200}\"",
                 "schema": {
                   "type": "string"
                 }
@@ -34550,6 +36062,9 @@
           "202": {
             "description": "This response has no body."
           },
+          "204": {
+            "description": "This response has no body."
+          },
           "400": {
             "description": "The request data does not match what we expect.",
             "content": {
@@ -34703,6 +36218,9 @@
         },
         "responses": {
           "200": {
+            "description": "This response has no body."
+          },
+          "204": {
             "description": "This response has no body."
           },
           "400": {
