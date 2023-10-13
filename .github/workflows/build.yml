@@ -36,7 +36,7 @@ jobs:
       - name: Setup enterprise docker image
         if: startsWith(matrix.image, 'ghcr.io/ivarconr')
         run: |
-          echo UNLEASH_DOCKER_IMAGE=${{ secrets.ENTERPRISE_IMAGE }} >> $GITHUB_ENV
+          echo UNLEASH_DOCKER_IMAGE=${{ matrix.image }} >> $GITHUB_ENV
           echo UNLEASH_ENTERPRISE=true >> $GITHUB_ENV
       - name: Startup services ${{ matrix.image }}
         run: docker compose up -d --wait -t 60
