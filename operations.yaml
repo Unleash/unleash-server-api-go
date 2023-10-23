@@ -33,5 +33,5 @@ inverseOperationIds:
   - getRoleById
   - updateRole
   - deleteRole
-  # - setRolesForUser
-  # - setRolesForGroup
+  
+  - getUiConfig
