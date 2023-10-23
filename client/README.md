@@ -82,6 +82,7 @@ Class | Method | HTTP request | Description
 *APITokensAPI* | [**GetAllApiTokens**](docs/APITokensAPI.md#getallapitokens) | **Get** /api/admin/api-tokens | Get API tokens
 *APITokensAPI* | [**GetApiTokensByName**](docs/APITokensAPI.md#getapitokensbyname) | **Get** /api/admin/api-tokens/{name} | Get API tokens by name
 *APITokensAPI* | [**UpdateApiToken**](docs/APITokensAPI.md#updateapitoken) | **Put** /api/admin/api-tokens/{token} | Update API token
+*AdminUIAPI* | [**GetUiConfig**](docs/AdminUIAPI.md#getuiconfig) | **Get** /api/admin/ui-config | Get UI configuration
 *AuthAPI* | [**GetPermissions**](docs/AuthAPI.md#getpermissions) | **Get** /api/admin/permissions | Gets available permissions
 *ProjectsAPI* | [**CreateProject**](docs/ProjectsAPI.md#createproject) | **Post** /api/admin/projects | Create project
 *ProjectsAPI* | [**DeleteProject**](docs/ProjectsAPI.md#deleteproject) | **Delete** /api/admin/projects/{projectId} | Delete project
@@ -141,11 +142,18 @@ Class | Method | HTTP request | Description
  - [RoleWithPermissionsSchema](docs/RoleWithPermissionsSchema.md)
  - [RoleWithVersionSchema](docs/RoleWithVersionSchema.md)
  - [RolesWithVersionSchema](docs/RolesWithVersionSchema.md)
+ - [UiConfigSchema](docs/UiConfigSchema.md)
+ - [UiConfigSchemaFlagsValue](docs/UiConfigSchemaFlagsValue.md)
  - [UpdateApiTokenSchema](docs/UpdateApiTokenSchema.md)
  - [UpdateProjectSchema](docs/UpdateProjectSchema.md)
  - [UpdateUserSchema](docs/UpdateUserSchema.md)
  - [UserSchema](docs/UserSchema.md)
  - [UserWithProjectRoleSchema](docs/UserWithProjectRoleSchema.md)
+ - [VariantFlagSchema](docs/VariantFlagSchema.md)
+ - [VariantFlagSchemaPayload](docs/VariantFlagSchemaPayload.md)
+ - [VersionSchema](docs/VersionSchema.md)
+ - [VersionSchemaCurrent](docs/VersionSchemaCurrent.md)
+ - [VersionSchemaLatest](docs/VersionSchemaLatest.md)
 
 
 ## Documentation For Authorization

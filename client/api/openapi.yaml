@@ -575,6 +575,21 @@ paths:
       summary: Gets available permissions
       tags:
       - Auth
+  /api/admin/ui-config:
+    get:
+      description: Retrieves the full configuration used to set up the Unleash Admin
+        UI.
+      operationId: getUiConfig
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/uiConfigSchema'
+          description: uiConfigSchema
+      summary: Get UI configuration
+      tags:
+      - Admin UI
   /api/admin/api-tokens:
     get:
       description: Retrieves all API tokens that exist in the Unleash instance.
@@ -1333,6 +1348,154 @@ components:
       - name
       - type
       type: object
+    uiConfigSchema:
+      additionalProperties: false
+      description: A collection of properties used to configure the Unleash Admin
+        UI.
+      example:
+        disablePasswordAuth: false
+        frontendApiOrigins:
+        - '*'
+        emailEnabled: true
+        flags:
+          messageBanner:
+            name: disabled
+            enabled: false
+          featuresExportImport: true
+        versionInfo:
+          current:
+            enterprise: 5.3.0-main+2105.45ed03c9
+            oss: 5.3.0-main
+          instanceId: 0d652a82-43db-4144-8e02-864b0b030710
+          isLatest: true
+          latest:
+            enterprise: 5.1.5
+            oss: 5.1.5
+        version: 5.3.0-main
+        environment: Enterprise
+        strategySegmentsLimit: 5
+        name: Unleash enterprise
+        links:
+        - value: Documentation
+          icon: library_books
+          href: https://docs.getunleash.io/docs
+          title: User documentation
+        - value: GitHub
+          icon: c_github
+          href: https://github.com/Unleash/unleash
+          title: Source code on GitHub
+        maintenanceMode: false
+        networkViewEnabled: true
+        authenticationType: enterprise
+        unleashUrl: https://unleash.mycompany.com/enterprise
+        baseUriPath: /enterprise
+        slogan: The enterprise-ready feature toggle service.
+        segmentValuesLimit: 1000
+      properties:
+        slogan:
+          description: The slogan to display in the UI footer.
+          example: The enterprise-ready feature toggle service.
+          type: string
+        name:
+          description: The name of this Unleash instance. Used to build the text in
+            the footer.
+          example: Unleash enterprise
+          type: string
+        version:
+          description: The current version of Unleash
+          example: 5.3.0-main
+          type: string
+        environment:
+          description: "What kind of Unleash instance it is: Enterprise, Pro, or Open\
+            \ source"
+          example: Enterprise
+          type: string
+        unleashUrl:
+          description: The URL of the Unleash instance.
+          example: https://unleash.mycompany.com/enterprise
+          type: string
+        baseUriPath:
+          description: The base URI path at which this Unleash instance is listening.
+          example: /enterprise
+          type: string
+        disablePasswordAuth:
+          description: Whether password authentication should be disabled or not.
+          example: false
+          type: boolean
+        emailEnabled:
+          description: Whether this instance can send out emails or not.
+          example: true
+          type: boolean
+        maintenanceMode:
+          description: Whether maintenance mode is currently active or not.
+          example: false
+          type: boolean
+        segmentValuesLimit:
+          description: The maximum number of values that can be used in a single segment.
+          example: 1000
+          type: number
+        strategySegmentsLimit:
+          description: The maximum number of segments that can be applied to a single
+            strategy.
+          example: 5
+          type: number
+        networkViewEnabled:
+          description: Whether to enable the Unleash network view or not.
+          example: true
+          type: boolean
+        frontendApiOrigins:
+          description: The list of origins that the front-end API should accept requests
+            from.
+          example:
+          - '*'
+          items:
+            type: string
+          type: array
+        flags:
+          additionalProperties:
+            $ref: '#/components/schemas/uiConfigSchema_flags_value'
+          description: Additional (largely experimental) features that are enabled
+            in this Unleash instance.
+          example:
+            messageBanner:
+              name: disabled
+              enabled: false
+            featuresExportImport: true
+          type: object
+        links:
+          description: Relevant links to use in the UI.
+          example:
+          - value: Documentation
+            icon: library_books
+            href: https://docs.getunleash.io/docs
+            title: User documentation
+          - value: GitHub
+            icon: c_github
+            href: https://github.com/Unleash/unleash
+            title: Source code on GitHub
+          items:
+            type: object
+          type: array
+          x-enforcer-exception-skip-codes: WSCH006
+        authenticationType:
+          description: The type of authentication enabled for this Unleash instance
+          enum:
+          - open-source
+          - demo
+          - enterprise
+          - hosted
+          - custom
+          - none
+          example: enterprise
+          type: string
+        versionInfo:
+          $ref: '#/components/schemas/versionSchema'
+      required:
+      - baseUriPath
+      - unleashUrl
+      - version
+      - versionInfo
+      type: object
     updateApiTokenSchema:
       description: An object with fields to updated for a given API token.
       properties:
@@ -1538,6 +1701,53 @@ components:
           type: array
       required:
       - id
+      type: object
+    variantFlagSchema:
+      additionalProperties: false
+      description: A representation of an evaluated Unleash feature variant.
+      properties:
+        name:
+          description: The name of the variant. Will always be disabled if `enabled`
+            is false.
+          example: blue
+          type: string
+        enabled:
+          description: Whether the variant is enabled or not.
+          example: true
+          type: boolean
+        payload:
+          $ref: '#/components/schemas/variantFlagSchema_payload'
+      type: object
+    versionSchema:
+      additionalProperties: false
+      description: Detailed information about an Unleash version
+      example:
+        current:
+          enterprise: 5.3.0-main+2105.45ed03c9
+          oss: 5.3.0-main
+        instanceId: 0d652a82-43db-4144-8e02-864b0b030710
+        isLatest: true
+        latest:
+          enterprise: 5.1.5
+          oss: 5.1.5
+      properties:
+        current:
+          $ref: '#/components/schemas/versionSchema_current'
+        latest:
+          $ref: '#/components/schemas/versionSchema_latest'
+        isLatest:
+          description: Whether the Unleash server is running the latest release (`true`)
+            or if there are updates available (`false`)
+          example: true
+          type: boolean
+        instanceId:
+          description: The instance identifier of the Unleash instance
+          example: 0d652a82-43db-4144-8e02-864b0b030710
+          type: string
+      required:
+      - current
+      - isLatest
+      - latest
       type: object
     adminPermissionSchema:
       additionalProperties: false
@@ -2491,6 +2701,10 @@ components:
         - Member
         example: Admin
         type: string
+    uiConfigSchema_flags_value:
+      anyOf:
+      - type: boolean
+      - $ref: '#/components/schemas/variantFlagSchema'
     createUserResponseSchema_rootRole:
       description: "Which [root role](https://docs.getunleash.io/reference/rbac#predefined-roles)\
         \ this user is assigned. Usually a numeric role ID, but can be a string when\
@@ -2507,6 +2721,59 @@ components:
         - Member
         example: Admin
         type: string
+    variantFlagSchema_payload:
+      additionalProperties: false
+      description: Additional data associated with this variant.
+      properties:
+        type:
+          description: The type of data contained.
+          enum:
+          - string
+          - json
+          - csv
+          example: json
+          type: string
+        value:
+          description: The actual associated data
+          example: "{ \"starter\": \"squirtle\" }"
+          type: string
+      type: object
+    versionSchema_current:
+      additionalProperties: false
+      description: The current version of Unleash.
+      example:
+        enterprise: 5.3.0-main+2105.45ed03c9
+        oss: 5.3.0-main
+      properties:
+        oss:
+          description: "The OSS version used when building this Unleash instance,\
+            \ represented as a git revision belonging to the [main Unleash git repo](https://github.com/Unleash/unleash/)"
+          example: 5.3.0-main
+          type: string
+        enterprise:
+          description: "The Enterpris version of Unleash used to build this instance,\
+            \ represented as a git revision belonging to the [Unleash Enterprise](https://github.com/ivarconr/unleash-enterprise)\
+            \ repository. Will be an empty string if no enterprise version was used,"
+          example: 5.3.0-main+2105.45ed03c9
+          type: string
+      type: object
+    versionSchema_latest:
+      additionalProperties: false
+      description: Information about the latest available Unleash releases. Will be
+        an empty object if no data is available.
+      example:
+        enterprise: 5.1.5
+        oss: 5.1.5
+      properties:
+        oss:
+          description: The latest available OSS version of Unleash
+          example: 5.1.5
+          type: string
+        enterprise:
+          description: The latest available Enterprise version of Unleash
+          example: 5.1.5
+          type: string
+      type: object
     adminPermissionsSchema_permissions_environments_inner:
       additionalProperties: false
       example:
