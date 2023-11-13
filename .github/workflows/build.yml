@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         image: 
-          - "ghcr.io/ivarconr/unleash-enterprise:5.5.6-terraform.0"
+          - "ghcr.io/ivarconr/unleash-enterprise:latest"
           - "unleashorg/unleash-server:latest"
     runs-on: ubuntu-latest
     steps:
