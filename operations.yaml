@@ -33,3 +33,11 @@ inverseOperationIds:
   - getRoleById
   - updateRole
   - deleteRole
+
+  - getServiceAccounts
+  - createServiceAccount
+  - updateServiceAccount
+  - deleteServiceAccount
+  - getServiceAccountTokens
+  - createServiceAccountToken
+  - deleteServiceAccountToken

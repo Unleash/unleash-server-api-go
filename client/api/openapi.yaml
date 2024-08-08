@@ -306,6 +306,362 @@ paths:
       summary: Update a role
       tags:
       - Users
+  /api/admin/service-account:
+    get:
+      description: Returns the list of all service accounts.
+      operationId: getServiceAccounts
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/serviceAccountsSchema'
+          description: '#/components/schemas/serviceAccountsSchema'
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: List service accounts.
+      tags:
+      - Service Accounts
+    post:
+      description: Creates a new service account.
+      operationId: createServiceAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createServiceAccountSchema'
+        description: '#/components/schemas/createServiceAccountSchema'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/serviceAccountSchema'
+          description: The resource was successfully created.
+          headers:
+            location:
+              description: The location of the newly created resource.
+              explode: false
+              schema:
+                format: uri
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createRole_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createRole_409_response'
+          description: "The provided resource can not be created or updated because\
+            \ it would conflict with the current state of the resource or with an\
+            \ already existing resource, respectively."
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createServiceAccount_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Create a service account.
+      tags:
+      - Service Accounts
+  /api/admin/service-account/{id}:
+    delete:
+      description: Deletes an existing service account identified by its id.
+      operationId: deleteServiceAccount
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: This response has no body.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoleById_404_response'
+          description: The requested resource was not found.
+      summary: Delete a service account.
+      tags:
+      - Service Accounts
+    put:
+      description: Updates an existing service account identified by its id.
+      operationId: updateServiceAccount
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateServiceAccountSchema'
+        description: '#/components/schemas/updateServiceAccountSchema'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/serviceAccountSchema'
+          description: '#/components/schemas/serviceAccountSchema'
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createRole_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoleById_404_response'
+          description: The requested resource was not found.
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createServiceAccount_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Update a service account.
+      tags:
+      - Service Accounts
+  /api/admin/service-account/{id}/token:
+    get:
+      description: Returns the list of all tokens for a service account identified
+        by the id.
+      operationId: getServiceAccountTokens
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/patsSchema'
+          description: '#/components/schemas/patsSchema'
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoleById_404_response'
+          description: The requested resource was not found.
+      summary: List all tokens for a service account.
+      tags:
+      - Service Accounts
+    post:
+      description: Creates a new token for the service account identified by the id.
+      operationId: createServiceAccountToken
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createPatSchema'
+        description: '#/components/schemas/createPatSchema'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/patSchema'
+          description: The resource was successfully created.
+          headers:
+            location:
+              description: The location of the newly created resource.
+              explode: false
+              schema:
+                format: uri
+                type: string
+              style: simple
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoleById_404_response'
+          description: The requested resource was not found.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createRole_409_response'
+          description: "The provided resource can not be created or updated because\
+            \ it would conflict with the current state of the resource or with an\
+            \ already existing resource, respectively."
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createServiceAccount_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Create a token for a service account.
+      tags:
+      - Service Accounts
+  /api/admin/service-account/{id}/token/{tokenId}:
+    delete:
+      description: Deletes a token for the service account identified both by the
+        service account's id and the token's id.
+      operationId: deleteServiceAccountToken
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: tokenId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: This response has no body.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoles_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoleById_404_response'
+          description: The requested resource was not found.
+      summary: Delete a token for a service account.
+      tags:
+      - Service Accounts
   /api/admin/projects:
     get:
       description: This endpoint returns an list of all the projects in the Unleash
@@ -384,7 +740,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createProject_415_response'
+                $ref: '#/components/schemas/createServiceAccount_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -484,7 +840,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createProject_415_response'
+                $ref: '#/components/schemas/createServiceAccount_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -654,7 +1010,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createProject_415_response'
+                $ref: '#/components/schemas/createServiceAccount_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -776,7 +1132,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createProject_415_response'
+                $ref: '#/components/schemas/createServiceAccount_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -1108,6 +1464,24 @@ components:
       - $ref: '#/components/schemas/createApiTokenSchema_oneOf_2'
       - $ref: '#/components/schemas/createApiTokenSchema_oneOf_3'
       type: object
+    createPatSchema:
+      description: "Describes the properties required to create a [personal access\
+        \ token](https://docs.getunleash.io/how-to/how-to-create-personal-access-tokens),\
+        \ or PAT. PATs are automatically scoped to the authenticated user."
+      properties:
+        description:
+          description: The PAT's description.
+          example: user:xyzrandomstring
+          type: string
+        expiresAt:
+          description: The PAT's expiration date.
+          example: 2023-04-19T08:15:14Z
+          format: date-time
+          type: string
+      required:
+      - description
+      - expiresAt
+      type: object
     createUserResponseSchema:
       additionalProperties: false
       description: An Unleash user after creation
@@ -1274,6 +1648,88 @@ components:
           $ref: '#/components/schemas/userSchema'
       required:
       - user
+      type: object
+    patSchema:
+      description: "Describes a [personal access token](https://docs.getunleash.io/how-to/how-to-create-personal-access-tokens),\
+        \ or PAT. PATs are automatically scoped to the authenticated user."
+      example:
+        createdAt: 2023-04-19T08:15:14Z
+        seenAt: 2023-04-19T08:15:14Z
+        description: user:xyzrandomstring
+        id: 1
+        secret: user:xyzrandomstring
+        userId: 1337
+        expiresAt: 2023-04-19T08:15:14Z
+      properties:
+        id:
+          description: "The PAT's ID. PAT IDs are incrementing integers. In other\
+            \ words, a more recently created PAT will always have a higher ID than\
+            \ an older one."
+          example: 1
+          minimum: 1
+          type: integer
+        secret:
+          description: The token used for authentication. It is automatically generated
+            by Unleash when the PAT is created and that is the only time this property
+            is returned.
+          example: user:xyzrandomstring
+          type: string
+        createdAt:
+          description: The date and time of when the PAT was created.
+          example: 2023-04-19T08:15:14Z
+          format: date-time
+          type: string
+        seenAt:
+          description: When the PAT was last seen/used to authenticate with. `null`
+            if it has not been used yet.
+          example: 2023-04-19T08:15:14Z
+          format: date-time
+          nullable: true
+          type: string
+        userId:
+          description: The ID of the user this PAT belongs to.
+          example: 1337
+          type: integer
+        description:
+          description: The PAT's description.
+          example: user:xyzrandomstring
+          type: string
+        expiresAt:
+          description: The PAT's expiration date.
+          example: 2023-04-19T08:15:14Z
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - description
+      - expiresAt
+      - id
+      type: object
+    patsSchema:
+      description: "Contains a collection of [personal access tokens](https://docs.getunleash.io/how-to/how-to-create-personal-access-tokens),\
+        \ or PATs. PATs are automatically scoped to the authenticated user."
+      example:
+        pats:
+        - createdAt: 2023-04-19T08:15:14Z
+          seenAt: 2023-04-19T08:15:14Z
+          description: user:xyzrandomstring
+          id: 1
+          secret: user:xyzrandomstring
+          userId: 1337
+          expiresAt: 2023-04-19T08:15:14Z
+        - createdAt: 2023-04-19T08:15:14Z
+          seenAt: 2023-04-19T08:15:14Z
+          description: user:xyzrandomstring
+          id: 1
+          secret: user:xyzrandomstring
+          userId: 1337
+          expiresAt: 2023-04-19T08:15:14Z
+      properties:
+        pats:
+          description: A collection of PATs.
+          items:
+            $ref: '#/components/schemas/patSchema'
+          type: array
       type: object
     projectSchema:
       additionalProperties: false
@@ -2396,6 +2852,235 @@ components:
       required:
       - id
       type: object
+    serviceAccountSchema:
+      additionalProperties: false
+      description: "Represents a [service account](https://docs.getunleash.io/reference/service-accounts).\
+        \ Service accounts are used to let systems interact with the Unleash API."
+      example:
+        loginAttempts: 0
+        inviteLink: https://example.com/invite-link
+        isAPI: false
+        createdAt: 2021-01-01T00:00:00Z
+        seenAt: 2000-01-23T04:56:07.000+00:00
+        rootRole: 1
+        emailSent: false
+        imageUrl: https://example.com/my-service-account.png
+        name: My Service Account
+        tokens:
+        - createdAt: 2023-04-19T08:15:14Z
+          seenAt: 2023-04-19T08:15:14Z
+          description: user:xyzrandomstring
+          id: 1
+          secret: user:xyzrandomstring
+          userId: 1337
+          expiresAt: 2023-04-19T08:15:14Z
+        - createdAt: 2023-04-19T08:15:14Z
+          seenAt: 2023-04-19T08:15:14Z
+          description: user:xyzrandomstring
+          id: 1
+          secret: user:xyzrandomstring
+          userId: 1337
+          expiresAt: 2023-04-19T08:15:14Z
+        id: 54321
+        email: noemail@getunleash.io
+        username: my-service-account
+      properties:
+        id:
+          description: The service account id
+          example: 54321
+          type: number
+        isAPI:
+          deprecated: true
+          description: "Deprecated: for internal use only, should not be exposed through\
+            \ the API"
+          example: false
+          type: boolean
+        name:
+          description: The name of the service account
+          example: My Service Account
+          type: string
+        email:
+          deprecated: true
+          description: "Deprecated: service accounts don't have emails associated\
+            \ with them"
+          example: noemail@getunleash.io
+          type: string
+        username:
+          description: The service account username
+          example: my-service-account
+          type: string
+        imageUrl:
+          description: The service account image url
+          example: https://example.com/my-service-account.png
+          type: string
+        inviteLink:
+          deprecated: true
+          description: "Deprecated: service accounts cannot be invited via an invitation\
+            \ link"
+          example: https://example.com/invite-link
+          type: string
+        loginAttempts:
+          deprecated: true
+          description: "Deprecated: service accounts cannot log in to Unleash"
+          example: 0
+          type: number
+        emailSent:
+          deprecated: true
+          description: "Deprecated: internal use only"
+          example: false
+          type: boolean
+        rootRole:
+          description: The root role id associated with the service account
+          example: 1
+          type: integer
+        seenAt:
+          deprecated: true
+          description: "Deprecated. This property is always `null`. To find out when\
+            \ a service account was last seen, check its `tokens` list and refer to\
+            \ each token's `lastSeen` property instead."
+          format: date-time
+          nullable: true
+          type: string
+          example: null
+        createdAt:
+          description: The service account creation date
+          example: 2021-01-01T00:00:00Z
+          format: date-time
+          type: string
+        tokens:
+          description: The list of tokens associated with the service account
+          items:
+            $ref: '#/components/schemas/patSchema'
+          type: array
+      required:
+      - id
+      type: object
+    serviceAccountsSchema:
+      additionalProperties: false
+      description: "Represents a list of service accounts, and includes a list of\
+        \ root roles they reference"
+      example:
+        rootRoles:
+        - name: Editor
+          description: Users with the editor role have access to most features in
+            Unleash but can not manage users and roles in the global scope. Editors
+            will be added as project owners when creating projects and get superuser
+            rights within the context of these projects. Users with the editor role
+            will also get access to most permissions on the default project by default.
+          project: default
+          id: 9
+          type: root
+        - name: Editor
+          description: Users with the editor role have access to most features in
+            Unleash but can not manage users and roles in the global scope. Editors
+            will be added as project owners when creating projects and get superuser
+            rights within the context of these projects. Users with the editor role
+            will also get access to most permissions on the default project by default.
+          project: default
+          id: 9
+          type: root
+        serviceAccounts:
+        - loginAttempts: 0
+          inviteLink: https://example.com/invite-link
+          isAPI: false
+          createdAt: 2021-01-01T00:00:00Z
+          seenAt: 2000-01-23T04:56:07.000+00:00
+          rootRole: 1
+          emailSent: false
+          imageUrl: https://example.com/my-service-account.png
+          name: My Service Account
+          tokens:
+          - createdAt: 2023-04-19T08:15:14Z
+            seenAt: 2023-04-19T08:15:14Z
+            description: user:xyzrandomstring
+            id: 1
+            secret: user:xyzrandomstring
+            userId: 1337
+            expiresAt: 2023-04-19T08:15:14Z
+          - createdAt: 2023-04-19T08:15:14Z
+            seenAt: 2023-04-19T08:15:14Z
+            description: user:xyzrandomstring
+            id: 1
+            secret: user:xyzrandomstring
+            userId: 1337
+            expiresAt: 2023-04-19T08:15:14Z
+          id: 54321
+          email: noemail@getunleash.io
+          username: my-service-account
+        - loginAttempts: 0
+          inviteLink: https://example.com/invite-link
+          isAPI: false
+          createdAt: 2021-01-01T00:00:00Z
+          seenAt: 2000-01-23T04:56:07.000+00:00
+          rootRole: 1
+          emailSent: false
+          imageUrl: https://example.com/my-service-account.png
+          name: My Service Account
+          tokens:
+          - createdAt: 2023-04-19T08:15:14Z
+            seenAt: 2023-04-19T08:15:14Z
+            description: user:xyzrandomstring
+            id: 1
+            secret: user:xyzrandomstring
+            userId: 1337
+            expiresAt: 2023-04-19T08:15:14Z
+          - createdAt: 2023-04-19T08:15:14Z
+            seenAt: 2023-04-19T08:15:14Z
+            description: user:xyzrandomstring
+            id: 1
+            secret: user:xyzrandomstring
+            userId: 1337
+            expiresAt: 2023-04-19T08:15:14Z
+          id: 54321
+          email: noemail@getunleash.io
+          username: my-service-account
+      properties:
+        serviceAccounts:
+          description: A list of service accounts
+          items:
+            $ref: '#/components/schemas/serviceAccountSchema'
+          type: array
+        rootRoles:
+          description: A list of root roles that are referenced from service account
+            objects in the `serviceAccounts` list
+          items:
+            $ref: '#/components/schemas/roleSchema'
+          type: array
+      required:
+      - serviceAccounts
+      type: object
+    createServiceAccountSchema:
+      additionalProperties: false
+      description: Describes the properties required to create a new service account
+      properties:
+        username:
+          description: The username of the service account
+          example: service-account-1
+          type: string
+        name:
+          description: The name of the service account
+          example: Service Account 1
+          type: string
+        rootRole:
+          description: The id of the root role for the service account
+          example: 1
+          type: integer
+      required:
+      - rootRole
+      type: object
+    updateServiceAccountSchema:
+      additionalProperties: true
+      description: Describes the properties required to update a service account
+      properties:
+        name:
+          description: The name of the service account
+          example: Service Account 1
+          type: string
+        rootRole:
+          description: The id of the root role for the service account
+          example: 1
+          type: integer
+      type: object
     getRoles_401_response:
       example:
         name: AuthenticationRequired
@@ -2497,7 +3182,7 @@ components:
           example: Could not find the addon with ID "12345".
           type: string
       type: object
-    createProject_415_response:
+    createServiceAccount_415_response:
       example:
         name: ContentTypeerror
         id: 9c40958a-daac-400e-98fb-3bb438567008

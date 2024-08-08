@@ -6,6 +6,7 @@ api/openapi.yaml
 api_api_tokens.go
 api_auth.go
 api_projects.go
+api_service_accounts.go
 api_users.go
 client.go
 configuration.go
@@ -22,7 +23,7 @@ docs/CreateApiTokenSchemaOneOf.md
 docs/CreateApiTokenSchemaOneOf1.md
 docs/CreateApiTokenSchemaOneOf2.md
 docs/CreateApiTokenSchemaOneOf3.md
-docs/CreateProject415Response.md
+docs/CreatePatSchema.md
 docs/CreateProjectSchema.md
 docs/CreateProjectSchemaChangeRequestEnvironmentsInner.md
 docs/CreateRole400Response.md
@@ -32,6 +33,8 @@ docs/CreateRoleWithPermissionsSchemaAnyOf.md
 docs/CreateRoleWithPermissionsSchemaAnyOf1.md
 docs/CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner.md
 docs/CreateRoleWithPermissionsSchemaAnyOfPermissionsInner.md
+docs/CreateServiceAccount415Response.md
+docs/CreateServiceAccountSchema.md
 docs/CreateUserResponseSchema.md
 docs/CreateUserResponseSchemaRootRole.md
 docs/CreateUserSchema.md
@@ -41,6 +44,8 @@ docs/GetRoles401Response.md
 docs/GetRoles403Response.md
 docs/GroupUserModelSchema.md
 docs/GroupWithProjectRoleSchema.md
+docs/PatSchema.md
+docs/PatsSchema.md
 docs/ProjectAccessConfigurationSchema.md
 docs/ProjectAccessConfigurationSchemaRolesInner.md
 docs/ProjectAccessSchema.md
@@ -58,8 +63,12 @@ docs/RoleSchema.md
 docs/RoleWithPermissionsSchema.md
 docs/RoleWithVersionSchema.md
 docs/RolesWithVersionSchema.md
+docs/ServiceAccountSchema.md
+docs/ServiceAccountsAPI.md
+docs/ServiceAccountsSchema.md
 docs/UpdateApiTokenSchema.md
 docs/UpdateProjectSchema.md
+docs/UpdateServiceAccountSchema.md
 docs/UpdateUserSchema.md
 docs/UserSchema.md
 docs/UserWithProjectRoleSchema.md
@@ -78,7 +87,7 @@ model_create_api_token_schema_one_of.go
 model_create_api_token_schema_one_of_1.go
 model_create_api_token_schema_one_of_2.go
 model_create_api_token_schema_one_of_3.go
-model_create_project_415_response.go
+model_create_pat_schema.go
 model_create_project_schema.go
 model_create_project_schema_change_request_environments_inner.go
 model_create_role_400_response.go
@@ -88,6 +97,8 @@ model_create_role_with_permissions_schema_any_of.go
 model_create_role_with_permissions_schema_any_of_1.go
 model_create_role_with_permissions_schema_any_of_1_permissions_inner.go
 model_create_role_with_permissions_schema_any_of_permissions_inner.go
+model_create_service_account_415_response.go
+model_create_service_account_schema.go
 model_create_user_response_schema.go
 model_create_user_response_schema_root_role.go
 model_create_user_schema.go
@@ -97,6 +108,8 @@ model_get_roles_401_response.go
 model_get_roles_403_response.go
 model_group_user_model_schema.go
 model_group_with_project_role_schema.go
+model_pat_schema.go
+model_pats_schema.go
 model_project_access_configuration_schema.go
 model_project_access_configuration_schema_roles_inner.go
 model_project_access_schema.go
@@ -113,8 +126,11 @@ model_role_schema.go
 model_role_with_permissions_schema.go
 model_role_with_version_schema.go
 model_roles_with_version_schema.go
+model_service_account_schema.go
+model_service_accounts_schema.go
 model_update_api_token_schema.go
 model_update_project_schema.go
+model_update_service_account_schema.go
 model_update_user_schema.go
 model_user_schema.go
 model_user_with_project_role_schema.go
@@ -122,5 +138,6 @@ response.go
 test/api_api_tokens_test.go
 test/api_auth_test.go
 test/api_projects_test.go
+test/api_service_accounts_test.go
 test/api_users_test.go
 utils.go

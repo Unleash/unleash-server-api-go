@@ -90,6 +90,13 @@ Class | Method | HTTP request | Description
 *ProjectsAPI* | [**GetProjects**](docs/ProjectsAPI.md#getprojects) | **Get** /api/admin/projects | Get a list of all projects.
 *ProjectsAPI* | [**SetProjectAccess**](docs/ProjectsAPI.md#setprojectaccess) | **Put** /api/admin/projects/{projectId}/access | Set users and groups to roles in the current project
 *ProjectsAPI* | [**UpdateProject**](docs/ProjectsAPI.md#updateproject) | **Put** /api/admin/projects/{projectId} | Update project
+*ServiceAccountsAPI* | [**CreateServiceAccount**](docs/ServiceAccountsAPI.md#createserviceaccount) | **Post** /api/admin/service-account | Create a service account.
+*ServiceAccountsAPI* | [**CreateServiceAccountToken**](docs/ServiceAccountsAPI.md#createserviceaccounttoken) | **Post** /api/admin/service-account/{id}/token | Create a token for a service account.
+*ServiceAccountsAPI* | [**DeleteServiceAccount**](docs/ServiceAccountsAPI.md#deleteserviceaccount) | **Delete** /api/admin/service-account/{id} | Delete a service account.
+*ServiceAccountsAPI* | [**DeleteServiceAccountToken**](docs/ServiceAccountsAPI.md#deleteserviceaccounttoken) | **Delete** /api/admin/service-account/{id}/token/{tokenId} | Delete a token for a service account.
+*ServiceAccountsAPI* | [**GetServiceAccountTokens**](docs/ServiceAccountsAPI.md#getserviceaccounttokens) | **Get** /api/admin/service-account/{id}/token | List all tokens for a service account.
+*ServiceAccountsAPI* | [**GetServiceAccounts**](docs/ServiceAccountsAPI.md#getserviceaccounts) | **Get** /api/admin/service-account | List service accounts.
+*ServiceAccountsAPI* | [**UpdateServiceAccount**](docs/ServiceAccountsAPI.md#updateserviceaccount) | **Put** /api/admin/service-account/{id} | Update a service account.
 *UsersAPI* | [**CreateRole**](docs/UsersAPI.md#createrole) | **Post** /api/admin/roles | Create a new role
 *UsersAPI* | [**CreateUser**](docs/UsersAPI.md#createuser) | **Post** /api/admin/user-admin | Create a new user
 *UsersAPI* | [**DeleteRole**](docs/UsersAPI.md#deleterole) | **Delete** /api/admin/roles/{roleId} | Delete a custom role
@@ -114,7 +121,7 @@ Class | Method | HTTP request | Description
  - [CreateApiTokenSchemaOneOf1](docs/CreateApiTokenSchemaOneOf1.md)
  - [CreateApiTokenSchemaOneOf2](docs/CreateApiTokenSchemaOneOf2.md)
  - [CreateApiTokenSchemaOneOf3](docs/CreateApiTokenSchemaOneOf3.md)
- - [CreateProject415Response](docs/CreateProject415Response.md)
+ - [CreatePatSchema](docs/CreatePatSchema.md)
  - [CreateProjectSchema](docs/CreateProjectSchema.md)
  - [CreateProjectSchemaChangeRequestEnvironmentsInner](docs/CreateProjectSchemaChangeRequestEnvironmentsInner.md)
  - [CreateRole400Response](docs/CreateRole400Response.md)
@@ -124,6 +131,8 @@ Class | Method | HTTP request | Description
  - [CreateRoleWithPermissionsSchemaAnyOf1](docs/CreateRoleWithPermissionsSchemaAnyOf1.md)
  - [CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner](docs/CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner.md)
  - [CreateRoleWithPermissionsSchemaAnyOfPermissionsInner](docs/CreateRoleWithPermissionsSchemaAnyOfPermissionsInner.md)
+ - [CreateServiceAccount415Response](docs/CreateServiceAccount415Response.md)
+ - [CreateServiceAccountSchema](docs/CreateServiceAccountSchema.md)
  - [CreateUserResponseSchema](docs/CreateUserResponseSchema.md)
  - [CreateUserResponseSchemaRootRole](docs/CreateUserResponseSchemaRootRole.md)
  - [CreateUserSchema](docs/CreateUserSchema.md)
@@ -133,6 +142,8 @@ Class | Method | HTTP request | Description
  - [GetRoles403Response](docs/GetRoles403Response.md)
  - [GroupUserModelSchema](docs/GroupUserModelSchema.md)
  - [GroupWithProjectRoleSchema](docs/GroupWithProjectRoleSchema.md)
+ - [PatSchema](docs/PatSchema.md)
+ - [PatsSchema](docs/PatsSchema.md)
  - [ProjectAccessConfigurationSchema](docs/ProjectAccessConfigurationSchema.md)
  - [ProjectAccessConfigurationSchemaRolesInner](docs/ProjectAccessConfigurationSchemaRolesInner.md)
  - [ProjectAccessSchema](docs/ProjectAccessSchema.md)
@@ -149,8 +160,11 @@ Class | Method | HTTP request | Description
  - [RoleWithPermissionsSchema](docs/RoleWithPermissionsSchema.md)
  - [RoleWithVersionSchema](docs/RoleWithVersionSchema.md)
  - [RolesWithVersionSchema](docs/RolesWithVersionSchema.md)
+ - [ServiceAccountSchema](docs/ServiceAccountSchema.md)
+ - [ServiceAccountsSchema](docs/ServiceAccountsSchema.md)
  - [UpdateApiTokenSchema](docs/UpdateApiTokenSchema.md)
  - [UpdateProjectSchema](docs/UpdateProjectSchema.md)
+ - [UpdateServiceAccountSchema](docs/UpdateServiceAccountSchema.md)
  - [UpdateUserSchema](docs/UpdateUserSchema.md)
  - [UserSchema](docs/UserSchema.md)
  - [UserWithProjectRoleSchema](docs/UserWithProjectRoleSchema.md)
