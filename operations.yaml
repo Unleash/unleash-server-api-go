@@ -27,11 +27,9 @@ inverseOperationIds:
   - getPermissions
   - getProjectAccess
   - setProjectAccess
-  
+
   - createRole
   - getRoles
   - getRoleById
   - updateRole
   - deleteRole
-  
-  - getUiConfig

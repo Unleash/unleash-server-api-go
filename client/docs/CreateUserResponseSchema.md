@@ -5,11 +5,11 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **int32** | The user id | 
-**IsAPI** | Pointer to **bool** | (Deprecated): Used internally to know which operations the user should be allowed to perform | [optional] 
+**IsAPI** | Pointer to **bool** | Deprecated in v5. Used internally to know which operations the user should be allowed to perform | [optional] 
 **Name** | Pointer to **NullableString** | Name of the user | [optional] 
 **Email** | Pointer to **string** | Email of the user | [optional] 
-**Username** | Pointer to **string** | A unique username for the user | [optional] 
-**ImageUrl** | Pointer to **string** | URL used for the userprofile image | [optional] 
+**Username** | Pointer to **NullableString** | A unique username for the user | [optional] 
+**ImageUrl** | Pointer to **string** | URL used for the user profile image | [optional] 
 **InviteLink** | Pointer to **string** | If the user is actively inviting other users, this is the link that can be shared with other users | [optional] 
 **LoginAttempts** | Pointer to **int32** | How many unsuccessful attempts at logging in has the user made | [optional] 
 **EmailSent** | Pointer to **bool** | Is the welcome email sent to the user or not | [optional] 
@@ -18,6 +18,7 @@ Name | Type | Description | Notes
 **CreatedAt** | Pointer to **time.Time** | The user was created at this time | [optional] 
 **AccountType** | Pointer to **string** | A user is either an actual User or a Service Account | [optional] 
 **Permissions** | Pointer to **[]string** | Deprecated | [optional] 
+**ScimId** | Pointer to **NullableString** | The SCIM ID of the user, only present if managed by SCIM | [optional] 
 
 ## Methods
 
@@ -168,6 +169,16 @@ SetUsername sets Username field to given value.
 
 HasUsername returns a boolean if a field has been set.
 
+### SetUsernameNil
+
+`func (o *CreateUserResponseSchema) SetUsernameNil(b bool)`
+
+ SetUsernameNil sets the value for Username to be an explicit nil
+
+### UnsetUsername
+`func (o *CreateUserResponseSchema) UnsetUsername()`
+
+UnsetUsername ensures that no value is present for Username, not even an explicit nil
 ### GetImageUrl
 
 `func (o *CreateUserResponseSchema) GetImageUrl() string`
@@ -403,6 +414,41 @@ SetPermissions sets Permissions field to given value.
 
 HasPermissions returns a boolean if a field has been set.
 
+### GetScimId
+
+`func (o *CreateUserResponseSchema) GetScimId() string`
+
+GetScimId returns the ScimId field if non-nil, zero value otherwise.
+
+### GetScimIdOk
+
+`func (o *CreateUserResponseSchema) GetScimIdOk() (*string, bool)`
+
+GetScimIdOk returns a tuple with the ScimId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetScimId
+
+`func (o *CreateUserResponseSchema) SetScimId(v string)`
+
+SetScimId sets ScimId field to given value.
+
+### HasScimId
+
+`func (o *CreateUserResponseSchema) HasScimId() bool`
+
+HasScimId returns a boolean if a field has been set.
+
+### SetScimIdNil
+
+`func (o *CreateUserResponseSchema) SetScimIdNil(b bool)`
+
+ SetScimIdNil sets the value for ScimId to be an explicit nil
+
+### UnsetScimId
+`func (o *CreateUserResponseSchema) UnsetScimId()`
+
+UnsetScimId ensures that no value is present for ScimId, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

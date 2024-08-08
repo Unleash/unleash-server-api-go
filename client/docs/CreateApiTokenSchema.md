@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **ExpiresAt** | Pointer to **time.Time** | The time when this token should expire. | [optional] 
 **Type** | **string** | A client or frontend token. Must be one of the strings \&quot;client\&quot; or \&quot;frontend\&quot; (not case sensitive). | 
 **TokenName** | **string** | The name of the token. | 
-**Username** | **string** | The name of the token. This property is deprecated. Use &#x60;tokenName&#x60; instead. | 
+**Username** | **string** | The name of the token. This property was deprecated in v5. Use &#x60;tokenName&#x60; instead. | 
 **Environment** | Pointer to **string** | The environment that the token should be valid for. Defaults to \&quot;default\&quot; | [optional] 
 **Project** | Pointer to **string** | The project that the token should be valid for. Defaults to \&quot;*\&quot; meaning every project. This property is mutually incompatible with the &#x60;projects&#x60; property. If you specify one, you cannot specify the other. | [optional] 
 **Projects** | Pointer to **[]string** | A list of projects that the token should be valid for. This property is mutually incompatible with the &#x60;project&#x60; property. If you specify one, you cannot specify the other. | [optional] 

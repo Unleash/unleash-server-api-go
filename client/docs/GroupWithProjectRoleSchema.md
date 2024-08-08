@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **CreatedBy** | Pointer to **NullableString** | A user who created this group | [optional] 
 **CreatedAt** | Pointer to **NullableTime** | When was this group created | [optional] 
 **Users** | Pointer to [**[]GroupUserModelSchema**](GroupUserModelSchema.md) | A list of users belonging to this group | [optional] 
+**ScimId** | Pointer to **NullableString** | The SCIM ID of the group, only present if managed by SCIM | [optional] 
 
 ## Methods
 
@@ -345,6 +346,41 @@ SetUsers sets Users field to given value.
 
 HasUsers returns a boolean if a field has been set.
 
+### GetScimId
+
+`func (o *GroupWithProjectRoleSchema) GetScimId() string`
+
+GetScimId returns the ScimId field if non-nil, zero value otherwise.
+
+### GetScimIdOk
+
+`func (o *GroupWithProjectRoleSchema) GetScimIdOk() (*string, bool)`
+
+GetScimIdOk returns a tuple with the ScimId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetScimId
+
+`func (o *GroupWithProjectRoleSchema) SetScimId(v string)`
+
+SetScimId sets ScimId field to given value.
+
+### HasScimId
+
+`func (o *GroupWithProjectRoleSchema) HasScimId() bool`
+
+HasScimId returns a boolean if a field has been set.
+
+### SetScimIdNil
+
+`func (o *GroupWithProjectRoleSchema) SetScimIdNil(b bool)`
+
+ SetScimIdNil sets the value for ScimId to be an explicit nil
+
+### UnsetScimId
+`func (o *GroupWithProjectRoleSchema) UnsetScimId()`
+
+UnsetScimId ensures that no value is present for ScimId, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

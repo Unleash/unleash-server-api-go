@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Unleash API",
-    "version": "5.6.0-main"
+    "version": "6.1.0"
   },
   "servers": [
     {
@@ -1042,7 +1042,7 @@
       "delete": {
         "operationId": "deleteProject",
         "summary": "Delete project",
-        "description": "Permanently delete the provided project. All feature toggles in the project must be archived before you can delete it. This permanently deletes the project and its archived toggles. It can not be undone.",
+        "description": "Permanently delete the provided project. All feature flags in the project must be archived before you can delete it. This permanently deletes the project and its archived flags. It can not be undone.",
         "parameters": [
           {
             "name": "projectId",
@@ -1337,28 +1337,6 @@
         },
         "tags": [
           "Auth"
-        ]
-      }
-    },
-    "/api/admin/ui-config": {
-      "get": {
-        "operationId": "getUiConfig",
-        "summary": "Get UI configuration",
-        "description": "Retrieves the full configuration used to set up the Unleash Admin UI.",
-        "responses": {
-          "200": {
-            "description": "uiConfigSchema",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/uiConfigSchema"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Admin UI"
         ]
       }
     },
@@ -2486,7 +2464,7 @@
                 "pattern": "^[Aa][Dd][Mm][Ii][Nn]$"
               },
               "username": {
-                "description": "The name of the token. This property is deprecated. Use `tokenName` instead.",
+                "description": "The name of the token. This property was deprecated in v5. Use `tokenName` instead.",
                 "type": "string",
                 "example": "token-64523",
                 "deprecated": true
@@ -2581,13 +2559,124 @@
                 ]
               },
               "username": {
-                "description": "The name of the token. This property is deprecated. Use `tokenName` instead.",
+                "description": "The name of the token. This property was deprecated in v5. Use `tokenName` instead.",
                 "type": "string",
                 "example": "token-64523",
                 "deprecated": true
               }
             }
           }
+        ]
+      },
+      "createUserResponseSchema": {
+        "description": "An Unleash user after creation",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "The user id",
+            "type": "integer",
+            "example": 123
+          },
+          "isAPI": {
+            "description": "Deprecated in v5. Used internally to know which operations the user should be allowed to perform",
+            "type": "boolean",
+            "example": true,
+            "deprecated": true
+          },
+          "name": {
+            "description": "Name of the user",
+            "type": "string",
+            "example": "User",
+            "nullable": true
+          },
+          "email": {
+            "description": "Email of the user",
+            "type": "string",
+            "example": "user@example.com"
+          },
+          "username": {
+            "description": "A unique username for the user",
+            "type": "string",
+            "example": "hunter",
+            "nullable": true
+          },
+          "imageUrl": {
+            "description": "URL used for the user profile image",
+            "type": "string",
+            "example": "https://example.com/242x200.png"
+          },
+          "inviteLink": {
+            "description": "If the user is actively inviting other users, this is the link that can be shared with other users",
+            "type": "string",
+            "example": "http://localhost:4242/invite-link/some-secret"
+          },
+          "loginAttempts": {
+            "description": "How many unsuccessful attempts at logging in has the user made",
+            "type": "integer",
+            "example": 3,
+            "minimum": 0
+          },
+          "emailSent": {
+            "description": "Is the welcome email sent to the user or not",
+            "type": "boolean",
+            "example": false
+          },
+          "rootRole": {
+            "description": "Which [root role](https://docs.getunleash.io/reference/rbac#predefined-roles) this user is assigned. Usually a numeric role ID, but can be a string when returning newly created user with an explicit string role.",
+            "oneOf": [
+              {
+                "type": "integer",
+                "example": 1,
+                "minimum": 0
+              },
+              {
+                "type": "string",
+                "example": "Admin",
+                "enum": [
+                  "Admin",
+                  "Editor",
+                  "Viewer",
+                  "Owner",
+                  "Member"
+                ]
+              }
+            ]
+          },
+          "seenAt": {
+            "description": "The last time this user logged in",
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-06-30T11:42:00.345Z",
+            "nullable": true
+          },
+          "createdAt": {
+            "description": "The user was created at this time",
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-06-30T11:41:00.123Z"
+          },
+          "accountType": {
+            "description": "A user is either an actual User or a Service Account",
+            "type": "string",
+            "example": "User"
+          },
+          "permissions": {
+            "description": "Deprecated",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "scimId": {
+            "description": "The SCIM ID of the user, only present if managed by SCIM",
+            "type": "string",
+            "example": "01HTMEXAMPLESCIMID7SWWGHN6",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
         ]
       },
       "createUserSchema": {
@@ -2701,6 +2790,16 @@
             "type": "number",
             "example": 10
           },
+          "staleFeatureCount": {
+            "description": "The number of stale features this project has",
+            "type": "number",
+            "example": 10
+          },
+          "potentiallyStaleFeatureCount": {
+            "description": "The number of potentially stale features this project has",
+            "type": "number",
+            "example": 10
+          },
           "memberCount": {
             "description": "The number of members this project has",
             "type": "number",
@@ -2738,6 +2837,91 @@
             "description": "A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy",
             "type": "string",
             "example": "userId"
+          },
+          "avgTimeToProduction": {
+            "description": "The average time from when a feature was created to when it was enabled in the \"production\" environment during the current window",
+            "type": "number",
+            "example": 10
+          },
+          "owners": {
+            "description": "The users and/or groups that have the \"owner\" role in this project. If no such users or groups exist, the list will contain the \"system\" owner instead.",
+            "oneOf": [
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "ownerType",
+                        "name"
+                      ],
+                      "properties": {
+                        "ownerType": {
+                          "type": "string",
+                          "enum": [
+                            "user"
+                          ]
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "User Name"
+                        },
+                        "imageUrl": {
+                          "type": "string",
+                          "example": "https://example.com/image.jpg",
+                          "nullable": true
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "user@example.com",
+                          "nullable": true
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "ownerType",
+                        "name"
+                      ],
+                      "properties": {
+                        "ownerType": {
+                          "type": "string",
+                          "enum": [
+                            "group"
+                          ]
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Group Name"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "ownerType"
+                  ],
+                  "properties": {
+                    "ownerType": {
+                      "type": "string",
+                      "enum": [
+                        "system"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
           }
         },
         "additionalProperties": false,
@@ -2793,6 +2977,12 @@
             "description": "A more detailed description of the role and what use it's intended for",
             "type": "string",
             "example": "Users with the editor role have access to most features in Unleash but can not manage users and roles in the global scope. Editors will be added as project owners when creating projects and get superuser rights within the context of these projects. Users with the editor role will also get access to most permissions on the default project by default."
+          },
+          "project": {
+            "description": "What project the role belongs to",
+            "type": "string",
+            "example": "default",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -2800,148 +2990,6 @@
           "id",
           "type",
           "name"
-        ]
-      },
-      "uiConfigSchema": {
-        "description": "A collection of properties used to configure the Unleash Admin UI.",
-        "type": "object",
-        "properties": {
-          "slogan": {
-            "description": "The slogan to display in the UI footer.",
-            "type": "string",
-            "example": "The enterprise-ready feature toggle service."
-          },
-          "name": {
-            "description": "The name of this Unleash instance. Used to build the text in the footer.",
-            "type": "string",
-            "example": "Unleash enterprise"
-          },
-          "version": {
-            "description": "The current version of Unleash",
-            "type": "string",
-            "example": "5.3.0-main"
-          },
-          "environment": {
-            "description": "What kind of Unleash instance it is: Enterprise, Pro, or Open source",
-            "type": "string",
-            "example": "Enterprise"
-          },
-          "unleashUrl": {
-            "description": "The URL of the Unleash instance.",
-            "type": "string",
-            "example": "https://unleash.mycompany.com/enterprise"
-          },
-          "baseUriPath": {
-            "description": "The base URI path at which this Unleash instance is listening.",
-            "type": "string",
-            "example": "/enterprise"
-          },
-          "disablePasswordAuth": {
-            "description": "Whether password authentication should be disabled or not.",
-            "type": "boolean",
-            "example": false
-          },
-          "emailEnabled": {
-            "description": "Whether this instance can send out emails or not.",
-            "type": "boolean",
-            "example": true
-          },
-          "maintenanceMode": {
-            "description": "Whether maintenance mode is currently active or not.",
-            "type": "boolean",
-            "example": false
-          },
-          "segmentValuesLimit": {
-            "description": "The maximum number of values that can be used in a single segment.",
-            "type": "number",
-            "example": 1000
-          },
-          "strategySegmentsLimit": {
-            "description": "The maximum number of segments that can be applied to a single strategy.",
-            "type": "number",
-            "example": 5
-          },
-          "networkViewEnabled": {
-            "description": "Whether to enable the Unleash network view or not.",
-            "type": "boolean",
-            "example": true
-          },
-          "frontendApiOrigins": {
-            "description": "The list of origins that the front-end API should accept requests from.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "example": [
-              "*"
-            ]
-          },
-          "flags": {
-            "description": "Additional (largely experimental) features that are enabled in this Unleash instance.",
-            "type": "object",
-            "example": {
-              "messageBanner": {
-                "name": "disabled",
-                "enabled": false
-              },
-              "featuresExportImport": true
-            },
-            "additionalProperties": {
-              "anyOf": [
-                {
-                  "type": "boolean"
-                },
-                {
-                  "$ref": "#/components/schemas/variantFlagSchema"
-                }
-              ]
-            }
-          },
-          "links": {
-            "description": "Relevant links to use in the UI.",
-            "type": "array",
-            "items": {
-              "type": "object"
-            },
-            "example": [
-              {
-                "value": "Documentation",
-                "icon": "library_books",
-                "href": "https://docs.getunleash.io/docs",
-                "title": "User documentation"
-              },
-              {
-                "value": "GitHub",
-                "icon": "c_github",
-                "href": "https://github.com/Unleash/unleash",
-                "title": "Source code on GitHub"
-              }
-            ],
-            "x-enforcer-exception-skip-codes": "WSCH006"
-          },
-          "authenticationType": {
-            "description": "The type of authentication enabled for this Unleash instance",
-            "type": "string",
-            "example": "enterprise",
-            "enum": [
-              "open-source",
-              "demo",
-              "enterprise",
-              "hosted",
-              "custom",
-              "none"
-            ]
-          },
-          "versionInfo": {
-            "$ref": "#/components/schemas/versionSchema"
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "version",
-          "unleashUrl",
-          "baseUriPath",
-          "versionInfo"
         ]
       },
       "updateApiTokenSchema": {
@@ -3003,11 +3051,10 @@
           "id": {
             "description": "The user id",
             "type": "integer",
-            "example": 123,
-            "minimum": 0
+            "example": 123
           },
           "isAPI": {
-            "description": "(Deprecated): Used internally to know which operations the user should be allowed to perform",
+            "description": "Deprecated in v5. Used internally to know which operations the user should be allowed to perform",
             "type": "boolean",
             "example": true,
             "deprecated": true
@@ -3026,10 +3073,11 @@
           "username": {
             "description": "A unique username for the user",
             "type": "string",
-            "example": "hunter"
+            "example": "hunter",
+            "nullable": true
           },
           "imageUrl": {
-            "description": "URL used for the userprofile image",
+            "description": "URL used for the user profile image",
             "type": "string",
             "example": "https://example.com/242x200.png"
           },
@@ -3079,211 +3127,17 @@
             "items": {
               "type": "string"
             }
+          },
+          "scimId": {
+            "description": "The SCIM ID of the user, only present if managed by SCIM",
+            "type": "string",
+            "example": "01HTMEXAMPLESCIMID7SWWGHN6",
+            "nullable": true
           }
         },
         "additionalProperties": false,
         "required": [
           "id"
-        ]
-      },
-      "createUserResponseSchema": {
-        "description": "An Unleash user after creation",
-        "type": "object",
-        "properties": {
-          "id": {
-            "description": "The user id",
-            "type": "integer",
-            "example": 123,
-            "minimum": 0
-          },
-          "isAPI": {
-            "description": "(Deprecated): Used internally to know which operations the user should be allowed to perform",
-            "type": "boolean",
-            "example": true,
-            "deprecated": true
-          },
-          "name": {
-            "description": "Name of the user",
-            "type": "string",
-            "example": "User",
-            "nullable": true
-          },
-          "email": {
-            "description": "Email of the user",
-            "type": "string",
-            "example": "user@example.com"
-          },
-          "username": {
-            "description": "A unique username for the user",
-            "type": "string",
-            "example": "hunter"
-          },
-          "imageUrl": {
-            "description": "URL used for the userprofile image",
-            "type": "string",
-            "example": "https://example.com/242x200.png"
-          },
-          "inviteLink": {
-            "description": "If the user is actively inviting other users, this is the link that can be shared with other users",
-            "type": "string",
-            "example": "http://localhost:4242/invite-link/some-secret"
-          },
-          "loginAttempts": {
-            "description": "How many unsuccessful attempts at logging in has the user made",
-            "type": "integer",
-            "example": 3,
-            "minimum": 0
-          },
-          "emailSent": {
-            "description": "Is the welcome email sent to the user or not",
-            "type": "boolean",
-            "example": false
-          },
-          "rootRole": {
-            "description": "Which [root role](https://docs.getunleash.io/reference/rbac#predefined-roles) this user is assigned. Usually a numeric role ID, but can be a string when returning newly created user with an explicit string role.",
-            "oneOf": [
-              {
-                "type": "integer",
-                "example": 1,
-                "minimum": 0
-              },
-              {
-                "type": "string",
-                "example": "Admin",
-                "enum": [
-                  "Admin",
-                  "Editor",
-                  "Viewer",
-                  "Owner",
-                  "Member"
-                ]
-              }
-            ]
-          },
-          "seenAt": {
-            "description": "The last time this user logged in",
-            "type": "string",
-            "format": "date-time",
-            "example": "2023-06-30T11:42:00.345Z",
-            "nullable": true
-          },
-          "createdAt": {
-            "description": "The user was created at this time",
-            "type": "string",
-            "format": "date-time",
-            "example": "2023-06-30T11:41:00.123Z"
-          },
-          "accountType": {
-            "description": "A user is either an actual User or a Service Account",
-            "type": "string",
-            "example": "User"
-          },
-          "permissions": {
-            "description": "Deprecated",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "id"
-        ]
-      },
-      "variantFlagSchema": {
-        "description": "A representation of an evaluated Unleash feature variant.",
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the variant. Will always be disabled if `enabled` is false.",
-            "type": "string",
-            "example": "blue"
-          },
-          "enabled": {
-            "description": "Whether the variant is enabled or not.",
-            "type": "boolean",
-            "example": true
-          },
-          "payload": {
-            "description": "Additional data associated with this variant.",
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "type": {
-                "description": "The type of data contained.",
-                "type": "string",
-                "example": "json",
-                "enum": [
-                  "string",
-                  "json",
-                  "csv"
-                ]
-              },
-              "value": {
-                "description": "The actual associated data",
-                "type": "string",
-                "example": "{ \"starter\": \"squirtle\" }"
-              }
-            }
-          }
-        },
-        "additionalProperties": false
-      },
-      "versionSchema": {
-        "description": "Detailed information about an Unleash version",
-        "type": "object",
-        "properties": {
-          "current": {
-            "description": "The current version of Unleash.",
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "oss": {
-                "description": "The OSS version used when building this Unleash instance, represented as a git revision belonging to the [main Unleash git repo](https://github.com/Unleash/unleash/)",
-                "type": "string",
-                "example": "5.3.0-main"
-              },
-              "enterprise": {
-                "description": "The Enterpris version of Unleash used to build this instance, represented as a git revision belonging to the [Unleash Enterprise](https://github.com/ivarconr/unleash-enterprise) repository. Will be an empty string if no enterprise version was used,",
-                "type": "string",
-                "example": "5.3.0-main+2105.45ed03c9"
-              }
-            }
-          },
-          "latest": {
-            "description": "Information about the latest available Unleash releases. Will be an empty object if no data is available.",
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "oss": {
-                "description": "The latest available OSS version of Unleash",
-                "type": "string",
-                "example": "5.1.5"
-              },
-              "enterprise": {
-                "description": "The latest available Enterprise version of Unleash",
-                "type": "string",
-                "example": "5.1.5"
-              }
-            }
-          },
-          "isLatest": {
-            "description": "Whether the Unleash server is running the latest release (`true`) or if there are updates available (`false`)",
-            "type": "boolean",
-            "example": true
-          },
-          "instanceId": {
-            "description": "The instance identifier of the Unleash instance",
-            "type": "string",
-            "example": "0d652a82-43db-4144-8e02-864b0b030710"
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "current",
-          "latest",
-          "isLatest"
         ]
       },
       "adminPermissionSchema": {
@@ -3303,7 +3157,7 @@
           "displayName": {
             "description": "The name to display in listings of permissions",
             "type": "string",
-            "example": "Update feature toggles"
+            "example": "Update feature flags"
           },
           "type": {
             "description": "What level this permission applies to. Either root, project or the name of the environment it applies to",
@@ -3401,16 +3255,17 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "The project's identifier.",
+            "description": "The project's identifier. If this property is not present or is an empty string, Unleash will generate the project id automatically. This property is deprecated.",
             "type": "string",
             "example": "pet-shop",
-            "pattern": "[A-Za-z0-9_~.-]+"
+            "deprecated": true,
+            "pattern": "[A-Za-z0-9_~.-]*"
           },
           "name": {
-            "description": "The project's name.",
+            "description": "The project's name. The name must contain at least one non-whitespace character.",
             "type": "string",
             "example": "Pet shop",
-            "minLength": 1
+            "pattern": "^(?!\\s*$).+"
           },
           "description": {
             "description": "The project's description.",
@@ -3422,6 +3277,7 @@
             "description": "A mode of the project affecting what actions are possible in this project",
             "type": "string",
             "example": "open",
+            "default": "open",
             "enum": [
               "open",
               "protected",
@@ -3431,11 +3287,47 @@
           "defaultStickiness": {
             "description": "A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy",
             "type": "string",
-            "example": "userId"
+            "example": "userId",
+            "default": "default"
+          },
+          "environments": {
+            "description": "A list of environments that should be enabled for this project. When provided, the list must contain at least one environment. If this property is missing, Unleash will default to enabling all non-deprecated environments for the project.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "production"
+            },
+            "example": [
+              "production",
+              "development"
+            ],
+            "minItems": 1
+          },
+          "changeRequestEnvironments": {
+            "description": "A list of environments that should have change requests enabled. If the list includes environments not in the `environments` list, they will still have change requests enabled.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "description": "The name of the environment to configure change requests for.",
+                  "type": "string",
+                  "example": "production"
+                },
+                "requiredApprovals": {
+                  "description": "The number of approvals required for a change request to be fully approved and ready to applied in this environment. If no value is provided, it will be set to the default number, which is 1. Values will be clamped to between 1 and 10 inclusive.",
+                  "type": "integer",
+                  "example": 3,
+                  "default": 1
+                }
+              }
+            }
           }
         },
         "required": [
-          "id",
           "name"
         ]
       },
@@ -3671,6 +3563,43 @@
             "description": "A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy",
             "type": "string",
             "example": "userId"
+          },
+          "environments": {
+            "description": "The environments enabled for the project.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "production",
+              "staging"
+            ],
+            "minItems": 1
+          },
+          "changeRequestEnvironments": {
+            "description": "The list of environments that have change requests enabled.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "requiredApprovals"
+              ],
+              "properties": {
+                "name": {
+                  "description": "The name of the environment this change request configuration applies to.",
+                  "type": "string",
+                  "example": "production"
+                },
+                "requiredApprovals": {
+                  "description": "The number of approvals required for a change request to be fully approved and ready to applied in this environment. If no value is provided, it will be set to the default number, which is 1. The value must be greater than or equal to 1.",
+                  "type": "integer",
+                  "example": 3,
+                  "default": 1,
+                  "minimum": 1
+                }
+              }
+            }
           }
         },
         "additionalProperties": false,
@@ -3769,9 +3698,10 @@
         "type": "object",
         "properties": {
           "name": {
-            "description": "The new name of the project",
+            "description": "The new name of the project. The name must contain at least one non-whitespace character.",
             "type": "string",
-            "example": "my-renamed-project"
+            "example": "my-renamed-project",
+            "pattern": "^(?!\\s*$).+"
           },
           "description": {
             "description": "A new description for the project",
@@ -3935,6 +3865,12 @@
             "items": {
               "$ref": "#/components/schemas/groupUserModelSchema"
             }
+          },
+          "scimId": {
+            "description": "The SCIM ID of the group, only present if managed by SCIM",
+            "type": "string",
+            "example": "01HTMEXAMPLESCIMID7SWWGHN7",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -3947,7 +3883,13 @@
       "apiKey": {
         "type": "apiKey",
         "in": "header",
-        "name": "Authorization"
+        "name": "Authorization",
+        "description": "API key needed to access this API"
+      },
+      "bearerToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "API key needed to access this API, in Bearer token format"
       }
     }
   },
@@ -3966,11 +3908,15 @@
     },
     {
       "name": "Archive",
-      "description": "Revive or permanently delete [archived feature toggles](https://docs.getunleash.io/advanced/archived_toggles)."
+      "description": "Revive or permanently delete [archived feature flags](https://docs.getunleash.io/advanced/archived_toggles)."
     },
     {
       "name": "Auth",
       "description": "Manage logins, passwords, etc."
+    },
+    {
+      "name": "Banners",
+      "description": "Create, update, flag, and delete [banners](https://docs.getunleash.io/reference/banners)."
     },
     {
       "name": "Change Requests",
@@ -3983,6 +3929,10 @@
     {
       "name": "Context",
       "description": "Create, update, and delete [context fields](https://docs.getunleash.io/reference/unleash-context) that Unleash is aware of."
+    },
+    {
+      "name": "Dependencies",
+      "description": "Manage feature dependencies."
     },
     {
       "name": "Edge",
@@ -3998,11 +3948,11 @@
     },
     {
       "name": "Feature Types",
-      "description": "Manage [feature toggle types](https://docs.getunleash.io/reference/feature-toggle-types)."
+      "description": "Manage [feature flag types](https://docs.getunleash.io/reference/feature-toggle-types)."
     },
     {
       "name": "Features",
-      "description": "Create, update, and delete [features toggles](https://docs.getunleash.io/reference/feature-toggles)."
+      "description": "Create, update, and delete [feature flags](https://docs.getunleash.io/reference/feature-toggles)."
     },
     {
       "name": "Frontend API",
@@ -4010,7 +3960,7 @@
     },
     {
       "name": "Import/Export",
-      "description": "[Import and export](https://docs.getunleash.io/deploy/import_export) the state of your Unleash instance."
+      "description": "[Import and export](https://docs.getunleash.io/how-to/how-to-environment-import-export) the state of your Unleash instance."
     },
     {
       "name": "Instance Admin",
@@ -4038,7 +3988,7 @@
     },
     {
       "name": "Playground",
-      "description": "Evaluate an Unleash context against your feature toggles."
+      "description": "Evaluate an Unleash context against your feature flags."
     },
     {
       "name": "Projects",
@@ -4047,6 +3997,10 @@
     {
       "name": "Public signup tokens",
       "description": "Create, update, and delete [Unleash Public Signup tokens](https://docs.getunleash.io/reference/public-signup-tokens)."
+    },
+    {
+      "name": "Search",
+      "description": "Search for features."
     },
     {
       "name": "Segments",
@@ -4080,6 +4034,9 @@
   "security": [
     {
       "apiKey": []
+    },
+    {
+      "bearerToken": []
     }
   ]
 }

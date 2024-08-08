@@ -9,12 +9,16 @@ Name | Type | Description | Notes
 **Description** | Pointer to **NullableString** | Additional information about the project | [optional] 
 **Health** | Pointer to **float32** | An indicator of the [project&#39;s health](https://docs.getunleash.io/reference/technical-debt#health-rating) on a scale from 0 to 100 | [optional] 
 **FeatureCount** | Pointer to **float32** | The number of features this project has | [optional] 
+**StaleFeatureCount** | Pointer to **float32** | The number of stale features this project has | [optional] 
+**PotentiallyStaleFeatureCount** | Pointer to **float32** | The number of potentially stale features this project has | [optional] 
 **MemberCount** | Pointer to **float32** | The number of members this project has | [optional] 
 **CreatedAt** | Pointer to **time.Time** | When this project was created. | [optional] 
 **UpdatedAt** | Pointer to **NullableTime** | When this project was last updated. | [optional] 
 **Favorite** | Pointer to **bool** | &#x60;true&#x60; if the project was favorited, otherwise &#x60;false&#x60;. | [optional] 
 **Mode** | Pointer to **string** | The project&#39;s [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not. | [optional] 
 **DefaultStickiness** | Pointer to **string** | A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy | [optional] 
+**AvgTimeToProduction** | Pointer to **float32** | The average time from when a feature was created to when it was enabled in the \&quot;production\&quot; environment during the current window | [optional] 
+**Owners** | Pointer to [**ProjectSchemaOwners**](ProjectSchemaOwners.md) |  | [optional] 
 
 ## Methods
 
@@ -159,6 +163,56 @@ SetFeatureCount sets FeatureCount field to given value.
 `func (o *ProjectSchema) HasFeatureCount() bool`
 
 HasFeatureCount returns a boolean if a field has been set.
+
+### GetStaleFeatureCount
+
+`func (o *ProjectSchema) GetStaleFeatureCount() float32`
+
+GetStaleFeatureCount returns the StaleFeatureCount field if non-nil, zero value otherwise.
+
+### GetStaleFeatureCountOk
+
+`func (o *ProjectSchema) GetStaleFeatureCountOk() (*float32, bool)`
+
+GetStaleFeatureCountOk returns a tuple with the StaleFeatureCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStaleFeatureCount
+
+`func (o *ProjectSchema) SetStaleFeatureCount(v float32)`
+
+SetStaleFeatureCount sets StaleFeatureCount field to given value.
+
+### HasStaleFeatureCount
+
+`func (o *ProjectSchema) HasStaleFeatureCount() bool`
+
+HasStaleFeatureCount returns a boolean if a field has been set.
+
+### GetPotentiallyStaleFeatureCount
+
+`func (o *ProjectSchema) GetPotentiallyStaleFeatureCount() float32`
+
+GetPotentiallyStaleFeatureCount returns the PotentiallyStaleFeatureCount field if non-nil, zero value otherwise.
+
+### GetPotentiallyStaleFeatureCountOk
+
+`func (o *ProjectSchema) GetPotentiallyStaleFeatureCountOk() (*float32, bool)`
+
+GetPotentiallyStaleFeatureCountOk returns a tuple with the PotentiallyStaleFeatureCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPotentiallyStaleFeatureCount
+
+`func (o *ProjectSchema) SetPotentiallyStaleFeatureCount(v float32)`
+
+SetPotentiallyStaleFeatureCount sets PotentiallyStaleFeatureCount field to given value.
+
+### HasPotentiallyStaleFeatureCount
+
+`func (o *ProjectSchema) HasPotentiallyStaleFeatureCount() bool`
+
+HasPotentiallyStaleFeatureCount returns a boolean if a field has been set.
 
 ### GetMemberCount
 
@@ -319,6 +373,56 @@ SetDefaultStickiness sets DefaultStickiness field to given value.
 `func (o *ProjectSchema) HasDefaultStickiness() bool`
 
 HasDefaultStickiness returns a boolean if a field has been set.
+
+### GetAvgTimeToProduction
+
+`func (o *ProjectSchema) GetAvgTimeToProduction() float32`
+
+GetAvgTimeToProduction returns the AvgTimeToProduction field if non-nil, zero value otherwise.
+
+### GetAvgTimeToProductionOk
+
+`func (o *ProjectSchema) GetAvgTimeToProductionOk() (*float32, bool)`
+
+GetAvgTimeToProductionOk returns a tuple with the AvgTimeToProduction field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAvgTimeToProduction
+
+`func (o *ProjectSchema) SetAvgTimeToProduction(v float32)`
+
+SetAvgTimeToProduction sets AvgTimeToProduction field to given value.
+
+### HasAvgTimeToProduction
+
+`func (o *ProjectSchema) HasAvgTimeToProduction() bool`
+
+HasAvgTimeToProduction returns a boolean if a field has been set.
+
+### GetOwners
+
+`func (o *ProjectSchema) GetOwners() ProjectSchemaOwners`
+
+GetOwners returns the Owners field if non-nil, zero value otherwise.
+
+### GetOwnersOk
+
+`func (o *ProjectSchema) GetOwnersOk() (*ProjectSchemaOwners, bool)`
+
+GetOwnersOk returns a tuple with the Owners field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOwners
+
+`func (o *ProjectSchema) SetOwners(v ProjectSchemaOwners)`
+
+SetOwners sets Owners field to given value.
+
+### HasOwners
+
+`func (o *ProjectSchema) HasOwners() bool`
+
+HasOwners returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ExpiresAt** | Pointer to **time.Time** | The time when this token should expire. | [optional] 
 **Type** | **string** | An admin token. Must be the string \&quot;admin\&quot; (not case sensitive). | 
-**Username** | **string** | The name of the token. This property is deprecated. Use &#x60;tokenName&#x60; instead. | 
+**Username** | **string** | The name of the token. This property was deprecated in v5. Use &#x60;tokenName&#x60; instead. | 
 
 ## Methods
 

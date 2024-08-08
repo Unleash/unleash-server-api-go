@@ -1,11 +1,12 @@
 openapi: 3.0.3
 info:
   title: Unleash API
-  version: 5.6.0-main
+  version: 6.1.0
 servers:
 - url: https://us.app.unleash-hosted.com/ushosted
 security:
 - apiKey: []
+- bearerToken: []
 tags:
 - description: "Create, update, and delete [Unleash addons](https://docs.getunleash.io/addons)."
   name: Addons
@@ -14,10 +15,12 @@ tags:
   name: Admin UI
 - description: "Create, update, and delete [Unleash API tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys)."
   name: API tokens
-- description: "Revive or permanently delete [archived feature toggles](https://docs.getunleash.io/advanced/archived_toggles)."
+- description: "Revive or permanently delete [archived feature flags](https://docs.getunleash.io/advanced/archived_toggles)."
   name: Archive
 - description: "Manage logins, passwords, etc."
   name: Auth
+- description: "Create, update, flag, and delete [banners](https://docs.getunleash.io/reference/banners)."
+  name: Banners
 - description: "API for managing [change requests](https://docs.getunleash.io/reference/change-requests)."
   name: Change Requests
 - description: "Endpoints for [Unleash server-side clients](https://docs.getunleash.io/reference/sdks)."
@@ -25,6 +28,8 @@ tags:
 - description: "Create, update, and delete [context fields](https://docs.getunleash.io/reference/unleash-context)\
     \ that Unleash is aware of."
   name: Context
+- description: Manage feature dependencies.
+  name: Dependencies
 - description: Endpoints related to Unleash on the Edge.
   name: Edge
 - description: "Create, update, delete, enable or disable [environments](https://docs.getunleash.io/reference/environments)\
@@ -32,13 +37,13 @@ tags:
   name: Environments
 - description: Read events from this Unleash instance.
   name: Events
-- description: "Manage [feature toggle types](https://docs.getunleash.io/reference/feature-toggle-types)."
+- description: "Manage [feature flag types](https://docs.getunleash.io/reference/feature-toggle-types)."
   name: Feature Types
-- description: "Create, update, and delete [features toggles](https://docs.getunleash.io/reference/feature-toggles)."
+- description: "Create, update, and delete [feature flags](https://docs.getunleash.io/reference/feature-toggles)."
   name: Features
 - description: API for connecting client-side (frontend) applications to Unleash.
   name: Frontend API
-- description: "[Import and export](https://docs.getunleash.io/deploy/import_export)\
+- description: "[Import and export](https://docs.getunleash.io/how-to/how-to-environment-import-export)\
     \ the state of your Unleash instance."
   name: Import/Export
 - description: Instance admin endpoints used to manage the Unleash instance itself.
@@ -53,12 +58,14 @@ tags:
   name: Operational
 - description: "Create, update, and delete [Personal access tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens)."
   name: Personal access tokens
-- description: Evaluate an Unleash context against your feature toggles.
+- description: Evaluate an Unleash context against your feature flags.
   name: Playground
 - description: "Create, update, and delete [Unleash projects](https://docs.getunleash.io/reference/projects)."
   name: Projects
 - description: "Create, update, and delete [Unleash Public Signup tokens](https://docs.getunleash.io/reference/public-signup-tokens)."
   name: Public signup tokens
+- description: Search for features.
+  name: Search
 - description: "Create, update, delete, and manage [segments](https://docs.getunleash.io/reference/segments)."
   name: Segments
 - description: "Endpoints for managing [Service Accounts](https://docs.getunleash.io/reference/service-accounts),\
@@ -387,9 +394,9 @@ paths:
       - Projects
   /api/admin/projects/{projectId}:
     delete:
-      description: Permanently delete the provided project. All feature toggles in
-        the project must be archived before you can delete it. This permanently deletes
-        the project and its archived toggles. It can not be undone.
+      description: Permanently delete the provided project. All feature flags in the
+        project must be archived before you can delete it. This permanently deletes
+        the project and its archived flags. It can not be undone.
       operationId: deleteProject
       parameters:
       - explode: false
@@ -575,21 +582,6 @@ paths:
       summary: Gets available permissions
       tags:
       - Auth
-  /api/admin/ui-config:
-    get:
-      description: Retrieves the full configuration used to set up the Unleash Admin
-        UI.
-      operationId: getUiConfig
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/uiConfigSchema'
-          description: uiConfigSchema
-      summary: Get UI configuration
-      tags:
-      - Admin UI
   /api/admin/api-tokens:
     get:
       description: Retrieves all API tokens that exist in the Unleash instance.
@@ -1116,6 +1108,100 @@ components:
       - $ref: '#/components/schemas/createApiTokenSchema_oneOf_2'
       - $ref: '#/components/schemas/createApiTokenSchema_oneOf_3'
       type: object
+    createUserResponseSchema:
+      additionalProperties: false
+      description: An Unleash user after creation
+      example:
+        loginAttempts: 3
+        inviteLink: http://localhost:4242/invite-link/some-secret
+        accountType: User
+        isAPI: true
+        scimId: 01HTMEXAMPLESCIMID7SWWGHN6
+        createdAt: 2023-06-30T11:41:00.123Z
+        seenAt: 2023-06-30T11:42:00.345Z
+        rootRole: 1
+        emailSent: false
+        permissions:
+        - permissions
+        - permissions
+        imageUrl: https://example.com/242x200.png
+        name: User
+        id: 123
+        email: user@example.com
+        username: hunter
+      properties:
+        id:
+          description: The user id
+          example: 123
+          type: integer
+        isAPI:
+          deprecated: true
+          description: Deprecated in v5. Used internally to know which operations
+            the user should be allowed to perform
+          example: true
+          type: boolean
+        name:
+          description: Name of the user
+          example: User
+          nullable: true
+          type: string
+        email:
+          description: Email of the user
+          example: user@example.com
+          type: string
+        username:
+          description: A unique username for the user
+          example: hunter
+          nullable: true
+          type: string
+        imageUrl:
+          description: URL used for the user profile image
+          example: https://example.com/242x200.png
+          type: string
+        inviteLink:
+          description: "If the user is actively inviting other users, this is the\
+            \ link that can be shared with other users"
+          example: http://localhost:4242/invite-link/some-secret
+          type: string
+        loginAttempts:
+          description: How many unsuccessful attempts at logging in has the user made
+          example: 3
+          minimum: 0
+          type: integer
+        emailSent:
+          description: Is the welcome email sent to the user or not
+          example: false
+          type: boolean
+        rootRole:
+          $ref: '#/components/schemas/createUserResponseSchema_rootRole'
+        seenAt:
+          description: The last time this user logged in
+          example: 2023-06-30T11:42:00.345Z
+          format: date-time
+          nullable: true
+          type: string
+        createdAt:
+          description: The user was created at this time
+          example: 2023-06-30T11:41:00.123Z
+          format: date-time
+          type: string
+        accountType:
+          description: A user is either an actual User or a Service Account
+          example: User
+          type: string
+        permissions:
+          description: Deprecated
+          items:
+            type: string
+          type: array
+        scimId:
+          description: "The SCIM ID of the user, only present if managed by SCIM"
+          example: 01HTMEXAMPLESCIMID7SWWGHN6
+          nullable: true
+          type: string
+      required:
+      - id
+      type: object
     createUserSchema:
       additionalProperties: false
       description: "The payload must contain at least one of the name and email properties,\
@@ -1160,6 +1246,7 @@ components:
           inviteLink: http://localhost:4242/invite-link/some-secret
           accountType: User
           isAPI: true
+          scimId: 01HTMEXAMPLESCIMID7SWWGHN6
           createdAt: 2023-06-30T11:41:00.123Z
           seenAt: 2023-06-30T11:42:00.345Z
           rootRole: 1
@@ -1192,13 +1279,25 @@ components:
       additionalProperties: false
       description: A definition of the project used for projects listing purposes
       example:
-        mode: open
-        createdAt: 2023-07-27T12:12:28Z
         memberCount: 4
-        name: DX-Squad
         defaultStickiness: userId
         description: DX squad feature release
         health: 50
+        owners:
+        - ownerType: user
+          imageUrl: https://example.com/image.jpg
+          name: User Name
+          email: user@example.com
+        - ownerType: user
+          imageUrl: https://example.com/image.jpg
+          name: User Name
+          email: user@example.com
+        staleFeatureCount: 10
+        mode: open
+        avgTimeToProduction: 10
+        createdAt: 2023-07-27T12:12:28Z
+        potentiallyStaleFeatureCount: 10
+        name: DX-Squad
         id: dx-squad
         favorite: true
         featureCount: 10
@@ -1224,6 +1323,14 @@ components:
           type: number
         featureCount:
           description: The number of features this project has
+          example: 10
+          type: number
+        staleFeatureCount:
+          description: The number of stale features this project has
+          example: 10
+          type: number
+        potentiallyStaleFeatureCount:
+          description: The number of potentially stale features this project has
           example: 10
           type: number
         memberCount:
@@ -1260,6 +1367,13 @@ components:
             stickiness value for variants and Gradual Rollout strategy
           example: userId
           type: string
+        avgTimeToProduction:
+          description: The average time from when a feature was created to when it
+            was enabled in the "production" environment during the current window
+          example: 10
+          type: number
+        owners:
+          $ref: '#/components/schemas/projectSchema_owners'
       required:
       - id
       - name
@@ -1269,24 +1383,48 @@ components:
       description: An overview of all the projects in the Unleash instance
       example:
         projects:
-        - mode: open
-          createdAt: 2023-07-27T12:12:28Z
-          memberCount: 4
-          name: DX-Squad
+        - memberCount: 4
           defaultStickiness: userId
           description: DX squad feature release
           health: 50
+          owners:
+          - ownerType: user
+            imageUrl: https://example.com/image.jpg
+            name: User Name
+            email: user@example.com
+          - ownerType: user
+            imageUrl: https://example.com/image.jpg
+            name: User Name
+            email: user@example.com
+          staleFeatureCount: 10
+          mode: open
+          avgTimeToProduction: 10
+          createdAt: 2023-07-27T12:12:28Z
+          potentiallyStaleFeatureCount: 10
+          name: DX-Squad
           id: dx-squad
           favorite: true
           featureCount: 10
           updatedAt: 2023-07-28T12:12:28Z
-        - mode: open
-          createdAt: 2023-07-27T12:12:28Z
-          memberCount: 4
-          name: DX-Squad
+        - memberCount: 4
           defaultStickiness: userId
           description: DX squad feature release
           health: 50
+          owners:
+          - ownerType: user
+            imageUrl: https://example.com/image.jpg
+            name: User Name
+            email: user@example.com
+          - ownerType: user
+            imageUrl: https://example.com/image.jpg
+            name: User Name
+            email: user@example.com
+          staleFeatureCount: 10
+          mode: open
+          avgTimeToProduction: 10
+          createdAt: 2023-07-27T12:12:28Z
+          potentiallyStaleFeatureCount: 10
+          name: DX-Squad
           id: dx-squad
           favorite: true
           featureCount: 10
@@ -1317,6 +1455,7 @@ components:
           added as project owners when creating projects and get superuser rights
           within the context of these projects. Users with the editor role will also
           get access to most permissions on the default project by default.
+        project: default
         id: 9
         type: root
       properties:
@@ -1343,158 +1482,15 @@ components:
             within the context of these projects. Users with the editor role will
             also get access to most permissions on the default project by default.
           type: string
+        project:
+          description: What project the role belongs to
+          example: default
+          nullable: true
+          type: string
       required:
       - id
       - name
       - type
-      type: object
-    uiConfigSchema:
-      additionalProperties: false
-      description: A collection of properties used to configure the Unleash Admin
-        UI.
-      example:
-        disablePasswordAuth: false
-        frontendApiOrigins:
-        - '*'
-        emailEnabled: true
-        flags:
-          messageBanner:
-            name: disabled
-            enabled: false
-          featuresExportImport: true
-        versionInfo:
-          current:
-            enterprise: 5.3.0-main+2105.45ed03c9
-            oss: 5.3.0-main
-          instanceId: 0d652a82-43db-4144-8e02-864b0b030710
-          isLatest: true
-          latest:
-            enterprise: 5.1.5
-            oss: 5.1.5
-        version: 5.3.0-main
-        environment: Enterprise
-        strategySegmentsLimit: 5
-        name: Unleash enterprise
-        links:
-        - value: Documentation
-          icon: library_books
-          href: https://docs.getunleash.io/docs
-          title: User documentation
-        - value: GitHub
-          icon: c_github
-          href: https://github.com/Unleash/unleash
-          title: Source code on GitHub
-        maintenanceMode: false
-        networkViewEnabled: true
-        authenticationType: enterprise
-        unleashUrl: https://unleash.mycompany.com/enterprise
-        baseUriPath: /enterprise
-        slogan: The enterprise-ready feature toggle service.
-        segmentValuesLimit: 1000
-      properties:
-        slogan:
-          description: The slogan to display in the UI footer.
-          example: The enterprise-ready feature toggle service.
-          type: string
-        name:
-          description: The name of this Unleash instance. Used to build the text in
-            the footer.
-          example: Unleash enterprise
-          type: string
-        version:
-          description: The current version of Unleash
-          example: 5.3.0-main
-          type: string
-        environment:
-          description: "What kind of Unleash instance it is: Enterprise, Pro, or Open\
-            \ source"
-          example: Enterprise
-          type: string
-        unleashUrl:
-          description: The URL of the Unleash instance.
-          example: https://unleash.mycompany.com/enterprise
-          type: string
-        baseUriPath:
-          description: The base URI path at which this Unleash instance is listening.
-          example: /enterprise
-          type: string
-        disablePasswordAuth:
-          description: Whether password authentication should be disabled or not.
-          example: false
-          type: boolean
-        emailEnabled:
-          description: Whether this instance can send out emails or not.
-          example: true
-          type: boolean
-        maintenanceMode:
-          description: Whether maintenance mode is currently active or not.
-          example: false
-          type: boolean
-        segmentValuesLimit:
-          description: The maximum number of values that can be used in a single segment.
-          example: 1000
-          type: number
-        strategySegmentsLimit:
-          description: The maximum number of segments that can be applied to a single
-            strategy.
-          example: 5
-          type: number
-        networkViewEnabled:
-          description: Whether to enable the Unleash network view or not.
-          example: true
-          type: boolean
-        frontendApiOrigins:
-          description: The list of origins that the front-end API should accept requests
-            from.
-          example:
-          - '*'
-          items:
-            type: string
-          type: array
-        flags:
-          additionalProperties:
-            $ref: '#/components/schemas/uiConfigSchema_flags_value'
-          description: Additional (largely experimental) features that are enabled
-            in this Unleash instance.
-          example:
-            messageBanner:
-              name: disabled
-              enabled: false
-            featuresExportImport: true
-          type: object
-        links:
-          description: Relevant links to use in the UI.
-          example:
-          - value: Documentation
-            icon: library_books
-            href: https://docs.getunleash.io/docs
-            title: User documentation
-          - value: GitHub
-            icon: c_github
-            href: https://github.com/Unleash/unleash
-            title: Source code on GitHub
-          items:
-            type: object
-          type: array
-          x-enforcer-exception-skip-codes: WSCH006
-        authenticationType:
-          description: The type of authentication enabled for this Unleash instance
-          enum:
-          - open-source
-          - demo
-          - enterprise
-          - hosted
-          - custom
-          - none
-          example: enterprise
-          type: string
-        versionInfo:
-          $ref: '#/components/schemas/versionSchema'
-      required:
-      - baseUriPath
-      - unleashUrl
-      - version
-      - versionInfo
       type: object
     updateApiTokenSchema:
       description: An object with fields to updated for a given API token.
@@ -1530,6 +1526,7 @@ components:
         inviteLink: http://localhost:4242/invite-link/some-secret
         accountType: User
         isAPI: true
+        scimId: 01HTMEXAMPLESCIMID7SWWGHN6
         createdAt: 2023-06-30T11:41:00.123Z
         seenAt: 2023-06-30T11:42:00.345Z
         rootRole: 1
@@ -1546,12 +1543,11 @@ components:
         id:
           description: The user id
           example: 123
-          minimum: 0
           type: integer
         isAPI:
           deprecated: true
-          description: "(Deprecated): Used internally to know which operations the\
-            \ user should be allowed to perform"
+          description: Deprecated in v5. Used internally to know which operations
+            the user should be allowed to perform
           example: true
           type: boolean
         name:
@@ -1566,9 +1562,10 @@ components:
         username:
           description: A unique username for the user
           example: hunter
+          nullable: true
           type: string
         imageUrl:
-          description: URL used for the userprofile image
+          description: URL used for the user profile image
           example: https://example.com/242x200.png
           type: string
         inviteLink:
@@ -1611,150 +1608,20 @@ components:
           items:
             type: string
           type: array
-      required:
-      - id
-      type: object
-    createUserResponseSchema:
-      additionalProperties: false
-      description: An Unleash user after creation
-      example:
-        loginAttempts: 3
-        inviteLink: http://localhost:4242/invite-link/some-secret
-        accountType: User
-        isAPI: true
-        createdAt: 2023-06-30T11:41:00.123Z
-        seenAt: 2023-06-30T11:42:00.345Z
-        rootRole: null
-        emailSent: false
-        permissions:
-        - permissions
-        - permissions
-        imageUrl: https://example.com/242x200.png
-        name: User
-        id: 123
-        email: user@example.com
-        username: hunter
-      properties:
-        id:
-          description: The user id
-          example: 123
-          minimum: 0
-          type: integer
-        isAPI:
-          deprecated: true
-          description: "(Deprecated): Used internally to know which operations the\
-            \ user should be allowed to perform"
-          example: true
-          type: boolean
-        name:
-          description: Name of the user
-          example: User
+        scimId:
+          description: "The SCIM ID of the user, only present if managed by SCIM"
+          example: 01HTMEXAMPLESCIMID7SWWGHN6
           nullable: true
           type: string
-        email:
-          description: Email of the user
-          example: user@example.com
-          type: string
-        username:
-          description: A unique username for the user
-          example: hunter
-          type: string
-        imageUrl:
-          description: URL used for the userprofile image
-          example: https://example.com/242x200.png
-          type: string
-        inviteLink:
-          description: "If the user is actively inviting other users, this is the\
-            \ link that can be shared with other users"
-          example: http://localhost:4242/invite-link/some-secret
-          type: string
-        loginAttempts:
-          description: How many unsuccessful attempts at logging in has the user made
-          example: 3
-          minimum: 0
-          type: integer
-        emailSent:
-          description: Is the welcome email sent to the user or not
-          example: false
-          type: boolean
-        rootRole:
-          $ref: '#/components/schemas/createUserResponseSchema_rootRole'
-        seenAt:
-          description: The last time this user logged in
-          example: 2023-06-30T11:42:00.345Z
-          format: date-time
-          nullable: true
-          type: string
-        createdAt:
-          description: The user was created at this time
-          example: 2023-06-30T11:41:00.123Z
-          format: date-time
-          type: string
-        accountType:
-          description: A user is either an actual User or a Service Account
-          example: User
-          type: string
-        permissions:
-          description: Deprecated
-          items:
-            type: string
-          type: array
       required:
       - id
-      type: object
-    variantFlagSchema:
-      additionalProperties: false
-      description: A representation of an evaluated Unleash feature variant.
-      properties:
-        name:
-          description: The name of the variant. Will always be disabled if `enabled`
-            is false.
-          example: blue
-          type: string
-        enabled:
-          description: Whether the variant is enabled or not.
-          example: true
-          type: boolean
-        payload:
-          $ref: '#/components/schemas/variantFlagSchema_payload'
-      type: object
-    versionSchema:
-      additionalProperties: false
-      description: Detailed information about an Unleash version
-      example:
-        current:
-          enterprise: 5.3.0-main+2105.45ed03c9
-          oss: 5.3.0-main
-        instanceId: 0d652a82-43db-4144-8e02-864b0b030710
-        isLatest: true
-        latest:
-          enterprise: 5.1.5
-          oss: 5.1.5
-      properties:
-        current:
-          $ref: '#/components/schemas/versionSchema_current'
-        latest:
-          $ref: '#/components/schemas/versionSchema_latest'
-        isLatest:
-          description: Whether the Unleash server is running the latest release (`true`)
-            or if there are updates available (`false`)
-          example: true
-          type: boolean
-        instanceId:
-          description: The instance identifier of the Unleash instance
-          example: 0d652a82-43db-4144-8e02-864b0b030710
-          type: string
-      required:
-      - current
-      - isLatest
-      - latest
       type: object
     adminPermissionSchema:
       additionalProperties: false
       description: Describes a single permission
       example:
         environment: development
-        displayName: Update feature toggles
+        displayName: Update feature flags
         name: UPDATE_FEATURE
         id: 3
         type: project
@@ -1769,7 +1636,7 @@ components:
           type: string
         displayName:
           description: The name to display in listings of permissions
-          example: Update feature toggles
+          example: Update feature flags
           type: string
         type:
           description: "What level this permission applies to. Either root, project\
@@ -1794,47 +1661,47 @@ components:
           environments:
           - permissions:
             - environment: development
-              displayName: Update feature toggles
+              displayName: Update feature flags
               name: UPDATE_FEATURE
               id: 3
               type: project
             - environment: development
-              displayName: Update feature toggles
+              displayName: Update feature flags
               name: UPDATE_FEATURE
               id: 3
               type: project
             name: development
           - permissions:
             - environment: development
-              displayName: Update feature toggles
+              displayName: Update feature flags
               name: UPDATE_FEATURE
               id: 3
               type: project
             - environment: development
-              displayName: Update feature toggles
+              displayName: Update feature flags
               name: UPDATE_FEATURE
               id: 3
               type: project
             name: development
           root:
           - environment: development
-            displayName: Update feature toggles
+            displayName: Update feature flags
             name: UPDATE_FEATURE
             id: 3
             type: project
           - environment: development
-            displayName: Update feature toggles
+            displayName: Update feature flags
             name: UPDATE_FEATURE
             id: 3
             type: project
           project:
           - environment: development
-            displayName: Update feature toggles
+            displayName: Update feature flags
             name: UPDATE_FEATURE
             id: 3
             type: project
           - environment: development
-            displayName: Update feature toggles
+            displayName: Update feature flags
             name: UPDATE_FEATURE
             id: 3
             type: project
@@ -1859,14 +1726,18 @@ components:
       description: "Data used to create a new [project](https://docs.getunleash.io/reference/projects)."
       properties:
         id:
-          description: The project's identifier.
+          deprecated: true
+          description: "The project's identifier. If this property is not present\
+            \ or is an empty string, Unleash will generate the project id automatically.\
+            \ This property is deprecated."
           example: pet-shop
-          pattern: "[A-Za-z0-9_~.-]+"
+          pattern: "[A-Za-z0-9_~.-]*"
           type: string
         name:
-          description: The project's name.
+          description: The project's name. The name must contain at least one non-whitespace
+            character.
           example: Pet shop
-          minLength: 1
+          pattern: ^(?!\s*$).+
           type: string
         description:
           description: The project's description.
@@ -1874,6 +1745,7 @@ components:
           nullable: true
           type: string
         mode:
+          default: open
           description: A mode of the project affecting what actions are possible in
             this project
           enum:
@@ -1883,12 +1755,32 @@ components:
           example: open
           type: string
         defaultStickiness:
+          default: default
           description: A default stickiness for the project affecting the default
             stickiness value for variants and Gradual Rollout strategy
           example: userId
           type: string
+        environments:
+          description: "A list of environments that should be enabled for this project.\
+            \ When provided, the list must contain at least one environment. If this\
+            \ property is missing, Unleash will default to enabling all non-deprecated\
+            \ environments for the project."
+          example:
+          - production
+          - development
+          items:
+            example: production
+            type: string
+          minItems: 1
+          type: array
+        changeRequestEnvironments:
+          description: "A list of environments that should have change requests enabled.\
+            \ If the list includes environments not in the `environments` list, they\
+            \ will still have change requests enabled."
+          items:
+            $ref: '#/components/schemas/createProjectSchema_changeRequestEnvironments_inner'
+          type: array
       required:
-      - id
       - name
       type: object
     createRoleWithPermissionsSchema:
@@ -1922,6 +1814,7 @@ components:
             will be added as project owners when creating projects and get superuser
             rights within the context of these projects. Users with the editor role
             will also get access to most permissions on the default project by default.
+          project: default
           id: 9
           type: root
         - name: Editor
@@ -1930,6 +1823,7 @@ components:
             will be added as project owners when creating projects and get superuser
             rights within the context of these projects. Users with the editor role
             will also get access to most permissions on the default project by default.
+          project: default
           id: 9
           type: root
         groups:
@@ -1955,6 +1849,7 @@ components:
               inviteLink: http://localhost:4242/invite-link/some-secret
               accountType: User
               isAPI: true
+              scimId: 01HTMEXAMPLESCIMID7SWWGHN6
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
               rootRole: 1
@@ -1974,6 +1869,7 @@ components:
               inviteLink: http://localhost:4242/invite-link/some-secret
               accountType: User
               isAPI: true
+              scimId: 01HTMEXAMPLESCIMID7SWWGHN6
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
               rootRole: 1
@@ -1986,6 +1882,7 @@ components:
               id: 123
               email: user@example.com
               username: hunter
+          scimId: 01HTMEXAMPLESCIMID7SWWGHN7
         - createdAt: 2023-06-30T11:41:00.123Z
           addedAt: 2023-08-01T14:35:16Z
           rootRole: 1
@@ -2008,6 +1905,7 @@ components:
               inviteLink: http://localhost:4242/invite-link/some-secret
               accountType: User
               isAPI: true
+              scimId: 01HTMEXAMPLESCIMID7SWWGHN6
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
               rootRole: 1
@@ -2027,6 +1925,7 @@ components:
               inviteLink: http://localhost:4242/invite-link/some-secret
               accountType: User
               isAPI: true
+              scimId: 01HTMEXAMPLESCIMID7SWWGHN6
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
               rootRole: 1
@@ -2039,6 +1938,7 @@ components:
               id: 123
               email: user@example.com
               username: hunter
+          scimId: 01HTMEXAMPLESCIMID7SWWGHN7
         users:
         - addedAt: 2023-08-01T14:35:16Z
           roleId: 5
@@ -2086,6 +1986,14 @@ components:
       description: Details about the newly created project.
       example:
         mode: open
+        changeRequestEnvironments:
+        - requiredApprovals: 3
+          name: production
+        - requiredApprovals: 3
+          name: production
+        environments:
+        - production
+        - staging
         featureLimit: 100
         name: Pet shop
         defaultStickiness: userId
@@ -2127,6 +2035,20 @@ components:
             stickiness value for variants and Gradual Rollout strategy
           example: userId
           type: string
+        environments:
+          description: The environments enabled for the project.
+          example:
+          - production
+          - staging
+          items:
+            type: string
+          minItems: 1
+          type: array
+        changeRequestEnvironments:
+          description: The list of environments that have change requests enabled.
+          items:
+            $ref: '#/components/schemas/projectCreatedSchema_changeRequestEnvironments_inner'
+          type: array
       required:
       - id
       - name
@@ -2138,12 +2060,12 @@ components:
       example:
         permissions:
         - environment: development
-          displayName: Update feature toggles
+          displayName: Update feature flags
           name: UPDATE_FEATURE
           id: 3
           type: project
         - environment: development
-          displayName: Update feature toggles
+          displayName: Update feature flags
           name: UPDATE_FEATURE
           id: 3
           type: project
@@ -2200,6 +2122,7 @@ components:
             will be added as project owners when creating projects and get superuser
             rights within the context of these projects. Users with the editor role
             will also get access to most permissions on the default project by default.
+          project: default
           id: 9
           type: root
         version: 1
@@ -2226,6 +2149,7 @@ components:
             will be added as project owners when creating projects and get superuser
             rights within the context of these projects. Users with the editor role
             will also get access to most permissions on the default project by default.
+          project: default
           id: 9
           type: root
         - name: Editor
@@ -2234,6 +2158,7 @@ components:
             will be added as project owners when creating projects and get superuser
             rights within the context of these projects. Users with the editor role
             will also get access to most permissions on the default project by default.
+          project: default
           id: 9
           type: root
         version: 1
@@ -2256,8 +2181,10 @@ components:
       description: "Data used to update a [project](https://docs.getunleash.io/reference/projects)"
       properties:
         name:
-          description: The new name of the project
+          description: The new name of the project. The name must contain at least
+            one non-whitespace character.
           example: my-renamed-project
+          pattern: ^(?!\s*$).+
           type: string
         description:
           description: A new description for the project
@@ -2365,6 +2292,7 @@ components:
             inviteLink: http://localhost:4242/invite-link/some-secret
             accountType: User
             isAPI: true
+            scimId: 01HTMEXAMPLESCIMID7SWWGHN6
             createdAt: 2023-06-30T11:41:00.123Z
             seenAt: 2023-06-30T11:42:00.345Z
             rootRole: 1
@@ -2384,6 +2312,7 @@ components:
             inviteLink: http://localhost:4242/invite-link/some-secret
             accountType: User
             isAPI: true
+            scimId: 01HTMEXAMPLESCIMID7SWWGHN6
             createdAt: 2023-06-30T11:41:00.123Z
             seenAt: 2023-06-30T11:42:00.345Z
             rootRole: 1
@@ -2396,6 +2325,7 @@ components:
             id: 123
             email: user@example.com
             username: hunter
+        scimId: 01HTMEXAMPLESCIMID7SWWGHN7
       properties:
         name:
           description: The name of the group
@@ -2458,10 +2388,20 @@ components:
           items:
             $ref: '#/components/schemas/groupUserModelSchema'
           type: array
+        scimId:
+          description: "The SCIM ID of the group, only present if managed by SCIM"
+          example: 01HTMEXAMPLESCIMID7SWWGHN7
+          nullable: true
+          type: string
       required:
       - id
       type: object
     getRoles_401_response:
+      example:
+        name: AuthenticationRequired
+        id: 9c40958a-daac-400e-98fb-3bb438567008
+        message: "You must log in to use Unleash. Your request had no authorization\
+          \ header, so we could not authorize you. Try logging in at /auth/simple/login."
       properties:
         id:
           description: The ID of the error instance
@@ -2478,6 +2418,11 @@ components:
           type: string
       type: object
     getRoles_403_response:
+      example:
+        name: NoAccessError
+        id: 9c40958a-daac-400e-98fb-3bb438567008
+        message: You need the "UPDATE_ADDON" permission to perform this action in
+          the "development" environment.
       properties:
         id:
           description: The ID of the error instance
@@ -2494,6 +2439,11 @@ components:
           type: string
       type: object
     createRole_400_response:
+      example:
+        name: ValidationError
+        id: 9c40958a-daac-400e-98fb-3bb438567008
+        message: "The request payload you provided doesn't conform to the schema.\
+          \ The .parameters property should be object. You sent []."
       properties:
         id:
           description: The ID of the error instance
@@ -2510,6 +2460,10 @@ components:
           type: string
       type: object
     createRole_409_response:
+      example:
+        name: NameExistsError
+        id: 9c40958a-daac-400e-98fb-3bb438567008
+        message: There is already a feature called "my-awesome-feature".
       properties:
         id:
           description: The ID of the error instance
@@ -2525,6 +2479,10 @@ components:
           type: string
       type: object
     getRoleById_404_response:
+      example:
+        name: NotFoundError
+        id: 9c40958a-daac-400e-98fb-3bb438567008
+        message: Could not find the addon with ID "12345".
       properties:
         id:
           description: The ID of the error instance
@@ -2540,6 +2498,12 @@ components:
           type: string
       type: object
     createProject_415_response:
+      example:
+        name: ContentTypeerror
+        id: 9c40958a-daac-400e-98fb-3bb438567008
+        message: We do not accept the content-type you provided (application/xml).
+          Try using one of the content-types we do accept instead (application/json)
+          and make sure the body is in the corresponding format.
       properties:
         id:
           description: The ID of the error instance
@@ -2590,8 +2554,8 @@ components:
           type: string
         username:
           deprecated: true
-          description: The name of the token. This property is deprecated. Use `tokenName`
-            instead.
+          description: The name of the token. This property was deprecated in v5.
+            Use `tokenName` instead.
           example: token-64523
           type: string
       required:
@@ -2678,33 +2642,14 @@ components:
           type: array
         username:
           deprecated: true
-          description: The name of the token. This property is deprecated. Use `tokenName`
-            instead.
+          description: The name of the token. This property was deprecated in v5.
+            Use `tokenName` instead.
           example: token-64523
           type: string
       required:
       - type
       - username
       type: object
-    createUserSchema_rootRole:
-      description: The role to assign to the user. Can be either the role's ID or
-        its unique name.
-      oneOf:
-      - example: 1
-        minimum: 0
-        type: integer
-      - enum:
-        - Admin
-        - Editor
-        - Viewer
-        - Owner
-        - Member
-        example: Admin
-        type: string
-    uiConfigSchema_flags_value:
-      anyOf:
-      - type: boolean
-      - $ref: '#/components/schemas/variantFlagSchema'
     createUserResponseSchema_rootRole:
       description: "Which [root role](https://docs.getunleash.io/reference/rbac#predefined-roles)\
         \ this user is assigned. Usually a numeric role ID, but can be a string when\
@@ -2721,70 +2666,98 @@ components:
         - Member
         example: Admin
         type: string
-    variantFlagSchema_payload:
-      additionalProperties: false
-      description: Additional data associated with this variant.
+    createUserSchema_rootRole:
+      description: The role to assign to the user. Can be either the role's ID or
+        its unique name.
+      oneOf:
+      - example: 1
+        minimum: 0
+        type: integer
+      - enum:
+        - Admin
+        - Editor
+        - Viewer
+        - Owner
+        - Member
+        example: Admin
+        type: string
+    projectSchema_owners_oneOf_inner_anyOf:
+      example:
+        ownerType: user
+        imageUrl: https://example.com/image.jpg
+        name: User Name
+        email: user@example.com
       properties:
-        type:
-          description: The type of data contained.
+        ownerType:
           enum:
-          - string
-          - json
-          - csv
-          example: json
+          - user
           type: string
-        value:
-          description: The actual associated data
-          example: "{ \"starter\": \"squirtle\" }"
+        name:
+          example: User Name
           type: string
+        imageUrl:
+          example: https://example.com/image.jpg
+          nullable: true
+          type: string
+        email:
+          example: user@example.com
+          nullable: true
+          type: string
+      required:
+      - name
+      - ownerType
       type: object
-    versionSchema_current:
-      additionalProperties: false
-      description: The current version of Unleash.
-      example:
-        enterprise: 5.3.0-main+2105.45ed03c9
-        oss: 5.3.0-main
+    projectSchema_owners_oneOf_inner_anyOf_1:
       properties:
-        oss:
-          description: "The OSS version used when building this Unleash instance,\
-            \ represented as a git revision belonging to the [main Unleash git repo](https://github.com/Unleash/unleash/)"
-          example: 5.3.0-main
+        ownerType:
+          enum:
+          - group
           type: string
-        enterprise:
-          description: "The Enterpris version of Unleash used to build this instance,\
-            \ represented as a git revision belonging to the [Unleash Enterprise](https://github.com/ivarconr/unleash-enterprise)\
-            \ repository. Will be an empty string if no enterprise version was used,"
-          example: 5.3.0-main+2105.45ed03c9
+        name:
+          example: Group Name
           type: string
+      required:
+      - name
+      - ownerType
       type: object
-    versionSchema_latest:
-      additionalProperties: false
-      description: Information about the latest available Unleash releases. Will be
-        an empty object if no data is available.
-      example:
-        enterprise: 5.1.5
-        oss: 5.1.5
+    projectSchema_owners_oneOf_inner:
+      anyOf:
+      - $ref: '#/components/schemas/projectSchema_owners_oneOf_inner_anyOf'
+      - $ref: '#/components/schemas/projectSchema_owners_oneOf_inner_anyOf_1'
+    projectSchema_owners_oneOf_inner_1:
       properties:
-        oss:
-          description: The latest available OSS version of Unleash
-          example: 5.1.5
+        ownerType:
+          enum:
+          - system
           type: string
-        enterprise:
-          description: The latest available Enterprise version of Unleash
-          example: 5.1.5
-          type: string
+      required:
+      - ownerType
       type: object
+    projectSchema_owners:
+      description: "The users and/or groups that have the \"owner\" role in this project.\
+        \ If no such users or groups exist, the list will contain the \"system\" owner\
+        \ instead."
+      oneOf:
+      - items:
+          $ref: '#/components/schemas/projectSchema_owners_oneOf_inner'
+        minItems: 1
+        type: array
+      - items:
+          $ref: '#/components/schemas/projectSchema_owners_oneOf_inner_1'
+        maxItems: 1
+        minItems: 1
+        type: array
     adminPermissionsSchema_permissions_environments_inner:
       additionalProperties: false
       example:
         permissions:
         - environment: development
-          displayName: Update feature toggles
+          displayName: Update feature flags
           name: UPDATE_FEATURE
           id: 3
           type: project
         - environment: development
-          displayName: Update feature toggles
+          displayName: Update feature flags
           name: UPDATE_FEATURE
           id: 3
           type: project
@@ -2810,47 +2783,47 @@ components:
         environments:
         - permissions:
           - environment: development
-            displayName: Update feature toggles
+            displayName: Update feature flags
             name: UPDATE_FEATURE
             id: 3
             type: project
           - environment: development
-            displayName: Update feature toggles
+            displayName: Update feature flags
             name: UPDATE_FEATURE
             id: 3
             type: project
           name: development
         - permissions:
           - environment: development
-            displayName: Update feature toggles
+            displayName: Update feature flags
             name: UPDATE_FEATURE
             id: 3
             type: project
           - environment: development
-            displayName: Update feature toggles
+            displayName: Update feature flags
             name: UPDATE_FEATURE
             id: 3
             type: project
           name: development
         root:
         - environment: development
-          displayName: Update feature toggles
+          displayName: Update feature flags
           name: UPDATE_FEATURE
           id: 3
           type: project
         - environment: development
-          displayName: Update feature toggles
+          displayName: Update feature flags
           name: UPDATE_FEATURE
           id: 3
           type: project
         project:
         - environment: development
-          displayName: Update feature toggles
+          displayName: Update feature flags
           name: UPDATE_FEATURE
           id: 3
           type: project
         - environment: development
-          displayName: Update feature toggles
+          displayName: Update feature flags
           name: UPDATE_FEATURE
           id: 3
           type: project
@@ -2874,6 +2847,23 @@ components:
       required:
       - environments
       - project
+      type: object
+    createProjectSchema_changeRequestEnvironments_inner:
+      properties:
+        name:
+          description: The name of the environment to configure change requests for.
+          example: production
+          type: string
+        requiredApprovals:
+          default: 1
+          description: "The number of approvals required for a change request to be\
+            \ fully approved and ready to applied in this environment. If no value\
+            \ is provided, it will be set to the default number, which is 1. Values\
+            \ will be clamped to between 1 and 10 inclusive."
+          example: 3
+          type: integer
+      required:
+      - name
       type: object
     createRoleWithPermissionsSchema_anyOf_permissions_inner:
       properties:
@@ -2990,8 +2980,36 @@ components:
             type: integer
           type: array
       type: object
+    projectCreatedSchema_changeRequestEnvironments_inner:
+      example:
+        requiredApprovals: 3
+        name: production
+      properties:
+        name:
+          description: The name of the environment this change request configuration
+            applies to.
+          example: production
+          type: string
+        requiredApprovals:
+          default: 1
+          description: "The number of approvals required for a change request to be\
+            \ fully approved and ready to applied in this environment. If no value\
+            \ is provided, it will be set to the default number, which is 1. The value\
+            \ must be greater than or equal to 1."
+          example: 3
+          minimum: 1
+          type: integer
+      required:
+      - name
+      - requiredApprovals
+      type: object
   securitySchemes:
     apiKey:
+      description: API key needed to access this API
       in: header
       name: Authorization
       type: apiKey
+    bearerToken:
+      description: "API key needed to access this API, in Bearer token format"
+      scheme: bearer
+      type: http
