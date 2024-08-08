@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the CreateProject415Response type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &CreateProject415Response{}
+// checks if the CreateServiceAccount415Response type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &CreateServiceAccount415Response{}
 
-// CreateProject415Response struct for CreateProject415Response
-type CreateProject415Response struct {
+// CreateServiceAccount415Response struct for CreateServiceAccount415Response
+type CreateServiceAccount415Response struct {
 	// The ID of the error instance
 	Id *string `json:"id,omitempty"`
 	// The name of the error kind
@@ -28,27 +28,27 @@ type CreateProject415Response struct {
 	AdditionalProperties map[string]interface{}
 }
 
-type _CreateProject415Response CreateProject415Response
+type _CreateServiceAccount415Response CreateServiceAccount415Response
 
-// NewCreateProject415Response instantiates a new CreateProject415Response object
+// NewCreateServiceAccount415Response instantiates a new CreateServiceAccount415Response object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateProject415Response() *CreateProject415Response {
-	this := CreateProject415Response{}
+func NewCreateServiceAccount415Response() *CreateServiceAccount415Response {
+	this := CreateServiceAccount415Response{}
 	return &this
 }
 
-// NewCreateProject415ResponseWithDefaults instantiates a new CreateProject415Response object
+// NewCreateServiceAccount415ResponseWithDefaults instantiates a new CreateServiceAccount415Response object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewCreateProject415ResponseWithDefaults() *CreateProject415Response {
-	this := CreateProject415Response{}
+func NewCreateServiceAccount415ResponseWithDefaults() *CreateServiceAccount415Response {
+	this := CreateServiceAccount415Response{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *CreateProject415Response) GetId() string {
+func (o *CreateServiceAccount415Response) GetId() string {
 	if o == nil || IsNil(o.Id) {
 		var ret string
 		return ret
@@ -58,7 +58,7 @@ func (o *CreateProject415Response) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateProject415Response) GetIdOk() (*string, bool) {
+func (o *CreateServiceAccount415Response) GetIdOk() (*string, bool) {
 	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
@@ -66,7 +66,7 @@ func (o *CreateProject415Response) GetIdOk() (*string, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *CreateProject415Response) HasId() bool {
+func (o *CreateServiceAccount415Response) HasId() bool {
 	if o != nil && !IsNil(o.Id) {
 		return true
 	}
@@ -75,12 +75,12 @@ func (o *CreateProject415Response) HasId() bool {
 }
 
 // SetId gets a reference to the given string and assigns it to the Id field.
-func (o *CreateProject415Response) SetId(v string) {
+func (o *CreateServiceAccount415Response) SetId(v string) {
 	o.Id = &v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *CreateProject415Response) GetName() string {
+func (o *CreateServiceAccount415Response) GetName() string {
 	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
@@ -90,7 +90,7 @@ func (o *CreateProject415Response) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateProject415Response) GetNameOk() (*string, bool) {
+func (o *CreateServiceAccount415Response) GetNameOk() (*string, bool) {
 	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
@@ -98,7 +98,7 @@ func (o *CreateProject415Response) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *CreateProject415Response) HasName() bool {
+func (o *CreateServiceAccount415Response) HasName() bool {
 	if o != nil && !IsNil(o.Name) {
 		return true
 	}
@@ -107,12 +107,12 @@ func (o *CreateProject415Response) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *CreateProject415Response) SetName(v string) {
+func (o *CreateServiceAccount415Response) SetName(v string) {
 	o.Name = &v
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
-func (o *CreateProject415Response) GetMessage() string {
+func (o *CreateServiceAccount415Response) GetMessage() string {
 	if o == nil || IsNil(o.Message) {
 		var ret string
 		return ret
@@ -122,7 +122,7 @@ func (o *CreateProject415Response) GetMessage() string {
 
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateProject415Response) GetMessageOk() (*string, bool) {
+func (o *CreateServiceAccount415Response) GetMessageOk() (*string, bool) {
 	if o == nil || IsNil(o.Message) {
 		return nil, false
 	}
@@ -130,7 +130,7 @@ func (o *CreateProject415Response) GetMessageOk() (*string, bool) {
 }
 
 // HasMessage returns a boolean if a field has been set.
-func (o *CreateProject415Response) HasMessage() bool {
+func (o *CreateServiceAccount415Response) HasMessage() bool {
 	if o != nil && !IsNil(o.Message) {
 		return true
 	}
@@ -139,11 +139,11 @@ func (o *CreateProject415Response) HasMessage() bool {
 }
 
 // SetMessage gets a reference to the given string and assigns it to the Message field.
-func (o *CreateProject415Response) SetMessage(v string) {
+func (o *CreateServiceAccount415Response) SetMessage(v string) {
 	o.Message = &v
 }
 
-func (o CreateProject415Response) MarshalJSON() ([]byte, error) {
+func (o CreateServiceAccount415Response) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -151,7 +151,7 @@ func (o CreateProject415Response) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o CreateProject415Response) ToMap() (map[string]interface{}, error) {
+func (o CreateServiceAccount415Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
@@ -170,16 +170,16 @@ func (o CreateProject415Response) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *CreateProject415Response) UnmarshalJSON(data []byte) (err error) {
-	varCreateProject415Response := _CreateProject415Response{}
+func (o *CreateServiceAccount415Response) UnmarshalJSON(data []byte) (err error) {
+	varCreateServiceAccount415Response := _CreateServiceAccount415Response{}
 
-	err = json.Unmarshal(data, &varCreateProject415Response)
+	err = json.Unmarshal(data, &varCreateServiceAccount415Response)
 
 	if err != nil {
 		return err
 	}
 
-	*o = CreateProject415Response(varCreateProject415Response)
+	*o = CreateServiceAccount415Response(varCreateServiceAccount415Response)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -193,38 +193,38 @@ func (o *CreateProject415Response) UnmarshalJSON(data []byte) (err error) {
 	return err
 }
 
-type NullableCreateProject415Response struct {
-	value *CreateProject415Response
+type NullableCreateServiceAccount415Response struct {
+	value *CreateServiceAccount415Response
 	isSet bool
 }
 
-func (v NullableCreateProject415Response) Get() *CreateProject415Response {
+func (v NullableCreateServiceAccount415Response) Get() *CreateServiceAccount415Response {
 	return v.value
 }
 
-func (v *NullableCreateProject415Response) Set(val *CreateProject415Response) {
+func (v *NullableCreateServiceAccount415Response) Set(val *CreateServiceAccount415Response) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableCreateProject415Response) IsSet() bool {
+func (v NullableCreateServiceAccount415Response) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableCreateProject415Response) Unset() {
+func (v *NullableCreateServiceAccount415Response) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableCreateProject415Response(val *CreateProject415Response) *NullableCreateProject415Response {
-	return &NullableCreateProject415Response{value: val, isSet: true}
+func NewNullableCreateServiceAccount415Response(val *CreateServiceAccount415Response) *NullableCreateServiceAccount415Response {
+	return &NullableCreateServiceAccount415Response{value: val, isSet: true}
 }
 
-func (v NullableCreateProject415Response) MarshalJSON() ([]byte, error) {
+func (v NullableCreateServiceAccount415Response) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableCreateProject415Response) UnmarshalJSON(src []byte) error {
+func (v *NullableCreateServiceAccount415Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
