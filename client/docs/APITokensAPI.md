@@ -26,24 +26,24 @@ Create API token
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    createApiTokenSchema := openapiclient.createApiTokenSchema{CreateApiTokenSchemaOneOf: openapiclient.NewCreateApiTokenSchemaOneOf("admin", "token-64522")} // CreateApiTokenSchema | createApiTokenSchema
+	createApiTokenSchema := openapiclient.createApiTokenSchema{CreateApiTokenSchemaOneOf: openapiclient.NewCreateApiTokenSchemaOneOf("admin", "token-64522")} // CreateApiTokenSchema | createApiTokenSchema
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.APITokensAPI.CreateApiToken(context.Background()).CreateApiTokenSchema(createApiTokenSchema).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `APITokensAPI.CreateApiToken``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `CreateApiToken`: ApiTokenSchema
-    fmt.Fprintf(os.Stdout, "Response from `APITokensAPI.CreateApiToken`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.APITokensAPI.CreateApiToken(context.Background()).CreateApiTokenSchema(createApiTokenSchema).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `APITokensAPI.CreateApiToken``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateApiToken`: ApiTokenSchema
+	fmt.Fprintf(os.Stdout, "Response from `APITokensAPI.CreateApiToken`: %v\n", resp)
 }
 ```
 
@@ -66,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiKey](../README.md#apiKey)
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
 
 ### HTTP request headers
 
@@ -92,22 +92,22 @@ Delete API token
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    token := "token_example" // string | 
+	token := "token_example" // string | 
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.APITokensAPI.DeleteApiToken(context.Background(), token).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `APITokensAPI.DeleteApiToken``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.APITokensAPI.DeleteApiToken(context.Background(), token).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `APITokensAPI.DeleteApiToken``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
 }
 ```
 
@@ -134,7 +134,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiKey](../README.md#apiKey)
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
 
 ### HTTP request headers
 
@@ -160,23 +160,23 @@ Get API tokens
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.APITokensAPI.GetAllApiTokens(context.Background()).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `APITokensAPI.GetAllApiTokens``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `GetAllApiTokens`: ApiTokensSchema
-    fmt.Fprintf(os.Stdout, "Response from `APITokensAPI.GetAllApiTokens`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.APITokensAPI.GetAllApiTokens(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `APITokensAPI.GetAllApiTokens``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetAllApiTokens`: ApiTokensSchema
+	fmt.Fprintf(os.Stdout, "Response from `APITokensAPI.GetAllApiTokens`: %v\n", resp)
 }
 ```
 
@@ -195,7 +195,7 @@ Other parameters are passed through a pointer to a apiGetAllApiTokensRequest str
 
 ### Authorization
 
-[apiKey](../README.md#apiKey)
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
 
 ### HTTP request headers
 
@@ -221,24 +221,24 @@ Get API tokens by name
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    name := "name_example" // string | 
+	name := "name_example" // string | 
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.APITokensAPI.GetApiTokensByName(context.Background(), name).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `APITokensAPI.GetApiTokensByName``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `GetApiTokensByName`: ApiTokensSchema
-    fmt.Fprintf(os.Stdout, "Response from `APITokensAPI.GetApiTokensByName`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.APITokensAPI.GetApiTokensByName(context.Background(), name).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `APITokensAPI.GetApiTokensByName``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetApiTokensByName`: ApiTokensSchema
+	fmt.Fprintf(os.Stdout, "Response from `APITokensAPI.GetApiTokensByName`: %v\n", resp)
 }
 ```
 
@@ -265,7 +265,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiKey](../README.md#apiKey)
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
 
 ### HTTP request headers
 
@@ -291,24 +291,24 @@ Update API token
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
+	"context"
+	"fmt"
+	"os"
     "time"
-    openapiclient "github.com/Unleash/unleash-server-api-go"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    token := "token_example" // string | 
-    updateApiTokenSchema := *openapiclient.NewUpdateApiTokenSchema(time.Now()) // UpdateApiTokenSchema | updateApiTokenSchema
+	token := "token_example" // string | 
+	updateApiTokenSchema := *openapiclient.NewUpdateApiTokenSchema(time.Now()) // UpdateApiTokenSchema | updateApiTokenSchema
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.APITokensAPI.UpdateApiToken(context.Background(), token).UpdateApiTokenSchema(updateApiTokenSchema).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `APITokensAPI.UpdateApiToken``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.APITokensAPI.UpdateApiToken(context.Background(), token).UpdateApiTokenSchema(updateApiTokenSchema).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `APITokensAPI.UpdateApiToken``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
 }
 ```
 
@@ -336,7 +336,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiKey](../README.md#apiKey)
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
 
 ### HTTP request headers
 

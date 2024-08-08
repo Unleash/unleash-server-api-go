@@ -17,7 +17,7 @@ openapi-generator-cli generate \
     --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true \
     --openapi-normalizer RESOLVE_INLINE_ENUMS=true \
     --openapi-normalizer REF_AS_PARENT_IN_ALLOF=true \
-    --additional-properties packageName=client \
+    --additional-properties packageName=client,disallowAdditionalPropertiesIfNotPresent=false \
     -i modified-openapi.json \
     -o client \
     -g go

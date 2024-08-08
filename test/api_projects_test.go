@@ -9,6 +9,7 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/Unleash/unleash-server-api-go/client"
@@ -21,7 +22,8 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 
 	t.Run("Test ProjectsAPIService CreateProject", func(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
-			createProjectSchema := *client.NewCreateProjectSchema("pet-shop-project", "Pet shop project")
+			createProjectSchema := *client.NewCreateProjectSchema("pet-shop-project")
+			createProjectSchema.SetId("pet-shop-project")
 			resp, httpRes, err := apiClient.ProjectsAPI.CreateProject(context.Background()).CreateProjectSchema(createProjectSchema).Execute()
 
 			require.Nil(t, err)
@@ -78,6 +80,8 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 			projectId := "default"
 
 			resp, httpRes, err := apiClient.ProjectsAPI.GetProjectAccess(context.Background(), projectId).Execute()
+
+			fmt.Println(err)
 
 			require.Nil(t, err)
 			require.NotNil(t, resp)

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** | The new name of the project | 
+**Name** | **string** | The new name of the project. The name must contain at least one non-whitespace character. | 
 **Description** | Pointer to **string** | A new description for the project | [optional] 
 **Mode** | Pointer to **string** | A mode of the project affecting what actions are possible in this project | [optional] 
 **DefaultStickiness** | Pointer to **string** | A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy | [optional] 

@@ -27,24 +27,24 @@ Create project
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    createProjectSchema := *openapiclient.NewCreateProjectSchema("pet-shop", "Pet shop") // CreateProjectSchema | createProjectSchema
+	createProjectSchema := *openapiclient.NewCreateProjectSchema("Pet shop") // CreateProjectSchema | createProjectSchema
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ProjectsAPI.CreateProject(context.Background()).CreateProjectSchema(createProjectSchema).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.CreateProject``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `CreateProject`: ProjectCreatedSchema
-    fmt.Fprintf(os.Stdout, "Response from `ProjectsAPI.CreateProject`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ProjectsAPI.CreateProject(context.Background()).CreateProjectSchema(createProjectSchema).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.CreateProject``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateProject`: ProjectCreatedSchema
+	fmt.Fprintf(os.Stdout, "Response from `ProjectsAPI.CreateProject`: %v\n", resp)
 }
 ```
 
@@ -67,7 +67,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiKey](../README.md#apiKey)
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
 
 ### HTTP request headers
 
@@ -93,22 +93,22 @@ Delete project
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    projectId := "projectId_example" // string | 
+	projectId := "projectId_example" // string | 
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.ProjectsAPI.DeleteProject(context.Background(), projectId).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.DeleteProject``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.ProjectsAPI.DeleteProject(context.Background(), projectId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.DeleteProject``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
 }
 ```
 
@@ -135,7 +135,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiKey](../README.md#apiKey)
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
 
 ### HTTP request headers
 
@@ -161,24 +161,24 @@ Get users and groups in project
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    projectId := "projectId_example" // string | 
+	projectId := "projectId_example" // string | 
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ProjectsAPI.GetProjectAccess(context.Background(), projectId).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.GetProjectAccess``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `GetProjectAccess`: ProjectAccessSchema
-    fmt.Fprintf(os.Stdout, "Response from `ProjectsAPI.GetProjectAccess`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ProjectsAPI.GetProjectAccess(context.Background(), projectId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.GetProjectAccess``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetProjectAccess`: ProjectAccessSchema
+	fmt.Fprintf(os.Stdout, "Response from `ProjectsAPI.GetProjectAccess`: %v\n", resp)
 }
 ```
 
@@ -205,7 +205,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiKey](../README.md#apiKey)
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
 
 ### HTTP request headers
 
@@ -231,23 +231,23 @@ Get a list of all projects.
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ProjectsAPI.GetProjects(context.Background()).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.GetProjects``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `GetProjects`: ProjectsSchema
-    fmt.Fprintf(os.Stdout, "Response from `ProjectsAPI.GetProjects`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ProjectsAPI.GetProjects(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.GetProjects``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetProjects`: ProjectsSchema
+	fmt.Fprintf(os.Stdout, "Response from `ProjectsAPI.GetProjects`: %v\n", resp)
 }
 ```
 
@@ -266,7 +266,7 @@ Other parameters are passed through a pointer to a apiGetProjectsRequest struct 
 
 ### Authorization
 
-[apiKey](../README.md#apiKey)
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
 
 ### HTTP request headers
 
@@ -292,23 +292,23 @@ Set users and groups to roles in the current project
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    projectId := "projectId_example" // string | 
-    projectAccessConfigurationSchema := *openapiclient.NewProjectAccessConfigurationSchema([]openapiclient.ProjectAccessConfigurationSchemaRolesInner{*openapiclient.NewProjectAccessConfigurationSchemaRolesInner()}) // ProjectAccessConfigurationSchema | projectAccessConfigurationSchema
+	projectId := "projectId_example" // string | 
+	projectAccessConfigurationSchema := *openapiclient.NewProjectAccessConfigurationSchema([]openapiclient.ProjectAccessConfigurationSchemaRolesInner{*openapiclient.NewProjectAccessConfigurationSchemaRolesInner()}) // ProjectAccessConfigurationSchema | projectAccessConfigurationSchema
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.ProjectsAPI.SetProjectAccess(context.Background(), projectId).ProjectAccessConfigurationSchema(projectAccessConfigurationSchema).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.SetProjectAccess``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.ProjectsAPI.SetProjectAccess(context.Background(), projectId).ProjectAccessConfigurationSchema(projectAccessConfigurationSchema).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.SetProjectAccess``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
 }
 ```
 
@@ -336,7 +336,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiKey](../README.md#apiKey)
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
 
 ### HTTP request headers
 
@@ -362,23 +362,23 @@ Update project
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
-    projectId := "projectId_example" // string | 
-    updateProjectSchema := *openapiclient.NewUpdateProjectSchema("my-renamed-project") // UpdateProjectSchema | updateProjectSchema
+	projectId := "projectId_example" // string | 
+	updateProjectSchema := *openapiclient.NewUpdateProjectSchema("my-renamed-project") // UpdateProjectSchema | updateProjectSchema
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.ProjectsAPI.UpdateProject(context.Background(), projectId).UpdateProjectSchema(updateProjectSchema).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.UpdateProject``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.ProjectsAPI.UpdateProject(context.Background(), projectId).UpdateProjectSchema(updateProjectSchema).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.UpdateProject``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
 }
 ```
 
@@ -406,7 +406,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apiKey](../README.md#apiKey)
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
 
 ### HTTP request headers
 

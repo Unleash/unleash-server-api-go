@@ -22,23 +22,23 @@ Gets available permissions
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/Unleash/unleash-server-api-go"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
 )
 
 func main() {
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AuthAPI.GetPermissions(context.Background()).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetPermissions``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `GetPermissions`: AdminPermissionsSchema
-    fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetPermissions`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.GetPermissions(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetPermissions``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetPermissions`: AdminPermissionsSchema
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetPermissions`: %v\n", resp)
 }
 ```
 
@@ -57,7 +57,7 @@ Other parameters are passed through a pointer to a apiGetPermissionsRequest stru
 
 ### Authorization
 
-[apiKey](../README.md#apiKey)
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
 
 ### HTTP request headers
 

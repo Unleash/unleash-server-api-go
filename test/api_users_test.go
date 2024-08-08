@@ -76,13 +76,28 @@ func createRole(name string, description string, roleType string) *client.Create
 	return newRole
 }
 
+func clean_up_user(user *client.CreateUserResponseSchema, apiClient *client.APIClient) {
+	id := fmt.Sprint(user.Id)
+	httpRes, err := apiClient.UsersAPI.DeleteUser(context.Background(), id).Execute()
+	if err != nil || httpRes.StatusCode != 200 {
+		fmt.Println("Failed to clean up a user after a test, this means the test is probably fine but your state is dirty and you should run a docker compose rm --force")
+	}
+}
+
+func clean_up_role(role *client.RoleWithVersionSchema, apiClient *client.APIClient) {
+	roleId := fmt.Sprint(role.Roles.Id)
+	httpRes, err := apiClient.UsersAPI.DeleteRole(context.Background(), roleId).Execute()
+	if err != nil || httpRes.StatusCode != 200 {
+		fmt.Println("Failed to clean up a role after a test, this means the test is probably fine but your state is dirty and you should run a docker compose rm --force")
+	}
+}
+
 func Test_client_UsersAPIService(t *testing.T) {
 	apiClient := testClient()
 
 	t.Run("Test UsersAPIService CreateUser", func(t *testing.T) {
-
-		createUser(t, apiClient, "test")
-
+		user := createUser(t, apiClient, "test")
+		defer clean_up_user(user, apiClient)
 	})
 
 	t.Run("Test UsersAPIService DeleteUser", func(t *testing.T) {
@@ -94,11 +109,12 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
-
 	})
 
 	t.Run("Test UsersAPIService GetUser", func(t *testing.T) {
-		var id string
+		user := createUser(t, apiClient, "to-be-retrieved")
+		defer clean_up_user(user, apiClient)
+		id := fmt.Sprint(user.Id)
 
 		resp, httpRes, err := apiClient.UsersAPI.GetUser(context.Background(), id).Execute()
 
@@ -111,6 +127,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 	t.Run("Test UsersAPIService UpdateUser", func(t *testing.T) {
 
 		user := createUser(t, apiClient, "to-be-updated")
+		defer clean_up_user(user, apiClient)
 		id := fmt.Sprint(user.Id)
 
 		role := int32(2)
@@ -127,11 +144,13 @@ func Test_client_UsersAPIService(t *testing.T) {
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
+
 	t.Run("Test UsersAPIService CreateRole (root-custom)", func(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
 			newRole := createRole("test-root-role", "test role description", "root-custom")
 
 			resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
+			defer clean_up_role(resp, apiClient)
 
 			require.Nil(t, err)
 			require.NotNil(t, resp)
@@ -146,6 +165,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 			newRole := createRole("test-custom-role", "test role description", "custom")
 
 			resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
+			defer clean_up_role(resp, apiClient)
 
 			require.Nil(t, err)
 			require.NotNil(t, resp)
@@ -160,6 +180,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 			newRole := createRole("to-update-role", "test role description", "root-custom")
 
 			resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
+			defer clean_up_role(resp, apiClient)
 
 			require.Nil(t, err)
 			require.NotNil(t, resp)
@@ -179,6 +200,14 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService GetRoles", func(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
+
+			newRole := createRole("test-root-role", "test role description", "root-custom")
+
+			createResp, _, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
+
+			require.Nil(t, err)
+			defer clean_up_role(createResp, apiClient)
+
 			resp, httpRes, err := apiClient.UsersAPI.GetRoles(context.Background()).Execute()
 
 			require.Nil(t, err)

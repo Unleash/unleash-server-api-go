@@ -10,6 +10,8 @@ Name | Type | Description | Notes
 **FeatureLimit** | Pointer to **NullableInt32** | A limit on the number of features allowed in the project. &#x60;null&#x60; if no limit. | [optional] 
 **Mode** | Pointer to **string** | A mode of the project affecting what actions are possible in this project | [optional] 
 **DefaultStickiness** | Pointer to **string** | A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy | [optional] 
+**Environments** | Pointer to **[]string** | The environments enabled for the project. | [optional] 
+**ChangeRequestEnvironments** | Pointer to [**[]ProjectCreatedSchemaChangeRequestEnvironmentsInner**](ProjectCreatedSchemaChangeRequestEnvironmentsInner.md) | The list of environments that have change requests enabled. | [optional] 
 
 ## Methods
 
@@ -189,6 +191,56 @@ SetDefaultStickiness sets DefaultStickiness field to given value.
 `func (o *ProjectCreatedSchema) HasDefaultStickiness() bool`
 
 HasDefaultStickiness returns a boolean if a field has been set.
+
+### GetEnvironments
+
+`func (o *ProjectCreatedSchema) GetEnvironments() []string`
+
+GetEnvironments returns the Environments field if non-nil, zero value otherwise.
+
+### GetEnvironmentsOk
+
+`func (o *ProjectCreatedSchema) GetEnvironmentsOk() (*[]string, bool)`
+
+GetEnvironmentsOk returns a tuple with the Environments field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEnvironments
+
+`func (o *ProjectCreatedSchema) SetEnvironments(v []string)`
+
+SetEnvironments sets Environments field to given value.
+
+### HasEnvironments
+
+`func (o *ProjectCreatedSchema) HasEnvironments() bool`
+
+HasEnvironments returns a boolean if a field has been set.
+
+### GetChangeRequestEnvironments
+
+`func (o *ProjectCreatedSchema) GetChangeRequestEnvironments() []ProjectCreatedSchemaChangeRequestEnvironmentsInner`
+
+GetChangeRequestEnvironments returns the ChangeRequestEnvironments field if non-nil, zero value otherwise.
+
+### GetChangeRequestEnvironmentsOk
+
+`func (o *ProjectCreatedSchema) GetChangeRequestEnvironmentsOk() (*[]ProjectCreatedSchemaChangeRequestEnvironmentsInner, bool)`
+
+GetChangeRequestEnvironmentsOk returns a tuple with the ChangeRequestEnvironments field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetChangeRequestEnvironments
+
+`func (o *ProjectCreatedSchema) SetChangeRequestEnvironments(v []ProjectCreatedSchemaChangeRequestEnvironmentsInner)`
+
+SetChangeRequestEnvironments sets ChangeRequestEnvironments field to given value.
+
+### HasChangeRequestEnvironments
+
+`func (o *ProjectCreatedSchema) HasChangeRequestEnvironments() bool`
+
+HasChangeRequestEnvironments returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
