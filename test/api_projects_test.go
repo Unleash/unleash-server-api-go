@@ -17,6 +17,44 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func createTempUser(t *testing.T, apiClient *client.APIClient, prefix string) *client.CreateUserResponseSchema {
+	name := "A name"
+	email := prefix + "-username@getunleash.io"
+	username := prefix + "-username"
+	sendEmail := false
+	rootRoleId := int32(1)
+
+	createUserSchema := *client.NewCreateUserSchemaWithDefaults()
+	createUserSchema.Name = &name
+	createUserSchema.Email = &email
+	createUserSchema.Username = &username
+	createUserSchema.RootRole = client.Int32AsCreateUserSchemaRootRole(&rootRoleId)
+	createUserSchema.SendEmail = &sendEmail
+
+	resp, httpRes, err := apiClient.UsersAPI.CreateUser(context.Background()).CreateUserSchema(createUserSchema).Execute()
+
+	fmt.Println(err)
+	require.Nil(t, err)
+	require.NotNil(t, resp)
+	assert.Equal(t, 201, httpRes.StatusCode)
+	return resp
+}
+
+func cleanupTempUser(t *testing.T, apiClient *client.APIClient, userId int32) {
+	id := fmt.Sprint(userId)
+	httpRes, err := apiClient.UsersAPI.DeleteUser(context.Background(), id).Execute()
+
+	require.Nil(t, err)
+	assert.Equal(t, 200, httpRes.StatusCode)
+}
+
+func cleanupProject(t *testing.T, apiClient *client.APIClient, projectId string) {
+	httpRes, err := apiClient.ProjectsAPI.DeleteProject(context.Background(), projectId).Execute()
+
+	require.Nil(t, err)
+	assert.Equal(t, 200, httpRes.StatusCode)
+}
+
 func Test_client_ProjectsAPIService(t *testing.T) {
 	apiClient := testClient()
 
@@ -93,4 +131,44 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 		}
 	})
 
+	t.Run("Test ProjectsAPIService GetProjects correctly handles ownership responses", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			projectId := "pet-shop-project"
+			createProjectSchema := *client.NewCreateProjectSchema("some-random-project")
+			createProjectSchema.SetId(projectId)
+			resp, httpRes, err := apiClient.ProjectsAPI.CreateProject(context.Background()).CreateProjectSchema(createProjectSchema).Execute()
+
+			defer cleanupProject(t, apiClient, projectId)
+
+			user := createTempUser(t, apiClient, "some-random-user")
+			defer cleanupTempUser(t, apiClient, user.Id)
+
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 201, httpRes.StatusCode)
+
+			rolePayload := *client.NewProjectAccessConfigurationSchemaRolesInnerWithDefaults()
+			rolePayload.Users = []int32{user.Id}
+			id := int32(4)
+			rolePayload.Id = &id
+
+			roles := []client.ProjectAccessConfigurationSchemaRolesInner{rolePayload}
+
+			accessConfiguration := *client.NewProjectAccessConfigurationSchema(roles)
+
+			apiResponse, err := apiClient.ProjectsAPI.SetProjectAccess(context.Background(), projectId).ProjectAccessConfigurationSchema(accessConfiguration).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, apiResponse)
+
+			projects, projectApiResponse, err := apiClient.ProjectsAPI.GetProjects(context.Background()).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, projectApiResponse)
+			require.NotNil(t, projects)
+
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
 }
