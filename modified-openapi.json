@@ -2,13 +2,9 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Unleash API",
-    "version": "6.1.0"
+    "version": "6.1.10+main"
   },
-  "servers": [
-    {
-      "url": "https://us.app.unleash-hosted.com/ushosted"
-    }
-  ],
+  "servers": [],
   "paths": {
     "/api/admin/roles": {
       "get": {
@@ -1595,6 +1591,16 @@
         "operationId": "getProjects",
         "summary": "Get a list of all projects.",
         "description": "This endpoint returns an list of all the projects in the Unleash instance.",
+        "parameters": [
+          {
+            "name": "archived",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "projectsSchema",
@@ -3876,68 +3882,58 @@
           },
           "owners": {
             "description": "The users and/or groups that have the \"owner\" role in this project. If no such users or groups exist, the list will contain the \"system\" owner instead.",
-            "oneOf": [
-              {
-                "type": "array",
-                "minItems": 1,
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "required": [
-                        "ownerType",
-                        "name"
-                      ],
-                      "properties": {
-                        "ownerType": {
-                          "type": "string",
-                          "enum": [
-                            "user"
-                          ]
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "User Name"
-                        },
-                        "imageUrl": {
-                          "type": "string",
-                          "example": "https://example.com/image.jpg",
-                          "nullable": true
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "user@example.com",
-                          "nullable": true
-                        }
-                      }
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "ownerType",
+                    "name"
+                  ],
+                  "properties": {
+                    "ownerType": {
+                      "type": "string",
+                      "enum": [
+                        "user"
+                      ]
                     },
-                    {
-                      "type": "object",
-                      "required": [
-                        "ownerType",
-                        "name"
-                      ],
-                      "properties": {
-                        "ownerType": {
-                          "type": "string",
-                          "enum": [
-                            "group"
-                          ]
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Group Name"
-                        }
-                      }
+                    "name": {
+                      "type": "string",
+                      "example": "User Name"
+                    },
+                    "imageUrl": {
+                      "type": "string",
+                      "example": "https://example.com/image.jpg",
+                      "nullable": true
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "user@example.com",
+                      "nullable": true
                     }
-                  ]
-                }
-              },
-              {
-                "type": "array",
-                "minItems": 1,
-                "maxItems": 1,
-                "items": {
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "ownerType",
+                    "name"
+                  ],
+                  "properties": {
+                    "ownerType": {
+                      "type": "string",
+                      "enum": [
+                        "group"
+                      ]
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Group Name"
+                    }
+                  }
+                },
+                {
                   "type": "object",
                   "required": [
                     "ownerType"
@@ -3951,8 +3947,17 @@
                     }
                   }
                 }
+              ],
+              "discriminator": {
+                "propertyName": "ownerType",
+                "mapping": {
+                  "user": "#/components/schemas/UserOwner",
+                  "group": "#/components/schemas/GroupOwner",
+                  "system": "#/components/schemas/SystemOwner"
+                }
               }
-            ]
+            },
+            "minItems": 1
           }
         },
         "additionalProperties": false,

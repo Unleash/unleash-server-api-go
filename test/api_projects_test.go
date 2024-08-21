@@ -163,6 +163,8 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 
 			projects, projectApiResponse, err := apiClient.ProjectsAPI.GetProjects(context.Background()).Execute()
 
+			fmt.Println("WHY GO?", err)
+
 			require.Nil(t, err)
 			require.NotNil(t, projectApiResponse)
 			require.NotNil(t, projects)

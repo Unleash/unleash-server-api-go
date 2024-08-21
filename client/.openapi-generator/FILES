@@ -52,11 +52,6 @@ docs/ProjectAccessSchema.md
 docs/ProjectCreatedSchema.md
 docs/ProjectCreatedSchemaChangeRequestEnvironmentsInner.md
 docs/ProjectSchema.md
-docs/ProjectSchemaOwners.md
-docs/ProjectSchemaOwnersOneOfInner.md
-docs/ProjectSchemaOwnersOneOfInner1.md
-docs/ProjectSchemaOwnersOneOfInnerAnyOf.md
-docs/ProjectSchemaOwnersOneOfInnerAnyOf1.md
 docs/ProjectsAPI.md
 docs/ProjectsSchema.md
 docs/RoleSchema.md
@@ -74,8 +69,6 @@ docs/UserSchema.md
 docs/UserWithProjectRoleSchema.md
 docs/UsersAPI.md
 git_push.sh
-go.mod
-go.sum
 model_admin_permission_schema.go
 model_admin_permissions_schema.go
 model_admin_permissions_schema_permissions.go
@@ -116,11 +109,6 @@ model_project_access_schema.go
 model_project_created_schema.go
 model_project_created_schema_change_request_environments_inner.go
 model_project_schema.go
-model_project_schema_owners.go
-model_project_schema_owners_one_of_inner.go
-model_project_schema_owners_one_of_inner_1.go
-model_project_schema_owners_one_of_inner_any_of.go
-model_project_schema_owners_one_of_inner_any_of_1.go
 model_projects_schema.go
 model_role_schema.go
 model_role_with_permissions_schema.go

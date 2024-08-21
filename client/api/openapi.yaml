@@ -1,9 +1,9 @@
 openapi: 3.0.3
 info:
   title: Unleash API
-  version: 6.1.0
+  version: 6.1.10+main
 servers:
-- url: https://us.app.unleash-hosted.com/ushosted
+- url: /
 security:
 - apiKey: []
 - bearerToken: []
@@ -667,6 +667,14 @@ paths:
       description: This endpoint returns an list of all the projects in the Unleash
         instance.
       operationId: getProjects
+      parameters:
+      - explode: true
+        in: query
+        name: archived
+        required: false
+        schema:
+          type: boolean
+        style: form
       responses:
         "200":
           content:
@@ -1732,32 +1740,14 @@ components:
           type: array
       type: object
     projectSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: A definition of the project used for projects listing purposes
       example:
-        memberCount: 4
-        defaultStickiness: userId
+        name: DX-Squad
         description: DX squad feature release
         health: 50
-        owners:
-        - ownerType: user
-          imageUrl: https://example.com/image.jpg
-          name: User Name
-          email: user@example.com
-        - ownerType: user
-          imageUrl: https://example.com/image.jpg
-          name: User Name
-          email: user@example.com
-        staleFeatureCount: 10
-        mode: open
-        avgTimeToProduction: 10
-        createdAt: 2023-07-27T12:12:28Z
-        potentiallyStaleFeatureCount: 10
-        name: DX-Squad
         id: dx-squad
-        favorite: true
         featureCount: 10
-        updatedAt: 2023-07-28T12:12:28Z
       properties:
         id:
           description: The id of this project
@@ -1781,55 +1771,6 @@ components:
           description: The number of features this project has
           example: 10
           type: number
-        staleFeatureCount:
-          description: The number of stale features this project has
-          example: 10
-          type: number
-        potentiallyStaleFeatureCount:
-          description: The number of potentially stale features this project has
-          example: 10
-          type: number
-        memberCount:
-          description: The number of members this project has
-          example: 4
-          type: number
-        createdAt:
-          description: When this project was created.
-          example: 2023-07-27T12:12:28Z
-          format: date-time
-          type: string
-        updatedAt:
-          description: When this project was last updated.
-          example: 2023-07-28T12:12:28Z
-          format: date-time
-          nullable: true
-          type: string
-        favorite:
-          description: "`true` if the project was favorited, otherwise `false`."
-          example: true
-          type: boolean
-        mode:
-          description: "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode).\
-            \ Determines whether non-project members can submit change requests or\
-            \ not."
-          enum:
-          - open
-          - protected
-          - private
-          example: open
-          type: string
-        defaultStickiness:
-          description: A default stickiness for the project affecting the default
-            stickiness value for variants and Gradual Rollout strategy
-          example: userId
-          type: string
-        avgTimeToProduction:
-          description: The average time from when a feature was created to when it
-            was enabled in the "production" environment during the current window
-          example: 10
-          type: number
-        owners:
-          $ref: '#/components/schemas/projectSchema_owners'
       required:
       - id
       - name
@@ -1839,52 +1780,16 @@ components:
       description: An overview of all the projects in the Unleash instance
       example:
         projects:
-        - memberCount: 4
-          defaultStickiness: userId
+        - name: DX-Squad
           description: DX squad feature release
           health: 50
-          owners:
-          - ownerType: user
-            imageUrl: https://example.com/image.jpg
-            name: User Name
-            email: user@example.com
-          - ownerType: user
-            imageUrl: https://example.com/image.jpg
-            name: User Name
-            email: user@example.com
-          staleFeatureCount: 10
-          mode: open
-          avgTimeToProduction: 10
-          createdAt: 2023-07-27T12:12:28Z
-          potentiallyStaleFeatureCount: 10
-          name: DX-Squad
           id: dx-squad
-          favorite: true
           featureCount: 10
-          updatedAt: 2023-07-28T12:12:28Z
-        - memberCount: 4
-          defaultStickiness: userId
+        - name: DX-Squad
           description: DX squad feature release
           health: 50
-          owners:
-          - ownerType: user
-            imageUrl: https://example.com/image.jpg
-            name: User Name
-            email: user@example.com
-          - ownerType: user
-            imageUrl: https://example.com/image.jpg
-            name: User Name
-            email: user@example.com
-          staleFeatureCount: 10
-          mode: open
-          avgTimeToProduction: 10
-          createdAt: 2023-07-27T12:12:28Z
-          potentiallyStaleFeatureCount: 10
-          name: DX-Squad
           id: dx-squad
-          favorite: true
           featureCount: 10
-          updatedAt: 2023-07-28T12:12:28Z
         version: 1
       properties:
         version:
@@ -3366,72 +3271,6 @@ components:
         - Member
         example: Admin
         type: string
-    projectSchema_owners_oneOf_inner_anyOf:
-      example:
-        ownerType: user
-        imageUrl: https://example.com/image.jpg
-        name: User Name
-        email: user@example.com
-      properties:
-        ownerType:
-          enum:
-          - user
-          type: string
-        name:
-          example: User Name
-          type: string
-        imageUrl:
-          example: https://example.com/image.jpg
-          nullable: true
-          type: string
-        email:
-          example: user@example.com
-          nullable: true
-          type: string
-      required:
-      - name
-      - ownerType
-      type: object
-    projectSchema_owners_oneOf_inner_anyOf_1:
-      properties:
-        ownerType:
-          enum:
-          - group
-          type: string
-        name:
-          example: Group Name
-          type: string
-      required:
-      - name
-      - ownerType
-      type: object
-    projectSchema_owners_oneOf_inner:
-      anyOf:
-      - $ref: '#/components/schemas/projectSchema_owners_oneOf_inner_anyOf'
-      - $ref: '#/components/schemas/projectSchema_owners_oneOf_inner_anyOf_1'
-    projectSchema_owners_oneOf_inner_1:
-      properties:
-        ownerType:
-          enum:
-          - system
-          type: string
-      required:
-      - ownerType
-      type: object
-    projectSchema_owners:
-      description: "The users and/or groups that have the \"owner\" role in this project.\
-        \ If no such users or groups exist, the list will contain the \"system\" owner\
-        \ instead."
-      oneOf:
-      - items:
-          $ref: '#/components/schemas/projectSchema_owners_oneOf_inner'
-        minItems: 1
-        type: array
-      - items:
-          $ref: '#/components/schemas/projectSchema_owners_oneOf_inner_1'
-        maxItems: 1
-        minItems: 1
-        type: array
     adminPermissionsSchema_permissions_environments_inner:
       additionalProperties: false
       example:

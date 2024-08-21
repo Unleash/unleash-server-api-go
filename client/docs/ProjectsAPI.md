@@ -1,6 +1,6 @@
 # \ProjectsAPI
 
-All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -219,7 +219,7 @@ Name | Type | Description  | Notes
 
 ## GetProjects
 
-> ProjectsSchema GetProjects(ctx).Execute()
+> ProjectsSchema GetProjects(ctx).Archived(archived).Execute()
 
 Get a list of all projects.
 
@@ -238,10 +238,11 @@ import (
 )
 
 func main() {
+	archived := true // bool |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ProjectsAPI.GetProjects(context.Background()).Execute()
+	resp, r, err := apiClient.ProjectsAPI.GetProjects(context.Background()).Archived(archived).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.GetProjects``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -253,12 +254,16 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiGetProjectsRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **archived** | **bool** |  | 
 
 ### Return type
 
