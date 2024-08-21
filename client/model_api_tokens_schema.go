@@ -11,7 +11,6 @@ API version: 6.1.10+main
 package client
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -22,7 +21,8 @@ var _ MappedNullable = &ApiTokensSchema{}
 // ApiTokensSchema An object with [Unleash API tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys)
 type ApiTokensSchema struct {
 	// A list of Unleash API tokens.
-	Tokens []ApiTokenSchema `json:"tokens"`
+	Tokens               []ApiTokenSchema `json:"tokens"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ApiTokensSchema ApiTokensSchema
@@ -80,6 +80,11 @@ func (o ApiTokensSchema) MarshalJSON() ([]byte, error) {
 func (o ApiTokensSchema) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["tokens"] = o.Tokens
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *ApiTokensSchema) UnmarshalJSON(data []byte) (err error) {
 
 	varApiTokensSchema := _ApiTokensSchema{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varApiTokensSchema)
+	err = json.Unmarshal(data, &varApiTokensSchema)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ApiTokensSchema(varApiTokensSchema)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "tokens")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

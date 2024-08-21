@@ -11,7 +11,6 @@ API version: 6.1.10+main
 package client
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -30,7 +29,8 @@ type RoleSchema struct {
 	// A more detailed description of the role and what use it's intended for
 	Description *string `json:"description,omitempty"`
 	// What project the role belongs to
-	Project NullableString `json:"project,omitempty"`
+	Project              NullableString `json:"project,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _RoleSchema RoleSchema
@@ -221,6 +221,11 @@ func (o RoleSchema) ToMap() (map[string]interface{}, error) {
 	if o.Project.IsSet() {
 		toSerialize["project"] = o.Project.Get()
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -250,15 +255,24 @@ func (o *RoleSchema) UnmarshalJSON(data []byte) (err error) {
 
 	varRoleSchema := _RoleSchema{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varRoleSchema)
+	err = json.Unmarshal(data, &varRoleSchema)
 
 	if err != nil {
 		return err
 	}
 
 	*o = RoleSchema(varRoleSchema)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "project")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -11,7 +11,6 @@ API version: 6.1.10+main
 package client
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -24,7 +23,8 @@ type AdminPermissionsSchemaPermissionsEnvironmentsInner struct {
 	// The name of the environment
 	Name string `json:"name"`
 	// Permissions available for this environment
-	Permissions []AdminPermissionSchema `json:"permissions"`
+	Permissions          []AdminPermissionSchema `json:"permissions"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AdminPermissionsSchemaPermissionsEnvironmentsInner AdminPermissionsSchemaPermissionsEnvironmentsInner
@@ -108,6 +108,11 @@ func (o AdminPermissionsSchemaPermissionsEnvironmentsInner) ToMap() (map[string]
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	toSerialize["permissions"] = o.Permissions
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *AdminPermissionsSchemaPermissionsEnvironmentsInner) UnmarshalJSON(data 
 
 	varAdminPermissionsSchemaPermissionsEnvironmentsInner := _AdminPermissionsSchemaPermissionsEnvironmentsInner{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAdminPermissionsSchemaPermissionsEnvironmentsInner)
+	err = json.Unmarshal(data, &varAdminPermissionsSchemaPermissionsEnvironmentsInner)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AdminPermissionsSchemaPermissionsEnvironmentsInner(varAdminPermissionsSchemaPermissionsEnvironmentsInner)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "permissions")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -11,7 +11,6 @@ API version: 6.1.10+main
 package client
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -26,7 +25,8 @@ type ProjectAccessSchema struct {
 	// A list of users and their roles within this project
 	Users []UserWithProjectRoleSchema `json:"users"`
 	// A list of roles that are available within this project.
-	Roles []RoleSchema `json:"roles"`
+	Roles                []RoleSchema `json:"roles"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ProjectAccessSchema ProjectAccessSchema
@@ -136,6 +136,11 @@ func (o ProjectAccessSchema) ToMap() (map[string]interface{}, error) {
 	toSerialize["groups"] = o.Groups
 	toSerialize["users"] = o.Users
 	toSerialize["roles"] = o.Roles
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *ProjectAccessSchema) UnmarshalJSON(data []byte) (err error) {
 
 	varProjectAccessSchema := _ProjectAccessSchema{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varProjectAccessSchema)
+	err = json.Unmarshal(data, &varProjectAccessSchema)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ProjectAccessSchema(varProjectAccessSchema)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "groups")
+		delete(additionalProperties, "users")
+		delete(additionalProperties, "roles")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -11,7 +11,6 @@ API version: 6.1.10+main
 package client
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -45,7 +44,8 @@ type GroupWithProjectRoleSchema struct {
 	// A list of users belonging to this group
 	Users []GroupUserModelSchema `json:"users,omitempty"`
 	// The SCIM ID of the group, only present if managed by SCIM
-	ScimId NullableString `json:"scimId,omitempty"`
+	ScimId               NullableString `json:"scimId,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _GroupWithProjectRoleSchema GroupWithProjectRoleSchema
@@ -543,6 +543,11 @@ func (o GroupWithProjectRoleSchema) ToMap() (map[string]interface{}, error) {
 	if o.ScimId.IsSet() {
 		toSerialize["scimId"] = o.ScimId.Get()
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -570,15 +575,31 @@ func (o *GroupWithProjectRoleSchema) UnmarshalJSON(data []byte) (err error) {
 
 	varGroupWithProjectRoleSchema := _GroupWithProjectRoleSchema{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGroupWithProjectRoleSchema)
+	err = json.Unmarshal(data, &varGroupWithProjectRoleSchema)
 
 	if err != nil {
 		return err
 	}
 
 	*o = GroupWithProjectRoleSchema(varGroupWithProjectRoleSchema)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "addedAt")
+		delete(additionalProperties, "roleId")
+		delete(additionalProperties, "roles")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "mappingsSSO")
+		delete(additionalProperties, "rootRole")
+		delete(additionalProperties, "createdBy")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "users")
+		delete(additionalProperties, "scimId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

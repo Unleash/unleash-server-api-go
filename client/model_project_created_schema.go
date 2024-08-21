@@ -11,7 +11,6 @@ API version: 6.1.10+main
 package client
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -37,6 +36,7 @@ type ProjectCreatedSchema struct {
 	Environments []string `json:"environments,omitempty"`
 	// The list of environments that have change requests enabled.
 	ChangeRequestEnvironments []ProjectCreatedSchemaChangeRequestEnvironmentsInner `json:"changeRequestEnvironments,omitempty"`
+	AdditionalProperties      map[string]interface{}
 }
 
 type _ProjectCreatedSchema ProjectCreatedSchema
@@ -352,6 +352,11 @@ func (o ProjectCreatedSchema) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ChangeRequestEnvironments) {
 		toSerialize["changeRequestEnvironments"] = o.ChangeRequestEnvironments
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -380,15 +385,27 @@ func (o *ProjectCreatedSchema) UnmarshalJSON(data []byte) (err error) {
 
 	varProjectCreatedSchema := _ProjectCreatedSchema{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varProjectCreatedSchema)
+	err = json.Unmarshal(data, &varProjectCreatedSchema)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ProjectCreatedSchema(varProjectCreatedSchema)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "featureLimit")
+		delete(additionalProperties, "mode")
+		delete(additionalProperties, "defaultStickiness")
+		delete(additionalProperties, "environments")
+		delete(additionalProperties, "changeRequestEnvironments")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

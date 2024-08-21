@@ -3338,7 +3338,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "secret",
           "tokenName",
@@ -3360,7 +3360,7 @@
             }
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "tokens"
         ]
@@ -3646,7 +3646,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "id"
         ]
@@ -3702,7 +3702,7 @@
             "example": false
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "rootRole"
         ]
@@ -3727,7 +3727,7 @@
             "$ref": "#/components/schemas/userSchema"
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "user"
         ]
@@ -3826,141 +3826,9 @@
             "description": "The number of features this project has",
             "type": "number",
             "example": 10
-          },
-          "staleFeatureCount": {
-            "description": "The number of stale features this project has",
-            "type": "number",
-            "example": 10
-          },
-          "potentiallyStaleFeatureCount": {
-            "description": "The number of potentially stale features this project has",
-            "type": "number",
-            "example": 10
-          },
-          "memberCount": {
-            "description": "The number of members this project has",
-            "type": "number",
-            "example": 4
-          },
-          "createdAt": {
-            "description": "When this project was created.",
-            "type": "string",
-            "format": "date-time",
-            "example": "2023-07-27T12:12:28Z"
-          },
-          "updatedAt": {
-            "description": "When this project was last updated.",
-            "type": "string",
-            "format": "date-time",
-            "example": "2023-07-28T12:12:28Z",
-            "nullable": true
-          },
-          "favorite": {
-            "description": "`true` if the project was favorited, otherwise `false`.",
-            "type": "boolean",
-            "example": true
-          },
-          "mode": {
-            "description": "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not.",
-            "type": "string",
-            "example": "open",
-            "enum": [
-              "open",
-              "protected",
-              "private"
-            ]
-          },
-          "defaultStickiness": {
-            "description": "A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy",
-            "type": "string",
-            "example": "userId"
-          },
-          "avgTimeToProduction": {
-            "description": "The average time from when a feature was created to when it was enabled in the \"production\" environment during the current window",
-            "type": "number",
-            "example": 10
-          },
-          "owners": {
-            "description": "The users and/or groups that have the \"owner\" role in this project. If no such users or groups exist, the list will contain the \"system\" owner instead.",
-            "type": "array",
-            "items": {
-              "oneOf": [
-                {
-                  "type": "object",
-                  "required": [
-                    "ownerType",
-                    "name"
-                  ],
-                  "properties": {
-                    "ownerType": {
-                      "type": "string",
-                      "enum": [
-                        "user"
-                      ]
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "User Name"
-                    },
-                    "imageUrl": {
-                      "type": "string",
-                      "example": "https://example.com/image.jpg",
-                      "nullable": true
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "user@example.com",
-                      "nullable": true
-                    }
-                  }
-                },
-                {
-                  "type": "object",
-                  "required": [
-                    "ownerType",
-                    "name"
-                  ],
-                  "properties": {
-                    "ownerType": {
-                      "type": "string",
-                      "enum": [
-                        "group"
-                      ]
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "Group Name"
-                    }
-                  }
-                },
-                {
-                  "type": "object",
-                  "required": [
-                    "ownerType"
-                  ],
-                  "properties": {
-                    "ownerType": {
-                      "type": "string",
-                      "enum": [
-                        "system"
-                      ]
-                    }
-                  }
-                }
-              ],
-              "discriminator": {
-                "propertyName": "ownerType",
-                "mapping": {
-                  "user": "#/components/schemas/UserOwner",
-                  "group": "#/components/schemas/GroupOwner",
-                  "system": "#/components/schemas/SystemOwner"
-                }
-              }
-            },
-            "minItems": 1
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "id",
           "name"
@@ -3983,7 +3851,7 @@
             }
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "version",
           "projects"
@@ -4021,7 +3889,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "id",
           "type",
@@ -4171,7 +4039,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "id"
         ]
@@ -4206,7 +4074,7 @@
             "example": "development"
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "id",
           "name",
@@ -4221,7 +4089,7 @@
           "permissions": {
             "description": "Returns permissions available at all three levels (root|project|environment)",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": true,
             "properties": {
               "root": {
                 "description": "Permissions available at the root level, i.e. not connected to any specific project or environment",
@@ -4246,7 +4114,7 @@
                     "name",
                     "permissions"
                   ],
-                  "additionalProperties": false,
+                  "additionalProperties": true,
                   "properties": {
                     "name": {
                       "description": "The name of the environment",
@@ -4280,7 +4148,7 @@
             "minimum": 1
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "permissions",
           "version"
@@ -4519,7 +4387,7 @@
             }
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "roles"
         ]
@@ -4550,7 +4418,7 @@
             }
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "roles",
           "users",
@@ -4638,7 +4506,7 @@
             }
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "id",
           "name"
@@ -4676,7 +4544,7 @@
             }
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "id",
           "type",
@@ -4699,7 +4567,7 @@
             "$ref": "#/components/schemas/roleSchema"
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "version",
           "roles"
@@ -4723,7 +4591,7 @@
             }
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "version",
           "roles"
@@ -4909,7 +4777,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "id"
         ]
@@ -4995,7 +4863,7 @@
             }
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "id"
         ]
@@ -5019,7 +4887,7 @@
             }
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "serviceAccounts"
         ]
@@ -5044,7 +4912,7 @@
             "example": 1
           }
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
         "required": [
           "rootRole"
         ]

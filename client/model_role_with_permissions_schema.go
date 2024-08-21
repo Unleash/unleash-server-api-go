@@ -11,7 +11,6 @@ API version: 6.1.10+main
 package client
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -30,7 +29,8 @@ type RoleWithPermissionsSchema struct {
 	// A more detailed description of the role and what use it's intended for
 	Description *string `json:"description,omitempty"`
 	// A list of permissions assigned to this role
-	Permissions []AdminPermissionSchema `json:"permissions"`
+	Permissions          []AdminPermissionSchema `json:"permissions"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _RoleWithPermissionsSchema RoleWithPermissionsSchema
@@ -201,6 +201,11 @@ func (o RoleWithPermissionsSchema) ToMap() (map[string]interface{}, error) {
 		toSerialize["description"] = o.Description
 	}
 	toSerialize["permissions"] = o.Permissions
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -231,15 +236,24 @@ func (o *RoleWithPermissionsSchema) UnmarshalJSON(data []byte) (err error) {
 
 	varRoleWithPermissionsSchema := _RoleWithPermissionsSchema{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varRoleWithPermissionsSchema)
+	err = json.Unmarshal(data, &varRoleWithPermissionsSchema)
 
 	if err != nil {
 		return err
 	}
 
 	*o = RoleWithPermissionsSchema(varRoleWithPermissionsSchema)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "permissions")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

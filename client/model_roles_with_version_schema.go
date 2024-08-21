@@ -11,7 +11,6 @@ API version: 6.1.10+main
 package client
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -24,7 +23,8 @@ type RolesWithVersionSchema struct {
 	// The version of this schema
 	Version int32 `json:"version"`
 	// A list of roles
-	Roles []RoleSchema `json:"roles"`
+	Roles                []RoleSchema `json:"roles"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _RolesWithVersionSchema RolesWithVersionSchema
@@ -108,6 +108,11 @@ func (o RolesWithVersionSchema) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["version"] = o.Version
 	toSerialize["roles"] = o.Roles
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *RolesWithVersionSchema) UnmarshalJSON(data []byte) (err error) {
 
 	varRolesWithVersionSchema := _RolesWithVersionSchema{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varRolesWithVersionSchema)
+	err = json.Unmarshal(data, &varRolesWithVersionSchema)
 
 	if err != nil {
 		return err
 	}
 
 	*o = RolesWithVersionSchema(varRolesWithVersionSchema)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "version")
+		delete(additionalProperties, "roles")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

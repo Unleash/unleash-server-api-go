@@ -11,7 +11,6 @@ API version: 6.1.10+main
 package client
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -52,7 +51,8 @@ type UserSchema struct {
 	// Deprecated
 	Permissions []string `json:"permissions,omitempty"`
 	// The SCIM ID of the user, only present if managed by SCIM
-	ScimId NullableString `json:"scimId,omitempty"`
+	ScimId               NullableString `json:"scimId,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _UserSchema UserSchema
@@ -647,6 +647,11 @@ func (o UserSchema) ToMap() (map[string]interface{}, error) {
 	if o.ScimId.IsSet() {
 		toSerialize["scimId"] = o.ScimId.Get()
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -674,15 +679,34 @@ func (o *UserSchema) UnmarshalJSON(data []byte) (err error) {
 
 	varUserSchema := _UserSchema{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varUserSchema)
+	err = json.Unmarshal(data, &varUserSchema)
 
 	if err != nil {
 		return err
 	}
 
 	*o = UserSchema(varUserSchema)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "isAPI")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "username")
+		delete(additionalProperties, "imageUrl")
+		delete(additionalProperties, "inviteLink")
+		delete(additionalProperties, "loginAttempts")
+		delete(additionalProperties, "emailSent")
+		delete(additionalProperties, "rootRole")
+		delete(additionalProperties, "seenAt")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "accountType")
+		delete(additionalProperties, "permissions")
+		delete(additionalProperties, "scimId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

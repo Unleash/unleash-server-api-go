@@ -11,7 +11,6 @@ API version: 6.1.10+main
 package client
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -24,7 +23,8 @@ type ServiceAccountsSchema struct {
 	// A list of service accounts
 	ServiceAccounts []ServiceAccountSchema `json:"serviceAccounts"`
 	// A list of root roles that are referenced from service account objects in the `serviceAccounts` list
-	RootRoles []RoleSchema `json:"rootRoles,omitempty"`
+	RootRoles            []RoleSchema `json:"rootRoles,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ServiceAccountsSchema ServiceAccountsSchema
@@ -117,6 +117,11 @@ func (o ServiceAccountsSchema) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.RootRoles) {
 		toSerialize["rootRoles"] = o.RootRoles
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -144,15 +149,21 @@ func (o *ServiceAccountsSchema) UnmarshalJSON(data []byte) (err error) {
 
 	varServiceAccountsSchema := _ServiceAccountsSchema{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varServiceAccountsSchema)
+	err = json.Unmarshal(data, &varServiceAccountsSchema)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ServiceAccountsSchema(varServiceAccountsSchema)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "serviceAccounts")
+		delete(additionalProperties, "rootRoles")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

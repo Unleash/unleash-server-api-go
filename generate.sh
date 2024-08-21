@@ -11,6 +11,19 @@ set -e
 # Keep only the operations we support
 openapi-format openapi.json --filterFile operations.yaml --json -o modified-openapi.json
 
+# Parse out our filter ops file, iterate over it, and if there's a match, only retain the listed properties
+filters=$(jq -r 'keys[]' filter-ops.json)
+for filterName in $filters; do
+    jq --argfile filters filter-ops.json \
+    --arg filterName "$filterName" '
+    .components.schemas[$filterName].properties |=
+        with_entries(select(.key as $k | $filters[$filterName] | index($k) != null))
+    ' modified-openapi.json > tmp.json && mv tmp.json modified-openapi.json
+done
+
+# There's no reason to have additionalProperties equal to false, it can only cause breakages, so let's just... turn that on
+jq 'walk(if type == "object" and .additionalProperties == false then .additionalProperties = true else . end)' modified-openapi.json > tmp.json && mv tmp.json modified-openapi.json
+
 openapi-generator-cli generate \
     --git-user-id Unleash \
     --git-repo-id unleash-server-api-go \
