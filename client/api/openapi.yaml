@@ -1745,9 +1745,7 @@ components:
       example:
         name: DX-Squad
         description: DX squad feature release
-        health: 50
         id: dx-squad
-        featureCount: 10
       properties:
         id:
           description: The id of this project
@@ -1762,15 +1760,6 @@ components:
           example: DX squad feature release
           nullable: true
           type: string
-        health:
-          description: "An indicator of the [project's health](https://docs.getunleash.io/reference/technical-debt#health-rating)\
-            \ on a scale from 0 to 100"
-          example: 50
-          type: number
-        featureCount:
-          description: The number of features this project has
-          example: 10
-          type: number
       required:
       - id
       - name
@@ -1782,14 +1771,10 @@ components:
         projects:
         - name: DX-Squad
           description: DX squad feature release
-          health: 50
           id: dx-squad
-          featureCount: 10
         - name: DX-Squad
           description: DX squad feature release
-          health: 50
           id: dx-squad
-          featureCount: 10
         version: 1
       properties:
         version:

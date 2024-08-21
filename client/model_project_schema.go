@@ -25,11 +25,7 @@ type ProjectSchema struct {
 	// The name of this project
 	Name string `json:"name"`
 	// Additional information about the project
-	Description NullableString `json:"description,omitempty"`
-	// An indicator of the [project's health](https://docs.getunleash.io/reference/technical-debt#health-rating) on a scale from 0 to 100
-	Health *float32 `json:"health,omitempty"`
-	// The number of features this project has
-	FeatureCount         *float32 `json:"featureCount,omitempty"`
+	Description          NullableString `json:"description,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -145,70 +141,6 @@ func (o *ProjectSchema) UnsetDescription() {
 	o.Description.Unset()
 }
 
-// GetHealth returns the Health field value if set, zero value otherwise.
-func (o *ProjectSchema) GetHealth() float32 {
-	if o == nil || IsNil(o.Health) {
-		var ret float32
-		return ret
-	}
-	return *o.Health
-}
-
-// GetHealthOk returns a tuple with the Health field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ProjectSchema) GetHealthOk() (*float32, bool) {
-	if o == nil || IsNil(o.Health) {
-		return nil, false
-	}
-	return o.Health, true
-}
-
-// HasHealth returns a boolean if a field has been set.
-func (o *ProjectSchema) HasHealth() bool {
-	if o != nil && !IsNil(o.Health) {
-		return true
-	}
-
-	return false
-}
-
-// SetHealth gets a reference to the given float32 and assigns it to the Health field.
-func (o *ProjectSchema) SetHealth(v float32) {
-	o.Health = &v
-}
-
-// GetFeatureCount returns the FeatureCount field value if set, zero value otherwise.
-func (o *ProjectSchema) GetFeatureCount() float32 {
-	if o == nil || IsNil(o.FeatureCount) {
-		var ret float32
-		return ret
-	}
-	return *o.FeatureCount
-}
-
-// GetFeatureCountOk returns a tuple with the FeatureCount field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ProjectSchema) GetFeatureCountOk() (*float32, bool) {
-	if o == nil || IsNil(o.FeatureCount) {
-		return nil, false
-	}
-	return o.FeatureCount, true
-}
-
-// HasFeatureCount returns a boolean if a field has been set.
-func (o *ProjectSchema) HasFeatureCount() bool {
-	if o != nil && !IsNil(o.FeatureCount) {
-		return true
-	}
-
-	return false
-}
-
-// SetFeatureCount gets a reference to the given float32 and assigns it to the FeatureCount field.
-func (o *ProjectSchema) SetFeatureCount(v float32) {
-	o.FeatureCount = &v
-}
-
 func (o ProjectSchema) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -223,12 +155,6 @@ func (o ProjectSchema) ToMap() (map[string]interface{}, error) {
 	toSerialize["name"] = o.Name
 	if o.Description.IsSet() {
 		toSerialize["description"] = o.Description.Get()
-	}
-	if !IsNil(o.Health) {
-		toSerialize["health"] = o.Health
-	}
-	if !IsNil(o.FeatureCount) {
-		toSerialize["featureCount"] = o.FeatureCount
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -277,8 +203,6 @@ func (o *ProjectSchema) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "description")
-		delete(additionalProperties, "health")
-		delete(additionalProperties, "featureCount")
 		o.AdditionalProperties = additionalProperties
 	}
 

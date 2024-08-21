@@ -2,8 +2,6 @@
     "projectSchema": [
         "id",
         "name",
-        "description",
-        "health",
-        "featureCount"
+        "description"
     ]
 }

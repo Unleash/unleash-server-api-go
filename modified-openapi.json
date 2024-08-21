@@ -3816,16 +3816,6 @@
             "type": "string",
             "example": "DX squad feature release",
             "nullable": true
-          },
-          "health": {
-            "description": "An indicator of the [project's health](https://docs.getunleash.io/reference/technical-debt#health-rating) on a scale from 0 to 100",
-            "type": "number",
-            "example": 50
-          },
-          "featureCount": {
-            "description": "The number of features this project has",
-            "type": "number",
-            "example": 10
           }
         },
         "additionalProperties": true,

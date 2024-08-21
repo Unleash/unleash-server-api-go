@@ -7,8 +7,6 @@ Name | Type | Description | Notes
 **Id** | **string** | The id of this project | 
 **Name** | **string** | The name of this project | 
 **Description** | Pointer to **NullableString** | Additional information about the project | [optional] 
-**Health** | Pointer to **float32** | An indicator of the [project&#39;s health](https://docs.getunleash.io/reference/technical-debt#health-rating) on a scale from 0 to 100 | [optional] 
-**FeatureCount** | Pointer to **float32** | The number of features this project has | [optional] 
 
 ## Methods
 
@@ -104,56 +102,6 @@ HasDescription returns a boolean if a field has been set.
 `func (o *ProjectSchema) UnsetDescription()`
 
 UnsetDescription ensures that no value is present for Description, not even an explicit nil
-### GetHealth
-
-`func (o *ProjectSchema) GetHealth() float32`
-
-GetHealth returns the Health field if non-nil, zero value otherwise.
-
-### GetHealthOk
-
-`func (o *ProjectSchema) GetHealthOk() (*float32, bool)`
-
-GetHealthOk returns a tuple with the Health field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetHealth
-
-`func (o *ProjectSchema) SetHealth(v float32)`
-
-SetHealth sets Health field to given value.
-
-### HasHealth
-
-`func (o *ProjectSchema) HasHealth() bool`
-
-HasHealth returns a boolean if a field has been set.
-
-### GetFeatureCount
-
-`func (o *ProjectSchema) GetFeatureCount() float32`
-
-GetFeatureCount returns the FeatureCount field if non-nil, zero value otherwise.
-
-### GetFeatureCountOk
-
-`func (o *ProjectSchema) GetFeatureCountOk() (*float32, bool)`
-
-GetFeatureCountOk returns a tuple with the FeatureCount field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetFeatureCount
-
-`func (o *ProjectSchema) SetFeatureCount(v float32)`
-
-SetFeatureCount sets FeatureCount field to given value.
-
-### HasFeatureCount
-
-`func (o *ProjectSchema) HasFeatureCount() bool`
-
-HasFeatureCount returns a boolean if a field has been set.
-
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
