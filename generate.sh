@@ -22,7 +22,7 @@ for filterName in $filters; do
 done
 
 # There's no reason to have additionalProperties equal to false, it can only cause breakages, so let's just... turn that on
-jq 'walk(if type == "object" and .additionalProperties == false then .additionalProperties = true else . end)' modified-openapi.json > tmp.json && mv tmp.json modified-openapi.json
+# jq 'walk(if type == "object" and .additionalProperties == false then .additionalProperties = true else . end)' modified-openapi.json > tmp.json && mv tmp.json modified-openapi.json
 
 openapi-generator-cli generate \
     --git-user-id Unleash \
