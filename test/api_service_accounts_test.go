@@ -68,18 +68,22 @@ func Test_client_ServiceAccountAPIService(t *testing.T) {
 	})
 
 	t.Run("Test ServiceAccountAPIService GetServiceAccounts", func(t *testing.T) {
-		serviceAccount := createServiceAccount(t, "first-service-account", "first-service-account", apiClient)
-		defer cleanupServiceAccount(apiClient, serviceAccount)
+		if enterpriseEnvironmentAvailable() {
+			serviceAccount := createServiceAccount(t, "first-service-account", "first-service-account", apiClient)
+			defer cleanupServiceAccount(apiClient, serviceAccount)
 
-		serviceAccount = createServiceAccount(t, "second-service-account", "second-service-account", apiClient)
-		defer cleanupServiceAccount(apiClient, serviceAccount)
+			serviceAccount = createServiceAccount(t, "second-service-account", "second-service-account", apiClient)
+			defer cleanupServiceAccount(apiClient, serviceAccount)
 
-		resp, httpRes, err := apiClient.ServiceAccountsAPI.GetServiceAccounts(context.Background()).Execute()
+			resp, httpRes, err := apiClient.ServiceAccountsAPI.GetServiceAccounts(context.Background()).Execute()
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-		assert.Equal(t, 2, len(resp.ServiceAccounts))
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+			assert.Equal(t, 2, len(resp.ServiceAccounts))
+		} else {
+			t.Skip("Enterprise only feature")
+		}
 	})
 
 	t.Run("Test ServiceAccountAPIService UpdateServiceAccount", func(t *testing.T) {
