@@ -1,9 +1,9 @@
 openapi: 3.0.3
 info:
   title: Unleash API
-  version: 6.1.0
+  version: 6.1.10+main
 servers:
-- url: https://us.app.unleash-hosted.com/ushosted
+- url: /
 security:
 - apiKey: []
 - bearerToken: []
@@ -667,6 +667,14 @@ paths:
       description: This endpoint returns an list of all the projects in the Unleash
         instance.
       operationId: getProjects
+      parameters:
+      - explode: true
+        in: query
+        name: archived
+        required: false
+        schema:
+          type: boolean
+        style: form
       responses:
         "200":
           content:
@@ -1324,7 +1332,7 @@ paths:
 components:
   schemas:
     apiTokenSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: "An overview of an [Unleash API token](https://docs.getunleash.io/reference/api-tokens-and-client-keys)."
       example:
         createdAt: 2023-04-19T08:15:14Z
@@ -1417,7 +1425,7 @@ components:
       - type
       type: object
     apiTokensSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: "An object with [Unleash API tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys)"
       example:
         tokens:
@@ -1483,7 +1491,7 @@ components:
       - expiresAt
       type: object
     createUserResponseSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: An Unleash user after creation
       example:
         loginAttempts: 3
@@ -1577,7 +1585,7 @@ components:
       - id
       type: object
     createUserSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: "The payload must contain at least one of the name and email properties,\
         \ though which one is up to you. For the user to be able to log in to the\
         \ system, the user must have an email."
@@ -1610,7 +1618,7 @@ components:
       - rootRole
       type: object
     groupUserModelSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: Details for a single user belonging to a group
       example:
         createdBy: admin
@@ -1732,32 +1740,12 @@ components:
           type: array
       type: object
     projectSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: A definition of the project used for projects listing purposes
       example:
-        memberCount: 4
-        defaultStickiness: userId
-        description: DX squad feature release
-        health: 50
-        owners:
-        - ownerType: user
-          imageUrl: https://example.com/image.jpg
-          name: User Name
-          email: user@example.com
-        - ownerType: user
-          imageUrl: https://example.com/image.jpg
-          name: User Name
-          email: user@example.com
-        staleFeatureCount: 10
-        mode: open
-        avgTimeToProduction: 10
-        createdAt: 2023-07-27T12:12:28Z
-        potentiallyStaleFeatureCount: 10
         name: DX-Squad
+        description: DX squad feature release
         id: dx-squad
-        favorite: true
-        featureCount: 10
-        updatedAt: 2023-07-28T12:12:28Z
       properties:
         id:
           description: The id of this project
@@ -1772,119 +1760,21 @@ components:
           example: DX squad feature release
           nullable: true
           type: string
-        health:
-          description: "An indicator of the [project's health](https://docs.getunleash.io/reference/technical-debt#health-rating)\
-            \ on a scale from 0 to 100"
-          example: 50
-          type: number
-        featureCount:
-          description: The number of features this project has
-          example: 10
-          type: number
-        staleFeatureCount:
-          description: The number of stale features this project has
-          example: 10
-          type: number
-        potentiallyStaleFeatureCount:
-          description: The number of potentially stale features this project has
-          example: 10
-          type: number
-        memberCount:
-          description: The number of members this project has
-          example: 4
-          type: number
-        createdAt:
-          description: When this project was created.
-          example: 2023-07-27T12:12:28Z
-          format: date-time
-          type: string
-        updatedAt:
-          description: When this project was last updated.
-          example: 2023-07-28T12:12:28Z
-          format: date-time
-          nullable: true
-          type: string
-        favorite:
-          description: "`true` if the project was favorited, otherwise `false`."
-          example: true
-          type: boolean
-        mode:
-          description: "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode).\
-            \ Determines whether non-project members can submit change requests or\
-            \ not."
-          enum:
-          - open
-          - protected
-          - private
-          example: open
-          type: string
-        defaultStickiness:
-          description: A default stickiness for the project affecting the default
-            stickiness value for variants and Gradual Rollout strategy
-          example: userId
-          type: string
-        avgTimeToProduction:
-          description: The average time from when a feature was created to when it
-            was enabled in the "production" environment during the current window
-          example: 10
-          type: number
-        owners:
-          $ref: '#/components/schemas/projectSchema_owners'
       required:
       - id
       - name
       type: object
     projectsSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: An overview of all the projects in the Unleash instance
       example:
         projects:
-        - memberCount: 4
-          defaultStickiness: userId
+        - name: DX-Squad
           description: DX squad feature release
-          health: 50
-          owners:
-          - ownerType: user
-            imageUrl: https://example.com/image.jpg
-            name: User Name
-            email: user@example.com
-          - ownerType: user
-            imageUrl: https://example.com/image.jpg
-            name: User Name
-            email: user@example.com
-          staleFeatureCount: 10
-          mode: open
-          avgTimeToProduction: 10
-          createdAt: 2023-07-27T12:12:28Z
-          potentiallyStaleFeatureCount: 10
-          name: DX-Squad
           id: dx-squad
-          favorite: true
-          featureCount: 10
-          updatedAt: 2023-07-28T12:12:28Z
-        - memberCount: 4
-          defaultStickiness: userId
+        - name: DX-Squad
           description: DX squad feature release
-          health: 50
-          owners:
-          - ownerType: user
-            imageUrl: https://example.com/image.jpg
-            name: User Name
-            email: user@example.com
-          - ownerType: user
-            imageUrl: https://example.com/image.jpg
-            name: User Name
-            email: user@example.com
-          staleFeatureCount: 10
-          mode: open
-          avgTimeToProduction: 10
-          createdAt: 2023-07-27T12:12:28Z
-          potentiallyStaleFeatureCount: 10
-          name: DX-Squad
           id: dx-squad
-          favorite: true
-          featureCount: 10
-          updatedAt: 2023-07-28T12:12:28Z
         version: 1
       properties:
         version:
@@ -1901,7 +1791,7 @@ components:
       - version
       type: object
     roleSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: A role holds permissions to allow Unleash to decide what actions
         a role holder is allowed to perform
       example:
@@ -1975,7 +1865,7 @@ components:
           $ref: '#/components/schemas/createUserSchema_rootRole'
       type: object
     userSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: An Unleash user
       example:
         loginAttempts: 3
@@ -2073,7 +1963,7 @@ components:
       - id
       type: object
     adminPermissionSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: Describes a single permission
       example:
         environment: development
@@ -2110,7 +2000,7 @@ components:
       - type
       type: object
     adminPermissionsSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: What kind of permissions are available
       example:
         permissions:
@@ -2247,7 +2137,7 @@ components:
         to decide what actions a role holder is allowed to perform
       type: object
     projectAccessConfigurationSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: An object describing roles for a project and what users and groups
         are part of that role.
       properties:
@@ -2260,7 +2150,7 @@ components:
       - roles
       type: object
     projectAccessSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: An object describing access permissions for a given project.
       example:
         roles:
@@ -2438,7 +2328,7 @@ components:
       - users
       type: object
     projectCreatedSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: Details about the newly created project.
       example:
         mode: open
@@ -2510,7 +2400,7 @@ components:
       - name
       type: object
     roleWithPermissionsSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: A read model for the role and permissions to allow Unleash to decide
         what actions a role holder is allowed to perform
       example:
@@ -2568,7 +2458,7 @@ components:
       - type
       type: object
     roleWithVersionSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: A single user role received after creation or update of a role
       example:
         roles:
@@ -2595,7 +2485,7 @@ components:
       - version
       type: object
     rolesWithVersionSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: A collection of user roles
       example:
         roles:
@@ -2723,7 +2613,7 @@ components:
       - id
       type: object
     groupWithProjectRoleSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: Data about a group including their project role
       example:
         createdAt: 2023-06-30T11:41:00.123Z
@@ -2853,7 +2743,7 @@ components:
       - id
       type: object
     serviceAccountSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: "Represents a [service account](https://docs.getunleash.io/reference/service-accounts).\
         \ Service accounts are used to let systems interact with the Unleash API."
       example:
@@ -2956,7 +2846,7 @@ components:
       - id
       type: object
     serviceAccountsSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: "Represents a list of service accounts, and includes a list of\
         \ root roles they reference"
       example:
@@ -3050,7 +2940,7 @@ components:
       - serviceAccounts
       type: object
     createServiceAccountSchema:
-      additionalProperties: false
+      additionalProperties: true
       description: Describes the properties required to create a new service account
       properties:
         username:
@@ -3366,74 +3256,8 @@ components:
         - Member
         example: Admin
         type: string
-    projectSchema_owners_oneOf_inner_anyOf:
-      example:
-        ownerType: user
-        imageUrl: https://example.com/image.jpg
-        name: User Name
-        email: user@example.com
-      properties:
-        ownerType:
-          enum:
-          - user
-          type: string
-        name:
-          example: User Name
-          type: string
-        imageUrl:
-          example: https://example.com/image.jpg
-          nullable: true
-          type: string
-        email:
-          example: user@example.com
-          nullable: true
-          type: string
-      required:
-      - name
-      - ownerType
-      type: object
-    projectSchema_owners_oneOf_inner_anyOf_1:
-      properties:
-        ownerType:
-          enum:
-          - group
-          type: string
-        name:
-          example: Group Name
-          type: string
-      required:
-      - name
-      - ownerType
-      type: object
-    projectSchema_owners_oneOf_inner:
-      anyOf:
-      - $ref: '#/components/schemas/projectSchema_owners_oneOf_inner_anyOf'
-      - $ref: '#/components/schemas/projectSchema_owners_oneOf_inner_anyOf_1'
-    projectSchema_owners_oneOf_inner_1:
-      properties:
-        ownerType:
-          enum:
-          - system
-          type: string
-      required:
-      - ownerType
-      type: object
-    projectSchema_owners:
-      description: "The users and/or groups that have the \"owner\" role in this project.\
-        \ If no such users or groups exist, the list will contain the \"system\" owner\
-        \ instead."
-      oneOf:
-      - items:
-          $ref: '#/components/schemas/projectSchema_owners_oneOf_inner'
-        minItems: 1
-        type: array
-      - items:
-          $ref: '#/components/schemas/projectSchema_owners_oneOf_inner_1'
-        maxItems: 1
-        minItems: 1
-        type: array
     adminPermissionsSchema_permissions_environments_inner:
-      additionalProperties: false
+      additionalProperties: true
       example:
         permissions:
         - environment: development
@@ -3462,7 +3286,7 @@ components:
       - permissions
       type: object
     adminPermissionsSchema_permissions:
-      additionalProperties: false
+      additionalProperties: true
       description: Returns permissions available at all three levels (root|project|environment)
       example:
         environments:

@@ -11,6 +11,19 @@ curl -s https://us.app.unleash-hosted.com/ushosted/docs/openapi.json | jq > open
 # Keep only the operations we support
 openapi-format openapi.json --filterFile operations.yaml --json -o modified-openapi.json
 
+# Parse out our filter ops file, iterate over it, and if there's a match, only retain the listed properties
+filters=$(jq -r 'keys[]' filter-ops.json)
+for filterName in $filters; do
+    jq --argfile filters filter-ops.json \
+    --arg filterName "$filterName" '
+    .components.schemas[$filterName].properties |=
+        with_entries(select(.key as $k | $filters[$filterName] | index($k) != null))
+    ' modified-openapi.json > tmp.json && mv tmp.json modified-openapi.json
+done
+
+# There's no reason to have additionalProperties equal to false, it can only cause breakages, so let's just... turn that on
+jq 'walk(if type == "object" and .additionalProperties == false then .additionalProperties = true else . end)' modified-openapi.json > tmp.json && mv tmp.json modified-openapi.json
+
 openapi-generator-cli generate \
     --git-user-id Unleash \
     --git-repo-id unleash-server-api-go \
@@ -18,19 +31,14 @@ openapi-generator-cli generate \
     --openapi-normalizer RESOLVE_INLINE_ENUMS=true \
     --openapi-normalizer REF_AS_PARENT_IN_ALLOF=true \
     --additional-properties packageName=client,disallowAdditionalPropertiesIfNotPresent=false \
+    --additional-properties packageName=client,withGoMod=false \
     -i modified-openapi.json \
     -o client \
     -g go
 
-rm client/go.mod client/go.sum
-# After removing client/go.mod and client/go.sum, the generated code will not compile when importing the package
-# so we make some modifications to make it compile:
-sed -i 's/openapiclient "github.com\/Unleash\/unleash-server-api-go"/"github.com\/Unleash\/unleash-server-api-go\/client"/g' client/test/*
-sed -i 's/openapiclient\./client./g' client/test/*
-go mod tidy
-
-# Remove the generated tests. They require some manual work to get working such as creating test parameters
-#find client -name *_test.go -exec sed -i '/remove to run test/d' {} \;
+# Remove the generated tests. They require some manual work to get working and they're very low value
+rm -rf client/test
 
 # Format the generated code
+go mod tidy
 gofmt -w client
