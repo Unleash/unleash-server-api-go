@@ -2,9 +2,13 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Unleash API",
-    "version": "6.1.10+main"
+    "version": "6.1.12"
   },
-  "servers": [],
+  "servers": [
+    {
+      "url": "https://us.app.unleash-hosted.com/ushosted"
+    }
+  ],
   "paths": {
     "/api/admin/roles": {
       "get": {
@@ -1591,16 +1595,6 @@
         "operationId": "getProjects",
         "summary": "Get a list of all projects.",
         "description": "This endpoint returns an list of all the projects in the Unleash instance.",
-        "parameters": [
-          {
-            "name": "archived",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "projectsSchema",
@@ -3338,7 +3332,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "secret",
           "tokenName",
@@ -3360,7 +3354,7 @@
             }
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "tokens"
         ]
@@ -3646,7 +3640,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "id"
         ]
@@ -3702,7 +3696,7 @@
             "example": false
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "rootRole"
         ]
@@ -3727,7 +3721,7 @@
             "$ref": "#/components/schemas/userSchema"
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "user"
         ]
@@ -3818,7 +3812,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "id",
           "name"
@@ -3841,7 +3835,7 @@
             }
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "version",
           "projects"
@@ -3879,7 +3873,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "id",
           "type",
@@ -4029,7 +4023,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "id"
         ]
@@ -4064,7 +4058,7 @@
             "example": "development"
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "id",
           "name",
@@ -4079,7 +4073,7 @@
           "permissions": {
             "description": "Returns permissions available at all three levels (root|project|environment)",
             "type": "object",
-            "additionalProperties": true,
+            "additionalProperties": false,
             "properties": {
               "root": {
                 "description": "Permissions available at the root level, i.e. not connected to any specific project or environment",
@@ -4104,7 +4098,7 @@
                     "name",
                     "permissions"
                   ],
-                  "additionalProperties": true,
+                  "additionalProperties": false,
                   "properties": {
                     "name": {
                       "description": "The name of the environment",
@@ -4138,7 +4132,7 @@
             "minimum": 1
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "permissions",
           "version"
@@ -4377,7 +4371,7 @@
             }
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "roles"
         ]
@@ -4408,7 +4402,7 @@
             }
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "roles",
           "users",
@@ -4496,7 +4490,7 @@
             }
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "id",
           "name"
@@ -4534,7 +4528,7 @@
             }
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "id",
           "type",
@@ -4557,7 +4551,7 @@
             "$ref": "#/components/schemas/roleSchema"
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "version",
           "roles"
@@ -4581,7 +4575,7 @@
             }
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "version",
           "roles"
@@ -4767,7 +4761,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "id"
         ]
@@ -4853,7 +4847,7 @@
             }
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "id"
         ]
@@ -4877,7 +4871,7 @@
             }
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "serviceAccounts"
         ]
@@ -4902,7 +4896,7 @@
             "example": 1
           }
         },
-        "additionalProperties": true,
+        "additionalProperties": false,
         "required": [
           "rootRole"
         ]

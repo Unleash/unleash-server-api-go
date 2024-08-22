@@ -1,9 +1,13 @@
 {
   "openapi": "3.0.3",
-  "servers": [],
+  "servers": [
+    {
+      "url": "https://us.app.unleash-hosted.com/ushosted"
+    }
+  ],
   "info": {
     "title": "Unleash API",
-    "version": "6.1.10+main"
+    "version": "6.1.12"
   },
   "security": [
     {
@@ -3323,8 +3327,6 @@
               "project-created",
               "project-updated",
               "project-deleted",
-              "project-archived",
-              "project-revived",
               "project-import",
               "project-user-added",
               "project-user-removed",
@@ -3691,30 +3693,6 @@
           }
         }
       },
-      "eventCreatorsSchema": {
-        "type": "array",
-        "description": "A list of event creators",
-        "items": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "id",
-            "name"
-          ],
-          "properties": {
-            "id": {
-              "type": "integer",
-              "example": 50,
-              "description": "The user id."
-            },
-            "name": {
-              "description": "Name of the user. If the user has no set name, the API falls back to using the user's username (if they have one) or email (if neither name or username is set).",
-              "type": "string",
-              "example": "User"
-            }
-          }
-        }
-      },
       "eventSchema": {
         "type": "object",
         "additionalProperties": false,
@@ -3787,8 +3765,6 @@
               "project-created",
               "project-updated",
               "project-deleted",
-              "project-archived",
-              "project-revived",
               "project-import",
               "project-user-added",
               "project-user-removed",
@@ -4748,45 +4724,6 @@
               }
             },
             "description": "The list of parent dependencies. This is an experimental field and may change."
-          },
-          "collaborators": {
-            "type": "object",
-            "required": [
-              "users"
-            ],
-            "description": "Information related to users who have made changes to this feature flage.",
-            "properties": {
-              "users": {
-                "description": "Users who have made any changes to this feature flags. The list is sorted in reverse chronological order (most recent changes first)",
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "required": [
-                    "id",
-                    "name",
-                    "imageUrl"
-                  ],
-                  "description": "A simple representation of a user.",
-                  "properties": {
-                    "id": {
-                      "description": "The user's id",
-                      "type": "integer",
-                      "example": 123
-                    },
-                    "name": {
-                      "description": "The user's name, username, or email (prioritized in that order). If none of those are present, this property will be set to the string `unknown`",
-                      "type": "string",
-                      "example": "User"
-                    },
-                    "imageUrl": {
-                      "description": "The URL to the user's profile image",
-                      "type": "string",
-                      "example": "https://example.com/242x200.png"
-                    }
-                  }
-                }
-              }
-            }
           }
         }
       },
@@ -7744,13 +7681,6 @@
             "example": "2023-02-10T08:36:35.262Z",
             "description": "When the project was last updated."
           },
-          "archivedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "example": "2023-02-10T08:36:35.262Z",
-            "description": "When the project was archived."
-          },
           "createdAt": {
             "type": "string",
             "format": "date-time",
@@ -7855,59 +7785,68 @@
           },
           "owners": {
             "description": "The users and/or groups that have the \"owner\" role in this project. If no such users or groups exist, the list will contain the \"system\" owner instead.",
-            "type": "array",
-            "minItems": 1,
-            "items": {
-              "oneOf": [
-                {
-                  "type": "object",
-                  "required": [
-                    "ownerType",
-                    "name"
-                  ],
-                  "properties": {
-                    "ownerType": {
-                      "type": "string",
-                      "enum": [
-                        "user"
-                      ]
+            "oneOf": [
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "ownerType",
+                        "name"
+                      ],
+                      "properties": {
+                        "ownerType": {
+                          "type": "string",
+                          "enum": [
+                            "user"
+                          ]
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "User Name"
+                        },
+                        "imageUrl": {
+                          "type": "string",
+                          "nullable": true,
+                          "example": "https://example.com/image.jpg"
+                        },
+                        "email": {
+                          "type": "string",
+                          "nullable": true,
+                          "example": "user@example.com"
+                        }
+                      }
                     },
-                    "name": {
-                      "type": "string",
-                      "example": "User Name"
-                    },
-                    "imageUrl": {
-                      "type": "string",
-                      "nullable": true,
-                      "example": "https://example.com/image.jpg"
-                    },
-                    "email": {
-                      "type": "string",
-                      "nullable": true,
-                      "example": "user@example.com"
+                    {
+                      "type": "object",
+                      "required": [
+                        "ownerType",
+                        "name"
+                      ],
+                      "properties": {
+                        "ownerType": {
+                          "type": "string",
+                          "enum": [
+                            "group"
+                          ]
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Group Name"
+                        }
+                      }
                     }
-                  }
-                },
-                {
-                  "type": "object",
-                  "required": [
-                    "ownerType",
-                    "name"
-                  ],
-                  "properties": {
-                    "ownerType": {
-                      "type": "string",
-                      "enum": [
-                        "group"
-                      ]
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "Group Name"
-                    }
-                  }
-                },
-                {
+                  ]
+                }
+              },
+              {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
                   "type": "object",
                   "required": [
                     "ownerType"
@@ -7921,16 +7860,8 @@
                     }
                   }
                 }
-              ],
-              "discriminator": {
-                "propertyName": "ownerType",
-                "mapping": {
-                  "user": "#/components/schemas/UserOwner",
-                  "group": "#/components/schemas/GroupOwner",
-                  "system": "#/components/schemas/SystemOwner"
-                }
               }
-            }
+            ]
           }
         }
       },
@@ -22348,16 +22279,6 @@
         "operationId": "getProjects",
         "summary": "Get a list of all projects.",
         "description": "This endpoint returns an list of all the projects in the Unleash instance.",
-        "parameters": [
-          {
-            "name": "archived",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "projectsSchema",
@@ -23246,218 +23167,6 @@
                     "message": {
                       "type": "string",
                       "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format.",
-                      "description": "A description of what went wrong."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "projectId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/api/admin/projects/archive/{projectId}": {
-      "post": {
-        "tags": [
-          "Unstable"
-        ],
-        "summary": "Archive project",
-        "description": "Archive the provided project. All feature flags in the project must be either unused or archived before you can archive the project.",
-        "operationId": "archiveProject",
-        "responses": {
-          "200": {
-            "description": "This response has no body."
-          },
-          "400": {
-            "description": "The request data does not match what we expect.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
-                      "description": "The ID of the error instance"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "ValidationError",
-                      "description": "The name of the error kind"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
-                      "description": "A description of what went wrong."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
-                      "description": "The ID of the error instance"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "AuthenticationRequired",
-                      "description": "The name of the error kind"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
-                      "description": "A description of what went wrong."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
-                      "description": "The ID of the error instance"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "NoAccessError",
-                      "description": "The name of the error kind"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
-                      "description": "A description of what went wrong."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "projectId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/api/admin/projects/revive/{projectId}": {
-      "post": {
-        "tags": [
-          "Unstable"
-        ],
-        "summary": "Revive project",
-        "description": "Revive the specified project from the archive.",
-        "operationId": "reviveProject",
-        "responses": {
-          "200": {
-            "description": "This response has no body."
-          },
-          "400": {
-            "description": "The request data does not match what we expect.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
-                      "description": "The ID of the error instance"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "ValidationError",
-                      "description": "The name of the error kind"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
-                      "description": "A description of what went wrong."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
-                      "description": "The ID of the error instance"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "AuthenticationRequired",
-                      "description": "The name of the error kind"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
-                      "description": "A description of what went wrong."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
-                      "description": "The ID of the error instance"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "NoAccessError",
-                      "description": "The name of the error kind"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
                       "description": "A description of what went wrong."
                     }
                   }
@@ -28329,109 +28038,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/eventsSchema"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/admin/event-creators": {
-      "get": {
-        "tags": [
-          "Events"
-        ],
-        "operationId": "getEventCreators",
-        "summary": "Get a list of all users that have created events",
-        "description": "Returns a list of all users that have created events in the system.",
-        "responses": {
-          "200": {
-            "description": "eventCreatorsSchema",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/eventCreatorsSchema"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
-                      "description": "The ID of the error instance"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "AuthenticationRequired",
-                      "description": "The name of the error kind"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
-                      "description": "A description of what went wrong."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
-                      "description": "The ID of the error instance"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "NoAccessError",
-                      "description": "The name of the error kind"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
-                      "description": "A description of what went wrong."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "The requested resource was not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
-                      "description": "The ID of the error instance"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "NotFoundError",
-                      "description": "The name of the error kind"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Could not find the addon with ID \"12345\".",
-                      "description": "A description of what went wrong."
-                    }
-                  }
                 }
               }
             }
@@ -44081,7 +43687,7 @@
             "in": "query"
           },
           {
-            "name": "from",
+            "name": "createdAtFrom",
             "schema": {
               "type": "string",
               "example": "IS:2024-01-01",
@@ -44091,7 +43697,7 @@
             "in": "query"
           },
           {
-            "name": "to",
+            "name": "createdAtTo",
             "schema": {
               "type": "string",
               "example": "IS:2024-01-31",

@@ -1,9 +1,9 @@
 openapi: 3.0.3
 info:
   title: Unleash API
-  version: 6.1.10+main
+  version: 6.1.12
 servers:
-- url: /
+- url: https://us.app.unleash-hosted.com/ushosted
 security:
 - apiKey: []
 - bearerToken: []
@@ -667,14 +667,6 @@ paths:
       description: This endpoint returns an list of all the projects in the Unleash
         instance.
       operationId: getProjects
-      parameters:
-      - explode: true
-        in: query
-        name: archived
-        required: false
-        schema:
-          type: boolean
-        style: form
       responses:
         "200":
           content:
@@ -1332,7 +1324,7 @@ paths:
 components:
   schemas:
     apiTokenSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: "An overview of an [Unleash API token](https://docs.getunleash.io/reference/api-tokens-and-client-keys)."
       example:
         createdAt: 2023-04-19T08:15:14Z
@@ -1425,7 +1417,7 @@ components:
       - type
       type: object
     apiTokensSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: "An object with [Unleash API tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys)"
       example:
         tokens:
@@ -1491,7 +1483,7 @@ components:
       - expiresAt
       type: object
     createUserResponseSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: An Unleash user after creation
       example:
         loginAttempts: 3
@@ -1585,7 +1577,7 @@ components:
       - id
       type: object
     createUserSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: "The payload must contain at least one of the name and email properties,\
         \ though which one is up to you. For the user to be able to log in to the\
         \ system, the user must have an email."
@@ -1618,7 +1610,7 @@ components:
       - rootRole
       type: object
     groupUserModelSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: Details for a single user belonging to a group
       example:
         createdBy: admin
@@ -1740,7 +1732,7 @@ components:
           type: array
       type: object
     projectSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: A definition of the project used for projects listing purposes
       example:
         name: DX-Squad
@@ -1765,7 +1757,7 @@ components:
       - name
       type: object
     projectsSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: An overview of all the projects in the Unleash instance
       example:
         projects:
@@ -1791,7 +1783,7 @@ components:
       - version
       type: object
     roleSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: A role holds permissions to allow Unleash to decide what actions
         a role holder is allowed to perform
       example:
@@ -1865,7 +1857,7 @@ components:
           $ref: '#/components/schemas/createUserSchema_rootRole'
       type: object
     userSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: An Unleash user
       example:
         loginAttempts: 3
@@ -1963,7 +1955,7 @@ components:
       - id
       type: object
     adminPermissionSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: Describes a single permission
       example:
         environment: development
@@ -2000,7 +1992,7 @@ components:
       - type
       type: object
     adminPermissionsSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: What kind of permissions are available
       example:
         permissions:
@@ -2137,7 +2129,7 @@ components:
         to decide what actions a role holder is allowed to perform
       type: object
     projectAccessConfigurationSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: An object describing roles for a project and what users and groups
         are part of that role.
       properties:
@@ -2150,7 +2142,7 @@ components:
       - roles
       type: object
     projectAccessSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: An object describing access permissions for a given project.
       example:
         roles:
@@ -2328,7 +2320,7 @@ components:
       - users
       type: object
     projectCreatedSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: Details about the newly created project.
       example:
         mode: open
@@ -2400,7 +2392,7 @@ components:
       - name
       type: object
     roleWithPermissionsSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: A read model for the role and permissions to allow Unleash to decide
         what actions a role holder is allowed to perform
       example:
@@ -2458,7 +2450,7 @@ components:
       - type
       type: object
     roleWithVersionSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: A single user role received after creation or update of a role
       example:
         roles:
@@ -2485,7 +2477,7 @@ components:
       - version
       type: object
     rolesWithVersionSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: A collection of user roles
       example:
         roles:
@@ -2613,7 +2605,7 @@ components:
       - id
       type: object
     groupWithProjectRoleSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: Data about a group including their project role
       example:
         createdAt: 2023-06-30T11:41:00.123Z
@@ -2743,7 +2735,7 @@ components:
       - id
       type: object
     serviceAccountSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: "Represents a [service account](https://docs.getunleash.io/reference/service-accounts).\
         \ Service accounts are used to let systems interact with the Unleash API."
       example:
@@ -2846,7 +2838,7 @@ components:
       - id
       type: object
     serviceAccountsSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: "Represents a list of service accounts, and includes a list of\
         \ root roles they reference"
       example:
@@ -2940,7 +2932,7 @@ components:
       - serviceAccounts
       type: object
     createServiceAccountSchema:
-      additionalProperties: true
+      additionalProperties: false
       description: Describes the properties required to create a new service account
       properties:
         username:
@@ -3257,7 +3249,7 @@ components:
         example: Admin
         type: string
     adminPermissionsSchema_permissions_environments_inner:
-      additionalProperties: true
+      additionalProperties: false
       example:
         permissions:
         - environment: development
@@ -3286,7 +3278,7 @@ components:
       - permissions
       type: object
     adminPermissionsSchema_permissions:
-      additionalProperties: true
+      additionalProperties: false
       description: Returns permissions available at all three levels (root|project|environment)
       example:
         environments:
