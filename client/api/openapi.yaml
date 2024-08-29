@@ -116,6 +116,132 @@ paths:
       summary: Get OIDC auth settings
       tags:
       - Auth
+    post:
+      description: Configure OpenID Connect as a login provider for Unleash.
+      operationId: setOidcSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/oidcSettingsSchema'
+        description: oidcSettingsSchema
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/oidcSettingsSchema'
+          description: oidcSettingsSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOidcSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOidcSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOidcSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/setOidcSettings_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Set OIDC settings
+      tags:
+      - Auth
+  /api/admin/auth/simple/settings:
+    get:
+      description: Is simple authentication (username/password) enabled for this server
+      operationId: getSimpleSettings
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/passwordAuthSchema'
+          description: passwordAuthSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOidcSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOidcSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get Simple auth settings
+      tags:
+      - Auth
+    post:
+      description: Enable or disable simple authentication (username/password)
+      operationId: setSimpleSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/passwordAuthSchema'
+        description: passwordAuthSchema
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/passwordAuthSchema'
+          description: passwordAuthSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOidcSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOidcSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOidcSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/setOidcSettings_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Update Simple auth settings
+      tags:
+      - Auth
   /api/admin/roles:
     get:
       description: "Get a list of project, root and custom roles for Role-Based Access\
@@ -425,7 +551,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createServiceAccount_415_response'
+                $ref: '#/components/schemas/setOidcSettings_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -526,7 +652,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createServiceAccount_415_response'
+                $ref: '#/components/schemas/setOidcSettings_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -642,7 +768,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createServiceAccount_415_response'
+                $ref: '#/components/schemas/setOidcSettings_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -782,7 +908,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createServiceAccount_415_response'
+                $ref: '#/components/schemas/setOidcSettings_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -882,7 +1008,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createServiceAccount_415_response'
+                $ref: '#/components/schemas/setOidcSettings_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -1052,7 +1178,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createServiceAccount_415_response'
+                $ref: '#/components/schemas/setOidcSettings_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -1174,7 +1300,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createServiceAccount_415_response'
+                $ref: '#/components/schemas/setOidcSettings_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -2177,6 +2303,16 @@ components:
       - $ref: '#/components/schemas/oidcSettingsSchema_oneOf'
       - $ref: '#/components/schemas/oidcSettingsSchema_oneOf_1'
       type: object
+    passwordAuthSchema:
+      description: Does the server allow username/password authentication
+      example:
+        enabled: false
+      properties:
+        enabled:
+          description: Is username/password authentication enabled
+          example: false
+          type: boolean
+      type: object
     projectAccessConfigurationSchema:
       additionalProperties: true
       description: An object describing roles for a project and what users and groups
@@ -3075,6 +3211,29 @@ components:
             the "development" environment.
           type: string
       type: object
+    setOidcSettings_415_response:
+      example:
+        name: ContentTypeerror
+        id: 9c40958a-daac-400e-98fb-3bb438567008
+        message: We do not accept the content-type you provided (application/xml).
+          Try using one of the content-types we do accept instead (application/json)
+          and make sure the body is in the corresponding format.
+      properties:
+        id:
+          description: The ID of the error instance
+          example: 9c40958a-daac-400e-98fb-3bb438567008
+          type: string
+        name:
+          description: The name of the error kind
+          example: ContentTypeerror
+          type: string
+        message:
+          description: A description of what went wrong.
+          example: We do not accept the content-type you provided (application/xml).
+            Try using one of the content-types we do accept instead (application/json)
+            and make sure the body is in the corresponding format.
+          type: string
+      type: object
     createRole_409_response:
       example:
         name: NameExistsError
@@ -3111,29 +3270,6 @@ components:
         message:
           description: A description of what went wrong.
           example: Could not find the addon with ID "12345".
-          type: string
-      type: object
-    createServiceAccount_415_response:
-      example:
-        name: ContentTypeerror
-        id: 9c40958a-daac-400e-98fb-3bb438567008
-        message: We do not accept the content-type you provided (application/xml).
-          Try using one of the content-types we do accept instead (application/json)
-          and make sure the body is in the corresponding format.
-      properties:
-        id:
-          description: The ID of the error instance
-          example: 9c40958a-daac-400e-98fb-3bb438567008
-          type: string
-        name:
-          description: The name of the error kind
-          example: ContentTypeerror
-          type: string
-        message:
-          description: A description of what went wrong.
-          example: We do not accept the content-type you provided (application/xml).
-            Try using one of the content-types we do accept instead (application/json)
-            and make sure the body is in the corresponding format.
           type: string
       type: object
     createApiTokenSchema_oneOf:

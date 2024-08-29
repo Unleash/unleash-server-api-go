@@ -156,7 +156,7 @@ func (a *APITokensAPIService) CreateApiTokenExecute(r ApiCreateApiTokenRequest) 
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 415 {
-			var v CreateServiceAccount415Response
+			var v SetOidcSettings415Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -716,7 +716,7 @@ func (a *APITokensAPIService) UpdateApiTokenExecute(r ApiUpdateApiTokenRequest) 
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 415 {
-			var v CreateServiceAccount415Response
+			var v SetOidcSettings415Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

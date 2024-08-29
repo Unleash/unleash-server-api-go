@@ -32,7 +32,6 @@ docs/CreateRoleWithPermissionsSchemaAnyOf.md
 docs/CreateRoleWithPermissionsSchemaAnyOf1.md
 docs/CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner.md
 docs/CreateRoleWithPermissionsSchemaAnyOfPermissionsInner.md
-docs/CreateServiceAccount415Response.md
 docs/CreateServiceAccountSchema.md
 docs/CreateUserResponseSchema.md
 docs/CreateUserResponseSchemaRootRole.md
@@ -47,6 +46,7 @@ docs/GroupWithProjectRoleSchema.md
 docs/OidcSettingsSchema.md
 docs/OidcSettingsSchemaOneOf.md
 docs/OidcSettingsSchemaOneOf1.md
+docs/PasswordAuthSchema.md
 docs/PatSchema.md
 docs/PatsSchema.md
 docs/ProjectAccessConfigurationSchema.md
@@ -64,6 +64,7 @@ docs/RolesWithVersionSchema.md
 docs/ServiceAccountSchema.md
 docs/ServiceAccountsAPI.md
 docs/ServiceAccountsSchema.md
+docs/SetOidcSettings415Response.md
 docs/UpdateApiTokenSchema.md
 docs/UpdateProjectSchema.md
 docs/UpdateServiceAccountSchema.md
@@ -92,7 +93,6 @@ model_create_role_with_permissions_schema_any_of.go
 model_create_role_with_permissions_schema_any_of_1.go
 model_create_role_with_permissions_schema_any_of_1_permissions_inner.go
 model_create_role_with_permissions_schema_any_of_permissions_inner.go
-model_create_service_account_415_response.go
 model_create_service_account_schema.go
 model_create_user_response_schema.go
 model_create_user_response_schema_root_role.go
@@ -107,6 +107,7 @@ model_group_with_project_role_schema.go
 model_oidc_settings_schema.go
 model_oidc_settings_schema_one_of.go
 model_oidc_settings_schema_one_of_1.go
+model_password_auth_schema.go
 model_pat_schema.go
 model_pats_schema.go
 model_project_access_configuration_schema.go
@@ -122,6 +123,7 @@ model_role_with_version_schema.go
 model_roles_with_version_schema.go
 model_service_account_schema.go
 model_service_accounts_schema.go
+model_set_oidc_settings_415_response.go
 model_update_api_token_schema.go
 model_update_project_schema.go
 model_update_service_account_schema.go

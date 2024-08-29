@@ -178,7 +178,7 @@ func (a *ServiceAccountsAPIService) CreateServiceAccountExecute(r ApiCreateServi
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 415 {
-			var v CreateServiceAccount415Response
+			var v SetOidcSettings415Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -362,7 +362,7 @@ func (a *ServiceAccountsAPIService) CreateServiceAccountTokenExecute(r ApiCreate
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 415 {
-			var v CreateServiceAccount415Response
+			var v SetOidcSettings415Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -1111,7 +1111,7 @@ func (a *ServiceAccountsAPIService) UpdateServiceAccountExecute(r ApiUpdateServi
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 415 {
-			var v CreateServiceAccount415Response
+			var v SetOidcSettings415Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

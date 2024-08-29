@@ -85,6 +85,9 @@ Class | Method | HTTP request | Description
 *APITokensAPI* | [**UpdateApiToken**](docs/APITokensAPI.md#updateapitoken) | **Put** /api/admin/api-tokens/{token} | Update API token
 *AuthAPI* | [**GetOidcSettings**](docs/AuthAPI.md#getoidcsettings) | **Get** /api/admin/auth/oidc/settings | Get OIDC auth settings
 *AuthAPI* | [**GetPermissions**](docs/AuthAPI.md#getpermissions) | **Get** /api/admin/permissions | Gets available permissions
+*AuthAPI* | [**GetSimpleSettings**](docs/AuthAPI.md#getsimplesettings) | **Get** /api/admin/auth/simple/settings | Get Simple auth settings
+*AuthAPI* | [**SetOidcSettings**](docs/AuthAPI.md#setoidcsettings) | **Post** /api/admin/auth/oidc/settings | Set OIDC settings
+*AuthAPI* | [**SetSimpleSettings**](docs/AuthAPI.md#setsimplesettings) | **Post** /api/admin/auth/simple/settings | Update Simple auth settings
 *ProjectsAPI* | [**CreateProject**](docs/ProjectsAPI.md#createproject) | **Post** /api/admin/projects | Create project
 *ProjectsAPI* | [**DeleteProject**](docs/ProjectsAPI.md#deleteproject) | **Delete** /api/admin/projects/{projectId} | Delete project
 *ProjectsAPI* | [**GetProjectAccess**](docs/ProjectsAPI.md#getprojectaccess) | **Get** /api/admin/projects/{projectId}/access | Get users and groups in project
@@ -131,7 +134,6 @@ Class | Method | HTTP request | Description
  - [CreateRoleWithPermissionsSchemaAnyOf1](docs/CreateRoleWithPermissionsSchemaAnyOf1.md)
  - [CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner](docs/CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner.md)
  - [CreateRoleWithPermissionsSchemaAnyOfPermissionsInner](docs/CreateRoleWithPermissionsSchemaAnyOfPermissionsInner.md)
- - [CreateServiceAccount415Response](docs/CreateServiceAccount415Response.md)
  - [CreateServiceAccountSchema](docs/CreateServiceAccountSchema.md)
  - [CreateUserResponseSchema](docs/CreateUserResponseSchema.md)
  - [CreateUserResponseSchemaRootRole](docs/CreateUserResponseSchemaRootRole.md)
@@ -146,6 +148,7 @@ Class | Method | HTTP request | Description
  - [OidcSettingsSchema](docs/OidcSettingsSchema.md)
  - [OidcSettingsSchemaOneOf](docs/OidcSettingsSchemaOneOf.md)
  - [OidcSettingsSchemaOneOf1](docs/OidcSettingsSchemaOneOf1.md)
+ - [PasswordAuthSchema](docs/PasswordAuthSchema.md)
  - [PatSchema](docs/PatSchema.md)
  - [PatsSchema](docs/PatsSchema.md)
  - [ProjectAccessConfigurationSchema](docs/ProjectAccessConfigurationSchema.md)
@@ -161,6 +164,7 @@ Class | Method | HTTP request | Description
  - [RolesWithVersionSchema](docs/RolesWithVersionSchema.md)
  - [ServiceAccountSchema](docs/ServiceAccountSchema.md)
  - [ServiceAccountsSchema](docs/ServiceAccountsSchema.md)
+ - [SetOidcSettings415Response](docs/SetOidcSettings415Response.md)
  - [UpdateApiTokenSchema](docs/UpdateApiTokenSchema.md)
  - [UpdateProjectSchema](docs/UpdateProjectSchema.md)
  - [UpdateServiceAccountSchema](docs/UpdateServiceAccountSchema.md)
