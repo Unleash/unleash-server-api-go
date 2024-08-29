@@ -2,10 +2,113 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Unleash API",
-    "version": "6.1.10+main"
+    "version": "6.1.12+main"
   },
   "servers": [],
   "paths": {
+    "/api/admin/auth/oidc/settings": {
+      "get": {
+        "operationId": "getOidcSettings",
+        "summary": "Get OIDC auth settings",
+        "description": "Returns the current settings for OIDC Authentication",
+        "responses": {
+          "200": {
+            "description": "oidcSettingsSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/oidcSettingsSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
     "/api/admin/roles": {
       "get": {
         "operationId": "getRoles",
@@ -3013,7 +3116,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
@@ -3815,10 +3918,10 @@
             "description": "Additional information about the project",
             "type": "string",
             "example": "DX squad feature release",
+            "deprecated": true,
             "nullable": true
           }
         },
-        "additionalProperties": true,
         "required": [
           "id",
           "name"
@@ -4328,6 +4431,189 @@
                     }
                   }
                 }
+              }
+            }
+          }
+        ]
+      },
+      "oidcSettingsSchema": {
+        "description": "Settings for configuring OpenID Connect as a login provider for Unleash",
+        "type": "object",
+        "oneOf": [
+          {
+            "required": [
+              "enabled",
+              "clientId",
+              "secret"
+            ],
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "description": "Whether to enable or disable OpenID Connect for this instance",
+                "type": "boolean",
+                "example": true,
+                "enum": [
+                  true
+                ]
+              },
+              "discoverUrl": {
+                "description": "The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)",
+                "type": "string",
+                "format": "uri",
+                "example": "https://myoidchost.azure.com/.well-known/openid-configuration"
+              },
+              "clientId": {
+                "description": "The OIDC client ID of this application.",
+                "type": "string",
+                "example": "FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B"
+              },
+              "secret": {
+                "description": "Shared secret from OpenID server. Used to authenticate login requests",
+                "type": "string",
+                "example": "qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO"
+              },
+              "autoCreate": {
+                "description": "Auto create users based on email addresses from login tokens",
+                "type": "boolean"
+              },
+              "enableSingleSignOut": {
+                "description": "Support Single sign out when user clicks logout in Unleash. If `true` user is signed out of all OpenID Connect sessions against the clientId they may have active",
+                "type": "boolean"
+              },
+              "defaultRootRole": {
+                "description": "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`",
+                "type": "string",
+                "enum": [
+                  "Viewer",
+                  "Editor",
+                  "Admin"
+                ]
+              },
+              "defaultRootRoleId": {
+                "description": "Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.",
+                "type": "number",
+                "example": 2
+              },
+              "emailDomains": {
+                "description": "Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`",
+                "type": "string",
+                "example": "getunleash.io,getunleash.ai"
+              },
+              "acrValues": {
+                "description": "Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information \n",
+                "type": "string",
+                "example": "urn:okta:loa:2fa:any phr"
+              },
+              "idTokenSigningAlgorithm": {
+                "description": "The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.",
+                "type": "string",
+                "example": "RS256",
+                "enum": [
+                  "RS256",
+                  "RS384",
+                  "RS512"
+                ]
+              },
+              "enableGroupSyncing": {
+                "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)",
+                "type": "boolean",
+                "example": false
+              },
+              "groupJsonPath": {
+                "description": "Specifies the path in the OIDC token response to read which groups the user belongs to from.",
+                "type": "string",
+                "example": "groups"
+              },
+              "addGroupsScope": {
+                "description": "When enabled Unleash will also request the 'groups' scope as part of the login request.",
+                "type": "boolean",
+                "example": false
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "description": "Whether to enable or disable OpenID Connect for this instance",
+                "type": "boolean",
+                "example": false,
+                "enum": [
+                  false
+                ]
+              },
+              "discoverUrl": {
+                "description": "The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)",
+                "type": "string",
+                "format": "uri",
+                "example": "https://myoidchost.azure.com/.well-known/openid-configuration"
+              },
+              "clientId": {
+                "description": "The OIDC client ID of this application.",
+                "type": "string",
+                "example": "FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B"
+              },
+              "secret": {
+                "description": "Shared secret from OpenID server. Used to authenticate login requests",
+                "type": "string",
+                "example": "qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO"
+              },
+              "autoCreate": {
+                "description": "Auto create users based on email addresses from login tokens",
+                "type": "boolean"
+              },
+              "enableSingleSignOut": {
+                "description": "Support Single sign out when user clicks logout in Unleash. If `true` user is signed out of all OpenID Connect sessions against the clientId they may have active",
+                "type": "boolean"
+              },
+              "defaultRootRole": {
+                "description": "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`",
+                "type": "string",
+                "enum": [
+                  "Viewer",
+                  "Editor",
+                  "Admin"
+                ]
+              },
+              "defaultRootRoleId": {
+                "description": "Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.",
+                "type": "number",
+                "example": 2
+              },
+              "emailDomains": {
+                "description": "Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`",
+                "type": "string",
+                "example": "getunleash.io,getunleash.ai"
+              },
+              "acrValues": {
+                "description": "Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information \n",
+                "type": "string",
+                "example": "urn:okta:loa:2fa:any phr"
+              },
+              "idTokenSigningAlgorithm": {
+                "description": "The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.",
+                "type": "string",
+                "example": "RS256",
+                "enum": [
+                  "RS256",
+                  "RS384",
+                  "RS512"
+                ]
+              },
+              "enableGroupSyncing": {
+                "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)",
+                "type": "boolean",
+                "example": false
+              },
+              "groupJsonPath": {
+                "description": "Specifies the path in the OIDC token response to read which groups the user belongs to from.",
+                "type": "string",
+                "example": "groups"
+              },
+              "addGroupsScope": {
+                "description": "When enabled Unleash will also request the 'groups' scope as part of the login request.",
+                "type": "boolean",
+                "example": false
               }
             }
           }

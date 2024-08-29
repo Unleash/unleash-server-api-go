@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Unleash API
-  version: 6.1.10+main
+  version: 6.1.12+main
 servers:
 - url: /
 security:
@@ -82,6 +82,40 @@ tags:
 - description: Manage users and passwords.
   name: Users
 paths:
+  /api/admin/auth/oidc/settings:
+    get:
+      description: Returns the current settings for OIDC Authentication
+      operationId: getOidcSettings
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/oidcSettingsSchema'
+          description: oidcSettingsSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOidcSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOidcSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOidcSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get OIDC auth settings
+      tags:
+      - Auth
   /api/admin/roles:
     get:
       description: "Get a list of project, root and custom roles for Role-Based Access\
@@ -98,14 +132,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get a list of roles
@@ -132,20 +166,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getOidcSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "409":
@@ -179,20 +213,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getOidcSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -226,13 +260,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getOidcSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "404":
@@ -273,20 +307,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getOidcSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -321,14 +355,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: List service accounts.
@@ -363,20 +397,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getOidcSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "409":
@@ -418,14 +452,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -466,20 +500,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getOidcSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -524,14 +558,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -580,14 +614,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -643,14 +677,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -686,14 +720,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get a list of all projects.
@@ -728,20 +762,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getOidcSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "415":
@@ -777,20 +811,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getOidcSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Delete project
@@ -822,20 +856,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getOidcSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -880,14 +914,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get users and groups in project
@@ -919,14 +953,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Set users and groups to roles in the current project
@@ -961,14 +995,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get API tokens
@@ -1004,14 +1038,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "415":
@@ -1052,14 +1086,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get API tokens by name
@@ -1086,14 +1120,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Delete API token
@@ -1126,14 +1160,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "415":
@@ -1178,20 +1212,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getOidcSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Create a new user
@@ -1216,14 +1250,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -1257,13 +1291,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getOidcSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "404":
@@ -1284,7 +1318,7 @@ paths:
         name: id
         required: true
         schema:
-          type: string
+          type: integer
         style: simple
       requestBody:
         content:
@@ -1304,20 +1338,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getOidcSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getOidcSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getOidcSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -1740,7 +1774,6 @@ components:
           type: array
       type: object
     projectSchema:
-      additionalProperties: true
       description: A definition of the project used for projects listing purposes
       example:
         name: DX-Squad
@@ -1756,6 +1789,7 @@ components:
           example: DX-Squad
           type: string
         description:
+          deprecated: true
           description: Additional information about the project
           example: DX squad feature release
           nullable: true
@@ -2135,6 +2169,13 @@ components:
       - $ref: '#/components/schemas/createRoleWithPermissionsSchema_anyOf_1'
       description: A write model for the custom role and permissions to allow Unleash
         to decide what actions a role holder is allowed to perform
+      type: object
+    oidcSettingsSchema:
+      description: Settings for configuring OpenID Connect as a login provider for
+        Unleash
+      oneOf:
+      - $ref: '#/components/schemas/oidcSettingsSchema_oneOf'
+      - $ref: '#/components/schemas/oidcSettingsSchema_oneOf_1'
       type: object
     projectAccessConfigurationSchema:
       additionalProperties: true
@@ -2971,7 +3012,28 @@ components:
           example: 1
           type: integer
       type: object
-    getRoles_401_response:
+    getOidcSettings_400_response:
+      example:
+        name: ValidationError
+        id: 9c40958a-daac-400e-98fb-3bb438567008
+        message: "The request payload you provided doesn't conform to the schema.\
+          \ The .parameters property should be object. You sent []."
+      properties:
+        id:
+          description: The ID of the error instance
+          example: 9c40958a-daac-400e-98fb-3bb438567008
+          type: string
+        name:
+          description: The name of the error kind
+          example: ValidationError
+          type: string
+        message:
+          description: A description of what went wrong.
+          example: "The request payload you provided doesn't conform to the schema.\
+            \ The .parameters property should be object. You sent []."
+          type: string
+      type: object
+    getOidcSettings_401_response:
       example:
         name: AuthenticationRequired
         id: 9c40958a-daac-400e-98fb-3bb438567008
@@ -2992,7 +3054,7 @@ components:
             \ header, so we could not authorize you. Try logging in at /auth/simple/login."
           type: string
       type: object
-    getRoles_403_response:
+    getOidcSettings_403_response:
       example:
         name: NoAccessError
         id: 9c40958a-daac-400e-98fb-3bb438567008
@@ -3011,27 +3073,6 @@ components:
           description: A description of what went wrong.
           example: You need the "UPDATE_ADDON" permission to perform this action in
             the "development" environment.
-          type: string
-      type: object
-    createRole_400_response:
-      example:
-        name: ValidationError
-        id: 9c40958a-daac-400e-98fb-3bb438567008
-        message: "The request payload you provided doesn't conform to the schema.\
-          \ The .parameters property should be object. You sent []."
-      properties:
-        id:
-          description: The ID of the error instance
-          example: 9c40958a-daac-400e-98fb-3bb438567008
-          type: string
-        name:
-          description: The name of the error kind
-          example: ValidationError
-          type: string
-        message:
-          description: A description of what went wrong.
-          example: "The request payload you provided doesn't conform to the schema.\
-            \ The .parameters property should be object. You sent []."
           type: string
       type: object
     createRole_409_response:
@@ -3462,6 +3503,187 @@ components:
           type: array
       required:
       - name
+      type: object
+    oidcSettingsSchema_oneOf:
+      example:
+        defaultRootRoleId: 2
+        acrValues: urn:okta:loa:2fa:any phr
+        clientId: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
+        enableGroupSyncing: false
+        emailDomains: "getunleash.io,getunleash.ai"
+        autoCreate: true
+        secret: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
+        enabled: true
+        groupJsonPath: groups
+        addGroupsScope: false
+        enableSingleSignOut: true
+        defaultRootRole: Viewer
+        discoverUrl: https://myoidchost.azure.com/.well-known/openid-configuration
+        idTokenSigningAlgorithm: RS256
+      properties:
+        enabled:
+          description: Whether to enable or disable OpenID Connect for this instance
+          example: true
+          type: boolean
+        discoverUrl:
+          description: "The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)"
+          example: https://myoidchost.azure.com/.well-known/openid-configuration
+          format: uri
+          type: string
+        clientId:
+          description: The OIDC client ID of this application.
+          example: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
+          type: string
+        secret:
+          description: Shared secret from OpenID server. Used to authenticate login
+            requests
+          example: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
+          type: string
+        autoCreate:
+          description: Auto create users based on email addresses from login tokens
+          type: boolean
+        enableSingleSignOut:
+          description: Support Single sign out when user clicks logout in Unleash.
+            If `true` user is signed out of all OpenID Connect sessions against the
+            clientId they may have active
+          type: boolean
+        defaultRootRole:
+          description: "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles)\
+            \ granted to users auto-created from email. Only relevant if autoCreate\
+            \ is `true`"
+          enum:
+          - Viewer
+          - Editor
+          - Admin
+          type: string
+        defaultRootRoleId:
+          description: Assign this root role to auto created users. Should be a role
+            ID and takes precedence over `defaultRootRole`.
+          example: 2
+          type: number
+        emailDomains:
+          description: Comma separated list of email domains that are automatically
+            approved for an account in the server. Only relevant if autoCreate is
+            `true`
+          example: "getunleash.io,getunleash.ai"
+          type: string
+        acrValues:
+          description: "Authentication Context Class Reference, used to request extra\
+            \ values in the acr claim returned from the server. If multiple values\
+            \ are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint)\
+            \ for more information \n"
+          example: urn:okta:loa:2fa:any phr
+          type: string
+        idTokenSigningAlgorithm:
+          description: "The signing algorithm used to sign our token. Refer to the\
+            \ [JWT signatures](https://jwt.io/introduction) documentation for more\
+            \ information."
+          enum:
+          - RS256
+          - RS384
+          - RS512
+          example: RS256
+          type: string
+        enableGroupSyncing:
+          description: "Should we enable group syncing. Refer to the documentation\
+            \ [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)"
+          example: false
+          type: boolean
+        groupJsonPath:
+          description: Specifies the path in the OIDC token response to read which
+            groups the user belongs to from.
+          example: groups
+          type: string
+        addGroupsScope:
+          description: When enabled Unleash will also request the 'groups' scope as
+            part of the login request.
+          example: false
+          type: boolean
+      required:
+      - clientId
+      - enabled
+      - secret
+      type: object
+    oidcSettingsSchema_oneOf_1:
+      properties:
+        enabled:
+          description: Whether to enable or disable OpenID Connect for this instance
+          example: false
+          type: boolean
+        discoverUrl:
+          description: "The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)"
+          example: https://myoidchost.azure.com/.well-known/openid-configuration
+          format: uri
+          type: string
+        clientId:
+          description: The OIDC client ID of this application.
+          example: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
+          type: string
+        secret:
+          description: Shared secret from OpenID server. Used to authenticate login
+            requests
+          example: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
+          type: string
+        autoCreate:
+          description: Auto create users based on email addresses from login tokens
+          type: boolean
+        enableSingleSignOut:
+          description: Support Single sign out when user clicks logout in Unleash.
+            If `true` user is signed out of all OpenID Connect sessions against the
+            clientId they may have active
+          type: boolean
+        defaultRootRole:
+          description: "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles)\
+            \ granted to users auto-created from email. Only relevant if autoCreate\
+            \ is `true`"
+          enum:
+          - Viewer
+          - Editor
+          - Admin
+          type: string
+        defaultRootRoleId:
+          description: Assign this root role to auto created users. Should be a role
+            ID and takes precedence over `defaultRootRole`.
+          example: 2
+          type: number
+        emailDomains:
+          description: Comma separated list of email domains that are automatically
+            approved for an account in the server. Only relevant if autoCreate is
+            `true`
+          example: "getunleash.io,getunleash.ai"
+          type: string
+        acrValues:
+          description: "Authentication Context Class Reference, used to request extra\
+            \ values in the acr claim returned from the server. If multiple values\
+            \ are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint)\
+            \ for more information \n"
+          example: urn:okta:loa:2fa:any phr
+          type: string
+        idTokenSigningAlgorithm:
+          description: "The signing algorithm used to sign our token. Refer to the\
+            \ [JWT signatures](https://jwt.io/introduction) documentation for more\
+            \ information."
+          enum:
+          - RS256
+          - RS384
+          - RS512
+          example: RS256
+          type: string
+        enableGroupSyncing:
+          description: "Should we enable group syncing. Refer to the documentation\
+            \ [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)"
+          example: false
+          type: boolean
+        groupJsonPath:
+          description: Specifies the path in the OIDC token response to read which
+            groups the user belongs to from.
+          example: groups
+          type: string
+        addGroupsScope:
+          description: When enabled Unleash will also request the 'groups' scope as
+            part of the login request.
+          example: false
+          type: boolean
       type: object
     projectAccessConfigurationSchema_roles_inner:
       properties:

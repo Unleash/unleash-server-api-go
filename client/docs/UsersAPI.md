@@ -578,7 +578,7 @@ import (
 )
 
 func main() {
-	id := "id_example" // string | 
+	id := int32(56) // int32 | 
 	updateUserSchema := *openapiclient.NewUpdateUserSchema() // UpdateUserSchema | updateUserSchema
 
 	configuration := openapiclient.NewConfiguration()
@@ -599,7 +599,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string** |  | 
+**id** | **int32** |  | 
 
 ### Other Parameters
 

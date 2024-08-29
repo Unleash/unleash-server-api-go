@@ -3,7 +3,7 @@
   "servers": [],
   "info": {
     "title": "Unleash API",
-    "version": "6.1.10+main"
+    "version": "6.1.12+main"
   },
   "security": [
     {
@@ -1400,6 +1400,118 @@
             "items": {
               "$ref": "#/components/schemas/applicationSchema"
             }
+          }
+        }
+      },
+      "archivedFeatureSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "project"
+        ],
+        "description": "An archived project feature flag definition",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "disable-comments",
+            "description": "Unique feature name"
+          },
+          "type": {
+            "type": "string",
+            "example": "kill-switch",
+            "description": "Type of the flag e.g. experiment, kill-switch, release, operational, permission"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "example": "Controls disabling of the comments section in case of an incident",
+            "description": "Detailed description of the feature"
+          },
+          "project": {
+            "type": "string",
+            "example": "dx-squad",
+            "description": "Name of the project the feature belongs to"
+          },
+          "stale": {
+            "type": "boolean",
+            "example": false,
+            "description": "`true` if the feature is stale based on the age and feature type, otherwise `false`."
+          },
+          "impressionData": {
+            "type": "boolean",
+            "example": false,
+            "description": "`true` if the impression data collection is enabled for the feature, otherwise `false`."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-01-28T15:21:39.975Z",
+            "description": "The date the feature was created"
+          },
+          "archivedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-01-29T15:21:39.975Z",
+            "description": "The date the feature was archived"
+          },
+          "lastSeenAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true,
+            "example": "2023-01-28T16:21:39.975Z",
+            "description": "The date when metrics where last collected for the feature. This field was deprecated in v5, use the one in featureEnvironmentSchema"
+          },
+          "environments": {
+            "type": "array",
+            "deprecated": true,
+            "description": "The list of environments where the feature can be used",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "my-dev-env",
+                  "description": "The name of the environment"
+                },
+                "lastSeenAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "nullable": true,
+                  "example": "2023-01-28T16:21:39.975Z",
+                  "description": "The date when metrics where last collected for the feature environment"
+                },
+                "enabled": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "`true` if the feature is enabled for the environment, otherwise `false`."
+                }
+              }
+            }
+          }
+        }
+      },
+      "archivedFeaturesSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "version",
+          "features"
+        ],
+        "description": "A list of archived features",
+        "deprecated": true,
+        "properties": {
+          "version": {
+            "type": "integer",
+            "description": "The version of the feature's schema"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/archivedFeatureSchema"
+            },
+            "description": "A list of features"
           }
         }
       },
@@ -5394,29 +5506,6 @@
           }
         }
       },
-      "featuresSchema": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "version",
-          "features"
-        ],
-        "description": "A list of features",
-        "deprecated": true,
-        "properties": {
-          "version": {
-            "type": "integer",
-            "description": "The version of the feature's schema"
-          },
-          "features": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/featureSchema"
-            },
-            "description": "A list of features"
-          }
-        }
-      },
       "feedbackCreateSchema": {
         "required": [
           "feedbackId"
@@ -6264,7 +6353,7 @@
             "example": "5.1.7"
           },
           "users": {
-            "type": "number",
+            "type": "integer",
             "description": "The number of users this instance has",
             "example": 8,
             "minimum": 0
@@ -6274,13 +6363,13 @@
             "description": "The number client metrics buckets records recorded in the previous day. # features * # apps * # envs * # hours with metrics",
             "properties": {
               "enabledCount": {
-                "type": "number",
+                "type": "integer",
                 "description": "The number of enabled/disabled metrics buckets recorded in the previous day",
                 "example": 10,
                 "minimum": 0
               },
               "variantCount": {
-                "type": "number",
+                "type": "integer",
                 "description": "The number of variant metrics buckets recorded in the previous day",
                 "example": 10,
                 "minimum": 0
@@ -6292,25 +6381,25 @@
             "description": "The number of active users in the last 7, 30 and 90 days",
             "properties": {
               "last7": {
-                "type": "number",
+                "type": "integer",
                 "description": "The number of active users in the last 7 days",
                 "example": 5,
                 "minimum": 0
               },
               "last30": {
-                "type": "number",
+                "type": "integer",
                 "description": "The number of active users in the last 30 days",
                 "example": 10,
                 "minimum": 0
               },
               "last60": {
-                "type": "number",
+                "type": "integer",
                 "description": "The number of active users in the last 60 days",
                 "example": 12,
                 "minimum": 0
               },
               "last90": {
-                "type": "number",
+                "type": "integer",
                 "description": "The number of active users in the last 90 days",
                 "example": 15,
                 "minimum": 0
@@ -6322,19 +6411,19 @@
             "description": "The number of changes to the production environment in the last 30, 60 and 90 days",
             "properties": {
               "last30": {
-                "type": "number",
+                "type": "integer",
                 "description": "The number of changes in production in the last 30 days",
                 "example": 10,
                 "minimum": 0
               },
               "last60": {
-                "type": "number",
+                "type": "integer",
                 "description": "The number of changes in production in the last 60 days",
                 "example": 12,
                 "minimum": 0
               },
               "last90": {
-                "type": "number",
+                "type": "integer",
                 "description": "The number of changes in production in the last 90 days",
                 "example": 15,
                 "minimum": 0
@@ -6342,49 +6431,49 @@
             }
           },
           "featureToggles": {
-            "type": "number",
+            "type": "integer",
             "description": "The number of feature-toggles this instance has",
             "example": 47,
             "minimum": 0
           },
           "projects": {
-            "type": "number",
+            "type": "integer",
             "description": "The number of projects defined in this instance.",
             "example": 3,
             "minimum": 0
           },
           "contextFields": {
-            "type": "number",
+            "type": "integer",
             "description": "The number of context fields defined in this instance.",
             "example": 7,
             "minimum": 0
           },
           "roles": {
-            "type": "number",
+            "type": "integer",
             "description": "The number of roles defined in this instance",
             "example": 5,
             "minimum": 0
           },
           "groups": {
-            "type": "number",
+            "type": "integer",
             "description": "The number of groups defined in this instance",
             "example": 12,
             "minimum": 0
           },
           "environments": {
-            "type": "number",
+            "type": "integer",
             "description": "The number of environments defined in this instance",
             "example": 3,
             "minimum": 0
           },
           "segments": {
-            "type": "number",
+            "type": "integer",
             "description": "The number of segments defined in this instance",
             "example": 19,
             "minimum": 0
           },
           "strategies": {
-            "type": "number",
+            "type": "integer",
             "description": "The number of strategies defined in this instance",
             "example": 8,
             "minimum": 0
@@ -6417,7 +6506,7 @@
                   "example": "30d"
                 },
                 "count": {
-                  "type": "number",
+                  "type": "integer",
                   "description": "The number of client applications that have been observed in this period",
                   "example": 1
                 }
@@ -6425,16 +6514,58 @@
             }
           },
           "featureExports": {
-            "type": "number",
+            "type": "integer",
             "description": "The number of export operations on this instance",
             "example": 0,
             "minimum": 0
           },
           "featureImports": {
-            "type": "number",
+            "type": "integer",
             "description": "The number of import operations on this instance",
             "example": 0,
             "minimum": 0
+          },
+          "apiTokens": {
+            "type": "object",
+            "description": "The number of API tokens in Unleash, split by type",
+            "properties": {
+              "admin": {
+                "type": "integer",
+                "description": "The number of admin tokens.",
+                "minimum": 0,
+                "example": 5
+              },
+              "client": {
+                "type": "integer",
+                "description": "The number of client tokens.",
+                "minimum": 0,
+                "example": 5
+              },
+              "frontend": {
+                "type": "integer",
+                "description": "The number of frontend tokens.",
+                "minimum": 0,
+                "example": 5
+              }
+            }
+          },
+          "maxEnvironmentStrategies": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 3,
+            "description": "The highest number of strategies used on a single feature flag in a single environment."
+          },
+          "maxConstraints": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 4,
+            "description": "The highest number of constraints used on a single strategy."
+          },
+          "maxConstraintValues": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 17,
+            "description": "The highest number of constraint values used on a single constraint."
           },
           "sum": {
             "type": "string",
@@ -7537,6 +7668,161 @@
           }
         }
       },
+      "projectFeatureEnvironmentSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "type",
+          "enabled",
+          "sortOrder",
+          "variantCount",
+          "lastSeenAt"
+        ],
+        "description": "A detailed description of the feature environment",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "my-dev-env",
+            "description": "The name of the environment"
+          },
+          "type": {
+            "type": "string",
+            "example": "development",
+            "description": "The type of the environment"
+          },
+          "enabled": {
+            "type": "boolean",
+            "example": true,
+            "description": "`true` if the feature is enabled for the environment, otherwise `false`."
+          },
+          "sortOrder": {
+            "type": "number",
+            "example": 3,
+            "description": "The sort order of the feature environment in the feature environments list"
+          },
+          "variantCount": {
+            "type": "number",
+            "description": "The number of defined variants"
+          },
+          "lastSeenAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2023-01-28T16:21:39.975Z",
+            "description": "The date when metrics where last collected for the feature environment"
+          },
+          "hasStrategies": {
+            "type": "boolean",
+            "description": "Whether the feature has any strategies defined."
+          },
+          "hasEnabledStrategies": {
+            "type": "boolean",
+            "description": "Whether the feature has any enabled strategies defined."
+          }
+        }
+      },
+      "projectFeatureSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "type",
+          "description",
+          "stale",
+          "favorite",
+          "impressionData",
+          "createdAt",
+          "lastSeenAt",
+          "environments"
+        ],
+        "description": "A project feature flag definition",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "disable-comments",
+            "description": "Unique feature name"
+          },
+          "type": {
+            "type": "string",
+            "example": "kill-switch",
+            "description": "Type of the flag e.g. experiment, kill-switch, release, operational, permission"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "example": "Controls disabling of the comments section in case of an incident",
+            "description": "Detailed description of the feature"
+          },
+          "stale": {
+            "type": "boolean",
+            "example": false,
+            "description": "`true` if the feature is stale based on the age and feature type, otherwise `false`."
+          },
+          "favorite": {
+            "type": "boolean",
+            "example": true,
+            "description": "`true` if the feature was favorited, otherwise `false`."
+          },
+          "impressionData": {
+            "type": "boolean",
+            "example": false,
+            "description": "`true` if the impression data collection is enabled for the feature, otherwise `false`."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-01-28T15:21:39.975Z",
+            "description": "The date the feature was created"
+          },
+          "lastSeenAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "deprecated": true,
+            "example": "2023-01-28T16:21:39.975Z",
+            "description": "The date and time when metrics where last collected for this flag in any environment. This field was deprecated in v5. You should instead use the `lastSeenAt` property on the individual environments listed under the `environments` property."
+          },
+          "environments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/projectFeatureEnvironmentSchema"
+            },
+            "description": "The list of environments where the feature can be used"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/tagSchema"
+            },
+            "nullable": true,
+            "description": "The list of feature tags"
+          }
+        }
+      },
+      "projectFeaturesSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "version",
+          "features"
+        ],
+        "description": "A list of features in a project",
+        "deprecated": true,
+        "properties": {
+          "version": {
+            "type": "integer",
+            "description": "The version of the feature's schema"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/projectFeatureSchema"
+            },
+            "description": "A list of features"
+          }
+        }
+      },
       "projectFlagCreatorsSchema": {
         "type": "array",
         "description": "A list of project flag creators",
@@ -7767,7 +8053,6 @@
       },
       "projectSchema": {
         "type": "object",
-        "additionalProperties": false,
         "required": [
           "id",
           "name"
@@ -7785,6 +8070,7 @@
             "description": "The name of this project"
           },
           "description": {
+            "deprecated": true,
             "type": "string",
             "nullable": true,
             "example": "DX squad feature release",
@@ -7801,11 +8087,13 @@
             "description": "The number of features this project has"
           },
           "staleFeatureCount": {
+            "deprecated": true,
             "type": "number",
             "example": 10,
             "description": "The number of stale features this project has"
           },
           "potentiallyStaleFeatureCount": {
+            "deprecated": true,
             "type": "number",
             "example": 10,
             "description": "The number of potentially stale features this project has"
@@ -7822,10 +8110,18 @@
             "format": "date-time"
           },
           "updatedAt": {
+            "deprecated": true,
             "type": "string",
             "format": "date-time",
             "nullable": true,
             "description": "When this project was last updated.",
+            "example": "2023-07-28T12:12:28Z"
+          },
+          "archivedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When this project was archived.",
             "example": "2023-07-28T12:12:28Z"
           },
           "favorite": {
@@ -7844,70 +8140,81 @@
             "description": "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not."
           },
           "defaultStickiness": {
+            "deprecated": true,
             "type": "string",
             "example": "userId",
             "description": "A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy"
           },
           "avgTimeToProduction": {
+            "deprecated": true,
             "type": "number",
             "example": 10,
             "description": "The average time from when a feature was created to when it was enabled in the \"production\" environment during the current window"
           },
           "owners": {
             "description": "The users and/or groups that have the \"owner\" role in this project. If no such users or groups exist, the list will contain the \"system\" owner instead.",
-            "type": "array",
-            "minItems": 1,
-            "items": {
-              "oneOf": [
-                {
-                  "type": "object",
-                  "required": [
-                    "ownerType",
-                    "name"
-                  ],
-                  "properties": {
-                    "ownerType": {
-                      "type": "string",
-                      "enum": [
-                        "user"
-                      ]
+            "oneOf": [
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "ownerType",
+                        "name"
+                      ],
+                      "properties": {
+                        "ownerType": {
+                          "type": "string",
+                          "enum": [
+                            "user"
+                          ]
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "User Name"
+                        },
+                        "imageUrl": {
+                          "type": "string",
+                          "nullable": true,
+                          "example": "https://example.com/image.jpg"
+                        },
+                        "email": {
+                          "type": "string",
+                          "nullable": true,
+                          "example": "user@example.com"
+                        }
+                      }
                     },
-                    "name": {
-                      "type": "string",
-                      "example": "User Name"
-                    },
-                    "imageUrl": {
-                      "type": "string",
-                      "nullable": true,
-                      "example": "https://example.com/image.jpg"
-                    },
-                    "email": {
-                      "type": "string",
-                      "nullable": true,
-                      "example": "user@example.com"
+                    {
+                      "type": "object",
+                      "required": [
+                        "ownerType",
+                        "name"
+                      ],
+                      "properties": {
+                        "ownerType": {
+                          "type": "string",
+                          "enum": [
+                            "group"
+                          ]
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Group Name"
+                        }
+                      }
                     }
-                  }
-                },
-                {
-                  "type": "object",
-                  "required": [
-                    "ownerType",
-                    "name"
-                  ],
-                  "properties": {
-                    "ownerType": {
-                      "type": "string",
-                      "enum": [
-                        "group"
-                      ]
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "Group Name"
-                    }
-                  }
-                },
-                {
+                  ]
+                }
+              },
+              {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
                   "type": "object",
                   "required": [
                     "ownerType"
@@ -7921,16 +8228,8 @@
                     }
                   }
                 }
-              ],
-              "discriminator": {
-                "propertyName": "ownerType",
-                "mapping": {
-                  "user": "#/components/schemas/UserOwner",
-                  "group": "#/components/schemas/GroupOwner",
-                  "system": "#/components/schemas/SystemOwner"
-                }
               }
-            }
+            ]
           }
         }
       },
@@ -10680,6 +10979,7 @@
               "clientId",
               "secret"
             ],
+            "type": "object",
             "properties": {
               "enabled": {
                 "description": "Whether to enable or disable OpenID Connect for this instance",
@@ -10765,6 +11065,7 @@
             }
           },
           {
+            "type": "object",
             "properties": {
               "enabled": {
                 "description": "Whether to enable or disable OpenID Connect for this instance",
@@ -14911,8 +15212,6 @@
         "description": "A summary of this Unleash instance's usage statistics, including user and flag counts, and trends over time.",
         "type": "object",
         "required": [
-          "users",
-          "flags",
           "userTrends",
           "flagTrends",
           "projectFlagTrends",
@@ -14920,48 +15219,6 @@
           "environmentTypeTrends"
         ],
         "properties": {
-          "users": {
-            "type": "object",
-            "additionalProperties": false,
-            "description": "High level user count statistics",
-            "required": [
-              "total",
-              "active",
-              "inactive"
-            ],
-            "properties": {
-              "total": {
-                "type": "number",
-                "example": 100,
-                "description": "The number of actual Unleash users"
-              },
-              "active": {
-                "type": "number",
-                "example": 98,
-                "description": "The number of active Unleash users who have user Unleash in the past 60 days"
-              },
-              "inactive": {
-                "type": "number",
-                "example": 2,
-                "description": "The number of inactive Unleash users who have not used Unleash in the past 60 days."
-              }
-            }
-          },
-          "flags": {
-            "type": "object",
-            "additionalProperties": false,
-            "description": "High level flag count statistics",
-            "required": [
-              "total"
-            ],
-            "properties": {
-              "total": {
-                "type": "number",
-                "example": 100,
-                "description": "The number of non-archived flags"
-              }
-            }
-          },
           "userTrends": {
             "type": "array",
             "description": "How number of users changed over time",
@@ -23272,7 +23529,7 @@
           "Unstable"
         ],
         "summary": "Archive project",
-        "description": "Archive the provided project. All feature flags in the project must be either unused or archived before you can archive the project.",
+        "description": "Archive the provided project. All feature flags in the project must be archived before you can archive the project.",
         "operationId": "archiveProject",
         "responses": {
           "200": {
@@ -27103,11 +27360,11 @@
         "operationId": "getArchivedFeatures",
         "responses": {
           "200": {
-            "description": "featuresSchema",
+            "description": "archivedFeaturesSchema",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/featuresSchema"
+                  "$ref": "#/components/schemas/archivedFeaturesSchema"
                 }
               }
             }
@@ -27180,11 +27437,11 @@
         "description": "Retrieves a list of archived features that belong to the provided project.",
         "responses": {
           "200": {
-            "description": "featuresSchema",
+            "description": "archivedFeaturesSchema",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/featuresSchema"
+                  "$ref": "#/components/schemas/archivedFeaturesSchema"
                 }
               }
             }
@@ -31959,7 +32216,7 @@
     "/api/admin/addons/{id}/events": {
       "get": {
         "tags": [
-          "Unstable"
+          "Addons"
         ],
         "operationId": "getIntegrationEvents",
         "summary": "Get integration events for a specific integration configuration.",
@@ -33691,6 +33948,16 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "createUserResponseSchema",
@@ -33810,17 +34077,7 @@
               }
             }
           }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -36535,11 +36792,11 @@
         "operationId": "getFeatures",
         "responses": {
           "200": {
-            "description": "featuresSchema",
+            "description": "projectFeaturesSchema",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/featuresSchema"
+                  "$ref": "#/components/schemas/projectFeaturesSchema"
                 }
               }
             }
@@ -42347,7 +42604,7 @@
             "description": "instanceAdminStatsSchemaCsv",
             "content": {
               "text/csv": {
-                "example": "\"OIDCenabled\",\"SAMLenabled\",\"clientApps\",\"contextFields\",\"environments\",\"featureExports\",\"featureImports\",\"featureToggles\",\"archivedFeatureToggles\",\"groups\",\"instanceId\",\"projects\",\"roles\",\"customRootRoles\",\"customRootRolesInUse\",\"segments\",\"strategies\",\"sum\",\"timestamp\",\"users\",\"serviceAccounts\",\"apiTokens\",\"versionEnterprise\",\"versionOSS\",\"activeUsers\",\"productionChanges\",\"previousDayMetricsBucketsCount\"\ntrue,false,\"[{\"\"range\"\":\"\"allTime\"\",\"\"count\"\":15},{\"\"range\"\":\"\"30d\"\",\"\"count\"\":9},{\"\"range\"\":\"\"7d\"\",\"\"count\"\":5}]\",6,2,0,0,29,10,3,\"ed3861ae-78f9-4e8c-8e57-b57efc15f82b\",4,5,2,1,2,8,\"some-sha256-hash\",\"2023-07-12T10:00:00.000Z\",10,2,\"{}\",\"5.1.7\",\"5.1.7\",\"{\"\"last90\"\":15,\"\"last60\"\":12,\"\"last30\"\":10,\"\"last7\"\":5}\",\"{\"\"last30\"\":100,\"\"last60\"\":200,\"\"last90\"\":200}\",\"{\"\"variantCount\"\":100,\"\"enabledCount\"\":200}\"",
+                "example": "\"OIDCenabled\",\"SAMLenabled\",\"clientApps\",\"contextFields\",\"environments\",\"featureExports\",\"featureImports\",\"featureToggles\",\"archivedFeatureToggles\",\"groups\",\"instanceId\",\"projects\",\"roles\",\"customRootRoles\",\"customRootRolesInUse\",\"segments\",\"strategies\",\"sum\",\"timestamp\",\"users\",\"serviceAccounts\",\"apiTokens\",\"versionEnterprise\",\"versionOSS\",\"activeUsers\",\"productionChanges\",\"previousDayMetricsBucketsCount\",\"maxEnvironmentStrategies\",\"maxConstraints\",\"maxConstraintValues\"\ntrue,false,\"[{\"\"range\"\":\"\"allTime\"\",\"\"count\"\":15},{\"\"range\"\":\"\"30d\"\",\"\"count\"\":9},{\"\"range\"\":\"\"7d\"\",\"\"count\"\":5}]\",6,2,0,0,29,10,3,\"ed3861ae-78f9-4e8c-8e57-b57efc15f82b\",4,5,2,1,2,8,\"some-sha256-hash\",\"2023-07-12T10:00:00.000Z\",10,2,\"{}\",\"5.1.7\",\"5.1.7\",\"{\"\"last90\"\":15,\"\"last60\"\":12,\"\"last30\"\":10,\"\"last7\"\":5}\",\"{\"\"last30\"\":100,\"\"last60\"\":200,\"\"last90\"\":200}\",\"{\"\"variantCount\"\":100,\"\"enabledCount\"\":200}\",20,17,123",
                 "schema": {
                   "type": "string"
                 }
@@ -43839,7 +44096,7 @@
             "name": "tag",
             "schema": {
               "type": "string",
-              "pattern": "^(INCLUDE|DO_NOT_INCLUDE|INCLUDE_ALL_OF|INCLUDE_ANY_OF|EXCLUDE_IF_ANY_OF|EXCLUDE_ALL):(?:\\s*[^,:]+:[^,:]+\\s*)(?:,\\s*[^,:]+:[^,:]+\\s*)*$",
+              "pattern": "^(INCLUDE|DO_NOT_INCLUDE|INCLUDE_ALL_OF|INCLUDE_ANY_OF|EXCLUDE_IF_ANY_OF|EXCLUDE_ALL):([^:,]+:.+?)(,\\s*[^:,]+:.+?)*$",
               "example": "INCLUDE:simple:my_tag"
             },
             "description": "The list of feature tags to filter by. Feature tag has to specify a type and a value joined with a colon.",
