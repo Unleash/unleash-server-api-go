@@ -11592,6 +11592,7 @@
               "signOnUrl",
               "certificate"
             ],
+            "type": "object",
             "properties": {
               "enabled": {
                 "description": "Whether to enable or disable SAML 2.0 for this instance",
@@ -11664,6 +11665,7 @@
             }
           },
           {
+            "type": "object",
             "properties": {
               "enabled": {
                 "description": "Whether to enable or disable SAML 2.0 for this instance",

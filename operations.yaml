@@ -48,3 +48,6 @@ inverseOperationIds:
   - setSimpleSettings
   - getSimpleSettings
 
+  - setSamlSettings
+  - getSamlSettings
+

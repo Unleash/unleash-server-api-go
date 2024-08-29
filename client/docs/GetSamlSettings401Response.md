@@ -1,4 +1,4 @@
-# SetOidcSettings415Response
+# GetSamlSettings401Response
 
 ## Properties
 
@@ -10,95 +10,95 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewSetOidcSettings415Response
+### NewGetSamlSettings401Response
 
-`func NewSetOidcSettings415Response() *SetOidcSettings415Response`
+`func NewGetSamlSettings401Response() *GetSamlSettings401Response`
 
-NewSetOidcSettings415Response instantiates a new SetOidcSettings415Response object
+NewGetSamlSettings401Response instantiates a new GetSamlSettings401Response object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewSetOidcSettings415ResponseWithDefaults
+### NewGetSamlSettings401ResponseWithDefaults
 
-`func NewSetOidcSettings415ResponseWithDefaults() *SetOidcSettings415Response`
+`func NewGetSamlSettings401ResponseWithDefaults() *GetSamlSettings401Response`
 
-NewSetOidcSettings415ResponseWithDefaults instantiates a new SetOidcSettings415Response object
+NewGetSamlSettings401ResponseWithDefaults instantiates a new GetSamlSettings401Response object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *SetOidcSettings415Response) GetId() string`
+`func (o *GetSamlSettings401Response) GetId() string`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *SetOidcSettings415Response) GetIdOk() (*string, bool)`
+`func (o *GetSamlSettings401Response) GetIdOk() (*string, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *SetOidcSettings415Response) SetId(v string)`
+`func (o *GetSamlSettings401Response) SetId(v string)`
 
 SetId sets Id field to given value.
 
 ### HasId
 
-`func (o *SetOidcSettings415Response) HasId() bool`
+`func (o *GetSamlSettings401Response) HasId() bool`
 
 HasId returns a boolean if a field has been set.
 
 ### GetName
 
-`func (o *SetOidcSettings415Response) GetName() string`
+`func (o *GetSamlSettings401Response) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *SetOidcSettings415Response) GetNameOk() (*string, bool)`
+`func (o *GetSamlSettings401Response) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *SetOidcSettings415Response) SetName(v string)`
+`func (o *GetSamlSettings401Response) SetName(v string)`
 
 SetName sets Name field to given value.
 
 ### HasName
 
-`func (o *SetOidcSettings415Response) HasName() bool`
+`func (o *GetSamlSettings401Response) HasName() bool`
 
 HasName returns a boolean if a field has been set.
 
 ### GetMessage
 
-`func (o *SetOidcSettings415Response) GetMessage() string`
+`func (o *GetSamlSettings401Response) GetMessage() string`
 
 GetMessage returns the Message field if non-nil, zero value otherwise.
 
 ### GetMessageOk
 
-`func (o *SetOidcSettings415Response) GetMessageOk() (*string, bool)`
+`func (o *GetSamlSettings401Response) GetMessageOk() (*string, bool)`
 
 GetMessageOk returns a tuple with the Message field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessage
 
-`func (o *SetOidcSettings415Response) SetMessage(v string)`
+`func (o *GetSamlSettings401Response) SetMessage(v string)`
 
 SetMessage sets Message field to given value.
 
 ### HasMessage
 
-`func (o *SetOidcSettings415Response) HasMessage() bool`
+`func (o *GetSamlSettings401Response) HasMessage() bool`
 
 HasMessage returns a boolean if a field has been set.
 

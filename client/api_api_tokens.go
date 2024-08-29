@@ -134,7 +134,7 @@ func (a *APITokensAPIService) CreateApiTokenExecute(r ApiCreateApiTokenRequest) 
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
-			var v GetOidcSettings401Response
+			var v GetSamlSettings401Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -145,7 +145,7 @@ func (a *APITokensAPIService) CreateApiTokenExecute(r ApiCreateApiTokenRequest) 
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v GetOidcSettings403Response
+			var v GetSamlSettings403Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -156,7 +156,7 @@ func (a *APITokensAPIService) CreateApiTokenExecute(r ApiCreateApiTokenRequest) 
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 415 {
-			var v SetOidcSettings415Response
+			var v SetSamlSettings415Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -281,7 +281,7 @@ func (a *APITokensAPIService) DeleteApiTokenExecute(r ApiDeleteApiTokenRequest) 
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
-			var v GetOidcSettings401Response
+			var v GetSamlSettings401Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -292,7 +292,7 @@ func (a *APITokensAPIService) DeleteApiTokenExecute(r ApiDeleteApiTokenRequest) 
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v GetOidcSettings403Response
+			var v GetSamlSettings403Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -407,7 +407,7 @@ func (a *APITokensAPIService) GetAllApiTokensExecute(r ApiGetAllApiTokensRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
-			var v GetOidcSettings401Response
+			var v GetSamlSettings401Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -418,7 +418,7 @@ func (a *APITokensAPIService) GetAllApiTokensExecute(r ApiGetAllApiTokensRequest
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v GetOidcSettings403Response
+			var v GetSamlSettings403Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -546,7 +546,7 @@ func (a *APITokensAPIService) GetApiTokensByNameExecute(r ApiGetApiTokensByNameR
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
-			var v GetOidcSettings401Response
+			var v GetSamlSettings401Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -557,7 +557,7 @@ func (a *APITokensAPIService) GetApiTokensByNameExecute(r ApiGetApiTokensByNameR
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v GetOidcSettings403Response
+			var v GetSamlSettings403Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -694,7 +694,7 @@ func (a *APITokensAPIService) UpdateApiTokenExecute(r ApiUpdateApiTokenRequest) 
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
-			var v GetOidcSettings401Response
+			var v GetSamlSettings401Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -705,7 +705,7 @@ func (a *APITokensAPIService) UpdateApiTokenExecute(r ApiUpdateApiTokenRequest) 
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v GetOidcSettings403Response
+			var v GetSamlSettings403Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -716,7 +716,7 @@ func (a *APITokensAPIService) UpdateApiTokenExecute(r ApiUpdateApiTokenRequest) 
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 415 {
-			var v SetOidcSettings415Response
+			var v SetSamlSettings415Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

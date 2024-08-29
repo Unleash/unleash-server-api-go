@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the SetOidcSettings415Response type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &SetOidcSettings415Response{}
+// checks if the GetSamlSettings401Response type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &GetSamlSettings401Response{}
 
-// SetOidcSettings415Response struct for SetOidcSettings415Response
-type SetOidcSettings415Response struct {
+// GetSamlSettings401Response struct for GetSamlSettings401Response
+type GetSamlSettings401Response struct {
 	// The ID of the error instance
 	Id *string `json:"id,omitempty"`
 	// The name of the error kind
@@ -28,27 +28,27 @@ type SetOidcSettings415Response struct {
 	AdditionalProperties map[string]interface{}
 }
 
-type _SetOidcSettings415Response SetOidcSettings415Response
+type _GetSamlSettings401Response GetSamlSettings401Response
 
-// NewSetOidcSettings415Response instantiates a new SetOidcSettings415Response object
+// NewGetSamlSettings401Response instantiates a new GetSamlSettings401Response object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSetOidcSettings415Response() *SetOidcSettings415Response {
-	this := SetOidcSettings415Response{}
+func NewGetSamlSettings401Response() *GetSamlSettings401Response {
+	this := GetSamlSettings401Response{}
 	return &this
 }
 
-// NewSetOidcSettings415ResponseWithDefaults instantiates a new SetOidcSettings415Response object
+// NewGetSamlSettings401ResponseWithDefaults instantiates a new GetSamlSettings401Response object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewSetOidcSettings415ResponseWithDefaults() *SetOidcSettings415Response {
-	this := SetOidcSettings415Response{}
+func NewGetSamlSettings401ResponseWithDefaults() *GetSamlSettings401Response {
+	this := GetSamlSettings401Response{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *SetOidcSettings415Response) GetId() string {
+func (o *GetSamlSettings401Response) GetId() string {
 	if o == nil || IsNil(o.Id) {
 		var ret string
 		return ret
@@ -58,7 +58,7 @@ func (o *SetOidcSettings415Response) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SetOidcSettings415Response) GetIdOk() (*string, bool) {
+func (o *GetSamlSettings401Response) GetIdOk() (*string, bool) {
 	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
@@ -66,7 +66,7 @@ func (o *SetOidcSettings415Response) GetIdOk() (*string, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *SetOidcSettings415Response) HasId() bool {
+func (o *GetSamlSettings401Response) HasId() bool {
 	if o != nil && !IsNil(o.Id) {
 		return true
 	}
@@ -75,12 +75,12 @@ func (o *SetOidcSettings415Response) HasId() bool {
 }
 
 // SetId gets a reference to the given string and assigns it to the Id field.
-func (o *SetOidcSettings415Response) SetId(v string) {
+func (o *GetSamlSettings401Response) SetId(v string) {
 	o.Id = &v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *SetOidcSettings415Response) GetName() string {
+func (o *GetSamlSettings401Response) GetName() string {
 	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
@@ -90,7 +90,7 @@ func (o *SetOidcSettings415Response) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SetOidcSettings415Response) GetNameOk() (*string, bool) {
+func (o *GetSamlSettings401Response) GetNameOk() (*string, bool) {
 	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
@@ -98,7 +98,7 @@ func (o *SetOidcSettings415Response) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *SetOidcSettings415Response) HasName() bool {
+func (o *GetSamlSettings401Response) HasName() bool {
 	if o != nil && !IsNil(o.Name) {
 		return true
 	}
@@ -107,12 +107,12 @@ func (o *SetOidcSettings415Response) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *SetOidcSettings415Response) SetName(v string) {
+func (o *GetSamlSettings401Response) SetName(v string) {
 	o.Name = &v
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
-func (o *SetOidcSettings415Response) GetMessage() string {
+func (o *GetSamlSettings401Response) GetMessage() string {
 	if o == nil || IsNil(o.Message) {
 		var ret string
 		return ret
@@ -122,7 +122,7 @@ func (o *SetOidcSettings415Response) GetMessage() string {
 
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SetOidcSettings415Response) GetMessageOk() (*string, bool) {
+func (o *GetSamlSettings401Response) GetMessageOk() (*string, bool) {
 	if o == nil || IsNil(o.Message) {
 		return nil, false
 	}
@@ -130,7 +130,7 @@ func (o *SetOidcSettings415Response) GetMessageOk() (*string, bool) {
 }
 
 // HasMessage returns a boolean if a field has been set.
-func (o *SetOidcSettings415Response) HasMessage() bool {
+func (o *GetSamlSettings401Response) HasMessage() bool {
 	if o != nil && !IsNil(o.Message) {
 		return true
 	}
@@ -139,11 +139,11 @@ func (o *SetOidcSettings415Response) HasMessage() bool {
 }
 
 // SetMessage gets a reference to the given string and assigns it to the Message field.
-func (o *SetOidcSettings415Response) SetMessage(v string) {
+func (o *GetSamlSettings401Response) SetMessage(v string) {
 	o.Message = &v
 }
 
-func (o SetOidcSettings415Response) MarshalJSON() ([]byte, error) {
+func (o GetSamlSettings401Response) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -151,7 +151,7 @@ func (o SetOidcSettings415Response) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o SetOidcSettings415Response) ToMap() (map[string]interface{}, error) {
+func (o GetSamlSettings401Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
@@ -170,16 +170,16 @@ func (o SetOidcSettings415Response) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *SetOidcSettings415Response) UnmarshalJSON(data []byte) (err error) {
-	varSetOidcSettings415Response := _SetOidcSettings415Response{}
+func (o *GetSamlSettings401Response) UnmarshalJSON(data []byte) (err error) {
+	varGetSamlSettings401Response := _GetSamlSettings401Response{}
 
-	err = json.Unmarshal(data, &varSetOidcSettings415Response)
+	err = json.Unmarshal(data, &varGetSamlSettings401Response)
 
 	if err != nil {
 		return err
 	}
 
-	*o = SetOidcSettings415Response(varSetOidcSettings415Response)
+	*o = GetSamlSettings401Response(varGetSamlSettings401Response)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -193,38 +193,38 @@ func (o *SetOidcSettings415Response) UnmarshalJSON(data []byte) (err error) {
 	return err
 }
 
-type NullableSetOidcSettings415Response struct {
-	value *SetOidcSettings415Response
+type NullableGetSamlSettings401Response struct {
+	value *GetSamlSettings401Response
 	isSet bool
 }
 
-func (v NullableSetOidcSettings415Response) Get() *SetOidcSettings415Response {
+func (v NullableGetSamlSettings401Response) Get() *GetSamlSettings401Response {
 	return v.value
 }
 
-func (v *NullableSetOidcSettings415Response) Set(val *SetOidcSettings415Response) {
+func (v *NullableGetSamlSettings401Response) Set(val *GetSamlSettings401Response) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableSetOidcSettings415Response) IsSet() bool {
+func (v NullableGetSamlSettings401Response) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableSetOidcSettings415Response) Unset() {
+func (v *NullableGetSamlSettings401Response) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableSetOidcSettings415Response(val *SetOidcSettings415Response) *NullableSetOidcSettings415Response {
-	return &NullableSetOidcSettings415Response{value: val, isSet: true}
+func NewNullableGetSamlSettings401Response(val *GetSamlSettings401Response) *NullableGetSamlSettings401Response {
+	return &NullableGetSamlSettings401Response{value: val, isSet: true}
 }
 
-func (v NullableSetOidcSettings415Response) MarshalJSON() ([]byte, error) {
+func (v NullableGetSamlSettings401Response) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableSetOidcSettings415Response) UnmarshalJSON(src []byte) error {
+func (v *NullableGetSamlSettings401Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

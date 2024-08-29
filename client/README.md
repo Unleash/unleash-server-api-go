@@ -85,8 +85,10 @@ Class | Method | HTTP request | Description
 *APITokensAPI* | [**UpdateApiToken**](docs/APITokensAPI.md#updateapitoken) | **Put** /api/admin/api-tokens/{token} | Update API token
 *AuthAPI* | [**GetOidcSettings**](docs/AuthAPI.md#getoidcsettings) | **Get** /api/admin/auth/oidc/settings | Get OIDC auth settings
 *AuthAPI* | [**GetPermissions**](docs/AuthAPI.md#getpermissions) | **Get** /api/admin/permissions | Gets available permissions
+*AuthAPI* | [**GetSamlSettings**](docs/AuthAPI.md#getsamlsettings) | **Get** /api/admin/auth/saml/settings | Get SAML auth settings
 *AuthAPI* | [**GetSimpleSettings**](docs/AuthAPI.md#getsimplesettings) | **Get** /api/admin/auth/simple/settings | Get Simple auth settings
 *AuthAPI* | [**SetOidcSettings**](docs/AuthAPI.md#setoidcsettings) | **Post** /api/admin/auth/oidc/settings | Set OIDC settings
+*AuthAPI* | [**SetSamlSettings**](docs/AuthAPI.md#setsamlsettings) | **Post** /api/admin/auth/saml/settings | Update SAML auth settings
 *AuthAPI* | [**SetSimpleSettings**](docs/AuthAPI.md#setsimplesettings) | **Post** /api/admin/auth/simple/settings | Update Simple auth settings
 *ProjectsAPI* | [**CreateProject**](docs/ProjectsAPI.md#createproject) | **Post** /api/admin/projects | Create project
 *ProjectsAPI* | [**DeleteProject**](docs/ProjectsAPI.md#deleteproject) | **Delete** /api/admin/projects/{projectId} | Delete project
@@ -139,10 +141,10 @@ Class | Method | HTTP request | Description
  - [CreateUserResponseSchemaRootRole](docs/CreateUserResponseSchemaRootRole.md)
  - [CreateUserSchema](docs/CreateUserSchema.md)
  - [CreateUserSchemaRootRole](docs/CreateUserSchemaRootRole.md)
- - [GetOidcSettings400Response](docs/GetOidcSettings400Response.md)
- - [GetOidcSettings401Response](docs/GetOidcSettings401Response.md)
- - [GetOidcSettings403Response](docs/GetOidcSettings403Response.md)
  - [GetRoleById404Response](docs/GetRoleById404Response.md)
+ - [GetSamlSettings400Response](docs/GetSamlSettings400Response.md)
+ - [GetSamlSettings401Response](docs/GetSamlSettings401Response.md)
+ - [GetSamlSettings403Response](docs/GetSamlSettings403Response.md)
  - [GroupUserModelSchema](docs/GroupUserModelSchema.md)
  - [GroupWithProjectRoleSchema](docs/GroupWithProjectRoleSchema.md)
  - [OidcSettingsSchema](docs/OidcSettingsSchema.md)
@@ -162,9 +164,12 @@ Class | Method | HTTP request | Description
  - [RoleWithPermissionsSchema](docs/RoleWithPermissionsSchema.md)
  - [RoleWithVersionSchema](docs/RoleWithVersionSchema.md)
  - [RolesWithVersionSchema](docs/RolesWithVersionSchema.md)
+ - [SamlSettingsSchema](docs/SamlSettingsSchema.md)
+ - [SamlSettingsSchemaOneOf](docs/SamlSettingsSchemaOneOf.md)
+ - [SamlSettingsSchemaOneOf1](docs/SamlSettingsSchemaOneOf1.md)
  - [ServiceAccountSchema](docs/ServiceAccountSchema.md)
  - [ServiceAccountsSchema](docs/ServiceAccountsSchema.md)
- - [SetOidcSettings415Response](docs/SetOidcSettings415Response.md)
+ - [SetSamlSettings415Response](docs/SetSamlSettings415Response.md)
  - [UpdateApiTokenSchema](docs/UpdateApiTokenSchema.md)
  - [UpdateProjectSchema](docs/UpdateProjectSchema.md)
  - [UpdateServiceAccountSchema](docs/UpdateServiceAccountSchema.md)
