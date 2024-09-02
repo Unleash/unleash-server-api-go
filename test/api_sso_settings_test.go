@@ -51,31 +51,32 @@ func Test_client_SSOSettingsAPIService(t *testing.T) {
 	t.Run("Test AuthAPIService SetOidcSettings", func(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
 
-			// innerSettings := client.NewOidcSettingsSchema()
+			innerSettings := client.NewOidcSettingsSchemaOneOfWithDefaults()
 
-			// innerSettings.SetEnabled(true)
-			// innerSettings.SetDiscoverUrl("test.com")
-			// innerSettings.SetClientId("test")
-			// innerSettings.SetSecret("test")
-			// innerSettings.SetAutoCreate(true)
-			// innerSettings.SetEnableSingleSignOut(false)
-			// innerSettings.SetDefaultRootRole("Admin")
-			// innerSettings.SetDefaultRootRoleId(1)
-			// innerSettings.SetEmailDomains("example.com")
-			// innerSettings.SetAcrValues("test")
-			// innerSettings.SetIdTokenSigningAlgorithm("RSA256")
-			// innerSettings.SetEnableGroupSyncing(false)
-			// innerSettings.SetGroupJsonPath(".groups")
-			// innerSettings.SetAddGroupsScope(false)
+			innerSettings.SetEnabled(true)
 
-			// // oidcSettings := client.OidcSettingsSchema{
-			// // 	OidcSettingsSchemaOneOf: innerSettings,
-			// // }
-			// oidcSettingsResponse, httpRes, err := apiClient.AuthAPI.SetOidcSettings(context.Background()).OidcSettingsResponseSchema(*innerSettings).Execute()
+			// Be warned, this can and will make Unleash make a slow, blocking http call to this listed URL
+			// failure to find the expected well known configuration will cause Unleash to freak out and block
+			// Should be caught by the mock Python server in the docker compose, but if you're running this outside of docker
+			// know that your Unleash instance will be saying hi to this endpoint
+			innerSettings.SetDiscoverUrl("http://mock-openid-server:9000/.well-known/openid-configuration")
+			innerSettings.SetClientId("test")
+			innerSettings.SetSecret("test")
+			innerSettings.SetAutoCreate(true)
+			innerSettings.SetEnableSingleSignOut(false)
+			innerSettings.SetDefaultRootRole("Admin")
+			innerSettings.SetDefaultRootRoleId(1)
+			innerSettings.SetAddGroupsScope(false)
+			innerSettings.SetEnableGroupSyncing(false)
 
-			// require.Nil(t, err)
-			// require.NotNil(t, oidcSettingsResponse)
-			// require.Equal(t, 200, httpRes.StatusCode)
+			oidcSettings := client.OidcSettingsSchema{
+				OidcSettingsSchemaOneOf: innerSettings,
+			}
+			oidcSettingsResponse, httpRes, err := apiClient.AuthAPI.SetOidcSettings(context.Background()).OidcSettingsSchema(oidcSettings).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, oidcSettingsResponse)
+			require.Equal(t, 200, httpRes.StatusCode)
 
 		} else {
 			t.Skip("Enterprise only feature")
