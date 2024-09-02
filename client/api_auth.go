@@ -574,7 +574,7 @@ func (r ApiSetOidcSettingsRequest) OidcSettingsSchema(oidcSettingsSchema OidcSet
 	return r
 }
 
-func (r ApiSetOidcSettingsRequest) Execute() (*OidcSettingsSchema, *http.Response, error) {
+func (r ApiSetOidcSettingsRequest) Execute() (*OidcSettingsResponseSchema, *http.Response, error) {
 	return r.ApiService.SetOidcSettingsExecute(r)
 }
 
@@ -595,13 +595,13 @@ func (a *AuthAPIService) SetOidcSettings(ctx context.Context) ApiSetOidcSettings
 
 // Execute executes the request
 //
-//	@return OidcSettingsSchema
-func (a *AuthAPIService) SetOidcSettingsExecute(r ApiSetOidcSettingsRequest) (*OidcSettingsSchema, *http.Response, error) {
+//	@return OidcSettingsResponseSchema
+func (a *AuthAPIService) SetOidcSettingsExecute(r ApiSetOidcSettingsRequest) (*OidcSettingsResponseSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *OidcSettingsSchema
+		localVarReturnValue *OidcSettingsResponseSchema
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.SetOidcSettings")
@@ -743,7 +743,7 @@ func (r ApiSetSamlSettingsRequest) SamlSettingsSchema(samlSettingsSchema SamlSet
 	return r
 }
 
-func (r ApiSetSamlSettingsRequest) Execute() (*SamlSettingsSchema, *http.Response, error) {
+func (r ApiSetSamlSettingsRequest) Execute() (*SamlSettingsResponseSchema, *http.Response, error) {
 	return r.ApiService.SetSamlSettingsExecute(r)
 }
 
@@ -764,13 +764,13 @@ func (a *AuthAPIService) SetSamlSettings(ctx context.Context) ApiSetSamlSettings
 
 // Execute executes the request
 //
-//	@return SamlSettingsSchema
-func (a *AuthAPIService) SetSamlSettingsExecute(r ApiSetSamlSettingsRequest) (*SamlSettingsSchema, *http.Response, error) {
+//	@return SamlSettingsResponseSchema
+func (a *AuthAPIService) SetSamlSettingsExecute(r ApiSetSamlSettingsRequest) (*SamlSettingsResponseSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *SamlSettingsSchema
+		localVarReturnValue *SamlSettingsResponseSchema
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.SetSamlSettings")

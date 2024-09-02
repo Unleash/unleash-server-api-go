@@ -43,6 +43,7 @@ docs/GetSamlSettings401Response.md
 docs/GetSamlSettings403Response.md
 docs/GroupUserModelSchema.md
 docs/GroupWithProjectRoleSchema.md
+docs/OidcSettingsResponseSchema.md
 docs/OidcSettingsSchema.md
 docs/OidcSettingsSchemaOneOf.md
 docs/OidcSettingsSchemaOneOf1.md
@@ -61,6 +62,7 @@ docs/RoleSchema.md
 docs/RoleWithPermissionsSchema.md
 docs/RoleWithVersionSchema.md
 docs/RolesWithVersionSchema.md
+docs/SamlSettingsResponseSchema.md
 docs/SamlSettingsSchema.md
 docs/SamlSettingsSchemaOneOf.md
 docs/SamlSettingsSchemaOneOf1.md
@@ -107,6 +109,7 @@ model_get_saml_settings_401_response.go
 model_get_saml_settings_403_response.go
 model_group_user_model_schema.go
 model_group_with_project_role_schema.go
+model_oidc_settings_response_schema.go
 model_oidc_settings_schema.go
 model_oidc_settings_schema_one_of.go
 model_oidc_settings_schema_one_of_1.go
@@ -124,6 +127,7 @@ model_role_schema.go
 model_role_with_permissions_schema.go
 model_role_with_version_schema.go
 model_roles_with_version_schema.go
+model_saml_settings_response_schema.go
 model_saml_settings_schema.go
 model_saml_settings_schema_one_of.go
 model_saml_settings_schema_one_of_1.go

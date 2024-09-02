@@ -260,7 +260,7 @@ Other parameters are passed through a pointer to a apiGetSimpleSettingsRequest s
 
 ## SetOidcSettings
 
-> OidcSettingsSchema SetOidcSettings(ctx).OidcSettingsSchema(oidcSettingsSchema).Execute()
+> OidcSettingsResponseSchema SetOidcSettings(ctx).OidcSettingsSchema(oidcSettingsSchema).Execute()
 
 Set OIDC settings
 
@@ -288,7 +288,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.SetOidcSettings``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `SetOidcSettings`: OidcSettingsSchema
+	// response from `SetOidcSettings`: OidcSettingsResponseSchema
 	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.SetOidcSettings`: %v\n", resp)
 }
 ```
@@ -308,7 +308,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**OidcSettingsSchema**](OidcSettingsSchema.md)
+[**OidcSettingsResponseSchema**](OidcSettingsResponseSchema.md)
 
 ### Authorization
 
@@ -326,7 +326,7 @@ Name | Type | Description  | Notes
 
 ## SetSamlSettings
 
-> SamlSettingsSchema SetSamlSettings(ctx).SamlSettingsSchema(samlSettingsSchema).Execute()
+> SamlSettingsResponseSchema SetSamlSettings(ctx).SamlSettingsSchema(samlSettingsSchema).Execute()
 
 Update SAML auth settings
 
@@ -381,7 +381,7 @@ JGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.SetSamlSettings``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `SetSamlSettings`: SamlSettingsSchema
+	// response from `SetSamlSettings`: SamlSettingsResponseSchema
 	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.SetSamlSettings`: %v\n", resp)
 }
 ```
@@ -401,7 +401,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SamlSettingsSchema**](SamlSettingsSchema.md)
+[**SamlSettingsResponseSchema**](SamlSettingsResponseSchema.md)
 
 ### Authorization
 
