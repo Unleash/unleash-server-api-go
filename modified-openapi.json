@@ -13,11 +13,11 @@
         "description": "Returns the current settings for SAML authentication",
         "responses": {
           "200": {
-            "description": "samlSettingsSchema",
+            "description": "samlSettingsResponseSchema",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/samlSettingsSchema"
+                  "$ref": "#/components/schemas/samlSettingsResponseSchema"
                 }
               }
             }
@@ -255,11 +255,11 @@
         "description": "Returns the current settings for OIDC Authentication",
         "responses": {
           "200": {
-            "description": "oidcSettingsSchema",
+            "description": "oidcSettingsResponseSchema",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/oidcSettingsSchema"
+                  "$ref": "#/components/schemas/oidcSettingsResponseSchema"
                 }
               }
             }

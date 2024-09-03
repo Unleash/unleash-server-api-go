@@ -16480,11 +16480,11 @@
         "operationId": "getSamlSettings",
         "responses": {
           "200": {
-            "description": "samlSettingsSchema",
+            "description": "samlSettingsResponseSchema",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/samlSettingsSchema"
+                  "$ref": "#/components/schemas/samlSettingsResponseSchema"
                 }
               }
             }
@@ -16722,11 +16722,11 @@
         "operationId": "getOidcSettings",
         "responses": {
           "200": {
-            "description": "oidcSettingsSchema",
+            "description": "oidcSettingsResponseSchema",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/oidcSettingsSchema"
+                  "$ref": "#/components/schemas/oidcSettingsResponseSchema"
                 }
               }
             }

@@ -18,7 +18,7 @@ import (
 func Test_client_SSOSettingsAPIService(t *testing.T) {
 	apiClient := testClient()
 
-	t.Run("Test AuthAPIService SetSamlSettings", func(t *testing.T) {
+	t.Run("Test AuthAPIService SetSamlSettings Enable path", func(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
 
 			innerSettings := client.NewSamlSettingsSchemaOneOfWithDefaults()
@@ -48,29 +48,91 @@ func Test_client_SSOSettingsAPIService(t *testing.T) {
 		}
 	})
 
-	t.Run("Test AuthAPIService SetOidcSettings", func(t *testing.T) {
+	t.Run("Test AuthAPIService SetSamlSettings Disable path", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+
+			innerSettings := client.NewSamlSettingsSchemaOneOf1WithDefaults()
+
+			innerSettings.SetEnabled(false)
+			// You still need to set these fields even if you're disabling SAML, because reasons
+			// they can't be empty strings though, so... this. It's what the UI does. For reasons
+			innerSettings.SetEntityId(" ")
+			innerSettings.SetSignOnUrl(" ")
+			innerSettings.SetCertificate(" ")
+
+			samlSettings := client.SamlSettingsSchema{
+				SamlSettingsSchemaOneOf1: innerSettings,
+			}
+			samlSettingsResponse, httpRes, err := apiClient.AuthAPI.SetSamlSettings(context.Background()).SamlSettingsSchema(samlSettings).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, samlSettingsResponse)
+			require.Equal(t, 200, httpRes.StatusCode)
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+
+	t.Run("Test AuthAPIService GetSamlSettings", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+
+			samlSettingsResponse, httpRes, err := apiClient.AuthAPI.GetSamlSettings(context.Background()).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, samlSettingsResponse)
+			require.Equal(t, 200, httpRes.StatusCode)
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+
+	t.Run("Test AuthAPIService SetOidcSettings Enable path", func(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
 
 			innerSettings := client.NewOidcSettingsSchemaOneOfWithDefaults()
 
 			innerSettings.SetEnabled(true)
+			innerSettings.SetClientId("test")
+			innerSettings.SetSecret("test")
+			innerSettings.SetAutoCreate(true)
+			innerSettings.SetEnableSingleSignOut(false)
+			innerSettings.SetDefaultRootRoleId(1)
+			innerSettings.SetAddGroupsScope(false)
+			innerSettings.SetEnableGroupSyncing(false)
 
 			// Be warned, this can and will make Unleash make a slow, blocking http call to this listed URL
 			// failure to find the expected well known configuration will cause Unleash to freak out and block
 			// Should be caught by the mock Python server in the docker compose, but if you're running this outside of docker
 			// know that your Unleash instance will be saying hi to this endpoint
 			innerSettings.SetDiscoverUrl("http://mock-openid-server:9000/.well-known/openid-configuration")
-			innerSettings.SetClientId("test")
-			innerSettings.SetSecret("test")
-			innerSettings.SetAutoCreate(true)
-			innerSettings.SetEnableSingleSignOut(false)
-			innerSettings.SetDefaultRootRole("Admin")
-			innerSettings.SetDefaultRootRoleId(1)
-			innerSettings.SetAddGroupsScope(false)
-			innerSettings.SetEnableGroupSyncing(false)
+
+			// somehow this is required but it doesn't appear to do anything useful. Leaving it but commented out
+			// in case the next victim finds a usecase for it and wonders why it wasn't there
+			// innerSettings.SetDefaultRootRole("Admin")
 
 			oidcSettings := client.OidcSettingsSchema{
 				OidcSettingsSchemaOneOf: innerSettings,
+			}
+			oidcSettingsResponse, httpRes, err := apiClient.AuthAPI.SetOidcSettings(context.Background()).OidcSettingsSchema(oidcSettings).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, oidcSettingsResponse)
+			require.Equal(t, 200, httpRes.StatusCode)
+
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+
+	t.Run("Test AuthAPIService SetOidcSettings Disable path", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+
+			innerSettings := client.NewOidcSettingsSchemaOneOf1WithDefaults()
+
+			innerSettings.SetEnabled(false)
+
+			oidcSettings := client.OidcSettingsSchema{
+				OidcSettingsSchemaOneOf1: innerSettings,
 			}
 			oidcSettingsResponse, httpRes, err := apiClient.AuthAPI.SetOidcSettings(context.Background()).OidcSettingsSchema(oidcSettings).Execute()
 

@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 ## GetOidcSettings
 
-> OidcSettingsSchema GetOidcSettings(ctx).Execute()
+> OidcSettingsResponseSchema GetOidcSettings(ctx).Execute()
 
 Get OIDC auth settings
 
@@ -43,7 +43,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetOidcSettings``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetOidcSettings`: OidcSettingsSchema
+	// response from `GetOidcSettings`: OidcSettingsResponseSchema
 	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetOidcSettings`: %v\n", resp)
 }
 ```
@@ -59,7 +59,7 @@ Other parameters are passed through a pointer to a apiGetOidcSettingsRequest str
 
 ### Return type
 
-[**OidcSettingsSchema**](OidcSettingsSchema.md)
+[**OidcSettingsResponseSchema**](OidcSettingsResponseSchema.md)
 
 ### Authorization
 
@@ -138,7 +138,7 @@ Other parameters are passed through a pointer to a apiGetPermissionsRequest stru
 
 ## GetSamlSettings
 
-> SamlSettingsSchema GetSamlSettings(ctx).Execute()
+> SamlSettingsResponseSchema GetSamlSettings(ctx).Execute()
 
 Get SAML auth settings
 
@@ -165,7 +165,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetSamlSettings``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetSamlSettings`: SamlSettingsSchema
+	// response from `GetSamlSettings`: SamlSettingsResponseSchema
 	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetSamlSettings`: %v\n", resp)
 }
 ```
@@ -181,7 +181,7 @@ Other parameters are passed through a pointer to a apiGetSamlSettingsRequest str
 
 ### Return type
 
-[**SamlSettingsSchema**](SamlSettingsSchema.md)
+[**SamlSettingsResponseSchema**](SamlSettingsResponseSchema.md)
 
 ### Authorization
 
