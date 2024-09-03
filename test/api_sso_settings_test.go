@@ -76,11 +76,33 @@ func Test_client_SSOSettingsAPIService(t *testing.T) {
 	t.Run("Test AuthAPIService GetSamlSettings", func(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
 
+			innerSettings := client.NewSamlSettingsSchemaOneOf1WithDefaults()
+
+			innerSettings.SetEnabled(false)
+			innerSettings.SetEntityId("this is a thing")
+			innerSettings.SetSignOnUrl("this is also a thing, apparently not a url tho")
+			innerSettings.SetCertificate("whee I'm a certificate!")
+
+			samlSettings := client.SamlSettingsSchema{
+				SamlSettingsSchemaOneOf1: innerSettings,
+			}
+			setSamlResponse, httpRes, err := apiClient.AuthAPI.SetSamlSettings(context.Background()).SamlSettingsSchema(samlSettings).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, setSamlResponse)
+			require.Equal(t, 200, httpRes.StatusCode)
+
 			samlSettingsResponse, httpRes, err := apiClient.AuthAPI.GetSamlSettings(context.Background()).Execute()
 
 			require.Nil(t, err)
 			require.NotNil(t, samlSettingsResponse)
 			require.Equal(t, 200, httpRes.StatusCode)
+
+			require.Equal(t, *samlSettingsResponse.Enabled, false)
+			require.Equal(t, *samlSettingsResponse.EntityId, "this is a thing")
+			require.Equal(t, *samlSettingsResponse.SignOnUrl, "this is also a thing, apparently not a url tho")
+			require.Equal(t, *samlSettingsResponse.Certificate, "whee I'm a certificate!")
+
 		} else {
 			t.Skip("Enterprise only feature")
 		}
@@ -139,6 +161,53 @@ func Test_client_SSOSettingsAPIService(t *testing.T) {
 			require.Nil(t, err)
 			require.NotNil(t, oidcSettingsResponse)
 			require.Equal(t, 200, httpRes.StatusCode)
+
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+
+	t.Run("Test AuthAPIService GetOidcSettings", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+
+			innerSettings := client.NewOidcSettingsSchemaOneOf1WithDefaults()
+
+			innerSettings.SetEnabled(true)
+			innerSettings.SetClientId("look ma, I'm an id!")
+			innerSettings.SetSecret("shhh, it's a secret")
+			innerSettings.SetAutoCreate(true)
+			innerSettings.SetEnableSingleSignOut(false)
+			innerSettings.SetDefaultRootRoleId(1)
+			innerSettings.SetAddGroupsScope(false)
+			innerSettings.SetEnableGroupSyncing(false)
+
+			// can't avoid this unless we want to get an empty "isEnabled: false" response back and I
+			// want a real response back
+			innerSettings.SetDiscoverUrl("http://mock-openid-server:9000/.well-known/openid-configuration")
+
+			oidcSettings := client.OidcSettingsSchema{
+				OidcSettingsSchemaOneOf1: innerSettings,
+			}
+			oidcSettingsResponse, httpRes, err := apiClient.AuthAPI.SetOidcSettings(context.Background()).OidcSettingsSchema(oidcSettings).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, oidcSettingsResponse)
+			require.Equal(t, 200, httpRes.StatusCode)
+
+			oidcSettingsResponse, httpRes, err = apiClient.AuthAPI.GetOidcSettings(context.Background()).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, oidcSettingsResponse)
+			require.Equal(t, 200, httpRes.StatusCode)
+
+			require.Equal(t, *oidcSettingsResponse.Enabled, true)
+			require.Equal(t, *oidcSettingsResponse.ClientId, "look ma, I'm an id!")
+			require.Equal(t, *oidcSettingsResponse.Secret, "shhh, it's a secret")
+			require.Equal(t, *oidcSettingsResponse.AutoCreate, true)
+			require.Equal(t, *oidcSettingsResponse.EnableSingleSignOut, false)
+			require.Equal(t, *oidcSettingsResponse.DefaultRootRoleId, float32(1.0))
+			require.Equal(t, *oidcSettingsResponse.AddGroupsScope, false)
+			require.Equal(t, *oidcSettingsResponse.EnableGroupSyncing, false)
 
 		} else {
 			t.Skip("Enterprise only feature")
