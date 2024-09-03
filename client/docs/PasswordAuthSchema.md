@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Enabled** | Pointer to **bool** | Is username/password authentication enabled | [optional] 
+**Disabled** | Pointer to **bool** | Is username/password authentication disabled | [optional] 
 
 ## Methods
 
@@ -25,30 +25,30 @@ NewPasswordAuthSchemaWithDefaults instantiates a new PasswordAuthSchema object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetEnabled
+### GetDisabled
 
-`func (o *PasswordAuthSchema) GetEnabled() bool`
+`func (o *PasswordAuthSchema) GetDisabled() bool`
 
-GetEnabled returns the Enabled field if non-nil, zero value otherwise.
+GetDisabled returns the Disabled field if non-nil, zero value otherwise.
 
-### GetEnabledOk
+### GetDisabledOk
 
-`func (o *PasswordAuthSchema) GetEnabledOk() (*bool, bool)`
+`func (o *PasswordAuthSchema) GetDisabledOk() (*bool, bool)`
 
-GetEnabledOk returns a tuple with the Enabled field if it's non-nil, zero value otherwise
+GetDisabledOk returns a tuple with the Disabled field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetEnabled
+### SetDisabled
 
-`func (o *PasswordAuthSchema) SetEnabled(v bool)`
+`func (o *PasswordAuthSchema) SetDisabled(v bool)`
 
-SetEnabled sets Enabled field to given value.
+SetDisabled sets Disabled field to given value.
 
-### HasEnabled
+### HasDisabled
 
-`func (o *PasswordAuthSchema) HasEnabled() bool`
+`func (o *PasswordAuthSchema) HasDisabled() bool`
 
-HasEnabled returns a boolean if a field has been set.
+HasDisabled returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

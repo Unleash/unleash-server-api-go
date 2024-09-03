@@ -5219,8 +5219,8 @@
         "description": "Does the server allow username/password authentication",
         "type": "object",
         "properties": {
-          "enabled": {
-            "description": "Is username/password authentication enabled",
+          "disabled": {
+            "description": "Is username/password authentication disabled",
             "type": "boolean",
             "example": false
           }

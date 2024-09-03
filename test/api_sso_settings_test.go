@@ -213,4 +213,36 @@ func Test_client_SSOSettingsAPIService(t *testing.T) {
 			t.Skip("Enterprise only feature")
 		}
 	})
+
+	t.Run("Test AuthAPIService SetSimpleSettings", func(t *testing.T) {
+
+		simpleSettingsRequest := client.NewPasswordAuthSchema()
+		simpleSettingsRequest.SetDisabled(false)
+
+		simpleSettingsResponse, httpRes, err := apiClient.AuthAPI.SetSimpleSettings(context.Background()).PasswordAuthSchema(*simpleSettingsRequest).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, simpleSettingsResponse)
+		require.Equal(t, 200, httpRes.StatusCode)
+	})
+
+	t.Run("Test AuthAPIService GetSimpleSettings", func(t *testing.T) {
+
+		simpleSettingsRequest := client.NewPasswordAuthSchema()
+		simpleSettingsRequest.SetDisabled(true)
+
+		simpleSettingsResponse, httpRes, err := apiClient.AuthAPI.SetSimpleSettings(context.Background()).PasswordAuthSchema(*simpleSettingsRequest).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, simpleSettingsResponse)
+		require.Equal(t, 200, httpRes.StatusCode)
+
+		simpleSettingsResponse, httpRes, err = apiClient.AuthAPI.GetSimpleSettings(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, simpleSettingsResponse)
+		require.Equal(t, 200, httpRes.StatusCode)
+
+		require.Equal(t, *simpleSettingsResponse.Disabled, true)
+	})
 }

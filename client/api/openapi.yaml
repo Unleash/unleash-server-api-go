@@ -2389,10 +2389,10 @@ components:
     passwordAuthSchema:
       description: Does the server allow username/password authentication
       example:
-        enabled: false
+        disabled: false
       properties:
-        enabled:
-          description: Is username/password authentication enabled
+        disabled:
+          description: Is username/password authentication disabled
           example: false
           type: boolean
       type: object

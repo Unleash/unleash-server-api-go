@@ -19,8 +19,8 @@ var _ MappedNullable = &PasswordAuthSchema{}
 
 // PasswordAuthSchema Does the server allow username/password authentication
 type PasswordAuthSchema struct {
-	// Is username/password authentication enabled
-	Enabled              *bool `json:"enabled,omitempty"`
+	// Is username/password authentication disabled
+	Disabled             *bool `json:"disabled,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -43,36 +43,36 @@ func NewPasswordAuthSchemaWithDefaults() *PasswordAuthSchema {
 	return &this
 }
 
-// GetEnabled returns the Enabled field value if set, zero value otherwise.
-func (o *PasswordAuthSchema) GetEnabled() bool {
-	if o == nil || IsNil(o.Enabled) {
+// GetDisabled returns the Disabled field value if set, zero value otherwise.
+func (o *PasswordAuthSchema) GetDisabled() bool {
+	if o == nil || IsNil(o.Disabled) {
 		var ret bool
 		return ret
 	}
-	return *o.Enabled
+	return *o.Disabled
 }
 
-// GetEnabledOk returns a tuple with the Enabled field value if set, nil otherwise
+// GetDisabledOk returns a tuple with the Disabled field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PasswordAuthSchema) GetEnabledOk() (*bool, bool) {
-	if o == nil || IsNil(o.Enabled) {
+func (o *PasswordAuthSchema) GetDisabledOk() (*bool, bool) {
+	if o == nil || IsNil(o.Disabled) {
 		return nil, false
 	}
-	return o.Enabled, true
+	return o.Disabled, true
 }
 
-// HasEnabled returns a boolean if a field has been set.
-func (o *PasswordAuthSchema) HasEnabled() bool {
-	if o != nil && !IsNil(o.Enabled) {
+// HasDisabled returns a boolean if a field has been set.
+func (o *PasswordAuthSchema) HasDisabled() bool {
+	if o != nil && !IsNil(o.Disabled) {
 		return true
 	}
 
 	return false
 }
 
-// SetEnabled gets a reference to the given bool and assigns it to the Enabled field.
-func (o *PasswordAuthSchema) SetEnabled(v bool) {
-	o.Enabled = &v
+// SetDisabled gets a reference to the given bool and assigns it to the Disabled field.
+func (o *PasswordAuthSchema) SetDisabled(v bool) {
+	o.Disabled = &v
 }
 
 func (o PasswordAuthSchema) MarshalJSON() ([]byte, error) {
@@ -85,8 +85,8 @@ func (o PasswordAuthSchema) MarshalJSON() ([]byte, error) {
 
 func (o PasswordAuthSchema) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Enabled) {
-		toSerialize["enabled"] = o.Enabled
+	if !IsNil(o.Disabled) {
+		toSerialize["disabled"] = o.Disabled
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -110,7 +110,7 @@ func (o *PasswordAuthSchema) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "disabled")
 		o.AdditionalProperties = additionalProperties
 	}
 
