@@ -41,3 +41,13 @@ inverseOperationIds:
   - getServiceAccountTokens
   - createServiceAccountToken
   - deleteServiceAccountToken
+
+  - setOidcSettings
+  - getOidcSettings
+
+  - setSimpleSettings
+  - getSimpleSettings
+
+  - setSamlSettings
+  - getSamlSettings
+

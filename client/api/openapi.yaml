@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Unleash API
-  version: 6.1.10+main
+  version: 6.1.12+main
 servers:
 - url: /
 security:
@@ -82,6 +82,249 @@ tags:
 - description: Manage users and passwords.
   name: Users
 paths:
+  /api/admin/auth/saml/settings:
+    get:
+      description: Returns the current settings for SAML authentication
+      operationId: getSamlSettings
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/samlSettingsResponseSchema'
+          description: samlSettingsResponseSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get SAML auth settings
+      tags:
+      - Auth
+    post:
+      description: Updates the settings for SAML Authentication
+      operationId: setSamlSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/samlSettingsSchema'
+        description: samlSettingsSchema
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/samlSettingsResponseSchema'
+          description: samlSettingsResponseSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/setSamlSettings_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Update SAML auth settings
+      tags:
+      - Auth
+  /api/admin/auth/oidc/settings:
+    get:
+      description: Returns the current settings for OIDC Authentication
+      operationId: getOidcSettings
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/oidcSettingsResponseSchema'
+          description: oidcSettingsResponseSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get OIDC auth settings
+      tags:
+      - Auth
+    post:
+      description: Configure OpenID Connect as a login provider for Unleash.
+      operationId: setOidcSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/oidcSettingsSchema'
+        description: oidcSettingsSchema
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/oidcSettingsResponseSchema'
+          description: oidcSettingsResponseSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/setSamlSettings_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Set OIDC settings
+      tags:
+      - Auth
+  /api/admin/auth/simple/settings:
+    get:
+      description: Is simple authentication (username/password) enabled for this server
+      operationId: getSimpleSettings
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/passwordAuthSchema'
+          description: passwordAuthSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get Simple auth settings
+      tags:
+      - Auth
+    post:
+      description: Enable or disable simple authentication (username/password)
+      operationId: setSimpleSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/passwordAuthSchema'
+        description: passwordAuthSchema
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/passwordAuthSchema'
+          description: passwordAuthSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/setSamlSettings_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Update Simple auth settings
+      tags:
+      - Auth
   /api/admin/roles:
     get:
       description: "Get a list of project, root and custom roles for Role-Based Access\
@@ -98,14 +341,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get a list of roles
@@ -132,20 +375,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getSamlSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "409":
@@ -179,20 +422,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getSamlSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -226,13 +469,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getSamlSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "404":
@@ -273,20 +516,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getSamlSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -321,14 +564,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: List service accounts.
@@ -363,20 +606,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getSamlSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "409":
@@ -391,7 +634,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createServiceAccount_415_response'
+                $ref: '#/components/schemas/setSamlSettings_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -418,14 +661,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -466,20 +709,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getSamlSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -492,7 +735,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createServiceAccount_415_response'
+                $ref: '#/components/schemas/setSamlSettings_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -524,14 +767,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -580,14 +823,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -608,7 +851,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createServiceAccount_415_response'
+                $ref: '#/components/schemas/setSamlSettings_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -643,14 +886,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -686,14 +929,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get a list of all projects.
@@ -728,27 +971,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getSamlSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "415":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createServiceAccount_415_response'
+                $ref: '#/components/schemas/setSamlSettings_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -777,20 +1020,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getSamlSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Delete project
@@ -822,20 +1065,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getSamlSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -848,7 +1091,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createServiceAccount_415_response'
+                $ref: '#/components/schemas/setSamlSettings_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -880,14 +1123,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get users and groups in project
@@ -919,14 +1162,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Set users and groups to roles in the current project
@@ -961,14 +1204,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get API tokens
@@ -1004,21 +1247,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "415":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createServiceAccount_415_response'
+                $ref: '#/components/schemas/setSamlSettings_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -1052,14 +1295,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get API tokens by name
@@ -1086,14 +1329,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Delete API token
@@ -1126,21 +1369,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "415":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createServiceAccount_415_response'
+                $ref: '#/components/schemas/setSamlSettings_415_response'
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -1178,20 +1421,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getSamlSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Create a new user
@@ -1216,14 +1459,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -1257,13 +1500,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getSamlSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "404":
@@ -1284,7 +1527,7 @@ paths:
         name: id
         required: true
         schema:
-          type: string
+          type: integer
         style: simple
       requestBody:
         content:
@@ -1304,20 +1547,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_400_response'
+                $ref: '#/components/schemas/getSamlSettings_400_response'
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_401_response'
+                $ref: '#/components/schemas/getSamlSettings_401_response'
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoles_403_response'
+                $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
@@ -1740,7 +1983,6 @@ components:
           type: array
       type: object
     projectSchema:
-      additionalProperties: true
       description: A definition of the project used for projects listing purposes
       example:
         name: DX-Squad
@@ -1756,6 +1998,7 @@ components:
           example: DX-Squad
           type: string
         description:
+          deprecated: true
           description: Additional information about the project
           example: DX squad feature release
           nullable: true
@@ -2135,6 +2378,23 @@ components:
       - $ref: '#/components/schemas/createRoleWithPermissionsSchema_anyOf_1'
       description: A write model for the custom role and permissions to allow Unleash
         to decide what actions a role holder is allowed to perform
+      type: object
+    oidcSettingsSchema:
+      description: Settings for configuring OpenID Connect as a login provider for
+        Unleash
+      oneOf:
+      - $ref: '#/components/schemas/oidcSettingsSchema_oneOf'
+      - $ref: '#/components/schemas/oidcSettingsSchema_oneOf_1'
+      type: object
+    passwordAuthSchema:
+      description: Does the server allow username/password authentication
+      example:
+        disabled: false
+      properties:
+        disabled:
+          description: Is username/password authentication disabled
+          example: false
+          type: boolean
       type: object
     projectAccessConfigurationSchema:
       additionalProperties: true
@@ -2522,6 +2782,12 @@ components:
       required:
       - roles
       - version
+      type: object
+    samlSettingsSchema:
+      description: Settings used to authenticate via SAML
+      oneOf:
+      - $ref: '#/components/schemas/samlSettingsSchema_oneOf'
+      - $ref: '#/components/schemas/samlSettingsSchema_oneOf_1'
       type: object
     updateProjectSchema:
       description: "Data used to update a [project](https://docs.getunleash.io/reference/projects)"
@@ -2971,7 +3237,307 @@ components:
           example: 1
           type: integer
       type: object
-    getRoles_401_response:
+    samlSettingsResponseSchema:
+      description: Response for SAML settings
+      example:
+        defaultRootRoleId: 2
+        groupJsonPath: groups
+        signOutUrl: http://localhost:8080/auth/realms/master/protocol/saml
+        enableGroupSyncing: false
+        spCertificate: |
+          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
+        certificate: |
+          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
+        emailDomains: "getunleash.io,unleash-hosted.com"
+        entityId: http://localhost:8080/auth/realms/master
+        autoCreate: true
+        defaultRootRole: Editor
+        enabled: true
+        signOnUrl: http://localhost:8080/auth/realms/master/protocol/saml
+      properties:
+        enabled:
+          description: Whether to enable or disable SAML 2.0 for this instance
+          example: true
+          type: boolean
+        entityId:
+          description: The SAML 2.0 entity ID
+          example: http://localhost:8080/auth/realms/master
+          type: string
+        signOnUrl:
+          description: Which URL to use for Single Sign On
+          example: http://localhost:8080/auth/realms/master/protocol/saml
+          type: string
+        certificate:
+          description: The X509 certificate used to validate requests
+          example: |
+            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
+          type: string
+        signOutUrl:
+          description: Which URL to use for Single Sign Out
+          example: http://localhost:8080/auth/realms/master/protocol/saml
+          type: string
+        spCertificate:
+          description: Signing certificate for sign out requests
+          example: |
+            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
+          type: string
+        autoCreate:
+          description: Should Unleash create users based on the emails coming back
+            in the authentication reply from the SAML server
+          example: true
+          type: boolean
+        emailDomains:
+          description: A comma separated list of email domains that Unleash will auto
+            create user accounts for.
+          example: "getunleash.io,unleash-hosted.com"
+          type: string
+        defaultRootRole:
+          description: Assign this root role to auto created users
+          enum:
+          - Viewer
+          - Editor
+          - Admin
+          example: Editor
+          type: string
+        defaultRootRoleId:
+          description: Assign this root role to auto created users. Should be a role
+            ID and takes precedence over `defaultRootRole`.
+          example: 2
+          type: number
+        enableGroupSyncing:
+          description: "Should we enable group syncing. Refer to the documentation\
+            \ [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)"
+          example: false
+          type: boolean
+        groupJsonPath:
+          description: Specifies the path in the SAML token response from which to
+            read the groups the user belongs to.
+          example: groups
+          type: string
+      type: object
+    oidcSettingsResponseSchema:
+      description: Response for OpenID Connect settings
+      example:
+        defaultRootRoleId: 2
+        acrValues: urn:okta:loa:2fa:any phr
+        clientId: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
+        enableGroupSyncing: false
+        emailDomains: "getunleash.io,getunleash.ai"
+        autoCreate: true
+        secret: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
+        enabled: true
+        groupJsonPath: groups
+        addGroupsScope: false
+        enableSingleSignOut: true
+        defaultRootRole: Viewer
+        discoverUrl: https://myoidchost.azure.com/.well-known/openid-configuration
+        idTokenSigningAlgorithm: RS256
+      properties:
+        enabled:
+          description: Whether to enable or disable OpenID Connect for this instance
+          example: true
+          type: boolean
+        discoverUrl:
+          description: "The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)"
+          example: https://myoidchost.azure.com/.well-known/openid-configuration
+          format: uri
+          type: string
+        clientId:
+          description: The OIDC client ID of this application.
+          example: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
+          type: string
+        secret:
+          description: Shared secret from OpenID server. Used to authenticate login
+            requests
+          example: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
+          type: string
+        autoCreate:
+          description: Auto create users based on email addresses from login tokens
+          type: boolean
+        enableSingleSignOut:
+          description: Support Single sign out when user clicks logout in Unleash.
+            If `true` user is signed out of all OpenID Connect sessions against the
+            clientId they may have active
+          type: boolean
+        defaultRootRole:
+          description: "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles)\
+            \ granted to users auto-created from email. Only relevant if autoCreate\
+            \ is `true`"
+          enum:
+          - Viewer
+          - Editor
+          - Admin
+          type: string
+        defaultRootRoleId:
+          description: Assign this root role to auto created users. Should be a role
+            ID and takes precedence over `defaultRootRole`.
+          example: 2
+          type: number
+        emailDomains:
+          description: Comma separated list of email domains that are automatically
+            approved for an account in the server. Only relevant if autoCreate is
+            `true`
+          example: "getunleash.io,getunleash.ai"
+          type: string
+        acrValues:
+          description: "Authentication Context Class Reference, used to request extra\
+            \ values in the acr claim returned from the server. If multiple values\
+            \ are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint)\
+            \ for more information \n"
+          example: urn:okta:loa:2fa:any phr
+          type: string
+        idTokenSigningAlgorithm:
+          description: "The signing algorithm used to sign our token. Refer to the\
+            \ [JWT signatures](https://jwt.io/introduction) documentation for more\
+            \ information."
+          enum:
+          - RS256
+          - RS384
+          - RS512
+          example: RS256
+          type: string
+        enableGroupSyncing:
+          description: "Should we enable group syncing. Refer to the documentation\
+            \ [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)"
+          example: false
+          type: boolean
+        groupJsonPath:
+          description: Specifies the path in the OIDC token response to read which
+            groups the user belongs to from.
+          example: groups
+          type: string
+        addGroupsScope:
+          description: When enabled Unleash will also request the 'groups' scope as
+            part of the login request.
+          example: false
+          type: boolean
+      type: object
+    getSamlSettings_400_response:
+      example:
+        name: ValidationError
+        id: 9c40958a-daac-400e-98fb-3bb438567008
+        message: "The request payload you provided doesn't conform to the schema.\
+          \ The .parameters property should be object. You sent []."
+      properties:
+        id:
+          description: The ID of the error instance
+          example: 9c40958a-daac-400e-98fb-3bb438567008
+          type: string
+        name:
+          description: The name of the error kind
+          example: ValidationError
+          type: string
+        message:
+          description: A description of what went wrong.
+          example: "The request payload you provided doesn't conform to the schema.\
+            \ The .parameters property should be object. You sent []."
+          type: string
+      type: object
+    getSamlSettings_401_response:
       example:
         name: AuthenticationRequired
         id: 9c40958a-daac-400e-98fb-3bb438567008
@@ -2992,7 +3558,7 @@ components:
             \ header, so we could not authorize you. Try logging in at /auth/simple/login."
           type: string
       type: object
-    getRoles_403_response:
+    getSamlSettings_403_response:
       example:
         name: NoAccessError
         id: 9c40958a-daac-400e-98fb-3bb438567008
@@ -3013,12 +3579,13 @@ components:
             the "development" environment.
           type: string
       type: object
-    createRole_400_response:
+    setSamlSettings_415_response:
       example:
-        name: ValidationError
+        name: ContentTypeerror
         id: 9c40958a-daac-400e-98fb-3bb438567008
-        message: "The request payload you provided doesn't conform to the schema.\
-          \ The .parameters property should be object. You sent []."
+        message: We do not accept the content-type you provided (application/xml).
+          Try using one of the content-types we do accept instead (application/json)
+          and make sure the body is in the corresponding format.
       properties:
         id:
           description: The ID of the error instance
@@ -3026,12 +3593,13 @@ components:
           type: string
         name:
           description: The name of the error kind
-          example: ValidationError
+          example: ContentTypeerror
           type: string
         message:
           description: A description of what went wrong.
-          example: "The request payload you provided doesn't conform to the schema.\
-            \ The .parameters property should be object. You sent []."
+          example: We do not accept the content-type you provided (application/xml).
+            Try using one of the content-types we do accept instead (application/json)
+            and make sure the body is in the corresponding format.
           type: string
       type: object
     createRole_409_response:
@@ -3070,29 +3638,6 @@ components:
         message:
           description: A description of what went wrong.
           example: Could not find the addon with ID "12345".
-          type: string
-      type: object
-    createServiceAccount_415_response:
-      example:
-        name: ContentTypeerror
-        id: 9c40958a-daac-400e-98fb-3bb438567008
-        message: We do not accept the content-type you provided (application/xml).
-          Try using one of the content-types we do accept instead (application/json)
-          and make sure the body is in the corresponding format.
-      properties:
-        id:
-          description: The ID of the error instance
-          example: 9c40958a-daac-400e-98fb-3bb438567008
-          type: string
-        name:
-          description: The name of the error kind
-          example: ContentTypeerror
-          type: string
-        message:
-          description: A description of what went wrong.
-          example: We do not accept the content-type you provided (application/xml).
-            Try using one of the content-types we do accept instead (application/json)
-            and make sure the body is in the corresponding format.
           type: string
       type: object
     createApiTokenSchema_oneOf:
@@ -3463,6 +4008,172 @@ components:
       required:
       - name
       type: object
+    oidcSettingsSchema_oneOf:
+      properties:
+        enabled:
+          description: Whether to enable or disable OpenID Connect for this instance
+          example: true
+          type: boolean
+        discoverUrl:
+          description: "The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)"
+          example: https://myoidchost.azure.com/.well-known/openid-configuration
+          format: uri
+          type: string
+        clientId:
+          description: The OIDC client ID of this application.
+          example: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
+          type: string
+        secret:
+          description: Shared secret from OpenID server. Used to authenticate login
+            requests
+          example: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
+          type: string
+        autoCreate:
+          description: Auto create users based on email addresses from login tokens
+          type: boolean
+        enableSingleSignOut:
+          description: Support Single sign out when user clicks logout in Unleash.
+            If `true` user is signed out of all OpenID Connect sessions against the
+            clientId they may have active
+          type: boolean
+        defaultRootRole:
+          description: "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles)\
+            \ granted to users auto-created from email. Only relevant if autoCreate\
+            \ is `true`"
+          enum:
+          - Viewer
+          - Editor
+          - Admin
+          type: string
+        defaultRootRoleId:
+          description: Assign this root role to auto created users. Should be a role
+            ID and takes precedence over `defaultRootRole`.
+          example: 2
+          type: number
+        emailDomains:
+          description: Comma separated list of email domains that are automatically
+            approved for an account in the server. Only relevant if autoCreate is
+            `true`
+          example: "getunleash.io,getunleash.ai"
+          type: string
+        acrValues:
+          description: "Authentication Context Class Reference, used to request extra\
+            \ values in the acr claim returned from the server. If multiple values\
+            \ are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint)\
+            \ for more information \n"
+          example: urn:okta:loa:2fa:any phr
+          type: string
+        idTokenSigningAlgorithm:
+          description: "The signing algorithm used to sign our token. Refer to the\
+            \ [JWT signatures](https://jwt.io/introduction) documentation for more\
+            \ information."
+          enum:
+          - RS256
+          - RS384
+          - RS512
+          example: RS256
+          type: string
+        enableGroupSyncing:
+          description: "Should we enable group syncing. Refer to the documentation\
+            \ [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)"
+          example: false
+          type: boolean
+        groupJsonPath:
+          description: Specifies the path in the OIDC token response to read which
+            groups the user belongs to from.
+          example: groups
+          type: string
+        addGroupsScope:
+          description: When enabled Unleash will also request the 'groups' scope as
+            part of the login request.
+          example: false
+          type: boolean
+      required:
+      - clientId
+      - enabled
+      - secret
+      type: object
+    oidcSettingsSchema_oneOf_1:
+      properties:
+        enabled:
+          description: Whether to enable or disable OpenID Connect for this instance
+          example: false
+          type: boolean
+        discoverUrl:
+          description: "The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)"
+          example: https://myoidchost.azure.com/.well-known/openid-configuration
+          format: uri
+          type: string
+        clientId:
+          description: The OIDC client ID of this application.
+          example: FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B
+          type: string
+        secret:
+          description: Shared secret from OpenID server. Used to authenticate login
+            requests
+          example: qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO
+          type: string
+        autoCreate:
+          description: Auto create users based on email addresses from login tokens
+          type: boolean
+        enableSingleSignOut:
+          description: Support Single sign out when user clicks logout in Unleash.
+            If `true` user is signed out of all OpenID Connect sessions against the
+            clientId they may have active
+          type: boolean
+        defaultRootRole:
+          description: "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles)\
+            \ granted to users auto-created from email. Only relevant if autoCreate\
+            \ is `true`"
+          enum:
+          - Viewer
+          - Editor
+          - Admin
+          type: string
+        defaultRootRoleId:
+          description: Assign this root role to auto created users. Should be a role
+            ID and takes precedence over `defaultRootRole`.
+          example: 2
+          type: number
+        emailDomains:
+          description: Comma separated list of email domains that are automatically
+            approved for an account in the server. Only relevant if autoCreate is
+            `true`
+          example: "getunleash.io,getunleash.ai"
+          type: string
+        acrValues:
+          description: "Authentication Context Class Reference, used to request extra\
+            \ values in the acr claim returned from the server. If multiple values\
+            \ are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint)\
+            \ for more information \n"
+          example: urn:okta:loa:2fa:any phr
+          type: string
+        idTokenSigningAlgorithm:
+          description: "The signing algorithm used to sign our token. Refer to the\
+            \ [JWT signatures](https://jwt.io/introduction) documentation for more\
+            \ information."
+          enum:
+          - RS256
+          - RS384
+          - RS512
+          example: RS256
+          type: string
+        enableGroupSyncing:
+          description: "Should we enable group syncing. Refer to the documentation\
+            \ [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)"
+          example: false
+          type: boolean
+        groupJsonPath:
+          description: Specifies the path in the OIDC token response to read which
+            groups the user belongs to from.
+          example: groups
+          type: string
+        addGroupsScope:
+          description: When enabled Unleash will also request the 'groups' scope as
+            part of the login request.
+          example: false
+          type: boolean
+      type: object
     projectAccessConfigurationSchema_roles_inner:
       properties:
         id:
@@ -3511,6 +4222,238 @@ components:
       required:
       - name
       - requiredApprovals
+      type: object
+    samlSettingsSchema_oneOf:
+      properties:
+        enabled:
+          description: Whether to enable or disable SAML 2.0 for this instance
+          example: true
+          type: boolean
+        entityId:
+          description: The SAML 2.0 entity ID
+          example: http://localhost:8080/auth/realms/master
+          type: string
+        signOnUrl:
+          description: Which URL to use for Single Sign On
+          example: http://localhost:8080/auth/realms/master/protocol/saml
+          type: string
+        certificate:
+          description: The X509 certificate used to validate requests
+          example: |
+            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
+          type: string
+        signOutUrl:
+          description: Which URL to use for Single Sign Out
+          example: http://localhost:8080/auth/realms/master/protocol/saml
+          type: string
+        spCertificate:
+          description: Signing certificate for sign out requests
+          example: |
+            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
+          type: string
+        autoCreate:
+          description: Should Unleash create users based on the emails coming back
+            in the authentication reply from the SAML server
+          example: true
+          type: boolean
+        emailDomains:
+          description: A comma separated list of email domains that Unleash will auto
+            create user accounts for.
+          example: "getunleash.io,unleash-hosted.com"
+          type: string
+        defaultRootRole:
+          description: Assign this root role to auto created users
+          enum:
+          - Viewer
+          - Editor
+          - Admin
+          example: Editor
+          type: string
+        defaultRootRoleId:
+          description: Assign this root role to auto created users. Should be a role
+            ID and takes precedence over `defaultRootRole`.
+          example: 2
+          type: number
+        enableGroupSyncing:
+          description: "Should we enable group syncing. Refer to the documentation\
+            \ [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)"
+          example: false
+          type: boolean
+        groupJsonPath:
+          description: Specifies the path in the SAML token response from which to
+            read the groups the user belongs to.
+          example: groups
+          type: string
+      required:
+      - certificate
+      - entityId
+      - signOnUrl
+      type: object
+    samlSettingsSchema_oneOf_1:
+      properties:
+        enabled:
+          description: Whether to enable or disable SAML 2.0 for this instance
+          example: false
+          type: boolean
+        entityId:
+          description: The SAML 2.0 entity ID
+          example: http://localhost:8080/auth/realms/master
+          type: string
+        signOnUrl:
+          description: Which URL to use for Single Sign On
+          example: http://localhost:8080/auth/realms/master/protocol/saml
+          type: string
+        certificate:
+          description: The X509 certificate used to validate requests
+          example: |
+            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
+          type: string
+        signOutUrl:
+          description: Which URL to use for Single Sign Out
+          example: http://localhost:8080/auth/realms/master/protocol/saml
+          type: string
+        spCertificate:
+          description: Signing certificate for sign out requests
+          example: |
+            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
+          type: string
+        autoCreate:
+          description: Should Unleash create users based on the emails coming back
+            in the authentication reply from the SAML server
+          example: true
+          type: boolean
+        emailDomains:
+          description: A comma separated list of email domains that Unleash will auto
+            create user accounts for.
+          example: "getunleash.io,unleash-hosted.com"
+          type: string
+        defaultRootRole:
+          description: Assign this root role to auto created users
+          enum:
+          - Viewer
+          - Editor
+          - Admin
+          example: Editor
+          type: string
+        defaultRootRoleId:
+          description: Assign this root role to auto created users. Should be a role
+            ID and takes precedence over `defaultRootRole`.
+          example: 2
+          type: number
+        enableGroupSyncing:
+          description: "Should we enable group syncing. Refer to the documentation\
+            \ [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)"
+          example: false
+          type: boolean
+        groupJsonPath:
+          description: Specifies the path in the SAML token response from which to
+            read the groups the user belongs to.
+          example: groups
+          type: string
       type: object
   securitySchemes:
     apiKey:

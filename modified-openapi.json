@@ -2,10 +2,709 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Unleash API",
-    "version": "6.1.10+main"
+    "version": "6.1.12+main"
   },
   "servers": [],
   "paths": {
+    "/api/admin/auth/saml/settings": {
+      "get": {
+        "operationId": "getSamlSettings",
+        "summary": "Get SAML auth settings",
+        "description": "Returns the current settings for SAML authentication",
+        "responses": {
+          "200": {
+            "description": "samlSettingsResponseSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/samlSettingsResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      },
+      "post": {
+        "operationId": "setSamlSettings",
+        "summary": "Update SAML auth settings",
+        "description": "Updates the settings for SAML Authentication",
+        "requestBody": {
+          "description": "samlSettingsSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/samlSettingsSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "samlSettingsResponseSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/samlSettingsResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ContentTypeerror"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/admin/auth/oidc/settings": {
+      "get": {
+        "operationId": "getOidcSettings",
+        "summary": "Get OIDC auth settings",
+        "description": "Returns the current settings for OIDC Authentication",
+        "responses": {
+          "200": {
+            "description": "oidcSettingsResponseSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/oidcSettingsResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      },
+      "post": {
+        "operationId": "setOidcSettings",
+        "summary": "Set OIDC settings",
+        "description": "Configure OpenID Connect as a login provider for Unleash.",
+        "requestBody": {
+          "description": "oidcSettingsSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/oidcSettingsSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "oidcSettingsResponseSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/oidcSettingsResponseSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ContentTypeerror"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/admin/auth/simple/settings": {
+      "get": {
+        "operationId": "getSimpleSettings",
+        "summary": "Get Simple auth settings",
+        "description": "Is simple authentication (username/password) enabled for this server",
+        "responses": {
+          "200": {
+            "description": "passwordAuthSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/passwordAuthSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      },
+      "post": {
+        "operationId": "setSimpleSettings",
+        "summary": "Update Simple auth settings",
+        "description": "Enable or disable simple authentication (username/password)",
+        "requestBody": {
+          "description": "passwordAuthSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/passwordAuthSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "passwordAuthSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/passwordAuthSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ContentTypeerror"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
     "/api/admin/roles": {
       "get": {
         "operationId": "getRoles",
@@ -3013,7 +3712,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
@@ -3815,10 +4514,10 @@
             "description": "Additional information about the project",
             "type": "string",
             "example": "DX squad feature release",
+            "deprecated": true,
             "nullable": true
           }
         },
-        "additionalProperties": true,
         "required": [
           "id",
           "name"
@@ -4333,6 +5032,200 @@
           }
         ]
       },
+      "oidcSettingsSchema": {
+        "description": "Settings for configuring OpenID Connect as a login provider for Unleash",
+        "type": "object",
+        "oneOf": [
+          {
+            "required": [
+              "enabled",
+              "clientId",
+              "secret"
+            ],
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "description": "Whether to enable or disable OpenID Connect for this instance",
+                "type": "boolean",
+                "example": true,
+                "enum": [
+                  true
+                ]
+              },
+              "discoverUrl": {
+                "description": "The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)",
+                "type": "string",
+                "format": "uri",
+                "example": "https://myoidchost.azure.com/.well-known/openid-configuration"
+              },
+              "clientId": {
+                "description": "The OIDC client ID of this application.",
+                "type": "string",
+                "example": "FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B"
+              },
+              "secret": {
+                "description": "Shared secret from OpenID server. Used to authenticate login requests",
+                "type": "string",
+                "example": "qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO"
+              },
+              "autoCreate": {
+                "description": "Auto create users based on email addresses from login tokens",
+                "type": "boolean"
+              },
+              "enableSingleSignOut": {
+                "description": "Support Single sign out when user clicks logout in Unleash. If `true` user is signed out of all OpenID Connect sessions against the clientId they may have active",
+                "type": "boolean"
+              },
+              "defaultRootRole": {
+                "description": "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`",
+                "type": "string",
+                "enum": [
+                  "Viewer",
+                  "Editor",
+                  "Admin"
+                ]
+              },
+              "defaultRootRoleId": {
+                "description": "Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.",
+                "type": "number",
+                "example": 2
+              },
+              "emailDomains": {
+                "description": "Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`",
+                "type": "string",
+                "example": "getunleash.io,getunleash.ai"
+              },
+              "acrValues": {
+                "description": "Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information \n",
+                "type": "string",
+                "example": "urn:okta:loa:2fa:any phr"
+              },
+              "idTokenSigningAlgorithm": {
+                "description": "The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.",
+                "type": "string",
+                "example": "RS256",
+                "enum": [
+                  "RS256",
+                  "RS384",
+                  "RS512"
+                ]
+              },
+              "enableGroupSyncing": {
+                "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)",
+                "type": "boolean",
+                "example": false
+              },
+              "groupJsonPath": {
+                "description": "Specifies the path in the OIDC token response to read which groups the user belongs to from.",
+                "type": "string",
+                "example": "groups"
+              },
+              "addGroupsScope": {
+                "description": "When enabled Unleash will also request the 'groups' scope as part of the login request.",
+                "type": "boolean",
+                "example": false
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "description": "Whether to enable or disable OpenID Connect for this instance",
+                "type": "boolean",
+                "example": false,
+                "enum": [
+                  false
+                ]
+              },
+              "discoverUrl": {
+                "description": "The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)",
+                "type": "string",
+                "format": "uri",
+                "example": "https://myoidchost.azure.com/.well-known/openid-configuration"
+              },
+              "clientId": {
+                "description": "The OIDC client ID of this application.",
+                "type": "string",
+                "example": "FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B"
+              },
+              "secret": {
+                "description": "Shared secret from OpenID server. Used to authenticate login requests",
+                "type": "string",
+                "example": "qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO"
+              },
+              "autoCreate": {
+                "description": "Auto create users based on email addresses from login tokens",
+                "type": "boolean"
+              },
+              "enableSingleSignOut": {
+                "description": "Support Single sign out when user clicks logout in Unleash. If `true` user is signed out of all OpenID Connect sessions against the clientId they may have active",
+                "type": "boolean"
+              },
+              "defaultRootRole": {
+                "description": "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`",
+                "type": "string",
+                "enum": [
+                  "Viewer",
+                  "Editor",
+                  "Admin"
+                ]
+              },
+              "defaultRootRoleId": {
+                "description": "Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.",
+                "type": "number",
+                "example": 2
+              },
+              "emailDomains": {
+                "description": "Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`",
+                "type": "string",
+                "example": "getunleash.io,getunleash.ai"
+              },
+              "acrValues": {
+                "description": "Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information \n",
+                "type": "string",
+                "example": "urn:okta:loa:2fa:any phr"
+              },
+              "idTokenSigningAlgorithm": {
+                "description": "The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.",
+                "type": "string",
+                "example": "RS256",
+                "enum": [
+                  "RS256",
+                  "RS384",
+                  "RS512"
+                ]
+              },
+              "enableGroupSyncing": {
+                "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)",
+                "type": "boolean",
+                "example": false
+              },
+              "groupJsonPath": {
+                "description": "Specifies the path in the OIDC token response to read which groups the user belongs to from.",
+                "type": "string",
+                "example": "groups"
+              },
+              "addGroupsScope": {
+                "description": "When enabled Unleash will also request the 'groups' scope as part of the login request.",
+                "type": "boolean",
+                "example": false
+              }
+            }
+          }
+        ]
+      },
+      "passwordAuthSchema": {
+        "description": "Does the server allow username/password authentication",
+        "type": "object",
+        "properties": {
+          "disabled": {
+            "description": "Is username/password authentication disabled",
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
       "projectAccessConfigurationSchema": {
         "description": "An object describing roles for a project and what users and groups are part of that role.",
         "type": "object",
@@ -4585,6 +5478,163 @@
         "required": [
           "version",
           "roles"
+        ]
+      },
+      "samlSettingsSchema": {
+        "description": "Settings used to authenticate via SAML",
+        "type": "object",
+        "oneOf": [
+          {
+            "required": [
+              "entityId",
+              "signOnUrl",
+              "certificate"
+            ],
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "description": "Whether to enable or disable SAML 2.0 for this instance",
+                "type": "boolean",
+                "example": true,
+                "enum": [
+                  true
+                ]
+              },
+              "entityId": {
+                "description": "The SAML 2.0 entity ID",
+                "type": "string",
+                "example": "http://localhost:8080/auth/realms/master"
+              },
+              "signOnUrl": {
+                "description": "Which URL to use for Single Sign On",
+                "type": "string",
+                "example": "http://localhost:8080/auth/realms/master/protocol/saml"
+              },
+              "certificate": {
+                "description": "The X509 certificate used to validate requests",
+                "type": "string",
+                "example": "MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\n"
+              },
+              "signOutUrl": {
+                "description": "Which URL to use for Single Sign Out",
+                "type": "string",
+                "example": "http://localhost:8080/auth/realms/master/protocol/saml"
+              },
+              "spCertificate": {
+                "description": "Signing certificate for sign out requests",
+                "type": "string",
+                "example": "MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\n"
+              },
+              "autoCreate": {
+                "description": "Should Unleash create users based on the emails coming back in the authentication reply from the SAML server",
+                "type": "boolean",
+                "example": true
+              },
+              "emailDomains": {
+                "description": "A comma separated list of email domains that Unleash will auto create user accounts for.",
+                "type": "string",
+                "example": "getunleash.io,unleash-hosted.com"
+              },
+              "defaultRootRole": {
+                "description": "Assign this root role to auto created users",
+                "type": "string",
+                "example": "Editor",
+                "enum": [
+                  "Viewer",
+                  "Editor",
+                  "Admin"
+                ]
+              },
+              "defaultRootRoleId": {
+                "description": "Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.",
+                "type": "number",
+                "example": 2
+              },
+              "enableGroupSyncing": {
+                "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)",
+                "type": "boolean",
+                "example": false
+              },
+              "groupJsonPath": {
+                "description": "Specifies the path in the SAML token response from which to read the groups the user belongs to.",
+                "type": "string",
+                "example": "groups"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "description": "Whether to enable or disable SAML 2.0 for this instance",
+                "type": "boolean",
+                "example": false,
+                "enum": [
+                  false
+                ]
+              },
+              "entityId": {
+                "description": "The SAML 2.0 entity ID",
+                "type": "string",
+                "example": "http://localhost:8080/auth/realms/master"
+              },
+              "signOnUrl": {
+                "description": "Which URL to use for Single Sign On",
+                "type": "string",
+                "example": "http://localhost:8080/auth/realms/master/protocol/saml"
+              },
+              "certificate": {
+                "description": "The X509 certificate used to validate requests",
+                "type": "string",
+                "example": "MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\n"
+              },
+              "signOutUrl": {
+                "description": "Which URL to use for Single Sign Out",
+                "type": "string",
+                "example": "http://localhost:8080/auth/realms/master/protocol/saml"
+              },
+              "spCertificate": {
+                "description": "Signing certificate for sign out requests",
+                "type": "string",
+                "example": "MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\n"
+              },
+              "autoCreate": {
+                "description": "Should Unleash create users based on the emails coming back in the authentication reply from the SAML server",
+                "type": "boolean",
+                "example": true
+              },
+              "emailDomains": {
+                "description": "A comma separated list of email domains that Unleash will auto create user accounts for.",
+                "type": "string",
+                "example": "getunleash.io,unleash-hosted.com"
+              },
+              "defaultRootRole": {
+                "description": "Assign this root role to auto created users",
+                "type": "string",
+                "example": "Editor",
+                "enum": [
+                  "Viewer",
+                  "Editor",
+                  "Admin"
+                ]
+              },
+              "defaultRootRoleId": {
+                "description": "Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.",
+                "type": "number",
+                "example": 2
+              },
+              "enableGroupSyncing": {
+                "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)",
+                "type": "boolean",
+                "example": false
+              },
+              "groupJsonPath": {
+                "description": "Specifies the path in the SAML token response from which to read the groups the user belongs to.",
+                "type": "string",
+                "example": "groups"
+              }
+            }
+          }
         ]
       },
       "updateProjectSchema": {
@@ -4923,6 +5973,167 @@
           }
         },
         "additionalProperties": true
+      },
+      "samlSettingsResponseSchema": {
+        "description": "Response for SAML settings",
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "description": "Whether to enable or disable SAML 2.0 for this instance",
+            "type": "boolean",
+            "example": true,
+            "enum": [
+              true
+            ]
+          },
+          "entityId": {
+            "description": "The SAML 2.0 entity ID",
+            "type": "string",
+            "example": "http://localhost:8080/auth/realms/master"
+          },
+          "signOnUrl": {
+            "description": "Which URL to use for Single Sign On",
+            "type": "string",
+            "example": "http://localhost:8080/auth/realms/master/protocol/saml"
+          },
+          "certificate": {
+            "description": "The X509 certificate used to validate requests",
+            "type": "string",
+            "example": "MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\n"
+          },
+          "signOutUrl": {
+            "description": "Which URL to use for Single Sign Out",
+            "type": "string",
+            "example": "http://localhost:8080/auth/realms/master/protocol/saml"
+          },
+          "spCertificate": {
+            "description": "Signing certificate for sign out requests",
+            "type": "string",
+            "example": "MIIE/zCCBGgCAg4CMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJKUDEOMAwG\nA1UECBMFVG9reW8xEDAOBgNVBAcTB0NodW8ta3UxETAPBgNVBAoTCEZyYW5rNERE\nMRgwFgYDVQQLEw9XZWJDZXJ0IFN1cHBvcnQxGDAWBgNVBAMTD0ZyYW5rNEREIFdl\nYiBDQTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmcmFuazRkZC5jb20wHhcNMTIw\nODIyMDcyNzIyWhcNMTcwODIxMDcyNzIyWjBKMQswCQYDVQQGEwJKUDEOMAwGA1UE\nCAwFVG9reW8xETAPBgNVBAoMCEZyYW5rNEREMRgwFgYDVQQDDA93d3cuZXhhbXBs\nZS5jb20wggNHMIICOQYHKoZIzjgEATCCAiwCggEBAMbmu6uSdZWRxnO5PteARz5I\nnrdM7vJadzJcY9Spf0cAhUDWyINCrUDn8h8QjbMiAxd+E7v5N85TbfvrW+/g7lYa\ne7DB0uX02Rw29yoK+TE/znNTNq6HdPn/H4ll77uJqpkWgQwXgAQ3qDKRv96QaTfr\nfSXYRxG9NvKzUBs9S7Woby7K6Pgh7/EmgeiOHKSX49XD+ihvkFRSFdeL5qV5hzDf\nepfk8Ghl0cyK9jpM/yKlRuUUkP1pSMwUrCrptyRpqqXmam0UfFuFhMT2SJyNTyo2\nSfnyZb78lbYcVLJQLJA+O3l469eOH3Odv/Pq7bvOstBKg96Q7imz5t0honf63EMC\nIQCw7FeY0QQbxWYy+MI8/0m2kiRzIruA8RUPcEs4il1mwwKCAQB4W3QLepQRTWhR\n69Xv+fC5JLEDyngw9KEalKorlg6o4Z9hASMbFMwECjlXZCxKd/NFjUMbtPcrMCoa\n/KuaqRvHLs2bqe94X5VR4lWCv0SgOunKBj58jnVuN/OkkLu4cSZQ/jia/yPkdcMv\nw8ZjF7zjPXGVhh9XC0QU9ipVfrreGaBSN+0zODKY5TyQI84FsZFZNetOTIT0HT2S\nfIDRGYaL/0xMfQx070Z07cdTTuibzJHVr38qjKqEDiwAUyjXVdE+GJ15ZD4d56Ef\n0qgRpzDmuvUjOtv1t8Hr2O2HTABqRMtAKZsLEVPjwnpKpcStixfg0uIPGVIKbej4\nFzHHpO6bA4IBBgACggEBAJNRaaTFe253sOVm/JmUgsO1QB5GI5hOEWLpC8KHxgwn\nnf/GQUaJLrN8TT4hXgJM2CdvdAkY6et1HpT6BUoz1cYTgsE3ToIsbH3SzPJvU7jz\ncPOvY1jQv+xVBrU8Ydw2D8pydbAcw/L6JZnGpFBqeHa1iFAQc0B8ToXEgxnmGAdP\nIOAKAHX0S4m6CrP5fKwYbmzu8WuWO4bRqvX7QJofrs2RaGFESulw0VrMFffJ/guf\nHTvhDaMW7TSCKo1tBZK9SdEbWCQN2stnfnRSyZFQ+v02oyQtLg+3vSuCx4PS9DM9\n/Uh3r9JDDH3GveUMbqw8Dmy6WH9iV3oOJt8aVF8F4CMwDQYJKoZIhvcNAQEFBQAD\ngYEAbxDoJM8vKVfhltpfG3YXmBKnoGb2UpdKpcjmxMt1/yX8lWJaRBwUDeiDqjVC\nJGi9gXO2SDAtXl7GI1cXTs/l7QlmoTmnc6kDwqk3pl6jC72rQH3E/Fpg7hBkSWL9\n3V1dbLU5id63lVD8sUEULyfWFGk3L+Uka5oiSsxwZhdIb/Q=\n"
+          },
+          "autoCreate": {
+            "description": "Should Unleash create users based on the emails coming back in the authentication reply from the SAML server",
+            "type": "boolean",
+            "example": true
+          },
+          "emailDomains": {
+            "description": "A comma separated list of email domains that Unleash will auto create user accounts for.",
+            "type": "string",
+            "example": "getunleash.io,unleash-hosted.com"
+          },
+          "defaultRootRole": {
+            "description": "Assign this root role to auto created users",
+            "type": "string",
+            "example": "Editor",
+            "enum": [
+              "Viewer",
+              "Editor",
+              "Admin"
+            ]
+          },
+          "defaultRootRoleId": {
+            "description": "Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.",
+            "type": "number",
+            "example": 2
+          },
+          "enableGroupSyncing": {
+            "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)",
+            "type": "boolean",
+            "example": false
+          },
+          "groupJsonPath": {
+            "description": "Specifies the path in the SAML token response from which to read the groups the user belongs to.",
+            "type": "string",
+            "example": "groups"
+          }
+        }
+      },
+      "oidcSettingsResponseSchema": {
+        "description": "Response for OpenID Connect settings",
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "description": "Whether to enable or disable OpenID Connect for this instance",
+            "type": "boolean",
+            "example": true,
+            "enum": [
+              true
+            ]
+          },
+          "discoverUrl": {
+            "description": "The [.well-known OpenID discover URL](https://swagger.io/docs/specification/authentication/openid-connect-discovery/)",
+            "type": "string",
+            "format": "uri",
+            "example": "https://myoidchost.azure.com/.well-known/openid-configuration"
+          },
+          "clientId": {
+            "description": "The OIDC client ID of this application.",
+            "type": "string",
+            "example": "FB87266D-CDDB-4BCF-BB1F-8392FD0EDC1B"
+          },
+          "secret": {
+            "description": "Shared secret from OpenID server. Used to authenticate login requests",
+            "type": "string",
+            "example": "qjcVfeFjEfoYAF3AEsX2IMUWYuUzAbXO"
+          },
+          "autoCreate": {
+            "description": "Auto create users based on email addresses from login tokens",
+            "type": "boolean"
+          },
+          "enableSingleSignOut": {
+            "description": "Support Single sign out when user clicks logout in Unleash. If `true` user is signed out of all OpenID Connect sessions against the clientId they may have active",
+            "type": "boolean"
+          },
+          "defaultRootRole": {
+            "description": "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`",
+            "type": "string",
+            "enum": [
+              "Viewer",
+              "Editor",
+              "Admin"
+            ]
+          },
+          "defaultRootRoleId": {
+            "description": "Assign this root role to auto created users. Should be a role ID and takes precedence over `defaultRootRole`.",
+            "type": "number",
+            "example": 2
+          },
+          "emailDomains": {
+            "description": "Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is `true`",
+            "type": "string",
+            "example": "getunleash.io,getunleash.ai"
+          },
+          "acrValues": {
+            "description": "Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated. \n Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information \n",
+            "type": "string",
+            "example": "urn:okta:loa:2fa:any phr"
+          },
+          "idTokenSigningAlgorithm": {
+            "description": "The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information.",
+            "type": "string",
+            "example": "RS256",
+            "enum": [
+              "RS256",
+              "RS384",
+              "RS512"
+            ]
+          },
+          "enableGroupSyncing": {
+            "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)",
+            "type": "boolean",
+            "example": false
+          },
+          "groupJsonPath": {
+            "description": "Specifies the path in the OIDC token response to read which groups the user belongs to from.",
+            "type": "string",
+            "example": "groups"
+          },
+          "addGroupsScope": {
+            "description": "When enabled Unleash will also request the 'groups' scope as part of the login request.",
+            "type": "boolean",
+            "example": false
+          }
+        }
       }
     },
     "securitySchemes": {

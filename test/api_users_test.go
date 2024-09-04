@@ -128,7 +128,6 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 		user := createUser(t, apiClient, "to-be-updated")
 		defer clean_up_user(user, apiClient)
-		id := fmt.Sprint(user.Id)
 
 		role := int32(2)
 		rootRole := client.Int32AsCreateUserSchemaRootRole(&role)
@@ -137,7 +136,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 		updateUser.Name = &newName
 		updateUser.RootRole = &rootRole
 
-		resp, httpRes, err := apiClient.UsersAPI.UpdateUser(context.Background(), id).UpdateUserSchema(*updateUser).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.UpdateUser(context.Background(), user.Id).UpdateUserSchema(*updateUser).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
