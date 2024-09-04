@@ -17,13 +17,7 @@ jobs:
   build:
     strategy:
       matrix:
-        image: 
-          - "ghcr.io/ivarconr/unleash-enterprise:5.6"
-          - "unleashorg/unleash-server:5.6"
-          - "ghcr.io/ivarconr/unleash-enterprise:5.7"
-          - "unleashorg/unleash-server:5.7"
-          - "ghcr.io/ivarconr/unleash-enterprise:5.8"
-          - "unleashorg/unleash-server:5.8"
+        image:
           - "ghcr.io/ivarconr/unleash-enterprise:5.9"
           - "unleashorg/unleash-server:5.9"
           - "ghcr.io/ivarconr/unleash-enterprise:5.10"
@@ -34,6 +28,8 @@ jobs:
           - "unleashorg/unleash-server:5.12"
           - "ghcr.io/ivarconr/unleash-enterprise:6.0"
           - "unleashorg/unleash-server:6.0"
+          - "ghcr.io/ivarconr/unleash-enterprise:6.1"
+          - "unleashorg/unleash-server:6.1"
           - "ghcr.io/ivarconr/unleash-enterprise:latest"
           - "unleashorg/unleash-server:latest"
     runs-on: ubuntu-latest
