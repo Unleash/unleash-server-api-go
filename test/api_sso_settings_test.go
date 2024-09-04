@@ -153,6 +153,17 @@ func Test_client_SSOSettingsAPIService(t *testing.T) {
 
 			innerSettings.SetEnabled(false)
 
+			//These properties are required prior to v6.0 of Unleash, but are not required in v6.0 and later
+			innerSettings.SetClientId("test")
+			innerSettings.SetSecret("test")
+			innerSettings.SetAutoCreate(true)
+			innerSettings.SetEnableSingleSignOut(false)
+			innerSettings.SetDefaultRootRoleId(1)
+			innerSettings.SetAddGroupsScope(false)
+			innerSettings.SetEnableGroupSyncing(false)
+
+			innerSettings.SetDiscoverUrl("http://mock-openid-server:9000/.well-known/openid-configuration")
+
 			oidcSettings := client.OidcSettingsSchema{
 				OidcSettingsSchemaOneOf1: innerSettings,
 			}
