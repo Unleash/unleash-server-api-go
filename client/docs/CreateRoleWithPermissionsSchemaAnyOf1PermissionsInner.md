@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **float32** | The id of the permission | 
 **Name** | Pointer to **string** | The name of the permission | [optional] 
-**Environment** | Pointer to **string** | The environments of the permission if the permission is environment specific | [optional] 
+**Environment** | Pointer to **NullableString** | The environments of the permission if the permission is environment specific | [optional] 
 
 ## Methods
 
@@ -97,6 +97,16 @@ SetEnvironment sets Environment field to given value.
 
 HasEnvironment returns a boolean if a field has been set.
 
+### SetEnvironmentNil
+
+`func (o *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner) SetEnvironmentNil(b bool)`
+
+ SetEnvironmentNil sets the value for Environment to be an explicit nil
+
+### UnsetEnvironment
+`func (o *CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner) UnsetEnvironment()`
+
+UnsetEnvironment ensures that no value is present for Environment, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

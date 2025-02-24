@@ -2,6 +2,7 @@
     "projectSchema": [
         "id",
         "name",
-        "description"
+        "description",
+        "mode"
     ]
 }

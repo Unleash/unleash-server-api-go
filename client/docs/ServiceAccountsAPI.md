@@ -1,6 +1,6 @@
 # \ServiceAccountsAPI
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -35,7 +35,7 @@ import (
 )
 
 func main() {
-	createServiceAccountSchema := *openapiclient.NewCreateServiceAccountSchema(int32(1)) // CreateServiceAccountSchema | #/components/schemas/createServiceAccountSchema
+	createServiceAccountSchema := *openapiclient.NewCreateServiceAccountSchema("service-account-1", "Service Account 1", int32(1)) // CreateServiceAccountSchema | #/components/schemas/createServiceAccountSchema
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

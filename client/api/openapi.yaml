@@ -1,9 +1,9 @@
 openapi: 3.0.3
 info:
   title: Unleash API
-  version: 6.1.12+main
+  version: 6.7.2
 servers:
-- url: /
+- url: https://us.app.unleash-hosted.com/ushosted
 security:
 - apiKey: []
 - bearerToken: []
@@ -37,7 +37,7 @@ tags:
   name: Environments
 - description: Read events from this Unleash instance.
   name: Events
-- description: "Manage [feature flag types](https://docs.getunleash.io/reference/feature-toggle-types)."
+- description: "Manage [feature flag types](https://docs.getunleash.io/reference/feature-toggles#feature-flag-types)."
   name: Feature Types
 - description: "Create, update, and delete [feature flags](https://docs.getunleash.io/reference/feature-toggles)."
   name: Features
@@ -73,7 +73,7 @@ tags:
   name: Service Accounts
 - description: "Create, update, delete, manage [custom strategies](https://docs.getunleash.io/reference/custom-activation-strategies)."
   name: Strategies
-- description: "Create, update, and delete [tags and tag types](https://docs.getunleash.io/reference/tags)."
+- description: "Create, update, and delete [tags and tag types](https://docs.getunleash.io/reference/feature-toggles#tags)."
   name: Tags
 - description: API for information about telemetry collection
   name: Telemetry
@@ -1445,12 +1445,13 @@ paths:
       description: Deletes the user with the given userId
       operationId: deleteUser
       parameters:
-      - explode: false
+      - description: a user id
+        explode: false
         in: path
         name: id
         required: true
         schema:
-          type: string
+          type: integer
         style: simple
       responses:
         "200":
@@ -1482,12 +1483,13 @@ paths:
       description: Will return a single user by id
       operationId: getUser
       parameters:
-      - explode: false
+      - description: a user id
+        explode: false
         in: path
         name: id
         required: true
         schema:
-          type: string
+          type: integer
         style: simple
       responses:
         "200":
@@ -1522,7 +1524,8 @@ paths:
       description: Only the explicitly specified fields get updated.
       operationId: updateUser
       parameters:
-      - explode: false
+      - description: a user id
+        explode: false
         in: path
         name: id
         required: true
@@ -1717,7 +1720,7 @@ components:
       type: object
     createPatSchema:
       description: "Describes the properties required to create a [personal access\
-        \ token](https://docs.getunleash.io/how-to/how-to-create-personal-access-tokens),\
+        \ token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens),\
         \ or PAT. PATs are automatically scoped to the authenticated user."
       properties:
         description:
@@ -1745,10 +1748,12 @@ components:
         createdAt: 2023-06-30T11:41:00.123Z
         seenAt: 2023-06-30T11:42:00.345Z
         rootRole: 1
+        deletedSessions: 1
         emailSent: false
         permissions:
         - permissions
         - permissions
+        activeSessions: 2
         imageUrl: https://example.com/242x200.png
         name: User
         id: 123
@@ -1824,6 +1829,16 @@ components:
           example: 01HTMEXAMPLESCIMID7SWWGHN6
           nullable: true
           type: string
+        activeSessions:
+          description: Count of active browser sessions for this user
+          example: 2
+          nullable: true
+          type: integer
+        deletedSessions:
+          description: Experimental. The number of deleted browser sessions after
+            last login
+          example: 1
+          type: number
       required:
       - id
       type: object
@@ -1875,10 +1890,12 @@ components:
           createdAt: 2023-06-30T11:41:00.123Z
           seenAt: 2023-06-30T11:42:00.345Z
           rootRole: 1
+          deletedSessions: 1
           emailSent: false
           permissions:
           - permissions
           - permissions
+          activeSessions: 2
           imageUrl: https://example.com/242x200.png
           name: User
           id: 123
@@ -1901,7 +1918,7 @@ components:
       - user
       type: object
     patSchema:
-      description: "Describes a [personal access token](https://docs.getunleash.io/how-to/how-to-create-personal-access-tokens),\
+      description: "Describes a [personal access token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens),\
         \ or PAT. PATs are automatically scoped to the authenticated user."
       example:
         createdAt: 2023-04-19T08:15:14Z
@@ -1957,7 +1974,7 @@ components:
       - id
       type: object
     patsSchema:
-      description: "Contains a collection of [personal access tokens](https://docs.getunleash.io/how-to/how-to-create-personal-access-tokens),\
+      description: "Contains a collection of [personal access tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens),\
         \ or PATs. PATs are automatically scoped to the authenticated user."
       example:
         pats:
@@ -1983,8 +2000,10 @@ components:
           type: array
       type: object
     projectSchema:
+      additionalProperties: true
       description: A definition of the project used for projects listing purposes
       example:
+        mode: open
         name: DX-Squad
         description: DX squad feature release
         id: dx-squad
@@ -2003,6 +2022,16 @@ components:
           example: DX squad feature release
           nullable: true
           type: string
+        mode:
+          description: "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode).\
+            \ Determines whether non-project members can submit change requests or\
+            \ not."
+          enum:
+          - open
+          - protected
+          - private
+          example: open
+          type: string
       required:
       - id
       - name
@@ -2012,10 +2041,12 @@ components:
       description: An overview of all the projects in the Unleash instance
       example:
         projects:
-        - name: DX-Squad
+        - mode: open
+          name: DX-Squad
           description: DX squad feature release
           id: dx-squad
-        - name: DX-Squad
+        - mode: open
+          name: DX-Squad
           description: DX squad feature release
           id: dx-squad
         version: 1
@@ -2119,10 +2150,12 @@ components:
         createdAt: 2023-06-30T11:41:00.123Z
         seenAt: 2023-06-30T11:42:00.345Z
         rootRole: 1
+        deletedSessions: 1
         emailSent: false
         permissions:
         - permissions
         - permissions
+        activeSessions: 2
         imageUrl: https://example.com/242x200.png
         name: User
         id: 123
@@ -2202,6 +2235,16 @@ components:
           example: 01HTMEXAMPLESCIMID7SWWGHN6
           nullable: true
           type: string
+        activeSessions:
+          description: Count of active browser sessions for this user
+          example: 2
+          nullable: true
+          type: integer
+        deletedSessions:
+          description: Experimental. The number of deleted browser sessions after
+            last login
+          example: 1
+          type: number
       required:
       - id
       type: object
@@ -2459,10 +2502,12 @@ components:
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
               rootRole: 1
+              deletedSessions: 1
               emailSent: false
               permissions:
               - permissions
               - permissions
+              activeSessions: 2
               imageUrl: https://example.com/242x200.png
               name: User
               id: 123
@@ -2479,10 +2524,12 @@ components:
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
               rootRole: 1
+              deletedSessions: 1
               emailSent: false
               permissions:
               - permissions
               - permissions
+              activeSessions: 2
               imageUrl: https://example.com/242x200.png
               name: User
               id: 123
@@ -2515,10 +2562,12 @@ components:
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
               rootRole: 1
+              deletedSessions: 1
               emailSent: false
               permissions:
               - permissions
               - permissions
+              activeSessions: 2
               imageUrl: https://example.com/242x200.png
               name: User
               id: 123
@@ -2535,10 +2584,12 @@ components:
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
               rootRole: 1
+              deletedSessions: 1
               emailSent: false
               permissions:
               - permissions
               - permissions
+              activeSessions: 2
               imageUrl: https://example.com/242x200.png
               name: User
               id: 123
@@ -2908,10 +2959,12 @@ components:
             createdAt: 2023-06-30T11:41:00.123Z
             seenAt: 2023-06-30T11:42:00.345Z
             rootRole: 1
+            deletedSessions: 1
             emailSent: false
             permissions:
             - permissions
             - permissions
+            activeSessions: 2
             imageUrl: https://example.com/242x200.png
             name: User
             id: 123
@@ -2928,10 +2981,12 @@ components:
             createdAt: 2023-06-30T11:41:00.123Z
             seenAt: 2023-06-30T11:42:00.345Z
             rootRole: 1
+            deletedSessions: 1
             emailSent: false
             permissions:
             - permissions
             - permissions
+            activeSessions: 2
             imageUrl: https://example.com/242x200.png
             name: User
             id: 123
@@ -3206,7 +3261,6 @@ components:
       - serviceAccounts
       type: object
     createServiceAccountSchema:
-      additionalProperties: true
       description: Describes the properties required to create a new service account
       properties:
         username:
@@ -3222,7 +3276,9 @@ components:
           example: 1
           type: integer
       required:
+      - name
       - rootRole
+      - username
       type: object
     updateServiceAccountSchema:
       additionalProperties: true
@@ -3515,6 +3571,144 @@ components:
             part of the login request.
           example: false
           type: boolean
+      type: object
+    edgeInstanceDataSchema:
+      description: Represents Edge instance observability data.
+      properties:
+        identifier:
+          description: "The ID of the Edge process, typically a ULID. Newly generated\
+            \ for each restart of the instance."
+          example: 01ARZ3NDEKTSV4RRFFQ69G5FAV
+          type: string
+        appName:
+          description: "The name of the application, configured by the user, typically\
+            \ persistent across restarts of Edge."
+          example: unleash-edge-us-east-1
+          type: string
+        region:
+          description: Which region the Edge instance is running in. Set to AWS_REGION
+            by default (if present).
+          example: us-east-1
+          nullable: true
+          type: string
+        edgeVersion:
+          description: Which version (semver) of Edge is the Edge instance running.
+          example: 19.6.3
+          type: string
+        processMetrics:
+          $ref: '#/components/schemas/edgeProcessMetricsSchema'
+        started:
+          description: RFC3339 timestamp for when the Edge instance was started.
+          format: date-time
+          type: string
+        traffic:
+          $ref: '#/components/schemas/edgeInstanceTrafficSchema'
+        latencyUpstream:
+          $ref: '#/components/schemas/edgeUpstreamLatencySchema'
+        connectedStreamingClients:
+          description: How many streaming clients are connected to the Edge instance.
+          minimum: 0
+          type: number
+        connectedEdges:
+          description: A list of Edge instances connected to the Edge instance.
+          items:
+            $ref: '#/components/schemas/edgeInstanceDataSchema'
+          type: array
+      required:
+      - appName
+      - connectedEdges
+      - connectedStreamingClients
+      - edgeVersion
+      - identifier
+      - latencyUpstream
+      - started
+      - traffic
+      type: object
+    edgeProcessMetricsSchema:
+      description: Represents Edge instance resource usage data.
+      properties:
+        cpuUsage:
+          description: "CPU usage, in seconds, since start of process."
+          example: 54.54
+          minimum: 0
+          type: number
+        memoryUsage:
+          description: Current process_resident_memory (in bytes) usage.
+          example: 34000432
+          minimum: 0
+          type: number
+      required:
+      - cpuUsage
+      - memoryUsage
+      type: object
+    edgeInstanceTrafficSchema:
+      additionalProperties: true
+      description: "Represents requests to the Edge instance (/api/client/features,\
+        \ /api/frontend, etc.)"
+      properties:
+        get:
+          additionalProperties:
+            $ref: '#/components/schemas/edgeLatencyMetricsSchema'
+          description: A map containing GET requests.
+          type: object
+        post:
+          additionalProperties:
+            $ref: '#/components/schemas/edgeLatencyMetricsSchema'
+          description: A map containing POST requests.
+          type: object
+        accessDenied:
+          additionalProperties:
+            $ref: '#/components/schemas/edgeLatencyMetricsSchema'
+          description: A map containing requests that were denied.
+          type: object
+        cachedResponses:
+          additionalProperties:
+            $ref: '#/components/schemas/edgeLatencyMetricsSchema'
+          description: A map containing requests that had cached responses.
+          type: object
+      required:
+      - accessDenied
+      - cachedResponses
+      - get
+      - post
+      type: object
+    edgeLatencyMetricsSchema:
+      additionalProperties: true
+      description: Representing latency for an Edge operation.
+      properties:
+        avg:
+          description: Average time per request in milliseconds.
+          minimum: 0
+          type: number
+        count:
+          description: Total number of requests made.
+          minimum: 0
+          type: number
+        p99:
+          description: 99% of requests finished within this amount of milliseconds.
+          example: 34.5
+          minimum: 0
+          type: number
+      required:
+      - avg
+      - count
+      - p99
+      type: object
+    edgeUpstreamLatencySchema:
+      additionalProperties: true
+      description: "Latencies for upstream actions from Edge (downloading/syncing\
+        \ new features, uploading metrics, uploading instance data)"
+      properties:
+        features:
+          $ref: '#/components/schemas/edgeLatencyMetricsSchema'
+        metrics:
+          $ref: '#/components/schemas/edgeLatencyMetricsSchema'
+        edge:
+          $ref: '#/components/schemas/edgeLatencyMetricsSchema'
+      required:
+      - edge
+      - features
+      - metrics
       type: object
     getSamlSettings_400_response:
       example:
@@ -3929,6 +4123,7 @@ components:
           description: The environments of the permission if the permission is environment
             specific
           example: development
+          nullable: true
           type: string
       required:
       - name
@@ -3977,6 +4172,7 @@ components:
           description: The environments of the permission if the permission is environment
             specific
           example: development
+          nullable: true
           type: string
       required:
       - id

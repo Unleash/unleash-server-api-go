@@ -41,8 +41,7 @@ func createTempUser(t *testing.T, apiClient *client.APIClient, prefix string) *c
 }
 
 func cleanupTempUser(t *testing.T, apiClient *client.APIClient, userId int32) {
-	id := fmt.Sprint(userId)
-	httpRes, err := apiClient.UsersAPI.DeleteUser(context.Background(), id).Execute()
+	httpRes, err := apiClient.UsersAPI.DeleteUser(context.Background(), userId).Execute()
 
 	require.Nil(t, err)
 	assert.Equal(t, 200, httpRes.StatusCode)

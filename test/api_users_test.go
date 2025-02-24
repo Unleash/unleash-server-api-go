@@ -56,7 +56,7 @@ func createRole(name string, description string, roleType string) *client.Create
 		newRole = &wrapper
 	}
 	if roleType == "custom" {
-		env := "*"
+		env := "development"
 		inner := client.NewCreateRoleWithPermissionsSchemaAnyOf1(name)
 		inner.Type = &roleType
 		inner.Description = &description
@@ -64,7 +64,7 @@ func createRole(name string, description string, roleType string) *client.Create
 		permission1 := client.NewCreateRoleWithPermissionsSchemaAnyOf1PermissionsInner(float32(2))
 		// permission2 is an environment permission
 		permission2 := client.NewCreateRoleWithPermissionsSchemaAnyOf1PermissionsInner(float32(37))
-		permission2.Environment = &env
+		permission2.SetEnvironment(env)
 		permissions := []client.CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner{}
 		permissions = append(permissions, *permission1)
 		permissions = append(permissions, *permission2)
@@ -77,8 +77,7 @@ func createRole(name string, description string, roleType string) *client.Create
 }
 
 func clean_up_user(user *client.CreateUserResponseSchema, apiClient *client.APIClient) {
-	id := fmt.Sprint(user.Id)
-	httpRes, err := apiClient.UsersAPI.DeleteUser(context.Background(), id).Execute()
+	httpRes, err := apiClient.UsersAPI.DeleteUser(context.Background(), user.Id).Execute()
 	if err != nil || httpRes.StatusCode != 200 {
 		fmt.Println("Failed to clean up a user after a test, this means the test is probably fine but your state is dirty and you should run a docker compose rm --force")
 	}
@@ -103,9 +102,8 @@ func Test_client_UsersAPIService(t *testing.T) {
 	t.Run("Test UsersAPIService DeleteUser", func(t *testing.T) {
 
 		user := createUser(t, apiClient, "to-be-deleted")
-		id := fmt.Sprint(user.Id)
 
-		httpRes, err := apiClient.UsersAPI.DeleteUser(context.Background(), id).Execute()
+		httpRes, err := apiClient.UsersAPI.DeleteUser(context.Background(), user.Id).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
@@ -114,9 +112,8 @@ func Test_client_UsersAPIService(t *testing.T) {
 	t.Run("Test UsersAPIService GetUser", func(t *testing.T) {
 		user := createUser(t, apiClient, "to-be-retrieved")
 		defer clean_up_user(user, apiClient)
-		id := fmt.Sprint(user.Id)
 
-		resp, httpRes, err := apiClient.UsersAPI.GetUser(context.Background(), id).Execute()
+		resp, httpRes, err := apiClient.UsersAPI.GetUser(context.Background(), user.Id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

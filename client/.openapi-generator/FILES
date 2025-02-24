@@ -37,6 +37,11 @@ docs/CreateUserResponseSchema.md
 docs/CreateUserResponseSchemaRootRole.md
 docs/CreateUserSchema.md
 docs/CreateUserSchemaRootRole.md
+docs/EdgeInstanceDataSchema.md
+docs/EdgeInstanceTrafficSchema.md
+docs/EdgeLatencyMetricsSchema.md
+docs/EdgeProcessMetricsSchema.md
+docs/EdgeUpstreamLatencySchema.md
 docs/GetRoleById404Response.md
 docs/GetSamlSettings400Response.md
 docs/GetSamlSettings401Response.md
@@ -103,6 +108,11 @@ model_create_user_response_schema.go
 model_create_user_response_schema_root_role.go
 model_create_user_schema.go
 model_create_user_schema_root_role.go
+model_edge_instance_data_schema.go
+model_edge_instance_traffic_schema.go
+model_edge_latency_metrics_schema.go
+model_edge_process_metrics_schema.go
+model_edge_upstream_latency_schema.go
 model_get_role_by_id_404_response.go
 model_get_saml_settings_400_response.go
 model_get_saml_settings_401_response.go

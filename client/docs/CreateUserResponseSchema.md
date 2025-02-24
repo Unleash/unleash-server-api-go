@@ -19,6 +19,8 @@ Name | Type | Description | Notes
 **AccountType** | Pointer to **string** | A user is either an actual User or a Service Account | [optional] 
 **Permissions** | Pointer to **[]string** | Deprecated | [optional] 
 **ScimId** | Pointer to **NullableString** | The SCIM ID of the user, only present if managed by SCIM | [optional] 
+**ActiveSessions** | Pointer to **NullableInt32** | Count of active browser sessions for this user | [optional] 
+**DeletedSessions** | Pointer to **float32** | Experimental. The number of deleted browser sessions after last login | [optional] 
 
 ## Methods
 
@@ -449,6 +451,66 @@ HasScimId returns a boolean if a field has been set.
 `func (o *CreateUserResponseSchema) UnsetScimId()`
 
 UnsetScimId ensures that no value is present for ScimId, not even an explicit nil
+### GetActiveSessions
+
+`func (o *CreateUserResponseSchema) GetActiveSessions() int32`
+
+GetActiveSessions returns the ActiveSessions field if non-nil, zero value otherwise.
+
+### GetActiveSessionsOk
+
+`func (o *CreateUserResponseSchema) GetActiveSessionsOk() (*int32, bool)`
+
+GetActiveSessionsOk returns a tuple with the ActiveSessions field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetActiveSessions
+
+`func (o *CreateUserResponseSchema) SetActiveSessions(v int32)`
+
+SetActiveSessions sets ActiveSessions field to given value.
+
+### HasActiveSessions
+
+`func (o *CreateUserResponseSchema) HasActiveSessions() bool`
+
+HasActiveSessions returns a boolean if a field has been set.
+
+### SetActiveSessionsNil
+
+`func (o *CreateUserResponseSchema) SetActiveSessionsNil(b bool)`
+
+ SetActiveSessionsNil sets the value for ActiveSessions to be an explicit nil
+
+### UnsetActiveSessions
+`func (o *CreateUserResponseSchema) UnsetActiveSessions()`
+
+UnsetActiveSessions ensures that no value is present for ActiveSessions, not even an explicit nil
+### GetDeletedSessions
+
+`func (o *CreateUserResponseSchema) GetDeletedSessions() float32`
+
+GetDeletedSessions returns the DeletedSessions field if non-nil, zero value otherwise.
+
+### GetDeletedSessionsOk
+
+`func (o *CreateUserResponseSchema) GetDeletedSessionsOk() (*float32, bool)`
+
+GetDeletedSessionsOk returns a tuple with the DeletedSessions field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDeletedSessions
+
+`func (o *CreateUserResponseSchema) SetDeletedSessions(v float32)`
+
+SetDeletedSessions sets DeletedSessions field to given value.
+
+### HasDeletedSessions
+
+`func (o *CreateUserResponseSchema) HasDeletedSessions() bool`
+
+HasDeletedSessions returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Username** | Pointer to **string** | The username of the service account | [optional] 
-**Name** | Pointer to **string** | The name of the service account | [optional] 
+**Username** | **string** | The username of the service account | 
+**Name** | **string** | The name of the service account | 
 **RootRole** | **int32** | The id of the root role for the service account | 
 
 ## Methods
 
 ### NewCreateServiceAccountSchema
 
-`func NewCreateServiceAccountSchema(rootRole int32, ) *CreateServiceAccountSchema`
+`func NewCreateServiceAccountSchema(username string, name string, rootRole int32, ) *CreateServiceAccountSchema`
 
 NewCreateServiceAccountSchema instantiates a new CreateServiceAccountSchema object
 This constructor will assign default values to properties that have it defined,
@@ -46,11 +46,6 @@ and a boolean to check if the value has been set.
 
 SetUsername sets Username field to given value.
 
-### HasUsername
-
-`func (o *CreateServiceAccountSchema) HasUsername() bool`
-
-HasUsername returns a boolean if a field has been set.
 
 ### GetName
 
@@ -71,11 +66,6 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
-### HasName
-
-`func (o *CreateServiceAccountSchema) HasName() bool`
-
-HasName returns a boolean if a field has been set.
 
 ### GetRootRole
 
