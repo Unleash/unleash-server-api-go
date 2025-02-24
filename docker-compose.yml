@@ -29,6 +29,8 @@ services:
       LOG_LEVEL: "debug"
       # Admin token for testing only
       INIT_ADMIN_API_TOKENS: "*:*.unleash-insecure-admin-api-token"
+      NODE_ENV: "development"
+      UNLEASH_LICENSE: "${UNLEASH_DEV_LICENSE}"
     depends_on:
       db:
         condition: service_healthy
