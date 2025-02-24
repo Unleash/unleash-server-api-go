@@ -2,9 +2,13 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Unleash API",
-    "version": "6.1.12+main"
+    "version": "6.7.2"
   },
-  "servers": [],
+  "servers": [
+    {
+      "url": "https://us.app.unleash-hosted.com/ushosted"
+    }
+  ],
   "paths": {
     "/api/admin/auth/saml/settings": {
       "get": {
@@ -3599,9 +3603,10 @@
           {
             "name": "id",
             "in": "path",
+            "description": "a user id",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
@@ -3710,6 +3715,7 @@
           {
             "name": "id",
             "in": "path",
+            "description": "a user id",
             "required": true,
             "schema": {
               "type": "integer"
@@ -3859,9 +3865,10 @@
           {
             "name": "id",
             "in": "path",
+            "description": "a user id",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
@@ -4219,7 +4226,7 @@
         ]
       },
       "createPatSchema": {
-        "description": "Describes the properties required to create a [personal access token](https://docs.getunleash.io/how-to/how-to-create-personal-access-tokens), or PAT. PATs are automatically scoped to the authenticated user.",
+        "description": "Describes the properties required to create a [personal access token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens), or PAT. PATs are automatically scoped to the authenticated user.",
         "type": "object",
         "properties": {
           "description": {
@@ -4343,6 +4350,17 @@
             "type": "string",
             "example": "01HTMEXAMPLESCIMID7SWWGHN6",
             "nullable": true
+          },
+          "activeSessions": {
+            "description": "Count of active browser sessions for this user",
+            "type": "integer",
+            "example": 2,
+            "nullable": true
+          },
+          "deletedSessions": {
+            "description": "Experimental. The number of deleted browser sessions after last login",
+            "type": "number",
+            "example": 1
           }
         },
         "additionalProperties": true,
@@ -4432,7 +4450,7 @@
         ]
       },
       "patSchema": {
-        "description": "Describes a [personal access token](https://docs.getunleash.io/how-to/how-to-create-personal-access-tokens), or PAT. PATs are automatically scoped to the authenticated user.",
+        "description": "Describes a [personal access token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens), or PAT. PATs are automatically scoped to the authenticated user.",
         "type": "object",
         "properties": {
           "id": {
@@ -4484,7 +4502,7 @@
         ]
       },
       "patsSchema": {
-        "description": "Contains a collection of [personal access tokens](https://docs.getunleash.io/how-to/how-to-create-personal-access-tokens), or PATs. PATs are automatically scoped to the authenticated user.",
+        "description": "Contains a collection of [personal access tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens), or PATs. PATs are automatically scoped to the authenticated user.",
         "type": "object",
         "properties": {
           "pats": {
@@ -4516,8 +4534,19 @@
             "example": "DX squad feature release",
             "deprecated": true,
             "nullable": true
+          },
+          "mode": {
+            "description": "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not.",
+            "type": "string",
+            "example": "open",
+            "enum": [
+              "open",
+              "protected",
+              "private"
+            ]
           }
         },
+        "additionalProperties": true,
         "required": [
           "id",
           "name"
@@ -4726,6 +4755,17 @@
             "type": "string",
             "example": "01HTMEXAMPLESCIMID7SWWGHN6",
             "nullable": true
+          },
+          "activeSessions": {
+            "description": "Count of active browser sessions for this user",
+            "type": "integer",
+            "example": 2,
+            "nullable": true
+          },
+          "deletedSessions": {
+            "description": "Experimental. The number of deleted browser sessions after last login",
+            "type": "number",
+            "example": 1
           }
         },
         "additionalProperties": true,
@@ -4970,7 +5010,8 @@
                     "environment": {
                       "description": "The environments of the permission if the permission is environment specific",
                       "type": "string",
-                      "example": "development"
+                      "example": "development",
+                      "nullable": true
                     }
                   }
                 }
@@ -5023,7 +5064,8 @@
                     "environment": {
                       "description": "The environments of the permission if the permission is environment specific",
                       "type": "string",
-                      "example": "development"
+                      "example": "development",
+                      "nullable": true
                     }
                   }
                 }
@@ -5952,8 +5994,9 @@
             "example": 1
           }
         },
-        "additionalProperties": true,
         "required": [
+          "username",
+          "name",
           "rootRole"
         ]
       },
@@ -6134,6 +6177,193 @@
             "example": false
           }
         }
+      },
+      "edgeInstanceDataSchema": {
+        "description": "Represents Edge instance observability data.",
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "description": "The ID of the Edge process, typically a ULID. Newly generated for each restart of the instance.",
+            "type": "string",
+            "example": "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+          },
+          "appName": {
+            "description": "The name of the application, configured by the user, typically persistent across restarts of Edge.",
+            "type": "string",
+            "example": "unleash-edge-us-east-1"
+          },
+          "region": {
+            "description": "Which region the Edge instance is running in. Set to AWS_REGION by default (if present).",
+            "type": "string",
+            "example": "us-east-1",
+            "nullable": true
+          },
+          "edgeVersion": {
+            "description": "Which version (semver) of Edge is the Edge instance running.",
+            "type": "string",
+            "example": "19.6.3"
+          },
+          "processMetrics": {
+            "type": "object",
+            "$ref": "#/components/schemas/edgeProcessMetricsSchema",
+            "nullable": true
+          },
+          "started": {
+            "description": "RFC3339 timestamp for when the Edge instance was started.",
+            "type": "string",
+            "format": "date-time"
+          },
+          "traffic": {
+            "type": "object",
+            "$ref": "#/components/schemas/edgeInstanceTrafficSchema"
+          },
+          "latencyUpstream": {
+            "type": "object",
+            "$ref": "#/components/schemas/edgeUpstreamLatencySchema"
+          },
+          "connectedStreamingClients": {
+            "description": "How many streaming clients are connected to the Edge instance.",
+            "type": "number",
+            "minimum": 0
+          },
+          "connectedEdges": {
+            "description": "A list of Edge instances connected to the Edge instance.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/edgeInstanceDataSchema"
+            }
+          }
+        },
+        "required": [
+          "identifier",
+          "appName",
+          "edgeVersion",
+          "started",
+          "traffic",
+          "latencyUpstream",
+          "connectedStreamingClients",
+          "connectedEdges"
+        ]
+      },
+      "edgeProcessMetricsSchema": {
+        "description": "Represents Edge instance resource usage data.",
+        "type": "object",
+        "properties": {
+          "cpuUsage": {
+            "description": "CPU usage, in seconds, since start of process.",
+            "type": "number",
+            "example": 54.54,
+            "minimum": 0
+          },
+          "memoryUsage": {
+            "description": "Current process_resident_memory (in bytes) usage.",
+            "type": "number",
+            "example": 34000432,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "cpuUsage",
+          "memoryUsage"
+        ]
+      },
+      "edgeInstanceTrafficSchema": {
+        "description": "Represents requests to the Edge instance (/api/client/features, /api/frontend, etc.)",
+        "type": "object",
+        "properties": {
+          "get": {
+            "description": "A map containing GET requests.",
+            "additionalProperties": {
+              "type": "object",
+              "nullable": true,
+              "$ref": "#/components/schemas/edgeLatencyMetricsSchema"
+            },
+            "type": "object"
+          },
+          "post": {
+            "description": "A map containing POST requests.",
+            "additionalProperties": {
+              "type": "object",
+              "nullable": true,
+              "$ref": "#/components/schemas/edgeLatencyMetricsSchema"
+            },
+            "type": "object"
+          },
+          "accessDenied": {
+            "description": "A map containing requests that were denied.",
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "nullable": true,
+              "$ref": "#/components/schemas/edgeLatencyMetricsSchema"
+            }
+          },
+          "cachedResponses": {
+            "description": "A map containing requests that had cached responses.",
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "nullable": true,
+              "$ref": "#/components/schemas/edgeLatencyMetricsSchema"
+            }
+          }
+        },
+        "additionalProperties": true,
+        "required": [
+          "get",
+          "post",
+          "accessDenied",
+          "cachedResponses"
+        ]
+      },
+      "edgeLatencyMetricsSchema": {
+        "description": "Representing latency for an Edge operation.",
+        "type": "object",
+        "properties": {
+          "avg": {
+            "description": "Average time per request in milliseconds.",
+            "type": "number",
+            "minimum": 0
+          },
+          "count": {
+            "description": "Total number of requests made.",
+            "type": "number",
+            "minimum": 0
+          },
+          "p99": {
+            "description": "99% of requests finished within this amount of milliseconds.",
+            "type": "number",
+            "example": 34.5,
+            "minimum": 0
+          }
+        },
+        "additionalProperties": true,
+        "required": [
+          "avg",
+          "count",
+          "p99"
+        ]
+      },
+      "edgeUpstreamLatencySchema": {
+        "description": "Latencies for upstream actions from Edge (downloading/syncing new features, uploading metrics, uploading instance data)",
+        "type": "object",
+        "properties": {
+          "features": {
+            "$ref": "#/components/schemas/edgeLatencyMetricsSchema"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/edgeLatencyMetricsSchema"
+          },
+          "edge": {
+            "$ref": "#/components/schemas/edgeLatencyMetricsSchema"
+          }
+        },
+        "additionalProperties": true,
+        "required": [
+          "features",
+          "metrics",
+          "edge"
+        ]
       }
     },
     "securitySchemes": {
@@ -6205,7 +6435,7 @@
     },
     {
       "name": "Feature Types",
-      "description": "Manage [feature flag types](https://docs.getunleash.io/reference/feature-toggle-types)."
+      "description": "Manage [feature flag types](https://docs.getunleash.io/reference/feature-toggles#feature-flag-types)."
     },
     {
       "name": "Features",
@@ -6273,7 +6503,7 @@
     },
     {
       "name": "Tags",
-      "description": "Create, update, and delete [tags and tag types](https://docs.getunleash.io/reference/tags)."
+      "description": "Create, update, and delete [tags and tag types](https://docs.getunleash.io/reference/feature-toggles#tags)."
     },
     {
       "name": "Telemetry",

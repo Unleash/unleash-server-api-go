@@ -1,6 +1,6 @@
 # \UsersAPI
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -237,7 +237,7 @@ import (
 )
 
 func main() {
-	id := "id_example" // string | 
+	id := int32(56) // int32 | a user id
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -255,7 +255,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string** |  | 
+**id** | **int32** | a user id | 
 
 ### Other Parameters
 
@@ -436,7 +436,7 @@ import (
 )
 
 func main() {
-	id := "id_example" // string | 
+	id := int32(56) // int32 | a user id
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -456,7 +456,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **string** |  | 
+**id** | **int32** | a user id | 
 
 ### Other Parameters
 
@@ -578,7 +578,7 @@ import (
 )
 
 func main() {
-	id := int32(56) // int32 | 
+	id := int32(56) // int32 | a user id
 	updateUserSchema := *openapiclient.NewUpdateUserSchema() // UpdateUserSchema | updateUserSchema
 
 	configuration := openapiclient.NewConfiguration()
@@ -599,7 +599,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **int32** |  | 
+**id** | **int32** | a user id | 
 
 ### Other Parameters
 

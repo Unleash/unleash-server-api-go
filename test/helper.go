@@ -23,7 +23,7 @@ func testClient() *client.APIClient {
 	configuration.HTTPClient = &http.Client{
 		Transport: &debugTransport{
 			Transport:   http.DefaultTransport,
-			EnableDebug: true,
+			EnableDebug: false,
 		},
 	}
 	configuration.AddDefaultHeader("Authorization", "*:*.unleash-insecure-admin-api-token")

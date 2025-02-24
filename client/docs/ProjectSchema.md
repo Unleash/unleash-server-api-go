@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Id** | **string** | The id of this project | 
 **Name** | **string** | The name of this project | 
 **Description** | Pointer to **NullableString** | Additional information about the project | [optional] 
+**Mode** | Pointer to **string** | The project&#39;s [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not. | [optional] 
 
 ## Methods
 
@@ -102,6 +103,31 @@ HasDescription returns a boolean if a field has been set.
 `func (o *ProjectSchema) UnsetDescription()`
 
 UnsetDescription ensures that no value is present for Description, not even an explicit nil
+### GetMode
+
+`func (o *ProjectSchema) GetMode() string`
+
+GetMode returns the Mode field if non-nil, zero value otherwise.
+
+### GetModeOk
+
+`func (o *ProjectSchema) GetModeOk() (*string, bool)`
+
+GetModeOk returns a tuple with the Mode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMode
+
+`func (o *ProjectSchema) SetMode(v string)`
+
+SetMode sets Mode field to given value.
+
+### HasMode
+
+`func (o *ProjectSchema) HasMode() bool`
+
+HasMode returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
