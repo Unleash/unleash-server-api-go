@@ -66,5 +66,7 @@ jobs:
           echo UNLEASH_ENTERPRISE=true >> $GITHUB_ENV
       - name: Startup services ${{ matrix.image }}
         run: docker compose up -d --wait -t 60
+        env:
+          UNLEASH_DEV_LICENSE: ${{ secrets.UNLEASH_DEV_LICENSE }}
       - name: Tests ${{ matrix.image }}
         run: go test -v -cover ./test/...
