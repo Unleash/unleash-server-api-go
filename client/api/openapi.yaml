@@ -1250,6 +1250,116 @@ paths:
       summary: Gets available permissions
       tags:
       - Auth
+  /api/admin/context:
+    get:
+      description: "Returns all configured [Context fields](https://docs.getunleash.io/reference/unleash-context)\
+        \ that have been created."
+      operationId: getContextFields
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/contextFieldsSchema'
+          description: contextFieldsSchema
+      summary: Gets configured context fields
+      tags:
+      - Context
+    post:
+      description: "Endpoint that allows creation of [custom context fields](https://docs.getunleash.io/reference/unleash-context#custom-context-fields)"
+      operationId: createContextField
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createContextFieldSchema'
+        description: createContextFieldSchema
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/contextFieldSchema'
+          description: The resource was successfully created.
+          headers:
+            location:
+              description: The location of the newly created resource.
+              explode: false
+              schema:
+                format: uri
+                type: string
+              style: simple
+      summary: Create a context field
+      tags:
+      - Context
+  /api/admin/context/{contextField}:
+    delete:
+      description: "Endpoint that allows deletion of a custom context field. Does\
+        \ not validate that context field is not in use, but since context field configuration\
+        \ is stored in a json blob for the strategy, existing strategies are safe."
+      operationId: deleteContextField
+      parameters:
+      - explode: false
+        in: path
+        name: contextField
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: This response has no body.
+      summary: Delete an existing context field
+      tags:
+      - Context
+    get:
+      description: "Returns specific [context field](https://docs.getunleash.io/reference/unleash-context)\
+        \ identified by the name in the path"
+      operationId: getContextField
+      parameters:
+      - explode: false
+        in: path
+        name: contextField
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/contextFieldSchema'
+          description: contextFieldSchema
+      summary: Gets context field
+      tags:
+      - Context
+    put:
+      description: Endpoint that allows updating a custom context field. Used to toggle
+        stickiness and add/remove legal values for this context field
+      operationId: updateContextField
+      parameters:
+      - explode: false
+        in: path
+        name: contextField
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateContextFieldSchema'
+        description: updateContextFieldSchema
+        required: true
+      responses:
+        "200":
+          description: This response has no body.
+      summary: Update an existing context field
+      tags:
+      - Context
   /api/admin/api-tokens:
     get:
       description: Retrieves all API tokens that exist in the Unleash instance.
@@ -1771,6 +1881,74 @@ components:
       required:
       - tokens
       type: object
+    contextFieldSchema:
+      additionalProperties: true
+      description: "A representation of a [context field](https://docs.getunleash.io/reference/unleash-context)."
+      example:
+        legalValues:
+        - description: Deep fuchsia
+          value: '#c154c1'
+        - description: Deep fuchsia
+          value: '#c154c1'
+        createdAt: 2023-06-29T10:19:00Z
+        stickiness: true
+        sortOrder: 900
+        name: userId
+        description: Used to uniquely identify users
+        usedInFeatures: 3
+        usedInProjects: 2
+      properties:
+        name:
+          description: The name of the context field
+          example: userId
+          type: string
+        description:
+          description: The description of the context field.
+          example: Used to uniquely identify users
+          nullable: true
+          type: string
+        stickiness:
+          description: "Does this context field support being used for [stickiness](https://docs.getunleash.io/reference/stickiness)\
+            \ calculations"
+          example: true
+          type: boolean
+        sortOrder:
+          description: Used when sorting a list of context fields. Is also used as
+            a tiebreaker if a list of context fields is sorted alphabetically.
+          example: 900
+          type: integer
+        createdAt:
+          description: When this context field was created
+          example: 2023-06-29T10:19:00Z
+          format: date-time
+          nullable: true
+          type: string
+        usedInFeatures:
+          description: Number of projects where this context field is used in
+          example: 3
+          minimum: 0
+          nullable: true
+          type: integer
+        usedInProjects:
+          description: Number of projects where this context field is used in
+          example: 2
+          minimum: 0
+          nullable: true
+          type: integer
+        legalValues:
+          description: Allowed values for this context field schema. Can be used to
+            narrow down accepted input
+          items:
+            $ref: '#/components/schemas/legalValueSchema'
+          type: array
+      required:
+      - name
+      type: object
+    contextFieldsSchema:
+      description: A list of context fields
+      items:
+        $ref: '#/components/schemas/contextFieldSchema'
+      type: array
     createApiTokenSchema:
       description: "The data required to create an [Unleash API token](https://docs.getunleash.io/reference/api-tokens-and-client-keys)."
       oneOf:
@@ -1778,6 +1956,40 @@ components:
       - $ref: '#/components/schemas/createApiTokenSchema_oneOf_1'
       - $ref: '#/components/schemas/createApiTokenSchema_oneOf_2'
       - $ref: '#/components/schemas/createApiTokenSchema_oneOf_3'
+      type: object
+    createContextFieldSchema:
+      description: Data used to create a context field configuration.
+      properties:
+        description:
+          description: A description of the context field
+          example: The user's subscription tier
+          type: string
+        stickiness:
+          description: "`true` if this field should be available for use with [custom\
+            \ stickiness](https://docs.getunleash.io/reference/stickiness#custom-stickiness),\
+            \ otherwise `false`"
+          example: false
+          type: boolean
+        sortOrder:
+          description: How this context field should be sorted if no other sort order
+            is selected
+          example: 2
+          type: integer
+        legalValues:
+          description: A list of allowed values for this context field
+          example:
+          - value: gold
+          - value: silver
+          - value: crystal
+          items:
+            $ref: '#/components/schemas/legalValueSchema'
+          type: array
+        name:
+          description: The name of the context field.
+          example: subscriptionTier
+          type: string
+      required:
+      - name
       type: object
     createFeatureNamingPatternSchema:
       description: Create a feature naming pattern
@@ -2005,6 +2217,25 @@ components:
       required:
       - user
       type: object
+    legalValueSchema:
+      additionalProperties: true
+      description: Describes a legal value. Typically used to limit possible values
+        for contextFields or strategy properties
+      example:
+        description: Deep fuchsia
+        value: '#c154c1'
+      properties:
+        value:
+          description: The valid value
+          example: '#c154c1'
+          type: string
+        description:
+          description: Describes this specific legal value
+          example: Deep fuchsia
+          type: string
+      required:
+      - value
+      type: object
     patSchema:
       description: "Describes a [personal access token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens),\
         \ or PAT. PATs are automatically scoped to the authenticated user."
@@ -2210,6 +2441,34 @@ components:
           type: string
       required:
       - expiresAt
+      type: object
+    updateContextFieldSchema:
+      description: Data to update an existing context field configuration.
+      properties:
+        description:
+          description: A description of the context field
+          example: The user's subscription tier
+          type: string
+        stickiness:
+          description: "`true` if this field should be available for use with [custom\
+            \ stickiness](https://docs.getunleash.io/reference/stickiness#custom-stickiness),\
+            \ otherwise `false`"
+          example: false
+          type: boolean
+        sortOrder:
+          description: How this context field should be sorted if no other sort order
+            is selected
+          example: 2
+          type: integer
+        legalValues:
+          description: A list of allowed values for this context field
+          example:
+          - value: gold
+          - value: silver
+          - value: crystal
+          items:
+            $ref: '#/components/schemas/legalValueSchema'
+          type: array
       type: object
     updateUserSchema:
       description: All fields that can be directly changed for the user

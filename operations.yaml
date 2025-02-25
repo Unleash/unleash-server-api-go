@@ -51,3 +51,9 @@ inverseOperationIds:
 
   - setSamlSettings
   - getSamlSettings
+
+  - getContextField
+  - getContextFields
+  - createContextField
+  - updateContextField
+  - deleteContextField

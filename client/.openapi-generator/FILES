@@ -5,6 +5,7 @@ README.md
 api/openapi.yaml
 api_api_tokens.go
 api_auth.go
+api_context.go
 api_projects.go
 api_service_accounts.go
 api_users.go
@@ -18,11 +19,14 @@ docs/AdminPermissionsSchemaPermissionsEnvironmentsInner.md
 docs/ApiTokenSchema.md
 docs/ApiTokensSchema.md
 docs/AuthAPI.md
+docs/ContextAPI.md
+docs/ContextFieldSchema.md
 docs/CreateApiTokenSchema.md
 docs/CreateApiTokenSchemaOneOf.md
 docs/CreateApiTokenSchemaOneOf1.md
 docs/CreateApiTokenSchemaOneOf2.md
 docs/CreateApiTokenSchemaOneOf3.md
+docs/CreateContextFieldSchema.md
 docs/CreateFeatureNamingPatternSchema.md
 docs/CreatePatSchema.md
 docs/CreateProjectSchema.md
@@ -49,6 +53,7 @@ docs/GetSamlSettings401Response.md
 docs/GetSamlSettings403Response.md
 docs/GroupUserModelSchema.md
 docs/GroupWithProjectRoleSchema.md
+docs/LegalValueSchema.md
 docs/OidcSettingsResponseSchema.md
 docs/OidcSettingsSchema.md
 docs/OidcSettingsSchemaOneOf.md
@@ -77,6 +82,7 @@ docs/ServiceAccountsAPI.md
 docs/ServiceAccountsSchema.md
 docs/SetSamlSettings415Response.md
 docs/UpdateApiTokenSchema.md
+docs/UpdateContextFieldSchema.md
 docs/UpdateProjectEnterpriseSettingsSchema.md
 docs/UpdateProjectSchema.md
 docs/UpdateServiceAccountSchema.md
@@ -91,11 +97,13 @@ model_admin_permissions_schema_permissions.go
 model_admin_permissions_schema_permissions_environments_inner.go
 model_api_token_schema.go
 model_api_tokens_schema.go
+model_context_field_schema.go
 model_create_api_token_schema.go
 model_create_api_token_schema_one_of.go
 model_create_api_token_schema_one_of_1.go
 model_create_api_token_schema_one_of_2.go
 model_create_api_token_schema_one_of_3.go
+model_create_context_field_schema.go
 model_create_feature_naming_pattern_schema.go
 model_create_pat_schema.go
 model_create_project_schema.go
@@ -122,6 +130,7 @@ model_get_saml_settings_401_response.go
 model_get_saml_settings_403_response.go
 model_group_user_model_schema.go
 model_group_with_project_role_schema.go
+model_legal_value_schema.go
 model_oidc_settings_response_schema.go
 model_oidc_settings_schema.go
 model_oidc_settings_schema_one_of.go
@@ -148,6 +157,7 @@ model_service_account_schema.go
 model_service_accounts_schema.go
 model_set_saml_settings_415_response.go
 model_update_api_token_schema.go
+model_update_context_field_schema.go
 model_update_project_enterprise_settings_schema.go
 model_update_project_schema.go
 model_update_service_account_schema.go
@@ -157,6 +167,7 @@ model_user_with_project_role_schema.go
 response.go
 test/api_api_tokens_test.go
 test/api_auth_test.go
+test/api_context_test.go
 test/api_projects_test.go
 test/api_service_accounts_test.go
 test/api_users_test.go
