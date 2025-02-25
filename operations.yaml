@@ -27,6 +27,7 @@ inverseOperationIds:
   - getPermissions
   - getProjectAccess
   - setProjectAccess
+  - updateProjectEnterpriseSettings
 
   - createRole
   - getRoles
@@ -50,4 +51,3 @@ inverseOperationIds:
 
   - setSamlSettings
   - getSamlSettings
-

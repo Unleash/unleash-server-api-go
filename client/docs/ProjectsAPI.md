@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**GetProjects**](ProjectsAPI.md#GetProjects) | **Get** /api/admin/projects | Get a list of all projects.
 [**SetProjectAccess**](ProjectsAPI.md#SetProjectAccess) | **Put** /api/admin/projects/{projectId}/access | Set users and groups to roles in the current project
 [**UpdateProject**](ProjectsAPI.md#UpdateProject) | **Put** /api/admin/projects/{projectId} | Update project
+[**UpdateProjectEnterpriseSettings**](ProjectsAPI.md#UpdateProjectEnterpriseSettings) | **Put** /api/admin/projects/{projectId}/settings | Update project enterprise settings
 
 
 
@@ -404,6 +405,76 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **updateProjectSchema** | [**UpdateProjectSchema**](UpdateProjectSchema.md) | updateProjectSchema | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateProjectEnterpriseSettings
+
+> UpdateProjectEnterpriseSettings(ctx, projectId).UpdateProjectEnterpriseSettingsSchema(updateProjectEnterpriseSettingsSchema).Execute()
+
+Update project enterprise settings
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+	projectId := "projectId_example" // string | 
+	updateProjectEnterpriseSettingsSchema := *openapiclient.NewUpdateProjectEnterpriseSettingsSchema() // UpdateProjectEnterpriseSettingsSchema | updateProjectEnterpriseSettingsSchema
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.ProjectsAPI.UpdateProjectEnterpriseSettings(context.Background(), projectId).UpdateProjectEnterpriseSettingsSchema(updateProjectEnterpriseSettingsSchema).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.UpdateProjectEnterpriseSettings``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**projectId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateProjectEnterpriseSettingsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **updateProjectEnterpriseSettingsSchema** | [**UpdateProjectEnterpriseSettingsSchema**](UpdateProjectEnterpriseSettingsSchema.md) | updateProjectEnterpriseSettingsSchema | 
 
 ### Return type
 

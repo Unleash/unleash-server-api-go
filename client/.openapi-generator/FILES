@@ -23,6 +23,7 @@ docs/CreateApiTokenSchemaOneOf.md
 docs/CreateApiTokenSchemaOneOf1.md
 docs/CreateApiTokenSchemaOneOf2.md
 docs/CreateApiTokenSchemaOneOf3.md
+docs/CreateFeatureNamingPatternSchema.md
 docs/CreatePatSchema.md
 docs/CreateProjectSchema.md
 docs/CreateProjectSchemaChangeRequestEnvironmentsInner.md
@@ -76,6 +77,7 @@ docs/ServiceAccountsAPI.md
 docs/ServiceAccountsSchema.md
 docs/SetSamlSettings415Response.md
 docs/UpdateApiTokenSchema.md
+docs/UpdateProjectEnterpriseSettingsSchema.md
 docs/UpdateProjectSchema.md
 docs/UpdateServiceAccountSchema.md
 docs/UpdateUserSchema.md
@@ -94,6 +96,7 @@ model_create_api_token_schema_one_of.go
 model_create_api_token_schema_one_of_1.go
 model_create_api_token_schema_one_of_2.go
 model_create_api_token_schema_one_of_3.go
+model_create_feature_naming_pattern_schema.go
 model_create_pat_schema.go
 model_create_project_schema.go
 model_create_project_schema_change_request_environments_inner.go
@@ -145,6 +148,7 @@ model_service_account_schema.go
 model_service_accounts_schema.go
 model_set_saml_settings_415_response.go
 model_update_api_token_schema.go
+model_update_project_enterprise_settings_schema.go
 model_update_project_schema.go
 model_update_service_account_schema.go
 model_update_user_schema.go
