@@ -1099,6 +1099,67 @@ paths:
       summary: Update project
       tags:
       - Projects
+  /api/admin/projects/{projectId}/settings:
+    put:
+      description: Update project enterprise settings with new values. Any fields
+        not provided are ignored.
+      operationId: updateProjectEnterpriseSettings
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateProjectEnterpriseSettingsSchema'
+        description: updateProjectEnterpriseSettingsSchema
+        required: true
+      responses:
+        "200":
+          description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoleById_404_response'
+          description: The requested resource was not found.
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/setSamlSettings_415_response'
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Update project enterprise settings
+      tags:
+      - Projects
   /api/admin/projects/{projectId}/access:
     get:
       description: "Get all groups, users and their roles, and available roles for\
@@ -1717,6 +1778,33 @@ components:
       - $ref: '#/components/schemas/createApiTokenSchema_oneOf_1'
       - $ref: '#/components/schemas/createApiTokenSchema_oneOf_2'
       - $ref: '#/components/schemas/createApiTokenSchema_oneOf_3'
+      type: object
+    createFeatureNamingPatternSchema:
+      description: Create a feature naming pattern
+      properties:
+        pattern:
+          description: "A JavaScript regular expression pattern, without the start\
+            \ and end delimiters. Optional flags are not allowed."
+          example: "^[A-Za-z]+\\.[A-Za-z]+\\.[A-Za-z0-9-]+$"
+          nullable: true
+          type: string
+        example:
+          description: An example of a feature name that matches the pattern. Must
+            itself match the pattern supplied.
+          example: dx.feature1.1-135
+          nullable: true
+          type: string
+        description:
+          description: A description of the pattern in a human-readable format. Will
+            be shown to users when they create a new feature flag.
+          example: |-
+            <project>.<featureName>.<ticket>
+
+            The flag name should contain the project name, the feature name, and the ticket number, each separated by a dot.
+          nullable: true
+          type: string
+      required:
+      - pattern
       type: object
     createPatSchema:
       description: "Describes the properties required to create a [personal access\
@@ -2869,6 +2957,22 @@ components:
           type: string
       required:
       - name
+      type: object
+    updateProjectEnterpriseSettingsSchema:
+      description: "Data used to update a [project](https://docs.getunleash.io/reference/projects)\
+        \ settings"
+      properties:
+        mode:
+          description: A mode of the project affecting what actions are possible in
+            this project
+          enum:
+          - open
+          - protected
+          - private
+          example: open
+          type: string
+        featureNaming:
+          $ref: '#/components/schemas/createFeatureNamingPatternSchema'
       type: object
     userWithProjectRoleSchema:
       description: Data about a user including their project role

@@ -2798,6 +2798,177 @@
         ]
       }
     },
+    "/api/admin/projects/{projectId}/settings": {
+      "put": {
+        "operationId": "updateProjectEnterpriseSettings",
+        "summary": "Update project enterprise settings",
+        "description": "Update project enterprise settings with new values. Any fields not provided are ignored.",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "updateProjectEnterpriseSettingsSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateProjectEnterpriseSettingsSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "This response has no body."
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NotFoundError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\"."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "The operation does not support request payloads of the provided type. Please ensure that you're using one of the listed payload types and that you have specified the right content type in the \"content-type\" header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ContentTypeerror"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "We do not accept the content-type you provided (application/xml). Try using one of the content-types we do accept instead (application/json) and make sure the body is in the corresponding format."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
     "/api/admin/projects/{projectId}/access": {
       "get": {
         "operationId": "getProjectAccess",
@@ -4223,6 +4394,33 @@
               }
             }
           }
+        ]
+      },
+      "createFeatureNamingPatternSchema": {
+        "description": "Create a feature naming pattern",
+        "type": "object",
+        "properties": {
+          "pattern": {
+            "description": "A JavaScript regular expression pattern, without the start and end delimiters. Optional flags are not allowed.",
+            "type": "string",
+            "example": "^[A-Za-z]+\\.[A-Za-z]+\\.[A-Za-z0-9-]+$",
+            "nullable": true
+          },
+          "example": {
+            "description": "An example of a feature name that matches the pattern. Must itself match the pattern supplied.",
+            "type": "string",
+            "example": "dx.feature1.1-135",
+            "nullable": true
+          },
+          "description": {
+            "description": "A description of the pattern in a human-readable format. Will be shown to users when they create a new feature flag.",
+            "type": "string",
+            "example": "<project>.<featureName>.<ticket>\n\nThe flag name should contain the project name, the feature name, and the ticket number, each separated by a dot.",
+            "nullable": true
+          }
+        },
+        "required": [
+          "pattern"
         ]
       },
       "createPatSchema": {
@@ -5713,6 +5911,25 @@
         "required": [
           "name"
         ]
+      },
+      "updateProjectEnterpriseSettingsSchema": {
+        "description": "Data used to update a [project](https://docs.getunleash.io/reference/projects) settings",
+        "type": "object",
+        "properties": {
+          "mode": {
+            "description": "A mode of the project affecting what actions are possible in this project",
+            "type": "string",
+            "example": "open",
+            "enum": [
+              "open",
+              "protected",
+              "private"
+            ]
+          },
+          "featureNaming": {
+            "$ref": "#/components/schemas/createFeatureNamingPatternSchema"
+          }
+        }
       },
       "userWithProjectRoleSchema": {
         "description": "Data about a user including their project role",

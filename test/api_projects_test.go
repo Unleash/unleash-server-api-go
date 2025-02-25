@@ -170,4 +170,45 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 			t.Skip("Enterprise only feature")
 		}
 	})
+
+	t.Run("Test ProjectsAPIService UpdateSettings correctly updates the project mode", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			projectId := "pet-shop-project"
+			createProjectSchema := *client.NewCreateProjectSchema("some-random-project")
+			createProjectSchema.SetId(projectId)
+			createResp, createResponse, createErr := apiClient.ProjectsAPI.CreateProject(context.Background()).CreateProjectSchema(createProjectSchema).Execute()
+
+			require.Nil(t, createErr)
+			require.NotNil(t, createResp)
+			assert.Equal(t, 201, createResponse.StatusCode)
+
+			updateProjectSettingsRequest := *client.NewUpdateProjectEnterpriseSettingsSchemaWithDefaults()
+			updateProjectSettingsRequest.SetMode("private")
+
+			_, err := apiClient.ProjectsAPI.UpdateProjectEnterpriseSettings(context.Background(), projectId).UpdateProjectEnterpriseSettingsSchema(updateProjectSettingsRequest).Execute()
+			require.Nil(t, err)
+
+			defer cleanupProject(t, apiClient, projectId)
+
+			projects, projectApiResponse, err := apiClient.ProjectsAPI.GetProjects(context.Background()).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, projectApiResponse)
+			require.NotNil(t, projects)
+
+			var project *client.ProjectSchema
+			for _, p := range projects.Projects {
+				if p.Id == projectId {
+					project = &p
+					break
+				}
+			}
+
+			require.NotNil(t, project)
+			assert.Equal(t, "private", *project.Mode)
+
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
 }

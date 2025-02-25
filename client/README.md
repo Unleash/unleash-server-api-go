@@ -96,6 +96,7 @@ Class | Method | HTTP request | Description
 *ProjectsAPI* | [**GetProjects**](docs/ProjectsAPI.md#getprojects) | **Get** /api/admin/projects | Get a list of all projects.
 *ProjectsAPI* | [**SetProjectAccess**](docs/ProjectsAPI.md#setprojectaccess) | **Put** /api/admin/projects/{projectId}/access | Set users and groups to roles in the current project
 *ProjectsAPI* | [**UpdateProject**](docs/ProjectsAPI.md#updateproject) | **Put** /api/admin/projects/{projectId} | Update project
+*ProjectsAPI* | [**UpdateProjectEnterpriseSettings**](docs/ProjectsAPI.md#updateprojectenterprisesettings) | **Put** /api/admin/projects/{projectId}/settings | Update project enterprise settings
 *ServiceAccountsAPI* | [**CreateServiceAccount**](docs/ServiceAccountsAPI.md#createserviceaccount) | **Post** /api/admin/service-account | Create a service account.
 *ServiceAccountsAPI* | [**CreateServiceAccountToken**](docs/ServiceAccountsAPI.md#createserviceaccounttoken) | **Post** /api/admin/service-account/{id}/token | Create a token for a service account.
 *ServiceAccountsAPI* | [**DeleteServiceAccount**](docs/ServiceAccountsAPI.md#deleteserviceaccount) | **Delete** /api/admin/service-account/{id} | Delete a service account.
@@ -127,6 +128,7 @@ Class | Method | HTTP request | Description
  - [CreateApiTokenSchemaOneOf1](docs/CreateApiTokenSchemaOneOf1.md)
  - [CreateApiTokenSchemaOneOf2](docs/CreateApiTokenSchemaOneOf2.md)
  - [CreateApiTokenSchemaOneOf3](docs/CreateApiTokenSchemaOneOf3.md)
+ - [CreateFeatureNamingPatternSchema](docs/CreateFeatureNamingPatternSchema.md)
  - [CreatePatSchema](docs/CreatePatSchema.md)
  - [CreateProjectSchema](docs/CreateProjectSchema.md)
  - [CreateProjectSchemaChangeRequestEnvironmentsInner](docs/CreateProjectSchemaChangeRequestEnvironmentsInner.md)
@@ -178,6 +180,7 @@ Class | Method | HTTP request | Description
  - [ServiceAccountsSchema](docs/ServiceAccountsSchema.md)
  - [SetSamlSettings415Response](docs/SetSamlSettings415Response.md)
  - [UpdateApiTokenSchema](docs/UpdateApiTokenSchema.md)
+ - [UpdateProjectEnterpriseSettingsSchema](docs/UpdateProjectEnterpriseSettingsSchema.md)
  - [UpdateProjectSchema](docs/UpdateProjectSchema.md)
  - [UpdateServiceAccountSchema](docs/UpdateServiceAccountSchema.md)
  - [UpdateUserSchema](docs/UpdateUserSchema.md)
