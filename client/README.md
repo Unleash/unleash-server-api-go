@@ -90,6 +90,11 @@ Class | Method | HTTP request | Description
 *AuthAPI* | [**SetOidcSettings**](docs/AuthAPI.md#setoidcsettings) | **Post** /api/admin/auth/oidc/settings | Set OIDC settings
 *AuthAPI* | [**SetSamlSettings**](docs/AuthAPI.md#setsamlsettings) | **Post** /api/admin/auth/saml/settings | Update SAML auth settings
 *AuthAPI* | [**SetSimpleSettings**](docs/AuthAPI.md#setsimplesettings) | **Post** /api/admin/auth/simple/settings | Update Simple auth settings
+*ContextAPI* | [**CreateContextField**](docs/ContextAPI.md#createcontextfield) | **Post** /api/admin/context | Create a context field
+*ContextAPI* | [**DeleteContextField**](docs/ContextAPI.md#deletecontextfield) | **Delete** /api/admin/context/{contextField} | Delete an existing context field
+*ContextAPI* | [**GetContextField**](docs/ContextAPI.md#getcontextfield) | **Get** /api/admin/context/{contextField} | Gets context field
+*ContextAPI* | [**GetContextFields**](docs/ContextAPI.md#getcontextfields) | **Get** /api/admin/context | Gets configured context fields
+*ContextAPI* | [**UpdateContextField**](docs/ContextAPI.md#updatecontextfield) | **Put** /api/admin/context/{contextField} | Update an existing context field
 *ProjectsAPI* | [**CreateProject**](docs/ProjectsAPI.md#createproject) | **Post** /api/admin/projects | Create project
 *ProjectsAPI* | [**DeleteProject**](docs/ProjectsAPI.md#deleteproject) | **Delete** /api/admin/projects/{projectId} | Delete project
 *ProjectsAPI* | [**GetProjectAccess**](docs/ProjectsAPI.md#getprojectaccess) | **Get** /api/admin/projects/{projectId}/access | Get users and groups in project
@@ -123,11 +128,13 @@ Class | Method | HTTP request | Description
  - [AdminPermissionsSchemaPermissionsEnvironmentsInner](docs/AdminPermissionsSchemaPermissionsEnvironmentsInner.md)
  - [ApiTokenSchema](docs/ApiTokenSchema.md)
  - [ApiTokensSchema](docs/ApiTokensSchema.md)
+ - [ContextFieldSchema](docs/ContextFieldSchema.md)
  - [CreateApiTokenSchema](docs/CreateApiTokenSchema.md)
  - [CreateApiTokenSchemaOneOf](docs/CreateApiTokenSchemaOneOf.md)
  - [CreateApiTokenSchemaOneOf1](docs/CreateApiTokenSchemaOneOf1.md)
  - [CreateApiTokenSchemaOneOf2](docs/CreateApiTokenSchemaOneOf2.md)
  - [CreateApiTokenSchemaOneOf3](docs/CreateApiTokenSchemaOneOf3.md)
+ - [CreateContextFieldSchema](docs/CreateContextFieldSchema.md)
  - [CreateFeatureNamingPatternSchema](docs/CreateFeatureNamingPatternSchema.md)
  - [CreatePatSchema](docs/CreatePatSchema.md)
  - [CreateProjectSchema](docs/CreateProjectSchema.md)
@@ -154,6 +161,7 @@ Class | Method | HTTP request | Description
  - [GetSamlSettings403Response](docs/GetSamlSettings403Response.md)
  - [GroupUserModelSchema](docs/GroupUserModelSchema.md)
  - [GroupWithProjectRoleSchema](docs/GroupWithProjectRoleSchema.md)
+ - [LegalValueSchema](docs/LegalValueSchema.md)
  - [OidcSettingsResponseSchema](docs/OidcSettingsResponseSchema.md)
  - [OidcSettingsSchema](docs/OidcSettingsSchema.md)
  - [OidcSettingsSchemaOneOf](docs/OidcSettingsSchemaOneOf.md)
@@ -180,6 +188,7 @@ Class | Method | HTTP request | Description
  - [ServiceAccountsSchema](docs/ServiceAccountsSchema.md)
  - [SetSamlSettings415Response](docs/SetSamlSettings415Response.md)
  - [UpdateApiTokenSchema](docs/UpdateApiTokenSchema.md)
+ - [UpdateContextFieldSchema](docs/UpdateContextFieldSchema.md)
  - [UpdateProjectEnterpriseSettingsSchema](docs/UpdateProjectEnterpriseSettingsSchema.md)
  - [UpdateProjectSchema](docs/UpdateProjectSchema.md)
  - [UpdateServiceAccountSchema](docs/UpdateServiceAccountSchema.md)
