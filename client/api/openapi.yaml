@@ -549,6 +549,193 @@ paths:
       summary: Update a role
       tags:
       - Users
+  /api/admin/environments:
+    get:
+      description: Retrieves all environments that exist in this Unleash instance.
+      operationId: getAllEnvironments
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentsSchema'
+          description: environmentsSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get all environments
+      tags:
+      - Environments
+    post:
+      description: Uses the details provided in the payload to create a new environment
+      operationId: createEnvironment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createEnvironmentSchema'
+        description: createEnvironmentSchema
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentSchema'
+          description: The resource was successfully created.
+          headers:
+            location:
+              description: The location of the newly created resource.
+              explode: false
+              schema:
+                format: uri
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+      summary: Creates a new environment
+      tags:
+      - Environments
+  /api/admin/environments/update/{name}:
+    put:
+      description: "Given an environment by name updates the environment with the\
+        \ given payload. Note that `name`, `enabled` and `protected` cannot be changed\
+        \ by this API"
+      operationId: updateEnvironment
+      parameters:
+      - explode: false
+        in: path
+        name: name
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateEnvironmentSchema'
+        description: updateEnvironmentSchema
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentSchema'
+          description: environmentSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+      summary: Updates an environment by name
+      tags:
+      - Environments
+  /api/admin/environments/{name}:
+    delete:
+      description: "Given an existing environment by name, this endpoint will attempt\
+        \ to delete it"
+      operationId: removeEnvironment
+      parameters:
+      - explode: false
+        in: path
+        name: name
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+      summary: Deletes an environment by name
+      tags:
+      - Environments
+    get:
+      description: Retrieves the environment with `name` if it exists in this Unleash
+        instance
+      operationId: getEnvironment
+      parameters:
+      - explode: false
+        in: path
+        name: name
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentSchema'
+          description: environmentSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoleById_404_response'
+          description: The requested resource was not found.
+      summary: Get the environment with `name`
+      tags:
+      - Environments
   /api/admin/service-account:
     get:
       description: Returns the list of all service accounts.
@@ -1746,6 +1933,85 @@ paths:
       summary: Update a user
       tags:
       - Users
+  /api/admin/environments/{name}/on:
+    post:
+      description: Makes it possible to enable this environment for a project. An
+        environment must first be globally enabled using this endpoint before it can
+        be enabled for a project
+      operationId: toggleEnvironmentOn
+      parameters:
+      - explode: false
+        in: path
+        name: name
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: This response has no body.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoleById_404_response'
+          description: The requested resource was not found.
+      summary: Toggle the environment with `name` on
+      tags:
+      - Environments
+  /api/admin/environments/{name}/off:
+    post:
+      description: Removes this environment from the list of available environments
+        for projects to use
+      operationId: toggleEnvironmentOff
+      parameters:
+      - explode: false
+        in: path
+        name: name
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: This response has no body.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoleById_404_response'
+          description: The requested resource was not found.
+      summary: Toggle the environment with `name` off
+      tags:
+      - Environments
 components:
   schemas:
     apiTokenSchema:
@@ -2174,6 +2440,104 @@ components:
           type: boolean
       required:
       - rootRole
+      type: object
+    environmentSchema:
+      additionalProperties: true
+      description: A definition of the project environment
+      example:
+        projectCount: 10
+        enabledToggleCount: 10
+        protected: true
+        sortOrder: 3
+        name: my-dev-env
+        type: development
+        apiTokenCount: 6
+        enabled: true
+      properties:
+        name:
+          description: The name of the environment
+          example: my-dev-env
+          type: string
+        type:
+          description: "The [type of environment](https://docs.getunleash.io/reference/environments#environment-types)."
+          example: development
+          type: string
+        enabled:
+          description: "`true` if the environment is enabled for the project, otherwise\
+            \ `false`."
+          example: true
+          type: boolean
+        protected:
+          description: "`true` if the environment is protected, otherwise `false`.\
+            \ A *protected* environment can not be deleted."
+          example: true
+          type: boolean
+        sortOrder:
+          description: "Priority of the environment in a list of environments, the\
+            \ lower the value, the higher up in the list the environment will appear.\
+            \ Needs to be an integer"
+          example: 3
+          type: integer
+        projectCount:
+          description: The number of projects with this environment
+          example: 10
+          minimum: 0
+          nullable: true
+          type: integer
+        apiTokenCount:
+          description: The number of API tokens for the project environment
+          example: 6
+          minimum: 0
+          nullable: true
+          type: integer
+        enabledToggleCount:
+          description: The number of enabled toggles for the project environment
+          example: 10
+          minimum: 0
+          nullable: true
+          type: integer
+      required:
+      - enabled
+      - name
+      - protected
+      - sortOrder
+      - type
+      type: object
+    environmentsSchema:
+      additionalProperties: true
+      description: A versioned list of environments
+      example:
+        environments:
+        - projectCount: 10
+          enabledToggleCount: 10
+          protected: true
+          sortOrder: 3
+          name: my-dev-env
+          type: development
+          apiTokenCount: 6
+          enabled: true
+        - projectCount: 10
+          enabledToggleCount: 10
+          protected: true
+          sortOrder: 3
+          name: my-dev-env
+          type: development
+          apiTokenCount: 6
+          enabled: true
+        version: 1
+      properties:
+        version:
+          description: Version of the environments schema
+          example: 1
+          type: integer
+        environments:
+          description: List of environments
+          items:
+            $ref: '#/components/schemas/environmentSchema'
+          type: array
+      required:
+      - environments
+      - version
       type: object
     groupUserModelSchema:
       additionalProperties: true
@@ -2701,6 +3065,38 @@ components:
       - permissions
       - version
       type: object
+    createEnvironmentSchema:
+      description: "Data required to create a new [environment](https://docs.getunleash.io/reference/environments)"
+      properties:
+        name:
+          description: "The name of the environment. Must be a URL-friendly string\
+            \ according to [RFC 3968, section 2.3](https://www.rfc-editor.org/rfc/rfc3986#section-2.3)"
+          pattern: "^[a-zA-Z0-9~_.-]+$"
+          type: string
+        type:
+          description: |-
+            The [type of environment](https://docs.getunleash.io/reference/environments#environment-types) you would like to create. Unleash officially recognizes the following values:
+            - `development`
+            - `test`
+            - `preproduction`
+            - `production`
+
+            If you pass a string that is not one of the recognized values, Unleash will accept it, but it will carry no special semantics.
+          minLength: 1
+          type: string
+        enabled:
+          description: Newly created environments are enabled by default. Set this
+            property to `false` to create the environment in a disabled state.
+          type: boolean
+        sortOrder:
+          description: "Defines where in the list of environments to place this environment.\
+            \ The list uses an ascending sort, so lower numbers are shown first. You\
+            \ can change this value later."
+          type: integer
+      required:
+      - name
+      - type
+      type: object
     createProjectSchema:
       description: "Data used to create a new [project](https://docs.getunleash.io/reference/projects)."
       properties:
@@ -3186,6 +3582,16 @@ components:
       oneOf:
       - $ref: '#/components/schemas/samlSettingsSchema_oneOf'
       - $ref: '#/components/schemas/samlSettingsSchema_oneOf_1'
+      type: object
+    updateEnvironmentSchema:
+      description: "Data used to update an [environment](https://docs.getunleash.io/reference/environments)."
+      properties:
+        type:
+          description: Updates the type of environment (i.e. development or production).
+          type: string
+        sortOrder:
+          description: Changes the sort order of this environment.
+          type: integer
       type: object
     updateProjectSchema:
       description: "Data used to update a [project](https://docs.getunleash.io/reference/projects)"
@@ -3935,6 +4341,19 @@ components:
           example: false
           type: boolean
       type: object
+    edgeEndpointTrafficSchema:
+      additionalProperties: true
+      description: Represents traffic data for a single endpoint in Edge
+      properties:
+        requests200:
+          description: Number of 20x requests
+          minimum: 0
+          type: number
+        requests304:
+          description: Number of 30x requests
+          minimum: 0
+          type: number
+      type: object
     edgeInstanceDataSchema:
       description: Represents Edge instance observability data.
       properties:
@@ -3977,6 +4396,8 @@ components:
           items:
             $ref: '#/components/schemas/edgeInstanceDataSchema'
           type: array
+        requestsSinceLastReport:
+          $ref: '#/components/schemas/edgeRequestStatsSchema'
       required:
       - appName
       - connectedEdges
@@ -3986,23 +4407,6 @@ components:
       - latencyUpstream
       - started
       - traffic
-      type: object
-    edgeProcessMetricsSchema:
-      description: Represents Edge instance resource usage data.
-      properties:
-        cpuUsage:
-          description: "CPU usage, in seconds, since start of process."
-          example: 54.54
-          minimum: 0
-          type: number
-        memoryUsage:
-          description: Current process_resident_memory (in bytes) usage.
-          example: 34000432
-          minimum: 0
-          type: number
-      required:
-      - cpuUsage
-      - memoryUsage
       type: object
     edgeInstanceTrafficSchema:
       additionalProperties: true
@@ -4056,6 +4460,39 @@ components:
       - avg
       - count
       - p99
+      type: object
+    edgeProcessMetricsSchema:
+      description: Represents Edge instance resource usage data.
+      properties:
+        cpuUsage:
+          description: "CPU usage, in seconds, since start of process."
+          example: 54.54
+          minimum: 0
+          type: number
+        memoryUsage:
+          description: Current process_resident_memory (in bytes) usage.
+          example: 34000432
+          minimum: 0
+          type: number
+      required:
+      - cpuUsage
+      - memoryUsage
+      type: object
+    edgeRequestStatsSchema:
+      description: Represents Edge traffic data.
+      properties:
+        /api/client/features:
+          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
+        /api/frontend:
+          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
+        /api/proxy:
+          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
+        /api/client/metrics:
+          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
+        /api/client/metrics/bulk:
+          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
+        /api/client/metrics/edge:
+          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
       type: object
     edgeUpstreamLatencySchema:
       additionalProperties: true

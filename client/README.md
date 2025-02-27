@@ -95,6 +95,13 @@ Class | Method | HTTP request | Description
 *ContextAPI* | [**GetContextField**](docs/ContextAPI.md#getcontextfield) | **Get** /api/admin/context/{contextField} | Gets context field
 *ContextAPI* | [**GetContextFields**](docs/ContextAPI.md#getcontextfields) | **Get** /api/admin/context | Gets configured context fields
 *ContextAPI* | [**UpdateContextField**](docs/ContextAPI.md#updatecontextfield) | **Put** /api/admin/context/{contextField} | Update an existing context field
+*EnvironmentsAPI* | [**CreateEnvironment**](docs/EnvironmentsAPI.md#createenvironment) | **Post** /api/admin/environments | Creates a new environment
+*EnvironmentsAPI* | [**GetAllEnvironments**](docs/EnvironmentsAPI.md#getallenvironments) | **Get** /api/admin/environments | Get all environments
+*EnvironmentsAPI* | [**GetEnvironment**](docs/EnvironmentsAPI.md#getenvironment) | **Get** /api/admin/environments/{name} | Get the environment with &#x60;name&#x60;
+*EnvironmentsAPI* | [**RemoveEnvironment**](docs/EnvironmentsAPI.md#removeenvironment) | **Delete** /api/admin/environments/{name} | Deletes an environment by name
+*EnvironmentsAPI* | [**ToggleEnvironmentOff**](docs/EnvironmentsAPI.md#toggleenvironmentoff) | **Post** /api/admin/environments/{name}/off | Toggle the environment with &#x60;name&#x60; off
+*EnvironmentsAPI* | [**ToggleEnvironmentOn**](docs/EnvironmentsAPI.md#toggleenvironmenton) | **Post** /api/admin/environments/{name}/on | Toggle the environment with &#x60;name&#x60; on
+*EnvironmentsAPI* | [**UpdateEnvironment**](docs/EnvironmentsAPI.md#updateenvironment) | **Put** /api/admin/environments/update/{name} | Updates an environment by name
 *ProjectsAPI* | [**CreateProject**](docs/ProjectsAPI.md#createproject) | **Post** /api/admin/projects | Create project
 *ProjectsAPI* | [**DeleteProject**](docs/ProjectsAPI.md#deleteproject) | **Delete** /api/admin/projects/{projectId} | Delete project
 *ProjectsAPI* | [**GetProjectAccess**](docs/ProjectsAPI.md#getprojectaccess) | **Get** /api/admin/projects/{projectId}/access | Get users and groups in project
@@ -135,6 +142,7 @@ Class | Method | HTTP request | Description
  - [CreateApiTokenSchemaOneOf2](docs/CreateApiTokenSchemaOneOf2.md)
  - [CreateApiTokenSchemaOneOf3](docs/CreateApiTokenSchemaOneOf3.md)
  - [CreateContextFieldSchema](docs/CreateContextFieldSchema.md)
+ - [CreateEnvironmentSchema](docs/CreateEnvironmentSchema.md)
  - [CreateFeatureNamingPatternSchema](docs/CreateFeatureNamingPatternSchema.md)
  - [CreatePatSchema](docs/CreatePatSchema.md)
  - [CreateProjectSchema](docs/CreateProjectSchema.md)
@@ -150,11 +158,15 @@ Class | Method | HTTP request | Description
  - [CreateUserResponseSchemaRootRole](docs/CreateUserResponseSchemaRootRole.md)
  - [CreateUserSchema](docs/CreateUserSchema.md)
  - [CreateUserSchemaRootRole](docs/CreateUserSchemaRootRole.md)
+ - [EdgeEndpointTrafficSchema](docs/EdgeEndpointTrafficSchema.md)
  - [EdgeInstanceDataSchema](docs/EdgeInstanceDataSchema.md)
  - [EdgeInstanceTrafficSchema](docs/EdgeInstanceTrafficSchema.md)
  - [EdgeLatencyMetricsSchema](docs/EdgeLatencyMetricsSchema.md)
  - [EdgeProcessMetricsSchema](docs/EdgeProcessMetricsSchema.md)
+ - [EdgeRequestStatsSchema](docs/EdgeRequestStatsSchema.md)
  - [EdgeUpstreamLatencySchema](docs/EdgeUpstreamLatencySchema.md)
+ - [EnvironmentSchema](docs/EnvironmentSchema.md)
+ - [EnvironmentsSchema](docs/EnvironmentsSchema.md)
  - [GetRoleById404Response](docs/GetRoleById404Response.md)
  - [GetSamlSettings400Response](docs/GetSamlSettings400Response.md)
  - [GetSamlSettings401Response](docs/GetSamlSettings401Response.md)
@@ -189,6 +201,7 @@ Class | Method | HTTP request | Description
  - [SetSamlSettings415Response](docs/SetSamlSettings415Response.md)
  - [UpdateApiTokenSchema](docs/UpdateApiTokenSchema.md)
  - [UpdateContextFieldSchema](docs/UpdateContextFieldSchema.md)
+ - [UpdateEnvironmentSchema](docs/UpdateEnvironmentSchema.md)
  - [UpdateProjectEnterpriseSettingsSchema](docs/UpdateProjectEnterpriseSettingsSchema.md)
  - [UpdateProjectSchema](docs/UpdateProjectSchema.md)
  - [UpdateServiceAccountSchema](docs/UpdateServiceAccountSchema.md)

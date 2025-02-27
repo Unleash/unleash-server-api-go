@@ -37,8 +37,9 @@ type EdgeInstanceDataSchema struct {
 	// How many streaming clients are connected to the Edge instance.
 	ConnectedStreamingClients float32 `json:"connectedStreamingClients"`
 	// A list of Edge instances connected to the Edge instance.
-	ConnectedEdges       []EdgeInstanceDataSchema `json:"connectedEdges"`
-	AdditionalProperties map[string]interface{}
+	ConnectedEdges          []EdgeInstanceDataSchema `json:"connectedEdges"`
+	RequestsSinceLastReport EdgeRequestStatsSchema   `json:"requestsSinceLastReport,omitempty"`
+	AdditionalProperties    map[string]interface{}
 }
 
 type _EdgeInstanceDataSchema EdgeInstanceDataSchema
@@ -335,6 +336,38 @@ func (o *EdgeInstanceDataSchema) SetConnectedEdges(v []EdgeInstanceDataSchema) {
 	o.ConnectedEdges = v
 }
 
+// GetRequestsSinceLastReport returns the RequestsSinceLastReport field value if set, zero value otherwise.
+func (o *EdgeInstanceDataSchema) GetRequestsSinceLastReport() EdgeRequestStatsSchema {
+	if o == nil || IsNil(o.RequestsSinceLastReport) {
+		var ret EdgeRequestStatsSchema
+		return ret
+	}
+	return o.RequestsSinceLastReport
+}
+
+// GetRequestsSinceLastReportOk returns a tuple with the RequestsSinceLastReport field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EdgeInstanceDataSchema) GetRequestsSinceLastReportOk() (EdgeRequestStatsSchema, bool) {
+	if o == nil || IsNil(o.RequestsSinceLastReport) {
+		return EdgeRequestStatsSchema{}, false
+	}
+	return o.RequestsSinceLastReport, true
+}
+
+// HasRequestsSinceLastReport returns a boolean if a field has been set.
+func (o *EdgeInstanceDataSchema) HasRequestsSinceLastReport() bool {
+	if o != nil && !IsNil(o.RequestsSinceLastReport) {
+		return true
+	}
+
+	return false
+}
+
+// SetRequestsSinceLastReport gets a reference to the given EdgeRequestStatsSchema and assigns it to the RequestsSinceLastReport field.
+func (o *EdgeInstanceDataSchema) SetRequestsSinceLastReport(v EdgeRequestStatsSchema) {
+	o.RequestsSinceLastReport = v
+}
+
 func (o EdgeInstanceDataSchema) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -359,6 +392,9 @@ func (o EdgeInstanceDataSchema) ToMap() (map[string]interface{}, error) {
 	toSerialize["latencyUpstream"] = o.LatencyUpstream
 	toSerialize["connectedStreamingClients"] = o.ConnectedStreamingClients
 	toSerialize["connectedEdges"] = o.ConnectedEdges
+	if !IsNil(o.RequestsSinceLastReport) {
+		toSerialize["requestsSinceLastReport"] = o.RequestsSinceLastReport
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -419,6 +455,7 @@ func (o *EdgeInstanceDataSchema) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "latencyUpstream")
 		delete(additionalProperties, "connectedStreamingClients")
 		delete(additionalProperties, "connectedEdges")
+		delete(additionalProperties, "requestsSinceLastReport")
 		o.AdditionalProperties = additionalProperties
 	}
 

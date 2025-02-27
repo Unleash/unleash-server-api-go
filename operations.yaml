@@ -57,3 +57,11 @@ inverseOperationIds:
   - createContextField
   - updateContextField
   - deleteContextField
+
+  - createEnvironment
+  - updateEnvironment
+  - removeEnvironment
+  - getEnvironment
+  - getAllEnvironments
+  - toggleEnvironmentOff
+  - toggleEnvironmentOn
