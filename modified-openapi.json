@@ -1344,6 +1344,463 @@
         ]
       }
     },
+    "/api/admin/environments": {
+      "post": {
+        "operationId": "createEnvironment",
+        "summary": "Creates a new environment",
+        "description": "Uses the details provided in the payload to create a new environment",
+        "requestBody": {
+          "description": "createEnvironmentSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createEnvironmentSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The resource was successfully created.",
+            "headers": {
+              "location": {
+                "description": "The location of the newly created resource.",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/environmentSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Environments"
+        ]
+      },
+      "get": {
+        "operationId": "getAllEnvironments",
+        "summary": "Get all environments",
+        "description": "Retrieves all environments that exist in this Unleash instance.",
+        "responses": {
+          "200": {
+            "description": "environmentsSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/environmentsSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Environments"
+        ]
+      }
+    },
+    "/api/admin/environments/update/{name}": {
+      "put": {
+        "operationId": "updateEnvironment",
+        "summary": "Updates an environment by name",
+        "description": "Given an environment by name updates the environment with the given payload. Note that `name`, `enabled` and `protected` cannot be changed by this API",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "updateEnvironmentSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateEnvironmentSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "environmentSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/environmentSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Environments"
+        ]
+      }
+    },
+    "/api/admin/environments/{name}": {
+      "delete": {
+        "operationId": "removeEnvironment",
+        "summary": "Deletes an environment by name",
+        "description": "Given an existing environment by name, this endpoint will attempt to delete it",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This response has no body."
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Environments"
+        ]
+      },
+      "get": {
+        "operationId": "getEnvironment",
+        "summary": "Get the environment with `name`",
+        "description": "Retrieves the environment with `name` if it exists in this Unleash instance",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "environmentSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/environmentSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NotFoundError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\"."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Environments"
+        ]
+      }
+    },
     "/api/admin/service-account": {
       "get": {
         "operationId": "getServiceAccounts",
@@ -4284,6 +4741,218 @@
           "Users"
         ]
       }
+    },
+    "/api/admin/environments/{name}/on": {
+      "post": {
+        "operationId": "toggleEnvironmentOn",
+        "summary": "Toggle the environment with `name` on",
+        "description": "Makes it possible to enable this environment for a project. An environment must first be globally enabled using this endpoint before it can be enabled for a project",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "This response has no body."
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NotFoundError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\"."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Environments"
+        ]
+      }
+    },
+    "/api/admin/environments/{name}/off": {
+      "post": {
+        "operationId": "toggleEnvironmentOff",
+        "summary": "Toggle the environment with `name` off",
+        "description": "Removes this environment from the list of available environments for projects to use",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "This response has no body."
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NotFoundError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\"."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Environments"
+        ]
+      }
     }
   },
   "components": {
@@ -4886,6 +5555,89 @@
           "rootRole"
         ]
       },
+      "environmentSchema": {
+        "description": "A definition of the project environment",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The name of the environment",
+            "type": "string",
+            "example": "my-dev-env"
+          },
+          "type": {
+            "description": "The [type of environment](https://docs.getunleash.io/reference/environments#environment-types).",
+            "type": "string",
+            "example": "development"
+          },
+          "enabled": {
+            "description": "`true` if the environment is enabled for the project, otherwise `false`.",
+            "type": "boolean",
+            "example": true
+          },
+          "protected": {
+            "description": "`true` if the environment is protected, otherwise `false`. A *protected* environment can not be deleted.",
+            "type": "boolean",
+            "example": true
+          },
+          "sortOrder": {
+            "description": "Priority of the environment in a list of environments, the lower the value, the higher up in the list the environment will appear. Needs to be an integer",
+            "type": "integer",
+            "example": 3
+          },
+          "projectCount": {
+            "description": "The number of projects with this environment",
+            "type": "integer",
+            "example": 10,
+            "minimum": 0,
+            "nullable": true
+          },
+          "apiTokenCount": {
+            "description": "The number of API tokens for the project environment",
+            "type": "integer",
+            "example": 6,
+            "minimum": 0,
+            "nullable": true
+          },
+          "enabledToggleCount": {
+            "description": "The number of enabled toggles for the project environment",
+            "type": "integer",
+            "example": 10,
+            "minimum": 0,
+            "nullable": true
+          }
+        },
+        "additionalProperties": true,
+        "required": [
+          "name",
+          "type",
+          "enabled",
+          "protected",
+          "sortOrder"
+        ]
+      },
+      "environmentsSchema": {
+        "description": "A versioned list of environments",
+        "type": "object",
+        "properties": {
+          "version": {
+            "description": "Version of the environments schema",
+            "type": "integer",
+            "example": 1
+          },
+          "environments": {
+            "description": "List of environments",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/environmentSchema"
+            }
+          }
+        },
+        "additionalProperties": true,
+        "required": [
+          "version",
+          "environments"
+        ]
+      },
       "groupUserModelSchema": {
         "description": "Details for a single user belonging to a group",
         "type": "object",
@@ -5402,6 +6154,34 @@
         "required": [
           "permissions",
           "version"
+        ]
+      },
+      "createEnvironmentSchema": {
+        "description": "Data required to create a new [environment](https://docs.getunleash.io/reference/environments)",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The name of the environment. Must be a URL-friendly string according to [RFC 3968, section 2.3](https://www.rfc-editor.org/rfc/rfc3986#section-2.3)",
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9~_.-]+$"
+          },
+          "type": {
+            "description": "The [type of environment](https://docs.getunleash.io/reference/environments#environment-types) you would like to create. Unleash officially recognizes the following values:\n- `development`\n- `test`\n- `preproduction`\n- `production`\n\nIf you pass a string that is not one of the recognized values, Unleash will accept it, but it will carry no special semantics.",
+            "type": "string",
+            "minLength": 1
+          },
+          "enabled": {
+            "description": "Newly created environments are enabled by default. Set this property to `false` to create the environment in a disabled state.",
+            "type": "boolean"
+          },
+          "sortOrder": {
+            "description": "Defines where in the list of environments to place this environment. The list uses an ascending sort, so lower numbers are shown first. You can change this value later.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "type"
         ]
       },
       "createProjectSchema": {
@@ -6200,6 +6980,20 @@
           }
         ]
       },
+      "updateEnvironmentSchema": {
+        "description": "Data used to update an [environment](https://docs.getunleash.io/reference/environments).",
+        "type": "object",
+        "properties": {
+          "type": {
+            "description": "Updates the type of environment (i.e. development or production).",
+            "type": "string"
+          },
+          "sortOrder": {
+            "description": "Changes the sort order of this environment.",
+            "type": "integer"
+          }
+        }
+      },
       "updateProjectSchema": {
         "description": "Data used to update a [project](https://docs.getunleash.io/reference/projects)",
         "type": "object",
@@ -6718,6 +7512,23 @@
           }
         }
       },
+      "edgeEndpointTrafficSchema": {
+        "description": "Represents traffic data for a single endpoint in Edge",
+        "type": "object",
+        "properties": {
+          "requests200": {
+            "description": "Number of 20x requests",
+            "type": "number",
+            "minimum": 0
+          },
+          "requests304": {
+            "description": "Number of 30x requests",
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "additionalProperties": true
+      },
       "edgeInstanceDataSchema": {
         "description": "Represents Edge instance observability data.",
         "type": "object",
@@ -6772,6 +7583,11 @@
             "items": {
               "$ref": "#/components/schemas/edgeInstanceDataSchema"
             }
+          },
+          "requestsSinceLastReport": {
+            "description": "Requests made to edge's endpoints since last report. Meant to be used for billing purposes.",
+            "type": "object",
+            "$ref": "#/components/schemas/edgeRequestStatsSchema"
           }
         },
         "required": [
@@ -6783,28 +7599,6 @@
           "latencyUpstream",
           "connectedStreamingClients",
           "connectedEdges"
-        ]
-      },
-      "edgeProcessMetricsSchema": {
-        "description": "Represents Edge instance resource usage data.",
-        "type": "object",
-        "properties": {
-          "cpuUsage": {
-            "description": "CPU usage, in seconds, since start of process.",
-            "type": "number",
-            "example": 54.54,
-            "minimum": 0
-          },
-          "memoryUsage": {
-            "description": "Current process_resident_memory (in bytes) usage.",
-            "type": "number",
-            "example": 34000432,
-            "minimum": 0
-          }
-        },
-        "required": [
-          "cpuUsage",
-          "memoryUsage"
         ]
       },
       "edgeInstanceTrafficSchema": {
@@ -6883,6 +7677,64 @@
           "count",
           "p99"
         ]
+      },
+      "edgeProcessMetricsSchema": {
+        "description": "Represents Edge instance resource usage data.",
+        "type": "object",
+        "properties": {
+          "cpuUsage": {
+            "description": "CPU usage, in seconds, since start of process.",
+            "type": "number",
+            "example": 54.54,
+            "minimum": 0
+          },
+          "memoryUsage": {
+            "description": "Current process_resident_memory (in bytes) usage.",
+            "type": "number",
+            "example": 34000432,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "cpuUsage",
+          "memoryUsage"
+        ]
+      },
+      "edgeRequestStatsSchema": {
+        "description": "Represents Edge traffic data.",
+        "type": "object",
+        "properties": {
+          "/api/client/features": {
+            "description": "20x and 30x requests to the client features endpoint",
+            "type": "object",
+            "$ref": "#/components/schemas/edgeEndpointTrafficSchema"
+          },
+          "/api/frontend": {
+            "description": "Traffic to the frontend endpoint",
+            "type": "object",
+            "$ref": "#/components/schemas/edgeEndpointTrafficSchema"
+          },
+          "/api/proxy": {
+            "description": "Traffic to the proxy endpoint (proxy endpoint is deprecated, use /api/frontend instead)",
+            "type": "object",
+            "$ref": "#/components/schemas/edgeEndpointTrafficSchema"
+          },
+          "/api/client/metrics": {
+            "description": "Traffic to Edge Metrics (from SDKs)",
+            "type": "object",
+            "$ref": "#/components/schemas/edgeEndpointTrafficSchema"
+          },
+          "/api/client/metrics/bulk": {
+            "description": "Traffic to Edge Metrics (from other Edge instances)",
+            "type": "object",
+            "$ref": "#/components/schemas/edgeEndpointTrafficSchema"
+          },
+          "/api/client/metrics/edge": {
+            "description": "Traffic to Edge Metrics (from other Edge instances)",
+            "type": "object",
+            "$ref": "#/components/schemas/edgeEndpointTrafficSchema"
+          }
+        }
       },
       "edgeUpstreamLatencySchema": {
         "description": "Latencies for upstream actions from Edge (downloading/syncing new features, uploading metrics, uploading instance data)",

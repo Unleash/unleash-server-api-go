@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **LatencyUpstream** | [**EdgeUpstreamLatencySchema**](EdgeUpstreamLatencySchema.md) |  | 
 **ConnectedStreamingClients** | **float32** | How many streaming clients are connected to the Edge instance. | 
 **ConnectedEdges** | [**[]EdgeInstanceDataSchema**](EdgeInstanceDataSchema.md) | A list of Edge instances connected to the Edge instance. | 
+**RequestsSinceLastReport** | Pointer to [**EdgeRequestStatsSchema**](EdgeRequestStatsSchema.md) |  | [optional] 
 
 ## Methods
 
@@ -253,6 +254,31 @@ and a boolean to check if the value has been set.
 
 SetConnectedEdges sets ConnectedEdges field to given value.
 
+
+### GetRequestsSinceLastReport
+
+`func (o *EdgeInstanceDataSchema) GetRequestsSinceLastReport() EdgeRequestStatsSchema`
+
+GetRequestsSinceLastReport returns the RequestsSinceLastReport field if non-nil, zero value otherwise.
+
+### GetRequestsSinceLastReportOk
+
+`func (o *EdgeInstanceDataSchema) GetRequestsSinceLastReportOk() (*EdgeRequestStatsSchema, bool)`
+
+GetRequestsSinceLastReportOk returns a tuple with the RequestsSinceLastReport field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRequestsSinceLastReport
+
+`func (o *EdgeInstanceDataSchema) SetRequestsSinceLastReport(v EdgeRequestStatsSchema)`
+
+SetRequestsSinceLastReport sets RequestsSinceLastReport field to given value.
+
+### HasRequestsSinceLastReport
+
+`func (o *EdgeInstanceDataSchema) HasRequestsSinceLastReport() bool`
+
+HasRequestsSinceLastReport returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

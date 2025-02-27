@@ -11563,6 +11563,13 @@
             "type": "string",
             "description": "The instance identifier of the Unleash instance",
             "example": "0d652a82-43db-4144-8e02-864b0b030710"
+          },
+          "buildDate": {
+            "description": "The date and time of when this Unleash instance version was built",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2023-06-30T11:41:00.123Z"
           }
         }
       },
@@ -16476,7 +16483,8 @@
             "example": "info",
             "enum": [
               "info",
-              "warn"
+              "warning",
+              "error"
             ]
           }
         }
@@ -18772,6 +18780,23 @@
           }
         }
       },
+      "edgeEndpointTrafficSchema": {
+        "type": "object",
+        "description": "Represents traffic data for a single endpoint in Edge",
+        "additionalProperties": false,
+        "properties": {
+          "requests200": {
+            "description": "Number of 20x requests",
+            "type": "number",
+            "minimum": 0
+          },
+          "requests304": {
+            "description": "Number of 30x requests",
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      },
       "edgeInstanceDataSchema": {
         "description": "Represents Edge instance observability data.",
         "type": "object",
@@ -18836,28 +18861,11 @@
             "items": {
               "$ref": "#/components/schemas/edgeInstanceDataSchema"
             }
-          }
-        }
-      },
-      "edgeProcessMetricsSchema": {
-        "description": "Represents Edge instance resource usage data.",
-        "type": "object",
-        "required": [
-          "cpuUsage",
-          "memoryUsage"
-        ],
-        "properties": {
-          "cpuUsage": {
-            "type": "number",
-            "description": "CPU usage, in seconds, since start of process.",
-            "minimum": 0,
-            "example": 54.54
           },
-          "memoryUsage": {
-            "type": "number",
-            "description": "Current process_resident_memory (in bytes) usage.",
-            "minimum": 0,
-            "example": 34000432
+          "requestsSinceLastReport": {
+            "type": "object",
+            "description": "Requests made to edge's endpoints since last report. Meant to be used for billing purposes.",
+            "$ref": "#/components/schemas/edgeRequestStatsSchema"
           }
         }
       },
@@ -18935,6 +18943,64 @@
             "description": "99% of requests finished within this amount of milliseconds.",
             "minimum": 0,
             "example": 34.5
+          }
+        }
+      },
+      "edgeProcessMetricsSchema": {
+        "description": "Represents Edge instance resource usage data.",
+        "type": "object",
+        "required": [
+          "cpuUsage",
+          "memoryUsage"
+        ],
+        "properties": {
+          "cpuUsage": {
+            "type": "number",
+            "description": "CPU usage, in seconds, since start of process.",
+            "minimum": 0,
+            "example": 54.54
+          },
+          "memoryUsage": {
+            "type": "number",
+            "description": "Current process_resident_memory (in bytes) usage.",
+            "minimum": 0,
+            "example": 34000432
+          }
+        }
+      },
+      "edgeRequestStatsSchema": {
+        "description": "Represents Edge traffic data.",
+        "type": "object",
+        "properties": {
+          "/api/client/features": {
+            "description": "20x and 30x requests to the client features endpoint",
+            "type": "object",
+            "$ref": "#/components/schemas/edgeEndpointTrafficSchema"
+          },
+          "/api/frontend": {
+            "description": "Traffic to the frontend endpoint",
+            "type": "object",
+            "$ref": "#/components/schemas/edgeEndpointTrafficSchema"
+          },
+          "/api/proxy": {
+            "description": "Traffic to the proxy endpoint (proxy endpoint is deprecated, use /api/frontend instead)",
+            "type": "object",
+            "$ref": "#/components/schemas/edgeEndpointTrafficSchema"
+          },
+          "/api/client/metrics": {
+            "description": "Traffic to Edge Metrics (from SDKs)",
+            "type": "object",
+            "$ref": "#/components/schemas/edgeEndpointTrafficSchema"
+          },
+          "/api/client/metrics/bulk": {
+            "description": "Traffic to Edge Metrics (from other Edge instances)",
+            "type": "object",
+            "$ref": "#/components/schemas/edgeEndpointTrafficSchema"
+          },
+          "/api/client/metrics/edge": {
+            "description": "Traffic to Edge Metrics (from other Edge instances)",
+            "type": "object",
+            "$ref": "#/components/schemas/edgeEndpointTrafficSchema"
           }
         }
       },
