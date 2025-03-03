@@ -1801,6 +1801,82 @@
         ]
       }
     },
+    "/api/admin/projects/{projectId}/change-requests/config": {
+      "get": {
+        "operationId": "getProjectChangeRequestConfig",
+        "summary": "Retrieves change request configuration for a project",
+        "description": "Given a projectId, this endpoint will retrieve change request configuration for the project",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "changeRequestConfigSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeRequestConfigSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Change Requests"
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/environments/{environment}/change-requests/config": {
+      "put": {
+        "operationId": "updateProjectChangeRequestConfig",
+        "summary": "Updates change request configuration for an environment in the project",
+        "description": "This endpoint will change the change request configuration for a given environment, set it to either on/off and optionally configure the number of approvals needed. The minimum number of approvals is 1 and the maximum number is 10. If you provide a number higher than 10 or lower than 1, Unleash will clamp it to the allowed range.",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "environment",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "updateChangeRequestEnvironmentConfigSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateChangeRequestEnvironmentConfigSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "This response has no body."
+          }
+        },
+        "tags": [
+          "Change Requests"
+        ]
+      }
+    },
     "/api/admin/service-account": {
       "get": {
         "operationId": "getServiceAccounts",
@@ -6978,6 +7054,66 @@
               }
             }
           }
+        ]
+      },
+      "changeRequestConfigSchema": {
+        "description": "A list of environment-specific [change request](https://docs.getunleash.io/reference/change-requests) configurations.",
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/changeRequestEnvironmentConfigSchema"
+        }
+      },
+      "changeRequestEnvironmentConfigSchema": {
+        "description": "The [change request](https://docs.getunleash.io/reference/change-requests) configuration for a specific environment.",
+        "type": "object",
+        "properties": {
+          "environment": {
+            "description": "The environment that this configuration applies to.",
+            "type": "string",
+            "example": "my-dev-environment"
+          },
+          "type": {
+            "description": "The [type of the environment](https://docs.getunleash.io/reference/environments#environment-types) listed in `environment`.",
+            "type": "string",
+            "example": "development"
+          },
+          "changeRequestEnabled": {
+            "description": "`true` if this environment has change requests enabled, otherwise `false`.",
+            "type": "boolean",
+            "example": true
+          },
+          "requiredApprovals": {
+            "description": "The number of approvals that are required for a change request to be fully approved and ready to be applied in this environment.",
+            "type": "number",
+            "example": 2,
+            "nullable": true
+          }
+        },
+        "additionalProperties": true,
+        "required": [
+          "environment",
+          "type",
+          "changeRequestEnabled",
+          "requiredApprovals"
+        ]
+      },
+      "updateChangeRequestEnvironmentConfigSchema": {
+        "description": "Data used to update change request in an environment",
+        "type": "object",
+        "properties": {
+          "changeRequestsEnabled": {
+            "description": "`true` if change requests should be enabled, otherwise `false`.",
+            "type": "boolean"
+          },
+          "requiredApprovals": {
+            "description": "The number of approvals required before a change request can be applied in this environment.",
+            "type": "integer",
+            "example": 3,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "changeRequestsEnabled"
         ]
       },
       "updateEnvironmentSchema": {

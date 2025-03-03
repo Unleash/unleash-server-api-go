@@ -90,6 +90,8 @@ Class | Method | HTTP request | Description
 *AuthAPI* | [**SetOidcSettings**](docs/AuthAPI.md#setoidcsettings) | **Post** /api/admin/auth/oidc/settings | Set OIDC settings
 *AuthAPI* | [**SetSamlSettings**](docs/AuthAPI.md#setsamlsettings) | **Post** /api/admin/auth/saml/settings | Update SAML auth settings
 *AuthAPI* | [**SetSimpleSettings**](docs/AuthAPI.md#setsimplesettings) | **Post** /api/admin/auth/simple/settings | Update Simple auth settings
+*ChangeRequestsAPI* | [**GetProjectChangeRequestConfig**](docs/ChangeRequestsAPI.md#getprojectchangerequestconfig) | **Get** /api/admin/projects/{projectId}/change-requests/config | Retrieves change request configuration for a project
+*ChangeRequestsAPI* | [**UpdateProjectChangeRequestConfig**](docs/ChangeRequestsAPI.md#updateprojectchangerequestconfig) | **Put** /api/admin/projects/{projectId}/environments/{environment}/change-requests/config | Updates change request configuration for an environment in the project
 *ContextAPI* | [**CreateContextField**](docs/ContextAPI.md#createcontextfield) | **Post** /api/admin/context | Create a context field
 *ContextAPI* | [**DeleteContextField**](docs/ContextAPI.md#deletecontextfield) | **Delete** /api/admin/context/{contextField} | Delete an existing context field
 *ContextAPI* | [**GetContextField**](docs/ContextAPI.md#getcontextfield) | **Get** /api/admin/context/{contextField} | Gets context field
@@ -135,6 +137,7 @@ Class | Method | HTTP request | Description
  - [AdminPermissionsSchemaPermissionsEnvironmentsInner](docs/AdminPermissionsSchemaPermissionsEnvironmentsInner.md)
  - [ApiTokenSchema](docs/ApiTokenSchema.md)
  - [ApiTokensSchema](docs/ApiTokensSchema.md)
+ - [ChangeRequestEnvironmentConfigSchema](docs/ChangeRequestEnvironmentConfigSchema.md)
  - [ContextFieldSchema](docs/ContextFieldSchema.md)
  - [CreateApiTokenSchema](docs/CreateApiTokenSchema.md)
  - [CreateApiTokenSchemaOneOf](docs/CreateApiTokenSchemaOneOf.md)
@@ -200,6 +203,7 @@ Class | Method | HTTP request | Description
  - [ServiceAccountsSchema](docs/ServiceAccountsSchema.md)
  - [SetSamlSettings415Response](docs/SetSamlSettings415Response.md)
  - [UpdateApiTokenSchema](docs/UpdateApiTokenSchema.md)
+ - [UpdateChangeRequestEnvironmentConfigSchema](docs/UpdateChangeRequestEnvironmentConfigSchema.md)
  - [UpdateContextFieldSchema](docs/UpdateContextFieldSchema.md)
  - [UpdateEnvironmentSchema](docs/UpdateEnvironmentSchema.md)
  - [UpdateProjectEnterpriseSettingsSchema](docs/UpdateProjectEnterpriseSettingsSchema.md)

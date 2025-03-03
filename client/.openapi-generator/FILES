@@ -5,6 +5,7 @@ README.md
 api/openapi.yaml
 api_api_tokens.go
 api_auth.go
+api_change_requests.go
 api_context.go
 api_environments.go
 api_projects.go
@@ -20,6 +21,8 @@ docs/AdminPermissionsSchemaPermissionsEnvironmentsInner.md
 docs/ApiTokenSchema.md
 docs/ApiTokensSchema.md
 docs/AuthAPI.md
+docs/ChangeRequestEnvironmentConfigSchema.md
+docs/ChangeRequestsAPI.md
 docs/ContextAPI.md
 docs/ContextFieldSchema.md
 docs/CreateApiTokenSchema.md
@@ -89,6 +92,7 @@ docs/ServiceAccountsAPI.md
 docs/ServiceAccountsSchema.md
 docs/SetSamlSettings415Response.md
 docs/UpdateApiTokenSchema.md
+docs/UpdateChangeRequestEnvironmentConfigSchema.md
 docs/UpdateContextFieldSchema.md
 docs/UpdateEnvironmentSchema.md
 docs/UpdateProjectEnterpriseSettingsSchema.md
@@ -105,6 +109,7 @@ model_admin_permissions_schema_permissions.go
 model_admin_permissions_schema_permissions_environments_inner.go
 model_api_token_schema.go
 model_api_tokens_schema.go
+model_change_request_environment_config_schema.go
 model_context_field_schema.go
 model_create_api_token_schema.go
 model_create_api_token_schema_one_of.go
@@ -170,6 +175,7 @@ model_service_account_schema.go
 model_service_accounts_schema.go
 model_set_saml_settings_415_response.go
 model_update_api_token_schema.go
+model_update_change_request_environment_config_schema.go
 model_update_context_field_schema.go
 model_update_environment_schema.go
 model_update_project_enterprise_settings_schema.go
@@ -181,6 +187,7 @@ model_user_with_project_role_schema.go
 response.go
 test/api_api_tokens_test.go
 test/api_auth_test.go
+test/api_change_requests_test.go
 test/api_context_test.go
 test/api_environments_test.go
 test/api_projects_test.go

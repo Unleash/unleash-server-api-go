@@ -736,6 +736,65 @@ paths:
       summary: Get the environment with `name`
       tags:
       - Environments
+  /api/admin/projects/{projectId}/change-requests/config:
+    get:
+      description: "Given a projectId, this endpoint will retrieve change request\
+        \ configuration for the project"
+      operationId: getProjectChangeRequestConfig
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestConfigSchema'
+          description: changeRequestConfigSchema
+      summary: Retrieves change request configuration for a project
+      tags:
+      - Change Requests
+  /api/admin/projects/{projectId}/environments/{environment}/change-requests/config:
+    put:
+      description: "This endpoint will change the change request configuration for\
+        \ a given environment, set it to either on/off and optionally configure the\
+        \ number of approvals needed. The minimum number of approvals is 1 and the\
+        \ maximum number is 10. If you provide a number higher than 10 or lower than\
+        \ 1, Unleash will clamp it to the allowed range."
+      operationId: updateProjectChangeRequestConfig
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: environment
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateChangeRequestEnvironmentConfigSchema'
+        description: updateChangeRequestEnvironmentConfigSchema
+        required: true
+      responses:
+        "200":
+          description: This response has no body.
+      summary: Updates change request configuration for an environment in the project
+      tags:
+      - Change Requests
   /api/admin/service-account:
     get:
       description: Returns the list of all service accounts.
@@ -3582,6 +3641,63 @@ components:
       oneOf:
       - $ref: '#/components/schemas/samlSettingsSchema_oneOf'
       - $ref: '#/components/schemas/samlSettingsSchema_oneOf_1'
+      type: object
+    changeRequestConfigSchema:
+      description: "A list of environment-specific [change request](https://docs.getunleash.io/reference/change-requests)\
+        \ configurations."
+      items:
+        $ref: '#/components/schemas/changeRequestEnvironmentConfigSchema'
+      type: array
+    changeRequestEnvironmentConfigSchema:
+      additionalProperties: true
+      description: "The [change request](https://docs.getunleash.io/reference/change-requests)\
+        \ configuration for a specific environment."
+      example:
+        environment: my-dev-environment
+        changeRequestEnabled: true
+        requiredApprovals: 2
+        type: development
+      properties:
+        environment:
+          description: The environment that this configuration applies to.
+          example: my-dev-environment
+          type: string
+        type:
+          description: "The [type of the environment](https://docs.getunleash.io/reference/environments#environment-types)\
+            \ listed in `environment`."
+          example: development
+          type: string
+        changeRequestEnabled:
+          description: "`true` if this environment has change requests enabled, otherwise\
+            \ `false`."
+          example: true
+          type: boolean
+        requiredApprovals:
+          description: The number of approvals that are required for a change request
+            to be fully approved and ready to be applied in this environment.
+          example: 2
+          nullable: true
+          type: number
+      required:
+      - changeRequestEnabled
+      - environment
+      - requiredApprovals
+      - type
+      type: object
+    updateChangeRequestEnvironmentConfigSchema:
+      description: Data used to update change request in an environment
+      properties:
+        changeRequestsEnabled:
+          description: "`true` if change requests should be enabled, otherwise `false`."
+          type: boolean
+        requiredApprovals:
+          description: The number of approvals required before a change request can
+            be applied in this environment.
+          example: 3
+          minimum: 0
+          type: integer
+      required:
+      - changeRequestsEnabled
       type: object
     updateEnvironmentSchema:
       description: "Data used to update an [environment](https://docs.getunleash.io/reference/environments)."

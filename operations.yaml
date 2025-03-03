@@ -65,3 +65,6 @@ inverseOperationIds:
   - getAllEnvironments
   - toggleEnvironmentOff
   - toggleEnvironmentOn
+
+  - getProjectChangeRequestConfig
+  - updateProjectChangeRequestConfig
