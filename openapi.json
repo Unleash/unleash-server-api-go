@@ -25710,6 +25710,33 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NameExistsError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "There is already a feature called \"my-awesome-feature\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -25907,6 +25934,33 @@
                     "message": {
                       "type": "string",
                       "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NameExistsError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "There is already a feature called \"my-awesome-feature\".",
                       "description": "A description of what went wrong."
                     }
                   }
@@ -30032,10 +30086,10 @@
         "tags": [
           "Metrics"
         ],
-        "deprecated": false,
+        "deprecated": true,
         "operationId": "getTrafficUsageDataForPeriod",
         "summary": "Gets traffic usage data for selected period",
-        "description": "Gets traffic usage data numbers per API for a period given by the parameter",
+        "description": "Gets traffic usage data numbers per API for a period given by the parameter. This endpoint is deprecated. Use /traffic-search instead",
         "responses": {
           "200": {
             "description": "trafficUsageDataSegmentedSchema",
@@ -33746,8 +33800,8 @@
           "Metrics"
         ],
         "operationId": "getApplicationEnvironmentInstances",
-        "summary": "Get application environment instances",
-        "description": "Returns an overview of the instances for the given `appName` and `environment` that receive traffic.",
+        "summary": "Get application environment instances (Last 24h)",
+        "description": "Returns an overview of the instances for the given `appName` and `environment` that have received traffic in the last 24 hours.",
         "responses": {
           "200": {
             "description": "applicationEnvironmentInstancesSchema",

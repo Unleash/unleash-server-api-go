@@ -1992,6 +1992,50 @@ paths:
       summary: Update a user
       tags:
       - Users
+  /api/admin/projects/{projectId}/overview:
+    get:
+      description: "This endpoint returns an overview of the specified projects stats,\
+        \ project health, number of members, which environments are configured, and\
+        \ the features types in the project."
+      operationId: getProjectOverview
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectOverviewSchema'
+          description: projectOverviewSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRoleById_404_response'
+          description: The requested resource was not found.
+      summary: Get an overview of a project.
+      tags:
+      - Projects
   /api/admin/environments/{name}/on:
     post:
       description: Makes it possible to enable this environment for a project. An
@@ -2206,6 +2250,68 @@ components:
       required:
       - tokens
       type: object
+    constraintSchema:
+      additionalProperties: true
+      description: "A strategy constraint. For more information, refer to [the strategy\
+        \ constraint reference documentation](https://docs.getunleash.io/reference/activation-strategies#constraints)"
+      properties:
+        contextName:
+          description: The name of the context field that this constraint should apply
+            to.
+          example: appName
+          type: string
+        operator:
+          description: "The operator to use when evaluating this constraint. For more\
+            \ information about the various operators, refer to [the strategy constraint\
+            \ operator documentation](https://docs.getunleash.io/reference/activation-strategies#constraint-operators)."
+          enum:
+          - NOT_IN
+          - IN
+          - STR_ENDS_WITH
+          - STR_STARTS_WITH
+          - STR_CONTAINS
+          - NUM_EQ
+          - NUM_GT
+          - NUM_GTE
+          - NUM_LT
+          - NUM_LTE
+          - DATE_AFTER
+          - DATE_BEFORE
+          - SEMVER_EQ
+          - SEMVER_GT
+          - SEMVER_LT
+          example: IN
+          type: string
+        caseInsensitive:
+          default: false
+          description: Whether the operator should be case sensitive or not. Defaults
+            to `false` (being case sensitive).
+          type: boolean
+        inverted:
+          default: false
+          description: "Whether the result should be negated or not. If `true`, will\
+            \ turn a `true` result into a `false` result and vice versa."
+          type: boolean
+        values:
+          description: The context values that should be used for constraint evaluation.
+            Use this property instead of `value` for properties that accept multiple
+            values.
+          example:
+          - my-app
+          - my-other-app
+          items:
+            type: string
+          type: array
+        value:
+          description: The context value that should be used for constraint evaluation.
+            Use this property instead of `values` for properties that only accept
+            single values.
+          example: my-app
+          type: string
+      required:
+      - contextName
+      - operator
+      type: object
     contextFieldSchema:
       additionalProperties: true
       description: "A representation of a [context field](https://docs.getunleash.io/reference/unleash-context)."
@@ -2318,6 +2424,13 @@ components:
       type: object
     createFeatureNamingPatternSchema:
       description: Create a feature naming pattern
+      example:
+        pattern: "^[A-Za-z]+\\.[A-Za-z]+\\.[A-Za-z0-9-]+$"
+        description: |-
+          <project>.<featureName>.<ticket>
+
+          The flag name should contain the project name, the feature name, and the ticket number, each separated by a dot.
+        example: dx.feature1.1-135
       properties:
         pattern:
           description: "A JavaScript regular expression pattern, without the start\
@@ -2343,6 +2456,62 @@ components:
       required:
       - pattern
       type: object
+    createFeatureStrategySchema:
+      description: Create a strategy configuration in a feature
+      properties:
+        name:
+          description: The name of the strategy type
+          example: flexibleRollout
+          type: string
+        title:
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+          nullable: true
+          type: string
+        disabled:
+          description: A toggle to disable the strategy. defaults to false. Disabled
+            strategies are not evaluated or returned to the SDKs
+          example: false
+          nullable: true
+          type: boolean
+        sortOrder:
+          description: The order of the strategy in the list
+          example: 9999
+          type: number
+        constraints:
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/activation-strategies#constraints
+          example:
+          - values:
+            - "1"
+            - "2"
+            inverted: false
+            operator: IN
+            contextName: appName
+            caseInsensitive: false
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+          type: array
+        variants:
+          description: Strategy level variants
+          items:
+            $ref: '#/components/schemas/createStrategyVariantSchema'
+          type: array
+        parameters:
+          additionalProperties:
+            type: string
+          description: A list of parameters for a strategy
+          type: object
+        segments:
+          description: Ids of segments to use for this strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+          type: array
+      required:
+      - name
+      type: object
     createPatSchema:
       description: "Describes the properties required to create a [personal access\
         \ token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens),\
@@ -2360,6 +2529,48 @@ components:
       required:
       - description
       - expiresAt
+      type: object
+    createStrategyVariantSchema:
+      description: This is an experimental property. It may change or be removed as
+        we work on it. Please don't depend on it yet. A strategy variant allows you
+        to attach any data to strategies instead of only returning `true`/`false`.
+        Strategy variants take precedence over feature variants.
+      properties:
+        name:
+          description: The variant name. Must be unique for this feature flag
+          example: blue_group
+          type: string
+        weight:
+          description: "The weight is the likelihood of any one user getting this\
+            \ variant. It is an integer between 0 and 1000. See the section on [variant\
+            \ weights](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight)\
+            \ for more information"
+          maximum: 1000
+          minimum: 0
+          type: integer
+        weightType:
+          description: "Set to `fix` if this variant must have exactly the weight\
+            \ allocated to it. If the type is `variable`, the weight will adjust so\
+            \ that the total weight of all variants adds up to 1000. Refer to the\
+            \ [variant weight documentation](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight)."
+          enum:
+          - variable
+          - fix
+          example: fix
+          type: string
+        stickiness:
+          description: "The [stickiness](https://docs.getunleash.io/reference/feature-toggle-variants#variant-stickiness)\
+            \ to use for distribution of this variant. Stickiness is how Unleash guarantees\
+            \ that the same user gets the same variant every time"
+          example: custom.context.field
+          type: string
+        payload:
+          $ref: '#/components/schemas/createStrategyVariantSchema_payload'
+      required:
+      - name
+      - stickiness
+      - weight
+      - weightType
       type: object
     createUserResponseSchema:
       additionalProperties: true
@@ -2598,6 +2809,26 @@ components:
       - environments
       - version
       type: object
+    featureTypeCountSchema:
+      additionalProperties: true
+      description: A count of feature flags of a specific type
+      example:
+        count: 1
+        type: kill-switch
+      properties:
+        type:
+          description: "Type of the flag e.g. experiment, kill-switch, release, operational,\
+            \ permission"
+          example: kill-switch
+          type: string
+        count:
+          description: Number of feature flags of this type
+          example: 1
+          type: number
+      required:
+      - count
+      - type
+      type: object
     groupUserModelSchema:
       additionalProperties: true
       description: Details for a single user belonging to a group
@@ -2658,6 +2889,11 @@ components:
           type: string
       required:
       - value
+      type: object
+    parametersSchema:
+      additionalProperties:
+        type: string
+      description: A list of parameters for a strategy
       type: object
     patSchema:
       description: "Describes a [personal access token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens),\
@@ -2741,6 +2977,173 @@ components:
             $ref: '#/components/schemas/patSchema'
           type: array
       type: object
+    projectEnvironmentSchema:
+      additionalProperties: true
+      description: "Add an environment to a project, optionally also sets if change\
+        \ requests are enabled for this environment on the project"
+      properties:
+        environment:
+          description: The environment to add to the project
+          example: development
+          type: string
+        changeRequestsEnabled:
+          description: Whether change requests should be enabled or for this environment
+            on the project or not
+          example: true
+          type: boolean
+        defaultStrategy:
+          $ref: '#/components/schemas/createFeatureStrategySchema'
+      required:
+      - environment
+      type: object
+    projectOverviewSchema:
+      additionalProperties: true
+      description: "A high-level overview of a project. It contains information such\
+        \ as project statistics, the name of the project, what members and what features\
+        \ it contains, etc."
+      example:
+        featureNaming:
+          pattern: "^[A-Za-z]+\\.[A-Za-z]+\\.[A-Za-z0-9-]+$"
+          description: |-
+            <project>.<featureName>.<ticket>
+
+            The flag name should contain the project name, the feature name, and the ticket number, each separated by a dot.
+          example: dx.feature1.1-135
+        environments:
+        - environment: development
+        - environment: production
+          defaultStrategy:
+            name: flexibleRollout
+            constraints: []
+            parameters:
+              groupId: stickyFlag
+              rollout: "50"
+              stickiness: customAppName
+        featureLimit: 100
+        defaultStickiness: userId
+        description: DX squad feature release
+        health: 50
+        version: 1
+        mode: open
+        archivedAt: 2023-02-10T08:36:35.262Z
+        createdAt: 2023-02-10T08:36:35.262Z
+        onboardingStatus:
+          status: onboarding-started
+        stats:
+          archivedCurrentWindow: 5
+          projectMembersAddedCurrentWindow: 1
+          avgTimeToProdCurrentWindow: 10
+          archivedPastWindow: 5
+          createdCurrentWindow: 15
+          createdPastWindow: 15
+          projectActivityCurrentWindow: 100
+          projectActivityPastWindow: 100
+        members: 4
+        name: dx-squad
+        featureTypeCounts:
+        - count: 1
+          type: kill-switch
+        - count: 1
+          type: kill-switch
+        favorite: true
+        updatedAt: 2023-02-10T08:36:35.262Z
+      properties:
+        stats:
+          $ref: '#/components/schemas/projectStatsSchema'
+        version:
+          description: The schema version used to describe the project overview
+          example: 1
+          type: integer
+        name:
+          description: The name of this project
+          example: dx-squad
+          type: string
+        description:
+          description: Additional information about the project
+          example: DX squad feature release
+          nullable: true
+          type: string
+        defaultStickiness:
+          description: A default stickiness for the project affecting the default
+            stickiness value for variants and Gradual Rollout strategy
+          example: userId
+          type: string
+        mode:
+          description: "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode).\
+            \ Determines whether non-project members can submit change requests or\
+            \ not."
+          enum:
+          - open
+          - protected
+          - private
+          example: open
+          type: string
+        featureLimit:
+          description: A limit on the number of features allowed in the project. Null
+            if no limit.
+          example: 100
+          nullable: true
+          type: number
+        featureNaming:
+          $ref: '#/components/schemas/createFeatureNamingPatternSchema'
+        members:
+          description: The number of members this project has
+          example: 4
+          type: number
+        health:
+          description: "An indicator of the [project's health](https://docs.getunleash.io/reference/technical-debt#project-status)\
+            \ on a scale from 0 to 100"
+          example: 50
+          type: number
+        environments:
+          description: The environments that are enabled for this project
+          example:
+          - environment: development
+          - environment: production
+            defaultStrategy:
+              name: flexibleRollout
+              constraints: []
+              parameters:
+                groupId: stickyFlag
+                rollout: "50"
+                stickiness: customAppName
+          items:
+            $ref: '#/components/schemas/projectEnvironmentSchema'
+          type: array
+        featureTypeCounts:
+          description: The number of features of each type that are in this project
+          items:
+            $ref: '#/components/schemas/featureTypeCountSchema'
+          type: array
+        updatedAt:
+          description: When the project was last updated.
+          example: 2023-02-10T08:36:35.262Z
+          format: date-time
+          nullable: true
+          type: string
+        archivedAt:
+          description: When the project was archived.
+          example: 2023-02-10T08:36:35.262Z
+          format: date-time
+          nullable: true
+          type: string
+        createdAt:
+          description: When the project was created.
+          example: 2023-02-10T08:36:35.262Z
+          format: date-time
+          nullable: true
+          type: string
+        favorite:
+          description: "`true` if the project was favorited, otherwise `false`."
+          example: true
+          type: boolean
+        onboardingStatus:
+          $ref: '#/components/schemas/projectOverviewSchema_onboardingStatus'
+      required:
+      - name
+      - onboardingStatus
+      - version
+      type: object
     projectSchema:
       additionalProperties: true
       description: A definition of the project used for projects listing purposes
@@ -2777,6 +3180,72 @@ components:
       required:
       - id
       - name
+      type: object
+    projectStatsSchema:
+      additionalProperties: true
+      description: |-
+        Statistics for a project, including the average time to production, number of features created, the project activity and more.
+
+        Stats are divided into current and previous **windows**.
+        - The **current window** is the past 30 days.
+        - The **previous window** is the 30 days **before** the current window (from 60 to 30 days ago)
+      example:
+        archivedCurrentWindow: 5
+        projectMembersAddedCurrentWindow: 1
+        avgTimeToProdCurrentWindow: 10
+        archivedPastWindow: 5
+        createdCurrentWindow: 15
+        createdPastWindow: 15
+        projectActivityCurrentWindow: 100
+        projectActivityPastWindow: 100
+      properties:
+        avgTimeToProdCurrentWindow:
+          description: The average time from when a feature was created to when it
+            was enabled in the "production" environment during the current window
+          example: 10
+          type: number
+        createdCurrentWindow:
+          description: The number of feature flags created during the current window
+          example: 15
+          type: number
+        createdPastWindow:
+          description: The number of feature flags created during the previous window
+          example: 15
+          type: number
+        archivedCurrentWindow:
+          description: The number of feature flags that were archived during the current
+            window
+          example: 5
+          type: number
+        archivedPastWindow:
+          description: The number of feature flags that were archived during the previous
+            window
+          example: 5
+          type: number
+        projectActivityCurrentWindow:
+          description: The number of project events that occurred during the current
+            window
+          example: 100
+          type: number
+        projectActivityPastWindow:
+          description: The number of project events that occurred during the previous
+            window
+          example: 100
+          type: number
+        projectMembersAddedCurrentWindow:
+          description: The number of members that were added to the project during
+            the current window
+          example: 1
+          type: number
+      required:
+      - archivedCurrentWindow
+      - archivedPastWindow
+      - avgTimeToProdCurrentWindow
+      - createdCurrentWindow
+      - createdPastWindow
+      - projectActivityCurrentWindow
+      - projectActivityPastWindow
+      - projectMembersAddedCurrentWindow
       type: object
     projectsSchema:
       additionalProperties: true
@@ -4880,6 +5349,28 @@ components:
       - type
       - username
       type: object
+    createStrategyVariantSchema_payload:
+      description: Extra data configured for this variant
+      example:
+        type: json
+        value: "{\"color\": \"red\"}"
+      properties:
+        type:
+          description: "The type of the value. Commonly used types are string, number,\
+            \ json and csv."
+          enum:
+          - json
+          - csv
+          - string
+          - number
+          type: string
+        value:
+          description: The actual value of payload
+          type: string
+      required:
+      - type
+      - value
+      type: object
     createUserResponseSchema_rootRole:
       description: "Which [root role](https://docs.getunleash.io/reference/rbac#predefined-roles)\
         \ this user is assigned. Usually a numeric role ID, but can be a string when\
@@ -4911,6 +5402,42 @@ components:
         - Member
         example: Admin
         type: string
+    projectOverviewSchema_onboardingStatus_oneOf:
+      additionalProperties: true
+      example:
+        status: onboarding-started
+      properties:
+        status:
+          enum:
+          - onboarding-started
+          - onboarded
+          example: onboarding-started
+          type: string
+      required:
+      - status
+      type: object
+    projectOverviewSchema_onboardingStatus_oneOf_1:
+      additionalProperties: true
+      properties:
+        status:
+          enum:
+          - first-flag-created
+          example: first-flag-created
+          type: string
+        feature:
+          description: The name of the feature flag
+          example: my-feature-flag
+          type: string
+      required:
+      - feature
+      - status
+      type: object
+    projectOverviewSchema_onboardingStatus:
+      description: The current onboarding status of the project.
+      oneOf:
+      - $ref: '#/components/schemas/projectOverviewSchema_onboardingStatus_oneOf'
+      - $ref: '#/components/schemas/projectOverviewSchema_onboardingStatus_oneOf_1'
+      type: object
     adminPermissionsSchema_permissions_environments_inner:
       additionalProperties: true
       example:
