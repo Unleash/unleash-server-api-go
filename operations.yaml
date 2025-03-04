@@ -23,6 +23,7 @@ inverseOperationIds:
   - createProject
   - updateProject
   - deleteProject
+  - getProjectOverview
 
   - getPermissions
   - getProjectAccess

@@ -33,7 +33,9 @@ func createTempUser(t *testing.T, apiClient *client.APIClient, prefix string) *c
 
 	resp, httpRes, err := apiClient.UsersAPI.CreateUser(context.Background()).CreateUserSchema(createUserSchema).Execute()
 
-	fmt.Println(err)
+	if err != nil {
+		fmt.Println(err)
+	}
 	require.Nil(t, err)
 	require.NotNil(t, resp)
 	assert.Equal(t, 201, httpRes.StatusCode)
@@ -118,7 +120,9 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 
 			resp, httpRes, err := apiClient.ProjectsAPI.GetProjectAccess(context.Background(), projectId).Execute()
 
-			fmt.Println(err)
+			if err != nil {
+				fmt.Println(err)
+			}
 
 			require.Nil(t, err)
 			require.NotNil(t, resp)
@@ -206,6 +210,37 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 
 			require.NotNil(t, project)
 			assert.Equal(t, "private", *project.Mode)
+
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+
+	t.Run("Test ProjectsAPIService Create Project with empty list of environments", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			projectId := "petfood-shop-project"
+			createProjectSchema := *client.NewCreateProjectSchema("some-random-project")
+			createProjectSchema.SetId(projectId)
+			createProjectSchema.Environments = []string{}
+
+			resp, httpRes, err := apiClient.ProjectsAPI.CreateProject(context.Background()).CreateProjectSchema(createProjectSchema).Execute()
+
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 201, httpRes.StatusCode)
+
+			defer cleanupProject(t, apiClient, projectId)
+
+			project, projectApiResponse, err := apiClient.ProjectsAPI.GetProjectOverview(context.Background(), projectId).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, projectApiResponse)
+			require.NotNil(t, project)
+			assert.Equal(t, 0, len(project.Environments))
 
 		} else {
 			t.Skip("Enterprise only feature")

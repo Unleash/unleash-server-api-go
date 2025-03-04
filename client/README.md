@@ -107,6 +107,7 @@ Class | Method | HTTP request | Description
 *ProjectsAPI* | [**CreateProject**](docs/ProjectsAPI.md#createproject) | **Post** /api/admin/projects | Create project
 *ProjectsAPI* | [**DeleteProject**](docs/ProjectsAPI.md#deleteproject) | **Delete** /api/admin/projects/{projectId} | Delete project
 *ProjectsAPI* | [**GetProjectAccess**](docs/ProjectsAPI.md#getprojectaccess) | **Get** /api/admin/projects/{projectId}/access | Get users and groups in project
+*ProjectsAPI* | [**GetProjectOverview**](docs/ProjectsAPI.md#getprojectoverview) | **Get** /api/admin/projects/{projectId}/overview | Get an overview of a project.
 *ProjectsAPI* | [**GetProjects**](docs/ProjectsAPI.md#getprojects) | **Get** /api/admin/projects | Get a list of all projects.
 *ProjectsAPI* | [**SetProjectAccess**](docs/ProjectsAPI.md#setprojectaccess) | **Put** /api/admin/projects/{projectId}/access | Set users and groups to roles in the current project
 *ProjectsAPI* | [**UpdateProject**](docs/ProjectsAPI.md#updateproject) | **Put** /api/admin/projects/{projectId} | Update project
@@ -138,6 +139,7 @@ Class | Method | HTTP request | Description
  - [ApiTokenSchema](docs/ApiTokenSchema.md)
  - [ApiTokensSchema](docs/ApiTokensSchema.md)
  - [ChangeRequestEnvironmentConfigSchema](docs/ChangeRequestEnvironmentConfigSchema.md)
+ - [ConstraintSchema](docs/ConstraintSchema.md)
  - [ContextFieldSchema](docs/ContextFieldSchema.md)
  - [CreateApiTokenSchema](docs/CreateApiTokenSchema.md)
  - [CreateApiTokenSchemaOneOf](docs/CreateApiTokenSchemaOneOf.md)
@@ -147,6 +149,7 @@ Class | Method | HTTP request | Description
  - [CreateContextFieldSchema](docs/CreateContextFieldSchema.md)
  - [CreateEnvironmentSchema](docs/CreateEnvironmentSchema.md)
  - [CreateFeatureNamingPatternSchema](docs/CreateFeatureNamingPatternSchema.md)
+ - [CreateFeatureStrategySchema](docs/CreateFeatureStrategySchema.md)
  - [CreatePatSchema](docs/CreatePatSchema.md)
  - [CreateProjectSchema](docs/CreateProjectSchema.md)
  - [CreateProjectSchemaChangeRequestEnvironmentsInner](docs/CreateProjectSchemaChangeRequestEnvironmentsInner.md)
@@ -157,6 +160,8 @@ Class | Method | HTTP request | Description
  - [CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner](docs/CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner.md)
  - [CreateRoleWithPermissionsSchemaAnyOfPermissionsInner](docs/CreateRoleWithPermissionsSchemaAnyOfPermissionsInner.md)
  - [CreateServiceAccountSchema](docs/CreateServiceAccountSchema.md)
+ - [CreateStrategyVariantSchema](docs/CreateStrategyVariantSchema.md)
+ - [CreateStrategyVariantSchemaPayload](docs/CreateStrategyVariantSchemaPayload.md)
  - [CreateUserResponseSchema](docs/CreateUserResponseSchema.md)
  - [CreateUserResponseSchemaRootRole](docs/CreateUserResponseSchemaRootRole.md)
  - [CreateUserSchema](docs/CreateUserSchema.md)
@@ -170,6 +175,7 @@ Class | Method | HTTP request | Description
  - [EdgeUpstreamLatencySchema](docs/EdgeUpstreamLatencySchema.md)
  - [EnvironmentSchema](docs/EnvironmentSchema.md)
  - [EnvironmentsSchema](docs/EnvironmentsSchema.md)
+ - [FeatureTypeCountSchema](docs/FeatureTypeCountSchema.md)
  - [GetRoleById404Response](docs/GetRoleById404Response.md)
  - [GetSamlSettings400Response](docs/GetSamlSettings400Response.md)
  - [GetSamlSettings401Response](docs/GetSamlSettings401Response.md)
@@ -189,7 +195,13 @@ Class | Method | HTTP request | Description
  - [ProjectAccessSchema](docs/ProjectAccessSchema.md)
  - [ProjectCreatedSchema](docs/ProjectCreatedSchema.md)
  - [ProjectCreatedSchemaChangeRequestEnvironmentsInner](docs/ProjectCreatedSchemaChangeRequestEnvironmentsInner.md)
+ - [ProjectEnvironmentSchema](docs/ProjectEnvironmentSchema.md)
+ - [ProjectOverviewSchema](docs/ProjectOverviewSchema.md)
+ - [ProjectOverviewSchemaOnboardingStatus](docs/ProjectOverviewSchemaOnboardingStatus.md)
+ - [ProjectOverviewSchemaOnboardingStatusOneOf](docs/ProjectOverviewSchemaOnboardingStatusOneOf.md)
+ - [ProjectOverviewSchemaOnboardingStatusOneOf1](docs/ProjectOverviewSchemaOnboardingStatusOneOf1.md)
  - [ProjectSchema](docs/ProjectSchema.md)
+ - [ProjectStatsSchema](docs/ProjectStatsSchema.md)
  - [ProjectsSchema](docs/ProjectsSchema.md)
  - [RoleSchema](docs/RoleSchema.md)
  - [RoleWithPermissionsSchema](docs/RoleWithPermissionsSchema.md)
