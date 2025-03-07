@@ -74,7 +74,7 @@ ctx = context.WithValue(context.Background(), client.ContextOperationServerVaria
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
+All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -100,14 +100,15 @@ Class | Method | HTTP request | Description
 *EnvironmentsAPI* | [**CreateEnvironment**](docs/EnvironmentsAPI.md#createenvironment) | **Post** /api/admin/environments | Creates a new environment
 *EnvironmentsAPI* | [**GetAllEnvironments**](docs/EnvironmentsAPI.md#getallenvironments) | **Get** /api/admin/environments | Get all environments
 *EnvironmentsAPI* | [**GetEnvironment**](docs/EnvironmentsAPI.md#getenvironment) | **Get** /api/admin/environments/{name} | Get the environment with &#x60;name&#x60;
+*EnvironmentsAPI* | [**GetProjectEnvironments**](docs/EnvironmentsAPI.md#getprojectenvironments) | **Get** /api/admin/environments/project/{projectId} | Get the environments available to a project
 *EnvironmentsAPI* | [**RemoveEnvironment**](docs/EnvironmentsAPI.md#removeenvironment) | **Delete** /api/admin/environments/{name} | Deletes an environment by name
-*EnvironmentsAPI* | [**ToggleEnvironmentOff**](docs/EnvironmentsAPI.md#toggleenvironmentoff) | **Post** /api/admin/environments/{name}/off | Toggle the environment with &#x60;name&#x60; off
-*EnvironmentsAPI* | [**ToggleEnvironmentOn**](docs/EnvironmentsAPI.md#toggleenvironmenton) | **Post** /api/admin/environments/{name}/on | Toggle the environment with &#x60;name&#x60; on
 *EnvironmentsAPI* | [**UpdateEnvironment**](docs/EnvironmentsAPI.md#updateenvironment) | **Put** /api/admin/environments/update/{name} | Updates an environment by name
+*ProjectsAPI* | [**AddEnvironmentToProject**](docs/ProjectsAPI.md#addenvironmenttoproject) | **Post** /api/admin/projects/{projectId}/environments | Add an environment to a project.
 *ProjectsAPI* | [**CreateProject**](docs/ProjectsAPI.md#createproject) | **Post** /api/admin/projects | Create project
 *ProjectsAPI* | [**DeleteProject**](docs/ProjectsAPI.md#deleteproject) | **Delete** /api/admin/projects/{projectId} | Delete project
 *ProjectsAPI* | [**GetProjectAccess**](docs/ProjectsAPI.md#getprojectaccess) | **Get** /api/admin/projects/{projectId}/access | Get users and groups in project
 *ProjectsAPI* | [**GetProjects**](docs/ProjectsAPI.md#getprojects) | **Get** /api/admin/projects | Get a list of all projects.
+*ProjectsAPI* | [**RemoveEnvironmentFromProject**](docs/ProjectsAPI.md#removeenvironmentfromproject) | **Delete** /api/admin/projects/{projectId}/environments/{environment} | Remove an environment from a project.
 *ProjectsAPI* | [**SetProjectAccess**](docs/ProjectsAPI.md#setprojectaccess) | **Put** /api/admin/projects/{projectId}/access | Set users and groups to roles in the current project
 *ProjectsAPI* | [**UpdateProject**](docs/ProjectsAPI.md#updateproject) | **Put** /api/admin/projects/{projectId} | Update project
 *ProjectsAPI* | [**UpdateProjectEnterpriseSettings**](docs/ProjectsAPI.md#updateprojectenterprisesettings) | **Put** /api/admin/projects/{projectId}/settings | Update project enterprise settings
@@ -138,6 +139,7 @@ Class | Method | HTTP request | Description
  - [ApiTokenSchema](docs/ApiTokenSchema.md)
  - [ApiTokensSchema](docs/ApiTokensSchema.md)
  - [ChangeRequestEnvironmentConfigSchema](docs/ChangeRequestEnvironmentConfigSchema.md)
+ - [ConstraintSchema](docs/ConstraintSchema.md)
  - [ContextFieldSchema](docs/ContextFieldSchema.md)
  - [CreateApiTokenSchema](docs/CreateApiTokenSchema.md)
  - [CreateApiTokenSchemaOneOf](docs/CreateApiTokenSchemaOneOf.md)
@@ -147,6 +149,7 @@ Class | Method | HTTP request | Description
  - [CreateContextFieldSchema](docs/CreateContextFieldSchema.md)
  - [CreateEnvironmentSchema](docs/CreateEnvironmentSchema.md)
  - [CreateFeatureNamingPatternSchema](docs/CreateFeatureNamingPatternSchema.md)
+ - [CreateFeatureStrategySchema](docs/CreateFeatureStrategySchema.md)
  - [CreatePatSchema](docs/CreatePatSchema.md)
  - [CreateProjectSchema](docs/CreateProjectSchema.md)
  - [CreateProjectSchemaChangeRequestEnvironmentsInner](docs/CreateProjectSchemaChangeRequestEnvironmentsInner.md)
@@ -157,6 +160,8 @@ Class | Method | HTTP request | Description
  - [CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner](docs/CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner.md)
  - [CreateRoleWithPermissionsSchemaAnyOfPermissionsInner](docs/CreateRoleWithPermissionsSchemaAnyOfPermissionsInner.md)
  - [CreateServiceAccountSchema](docs/CreateServiceAccountSchema.md)
+ - [CreateStrategyVariantSchema](docs/CreateStrategyVariantSchema.md)
+ - [CreateStrategyVariantSchemaPayload](docs/CreateStrategyVariantSchemaPayload.md)
  - [CreateUserResponseSchema](docs/CreateUserResponseSchema.md)
  - [CreateUserResponseSchemaRootRole](docs/CreateUserResponseSchemaRootRole.md)
  - [CreateUserSchema](docs/CreateUserSchema.md)
@@ -168,7 +173,9 @@ Class | Method | HTTP request | Description
  - [EdgeProcessMetricsSchema](docs/EdgeProcessMetricsSchema.md)
  - [EdgeRequestStatsSchema](docs/EdgeRequestStatsSchema.md)
  - [EdgeUpstreamLatencySchema](docs/EdgeUpstreamLatencySchema.md)
+ - [EnvironmentProjectSchema](docs/EnvironmentProjectSchema.md)
  - [EnvironmentSchema](docs/EnvironmentSchema.md)
+ - [EnvironmentsProjectSchema](docs/EnvironmentsProjectSchema.md)
  - [EnvironmentsSchema](docs/EnvironmentsSchema.md)
  - [GetRoleById404Response](docs/GetRoleById404Response.md)
  - [GetSamlSettings400Response](docs/GetSamlSettings400Response.md)
@@ -189,6 +196,7 @@ Class | Method | HTTP request | Description
  - [ProjectAccessSchema](docs/ProjectAccessSchema.md)
  - [ProjectCreatedSchema](docs/ProjectCreatedSchema.md)
  - [ProjectCreatedSchemaChangeRequestEnvironmentsInner](docs/ProjectCreatedSchemaChangeRequestEnvironmentsInner.md)
+ - [ProjectEnvironmentSchema](docs/ProjectEnvironmentSchema.md)
  - [ProjectSchema](docs/ProjectSchema.md)
  - [ProjectsSchema](docs/ProjectsSchema.md)
  - [RoleSchema](docs/RoleSchema.md)

@@ -211,4 +211,168 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 			t.Skip("Enterprise only feature")
 		}
 	})
+
+	t.Run("Test ProjectsAPIService addEnvironmentToProject adds an environment to project", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			projectId := "pet-shop-project"
+			createProjectSchema := *client.NewCreateProjectSchema("some-random-project")
+			createProjectSchema.SetId(projectId)
+			project, createResponse, createProjectErr := apiClient.ProjectsAPI.CreateProject(context.Background()).CreateProjectSchema(createProjectSchema).Execute()
+
+			if createProjectErr != nil {
+				fmt.Println(createProjectErr)
+			}
+
+			require.Nil(t, createProjectErr)
+			require.NotNil(t, project)
+			assert.Equal(t, 201, createResponse.StatusCode)
+
+			defer cleanupProject(t, apiClient, projectId)
+
+			environmentName := "Production"
+			environmentType := "production"
+			environmentEnabled := true
+
+			createEnvironmentSchema := *client.NewCreateEnvironmentSchemaWithDefaults()
+			createEnvironmentSchema.SetName(environmentName)
+			createEnvironmentSchema.SetType(environmentType)
+			createEnvironmentSchema.Enabled = &environmentEnabled
+
+			environment, httpResp, createEnvironmentErr := apiClient.EnvironmentsAPI.CreateEnvironment(context.Background()).CreateEnvironmentSchema(createEnvironmentSchema).Execute()
+
+			defer cleanupEnvironment(t, apiClient, environmentName)
+
+			if createEnvironmentErr != nil {
+				fmt.Println(createEnvironmentErr)
+			}
+
+			require.Nil(t, createEnvironmentErr)
+			require.NotNil(t, environment)
+			assert.Equal(t, 201, httpResp.StatusCode)
+
+			addEnvironmentToProjectSchema := *client.NewProjectEnvironmentSchemaWithDefaults()
+			addEnvironmentToProjectSchema.SetEnvironment(environmentName)
+
+			httpResp, err := apiClient.ProjectsAPI.AddEnvironmentToProject(context.Background(), projectId).ProjectEnvironmentSchema(addEnvironmentToProjectSchema).Execute()
+
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			require.Nil(t, err)
+			assert.Equal(t, 200, httpResp.StatusCode)
+
+			environments, httpResp, err := apiClient.EnvironmentsAPI.GetProjectEnvironments(context.Background(), projectId).Execute()
+
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			require.Nil(t, err)
+			require.NotNil(t, environments)
+			assert.Equal(t, 200, httpResp.StatusCode)
+
+			var foundEnvironment *client.EnvironmentProjectSchema
+			for _, e := range environments.Environments {
+				if e.Name == environmentName {
+					foundEnvironment = &e
+					break
+				}
+			}
+
+			require.NotNil(t, foundEnvironment)
+			assert.Equal(t, environmentName, foundEnvironment.Name)
+			assert.Equal(t, environmentType, foundEnvironment.Type)
+			assert.Equal(t, true, *foundEnvironment.Visible)
+
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+
+	t.Run("Test ProjectsAPIService removeEnvironmentToProject adds an environment to project", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			projectId := "pet-shop-project"
+			createProjectSchema := *client.NewCreateProjectSchema("some-random-project")
+			createProjectSchema.SetId(projectId)
+			project, createResponse, createProjectErr := apiClient.ProjectsAPI.CreateProject(context.Background()).CreateProjectSchema(createProjectSchema).Execute()
+
+			if createProjectErr != nil {
+				fmt.Println(createProjectErr)
+			}
+
+			require.Nil(t, createProjectErr)
+			require.NotNil(t, project)
+			assert.Equal(t, 201, createResponse.StatusCode)
+
+			defer cleanupProject(t, apiClient, projectId)
+
+			environmentName := "Production"
+			environmentType := "production"
+			environmentEnabled := true
+
+			createEnvironmentSchema := *client.NewCreateEnvironmentSchemaWithDefaults()
+			createEnvironmentSchema.SetName(environmentName)
+			createEnvironmentSchema.SetType(environmentType)
+			createEnvironmentSchema.Enabled = &environmentEnabled
+
+			environment, createHttpResp, createEnvironmentErr := apiClient.EnvironmentsAPI.CreateEnvironment(context.Background()).CreateEnvironmentSchema(createEnvironmentSchema).Execute()
+
+			defer cleanupEnvironment(t, apiClient, environmentName)
+
+			if createEnvironmentErr != nil {
+				fmt.Println(createEnvironmentErr)
+			}
+
+			require.Nil(t, createEnvironmentErr)
+			require.NotNil(t, environment)
+			assert.Equal(t, 201, createHttpResp.StatusCode)
+
+			addEnvironmentToProjectSchema := *client.NewProjectEnvironmentSchemaWithDefaults()
+			addEnvironmentToProjectSchema.SetEnvironment(environmentName)
+
+			var httpResp, err = apiClient.ProjectsAPI.AddEnvironmentToProject(context.Background(), projectId).ProjectEnvironmentSchema(addEnvironmentToProjectSchema).Execute()
+
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			require.Nil(t, err)
+			assert.Equal(t, 200, httpResp.StatusCode)
+
+			httpResp, err = apiClient.ProjectsAPI.RemoveEnvironmentFromProject(context.Background(), projectId, environmentName).Execute()
+
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			require.Nil(t, err)
+			assert.Equal(t, 200, httpResp.StatusCode)
+
+			environments, httpResp, err := apiClient.EnvironmentsAPI.GetProjectEnvironments(context.Background(), projectId).Execute()
+
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			require.Nil(t, err)
+			require.NotNil(t, environments)
+			assert.Equal(t, 200, httpResp.StatusCode)
+
+			var foundEnvironment *client.EnvironmentProjectSchema
+			for _, e := range environments.Environments {
+				if e.Name == environmentName {
+					foundEnvironment = &e
+					break
+				}
+			}
+
+			require.NotNil(t, foundEnvironment)
+			assert.Equal(t, environmentName, foundEnvironment.Name)
+			assert.Equal(t, environmentType, foundEnvironment.Type)
+			assert.Equal(t, false, *foundEnvironment.Visible)
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
 }

@@ -31,7 +31,7 @@ type CreateProjectSchema struct {
 	Mode *string `json:"mode,omitempty"`
 	// A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy
 	DefaultStickiness *string `json:"defaultStickiness,omitempty"`
-	// A list of environments that should be enabled for this project. When provided, the list must contain at least one environment. If this property is missing, Unleash will default to enabling all non-deprecated environments for the project.
+	// A list of environments that should be enabled for this project. If this property is missing, Unleash will default to enabling all non-deprecated environments for the project. An empty list will result in no environment enabled for the project.
 	Environments []string `json:"environments,omitempty"`
 	// A list of environments that should have change requests enabled. If the list includes environments not in the `environments` list, they will still have change requests enabled.
 	ChangeRequestEnvironments []CreateProjectSchemaChangeRequestEnvironmentsInner `json:"changeRequestEnvironments,omitempty"`
