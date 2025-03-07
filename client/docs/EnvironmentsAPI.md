@@ -7,9 +7,8 @@ Method | HTTP request | Description
 [**CreateEnvironment**](EnvironmentsAPI.md#CreateEnvironment) | **Post** /api/admin/environments | Creates a new environment
 [**GetAllEnvironments**](EnvironmentsAPI.md#GetAllEnvironments) | **Get** /api/admin/environments | Get all environments
 [**GetEnvironment**](EnvironmentsAPI.md#GetEnvironment) | **Get** /api/admin/environments/{name} | Get the environment with &#x60;name&#x60;
+[**GetProjectEnvironments**](EnvironmentsAPI.md#GetProjectEnvironments) | **Get** /api/admin/environments/project/{projectId} | Get the environments available to a project
 [**RemoveEnvironment**](EnvironmentsAPI.md#RemoveEnvironment) | **Delete** /api/admin/environments/{name} | Deletes an environment by name
-[**ToggleEnvironmentOff**](EnvironmentsAPI.md#ToggleEnvironmentOff) | **Post** /api/admin/environments/{name}/off | Toggle the environment with &#x60;name&#x60; off
-[**ToggleEnvironmentOn**](EnvironmentsAPI.md#ToggleEnvironmentOn) | **Post** /api/admin/environments/{name}/on | Toggle the environment with &#x60;name&#x60; on
 [**UpdateEnvironment**](EnvironmentsAPI.md#UpdateEnvironment) | **Put** /api/admin/environments/update/{name} | Updates an environment by name
 
 
@@ -211,6 +210,76 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## GetProjectEnvironments
+
+> EnvironmentsProjectSchema GetProjectEnvironments(ctx, projectId).Execute()
+
+Get the environments available to a project
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+	projectId := "projectId_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.EnvironmentsAPI.GetProjectEnvironments(context.Background(), projectId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsAPI.GetProjectEnvironments``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetProjectEnvironments`: EnvironmentsProjectSchema
+	fmt.Fprintf(os.Stdout, "Response from `EnvironmentsAPI.GetProjectEnvironments`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**projectId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetProjectEnvironmentsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**EnvironmentsProjectSchema**](EnvironmentsProjectSchema.md)
+
+### Authorization
+
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## RemoveEnvironment
 
 > RemoveEnvironment(ctx, name).Execute()
@@ -255,142 +324,6 @@ Name | Type | Description  | Notes
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiRemoveEnvironmentRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
-### Return type
-
- (empty response body)
-
-### Authorization
-
-[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## ToggleEnvironmentOff
-
-> ToggleEnvironmentOff(ctx, name).Execute()
-
-Toggle the environment with `name` off
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/Unleash/unleash-server-api-go"
-)
-
-func main() {
-	name := "name_example" // string | 
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.EnvironmentsAPI.ToggleEnvironmentOff(context.Background(), name).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsAPI.ToggleEnvironmentOff``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**name** | **string** |  | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiToggleEnvironmentOffRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
-### Return type
-
- (empty response body)
-
-### Authorization
-
-[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## ToggleEnvironmentOn
-
-> ToggleEnvironmentOn(ctx, name).Execute()
-
-Toggle the environment with `name` on
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/Unleash/unleash-server-api-go"
-)
-
-func main() {
-	name := "name_example" // string | 
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.EnvironmentsAPI.ToggleEnvironmentOn(context.Background(), name).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `EnvironmentsAPI.ToggleEnvironmentOn``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**name** | **string** |  | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiToggleEnvironmentOnRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

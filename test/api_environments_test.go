@@ -138,49 +138,4 @@ func Test_client_EnvironmentAPIService(t *testing.T) {
 		require.NotNil(t, getResp)
 		require.Equal(t, "development", getResp.Type)
 	})
-
-	t.Run("Test EnvironmentAPIService ToggleOnOff", func(t *testing.T) {
-		envName := "RainForest"
-
-		rainForestEnvironment := *client.NewCreateEnvironmentSchemaWithDefaults()
-		rainForestEnvironment.Name = envName
-		rainForestEnvironment.SetType("production")
-		rainForestEnvironment.SetEnabled(true)
-
-		_, _, err := apiClient.EnvironmentsAPI.CreateEnvironment(context.Background()).CreateEnvironmentSchema(rainForestEnvironment).Execute()
-
-		if err != nil {
-			t.Log(err)
-		}
-
-		defer cleanupEnvironment(t, apiClient, envName)
-
-		httpRes, err := apiClient.EnvironmentsAPI.ToggleEnvironmentOff(context.Background(), envName).Execute()
-
-		require.Nil(t, err)
-		require.Equal(t, 204, httpRes.StatusCode)
-
-		//validate the env is off
-
-		getResp, _, err := apiClient.EnvironmentsAPI.GetEnvironment(context.Background(), envName).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, getResp)
-		require.False(t, getResp.Enabled)
-
-		//toggle it back on
-
-		httpRes, err = apiClient.EnvironmentsAPI.ToggleEnvironmentOn(context.Background(), envName).Execute()
-
-		require.Nil(t, err)
-		require.Equal(t, 204, httpRes.StatusCode)
-
-		//validate the env is on
-
-		getResp, _, err = apiClient.EnvironmentsAPI.GetEnvironment(context.Background(), envName).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, getResp)
-		require.True(t, getResp.Enabled)
-	})
 }

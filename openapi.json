@@ -7,7 +7,7 @@
   ],
   "info": {
     "title": "Unleash API",
-    "version": "6.7.2"
+    "version": "6.8.0"
   },
   "security": [
     {
@@ -3695,6 +3695,7 @@
               "release-plan-template-created",
               "release-plan-template-updated",
               "release-plan-template-deleted",
+              "release-plan-template-archived",
               "release-plan-added",
               "release-plan-removed",
               "release-plan-milestone-started",
@@ -3860,6 +3861,11 @@
           "defaultStrategy": {
             "description": "The strategy configuration to add when enabling a feature environment by default",
             "$ref": "#/components/schemas/createFeatureStrategySchema"
+          },
+          "visible": {
+            "type": "boolean",
+            "example": true,
+            "description": "Indicates whether the environment can be enabled for feature flags in the project"
           }
         }
       },
@@ -4168,6 +4174,7 @@
               "release-plan-template-created",
               "release-plan-template-updated",
               "release-plan-template-deleted",
+              "release-plan-template-archived",
               "release-plan-added",
               "release-plan-removed",
               "release-plan-milestone-started",
@@ -11819,8 +11826,7 @@
               "type": "string",
               "example": "production"
             },
-            "description": "A list of environments that should be enabled for this project. When provided, the list must contain at least one environment. If this property is missing, Unleash will default to enabling all non-deprecated environments for the project.",
-            "minItems": 1,
+            "description": "A list of environments that should be enabled for this project. If this property is missing, Unleash will default to enabling all non-deprecated environments for the project. An empty list will result in no environment enabled for the project.",
             "example": [
               "production",
               "development"
@@ -18350,6 +18356,13 @@
             "items": {
               "$ref": "#/components/schemas/releasePlanMilestoneSchema"
             }
+          },
+          "archivedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time that the release template was archived.",
+            "example": "2022-01-01T00:00:00Z",
+            "nullable": true
           }
         }
       },
@@ -25710,6 +25723,33 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NameExistsError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "There is already a feature called \"my-awesome-feature\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -25856,6 +25896,112 @@
         "operationId": "updateReleasePlanTemplate",
         "summary": "Updates a release plan template by its id.",
         "description": "Finds and updates a release plan template by the provided id. Will delete existing milestones and create new ones from the body",
+        "responses": {
+          "200": {
+            "description": "This response has no body."
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AuthenticationRequired",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NoAccessError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment.",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "NameExistsError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "There is already a feature called \"my-awesome-feature\".",
+                      "description": "A description of what went wrong."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/admin/release-plan-templates/archive/{templateId}": {
+      "post": {
+        "tags": [
+          "Unstable"
+        ],
+        "operationId": "archiveReleasePlanTemplate",
+        "summary": "Archives a release plan template by its id.",
+        "description": "Finds and archives a release plan template by the provided id.",
         "responses": {
           "200": {
             "description": "This response has no body."
@@ -30032,10 +30178,10 @@
         "tags": [
           "Metrics"
         ],
-        "deprecated": false,
+        "deprecated": true,
         "operationId": "getTrafficUsageDataForPeriod",
         "summary": "Gets traffic usage data for selected period",
-        "description": "Gets traffic usage data numbers per API for a period given by the parameter",
+        "description": "Gets traffic usage data numbers per API for a period given by the parameter. This endpoint is deprecated. Use /traffic-search instead.",
         "responses": {
           "200": {
             "description": "trafficUsageDataSegmentedSchema",
@@ -33746,8 +33892,8 @@
           "Metrics"
         ],
         "operationId": "getApplicationEnvironmentInstances",
-        "summary": "Get application environment instances",
-        "description": "Returns an overview of the instances for the given `appName` and `environment` that receive traffic.",
+        "summary": "Get application environment instances (Last 24h)",
+        "description": "Returns an overview of the instances for the given `appName` and `environment` that have received traffic in the last 24 hours.",
         "responses": {
           "200": {
             "description": "applicationEnvironmentInstancesSchema",

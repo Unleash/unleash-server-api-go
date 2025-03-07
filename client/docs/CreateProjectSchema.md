@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **Description** | Pointer to **NullableString** | The project&#39;s description. | [optional] 
 **Mode** | Pointer to **string** | A mode of the project affecting what actions are possible in this project | [optional] [default to "open"]
 **DefaultStickiness** | Pointer to **string** | A default stickiness for the project affecting the default stickiness value for variants and Gradual Rollout strategy | [optional] [default to "default"]
-**Environments** | Pointer to **[]string** | A list of environments that should be enabled for this project. When provided, the list must contain at least one environment. If this property is missing, Unleash will default to enabling all non-deprecated environments for the project. | [optional] 
+**Environments** | Pointer to **[]string** | A list of environments that should be enabled for this project. If this property is missing, Unleash will default to enabling all non-deprecated environments for the project. An empty list will result in no environment enabled for the project. | [optional] 
 **ChangeRequestEnvironments** | Pointer to [**[]CreateProjectSchemaChangeRequestEnvironmentsInner**](CreateProjectSchemaChangeRequestEnvironmentsInner.md) | A list of environments that should have change requests enabled. If the list includes environments not in the &#x60;environments&#x60; list, they will still have change requests enabled. | [optional] 
 
 ## Methods

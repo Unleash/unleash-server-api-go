@@ -5,6 +5,7 @@ README.md
 api/openapi.yaml
 api_api_tokens.go
 api_auth.go
+api_change_requests.go
 api_context.go
 api_environments.go
 api_projects.go
@@ -20,6 +21,9 @@ docs/AdminPermissionsSchemaPermissionsEnvironmentsInner.md
 docs/ApiTokenSchema.md
 docs/ApiTokensSchema.md
 docs/AuthAPI.md
+docs/ChangeRequestEnvironmentConfigSchema.md
+docs/ChangeRequestsAPI.md
+docs/ConstraintSchema.md
 docs/ContextAPI.md
 docs/ContextFieldSchema.md
 docs/CreateApiTokenSchema.md
@@ -30,6 +34,7 @@ docs/CreateApiTokenSchemaOneOf3.md
 docs/CreateContextFieldSchema.md
 docs/CreateEnvironmentSchema.md
 docs/CreateFeatureNamingPatternSchema.md
+docs/CreateFeatureStrategySchema.md
 docs/CreatePatSchema.md
 docs/CreateProjectSchema.md
 docs/CreateProjectSchemaChangeRequestEnvironmentsInner.md
@@ -40,6 +45,8 @@ docs/CreateRoleWithPermissionsSchemaAnyOf1.md
 docs/CreateRoleWithPermissionsSchemaAnyOf1PermissionsInner.md
 docs/CreateRoleWithPermissionsSchemaAnyOfPermissionsInner.md
 docs/CreateServiceAccountSchema.md
+docs/CreateStrategyVariantSchema.md
+docs/CreateStrategyVariantSchemaPayload.md
 docs/CreateUserResponseSchema.md
 docs/CreateUserResponseSchemaRootRole.md
 docs/CreateUserSchema.md
@@ -51,8 +58,10 @@ docs/EdgeLatencyMetricsSchema.md
 docs/EdgeProcessMetricsSchema.md
 docs/EdgeRequestStatsSchema.md
 docs/EdgeUpstreamLatencySchema.md
+docs/EnvironmentProjectSchema.md
 docs/EnvironmentSchema.md
 docs/EnvironmentsAPI.md
+docs/EnvironmentsProjectSchema.md
 docs/EnvironmentsSchema.md
 docs/GetRoleById404Response.md
 docs/GetSamlSettings400Response.md
@@ -73,6 +82,7 @@ docs/ProjectAccessConfigurationSchemaRolesInner.md
 docs/ProjectAccessSchema.md
 docs/ProjectCreatedSchema.md
 docs/ProjectCreatedSchemaChangeRequestEnvironmentsInner.md
+docs/ProjectEnvironmentSchema.md
 docs/ProjectSchema.md
 docs/ProjectsAPI.md
 docs/ProjectsSchema.md
@@ -89,6 +99,7 @@ docs/ServiceAccountsAPI.md
 docs/ServiceAccountsSchema.md
 docs/SetSamlSettings415Response.md
 docs/UpdateApiTokenSchema.md
+docs/UpdateChangeRequestEnvironmentConfigSchema.md
 docs/UpdateContextFieldSchema.md
 docs/UpdateEnvironmentSchema.md
 docs/UpdateProjectEnterpriseSettingsSchema.md
@@ -105,6 +116,8 @@ model_admin_permissions_schema_permissions.go
 model_admin_permissions_schema_permissions_environments_inner.go
 model_api_token_schema.go
 model_api_tokens_schema.go
+model_change_request_environment_config_schema.go
+model_constraint_schema.go
 model_context_field_schema.go
 model_create_api_token_schema.go
 model_create_api_token_schema_one_of.go
@@ -114,6 +127,7 @@ model_create_api_token_schema_one_of_3.go
 model_create_context_field_schema.go
 model_create_environment_schema.go
 model_create_feature_naming_pattern_schema.go
+model_create_feature_strategy_schema.go
 model_create_pat_schema.go
 model_create_project_schema.go
 model_create_project_schema_change_request_environments_inner.go
@@ -124,6 +138,8 @@ model_create_role_with_permissions_schema_any_of_1.go
 model_create_role_with_permissions_schema_any_of_1_permissions_inner.go
 model_create_role_with_permissions_schema_any_of_permissions_inner.go
 model_create_service_account_schema.go
+model_create_strategy_variant_schema.go
+model_create_strategy_variant_schema_payload.go
 model_create_user_response_schema.go
 model_create_user_response_schema_root_role.go
 model_create_user_schema.go
@@ -135,7 +151,9 @@ model_edge_latency_metrics_schema.go
 model_edge_process_metrics_schema.go
 model_edge_request_stats_schema.go
 model_edge_upstream_latency_schema.go
+model_environment_project_schema.go
 model_environment_schema.go
+model_environments_project_schema.go
 model_environments_schema.go
 model_get_role_by_id_404_response.go
 model_get_saml_settings_400_response.go
@@ -156,6 +174,7 @@ model_project_access_configuration_schema_roles_inner.go
 model_project_access_schema.go
 model_project_created_schema.go
 model_project_created_schema_change_request_environments_inner.go
+model_project_environment_schema.go
 model_project_schema.go
 model_projects_schema.go
 model_role_schema.go
@@ -170,6 +189,7 @@ model_service_account_schema.go
 model_service_accounts_schema.go
 model_set_saml_settings_415_response.go
 model_update_api_token_schema.go
+model_update_change_request_environment_config_schema.go
 model_update_context_field_schema.go
 model_update_environment_schema.go
 model_update_project_enterprise_settings_schema.go
@@ -181,6 +201,7 @@ model_user_with_project_role_schema.go
 response.go
 test/api_api_tokens_test.go
 test/api_auth_test.go
+test/api_change_requests_test.go
 test/api_context_test.go
 test/api_environments_test.go
 test/api_projects_test.go

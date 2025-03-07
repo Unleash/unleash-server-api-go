@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Unleash API",
-    "version": "6.7.2"
+    "version": "6.8.0"
   },
   "servers": [
     {
@@ -1798,6 +1798,82 @@
         },
         "tags": [
           "Environments"
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/change-requests/config": {
+      "get": {
+        "operationId": "getProjectChangeRequestConfig",
+        "summary": "Retrieves change request configuration for a project",
+        "description": "Given a projectId, this endpoint will retrieve change request configuration for the project",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "changeRequestConfigSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeRequestConfigSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Change Requests"
+        ]
+      }
+    },
+    "/api/admin/projects/{projectId}/environments/{environment}/change-requests/config": {
+      "put": {
+        "operationId": "updateProjectChangeRequestConfig",
+        "summary": "Updates change request configuration for an environment in the project",
+        "description": "This endpoint will change the change request configuration for a given environment, set it to either on/off and optionally configure the number of approvals needed. The minimum number of approvals is 1 and the maximum number is 10. If you provide a number higher than 10 or lower than 1, Unleash will clamp it to the allowed range.",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "environment",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "updateChangeRequestEnvironmentConfigSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateChangeRequestEnvironmentConfigSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "This response has no body."
+          }
+        },
+        "tags": [
+          "Change Requests"
         ]
       }
     },
@@ -4742,14 +4818,14 @@
         ]
       }
     },
-    "/api/admin/environments/{name}/on": {
+    "/api/admin/projects/{projectId}/environments": {
       "post": {
-        "operationId": "toggleEnvironmentOn",
-        "summary": "Toggle the environment with `name` on",
-        "description": "Makes it possible to enable this environment for a project. An environment must first be globally enabled using this endpoint before it can be enabled for a project",
+        "operationId": "addEnvironmentToProject",
+        "summary": "Add an environment to a project.",
+        "description": "This endpoint adds the provided environment to the specified project, with optional support for enabling and disabling change requests for the environment and project.",
         "parameters": [
           {
-            "name": "name",
+            "name": "projectId",
             "in": "path",
             "required": true,
             "schema": {
@@ -4757,8 +4833,19 @@
             }
           }
         ],
+        "requestBody": {
+          "description": "projectEnvironmentSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/projectEnvironmentSchema"
+              }
+            }
+          }
+        },
         "responses": {
-          "204": {
+          "200": {
             "description": "This response has no body."
           },
           "401": {
@@ -4815,8 +4902,8 @@
               }
             }
           },
-          "404": {
-            "description": "The requested resource was not found.",
+          "409": {
+            "description": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4830,12 +4917,12 @@
                     "name": {
                       "description": "The name of the error kind",
                       "type": "string",
-                      "example": "NotFoundError"
+                      "example": "NameExistsError"
                     },
                     "message": {
                       "description": "A description of what went wrong.",
                       "type": "string",
-                      "example": "Could not find the addon with ID \"12345\"."
+                      "example": "There is already a feature called \"my-awesome-feature\"."
                     }
                   }
                 }
@@ -4844,18 +4931,26 @@
           }
         },
         "tags": [
-          "Environments"
+          "Projects"
         ]
       }
     },
-    "/api/admin/environments/{name}/off": {
-      "post": {
-        "operationId": "toggleEnvironmentOff",
-        "summary": "Toggle the environment with `name` off",
-        "description": "Removes this environment from the list of available environments for projects to use",
+    "/api/admin/projects/{projectId}/environments/{environment}": {
+      "delete": {
+        "operationId": "removeEnvironmentFromProject",
+        "summary": "Remove an environment from a project.",
+        "description": "This endpoint removes the specified environment from the project.",
         "parameters": [
           {
-            "name": "name",
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "environment",
             "in": "path",
             "required": true,
             "schema": {
@@ -4864,8 +4959,121 @@
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": "This response has no body."
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/api/admin/environments/project/{projectId}": {
+      "get": {
+        "operationId": "getProjectEnvironments",
+        "summary": "Get the environments available to a project",
+        "description": "Gets the environments that are available for this project. An environment is available for a project if enabled in the [project configuration](https://docs.getunleash.io/reference/environments#enable-an-environment)",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "environmentsProjectSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/environmentsProjectSchema"
+                }
+              }
+            }
           },
           "401": {
             "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
@@ -5060,6 +5268,70 @@
         "additionalProperties": true,
         "required": [
           "tokens"
+        ]
+      },
+      "constraintSchema": {
+        "description": "A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/reference/activation-strategies#constraints)",
+        "type": "object",
+        "properties": {
+          "contextName": {
+            "description": "The name of the context field that this constraint should apply to.",
+            "type": "string",
+            "example": "appName"
+          },
+          "operator": {
+            "description": "The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/reference/activation-strategies#constraint-operators).",
+            "type": "string",
+            "example": "IN",
+            "enum": [
+              "NOT_IN",
+              "IN",
+              "STR_ENDS_WITH",
+              "STR_STARTS_WITH",
+              "STR_CONTAINS",
+              "NUM_EQ",
+              "NUM_GT",
+              "NUM_GTE",
+              "NUM_LT",
+              "NUM_LTE",
+              "DATE_AFTER",
+              "DATE_BEFORE",
+              "SEMVER_EQ",
+              "SEMVER_GT",
+              "SEMVER_LT"
+            ]
+          },
+          "caseInsensitive": {
+            "description": "Whether the operator should be case sensitive or not. Defaults to `false` (being case sensitive).",
+            "type": "boolean",
+            "default": false
+          },
+          "inverted": {
+            "description": "Whether the result should be negated or not. If `true`, will turn a `true` result into a `false` result and vice versa.",
+            "type": "boolean",
+            "default": false
+          },
+          "values": {
+            "description": "The context values that should be used for constraint evaluation. Use this property instead of `value` for properties that accept multiple values.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "my-app",
+              "my-other-app"
+            ]
+          },
+          "value": {
+            "description": "The context value that should be used for constraint evaluation. Use this property instead of `values` for properties that only accept single values.",
+            "type": "string",
+            "example": "my-app"
+          }
+        },
+        "additionalProperties": true,
+        "required": [
+          "contextName",
+          "operator"
         ]
       },
       "contextFieldSchema": {
@@ -5356,6 +5628,83 @@
           "pattern"
         ]
       },
+      "createFeatureStrategySchema": {
+        "description": "Create a strategy configuration in a feature",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The name of the strategy type",
+            "type": "string",
+            "example": "flexibleRollout"
+          },
+          "title": {
+            "description": "A descriptive title for the strategy",
+            "type": "string",
+            "example": "Gradual Rollout 25-Prod",
+            "nullable": true
+          },
+          "disabled": {
+            "description": "A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs",
+            "type": "boolean",
+            "example": false,
+            "nullable": true
+          },
+          "sortOrder": {
+            "description": "The order of the strategy in the list",
+            "type": "number",
+            "example": 9999
+          },
+          "constraints": {
+            "description": "A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/activation-strategies#constraints",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/constraintSchema"
+            },
+            "example": [
+              {
+                "values": [
+                  "1",
+                  "2"
+                ],
+                "inverted": false,
+                "operator": "IN",
+                "contextName": "appName",
+                "caseInsensitive": false
+              }
+            ]
+          },
+          "variants": {
+            "description": "Strategy level variants",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/createStrategyVariantSchema"
+            }
+          },
+          "parameters": {
+            "description": "An object containing the parameters for the strategy",
+            "$ref": "#/components/schemas/parametersSchema",
+            "example": {
+              "groupId": "some_new",
+              "rollout": "25",
+              "stickiness": "sessionId"
+            }
+          },
+          "segments": {
+            "description": "Ids of segments to use for this strategy",
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "example": [
+              1,
+              2
+            ]
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
       "createPatSchema": {
         "description": "Describes the properties required to create a [personal access token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens), or PAT. PATs are automatically scoped to the authenticated user.",
         "type": "object",
@@ -5375,6 +5724,71 @@
         "required": [
           "description",
           "expiresAt"
+        ]
+      },
+      "createStrategyVariantSchema": {
+        "description": "This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The variant name. Must be unique for this feature flag",
+            "type": "string",
+            "example": "blue_group"
+          },
+          "weight": {
+            "description": "The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight) for more information",
+            "type": "integer",
+            "maximum": 1000,
+            "minimum": 0
+          },
+          "weightType": {
+            "description": "Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight).",
+            "type": "string",
+            "example": "fix",
+            "enum": [
+              "variable",
+              "fix"
+            ]
+          },
+          "stickiness": {
+            "description": "The [stickiness](https://docs.getunleash.io/reference/feature-toggle-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time",
+            "type": "string",
+            "example": "custom.context.field"
+          },
+          "payload": {
+            "description": "Extra data configured for this variant",
+            "type": "object",
+            "example": {
+              "type": "json",
+              "value": "{\"color\": \"red\"}"
+            },
+            "properties": {
+              "type": {
+                "description": "The type of the value. Commonly used types are string, number, json and csv.",
+                "type": "string",
+                "enum": [
+                  "json",
+                  "csv",
+                  "string",
+                  "number"
+                ]
+              },
+              "value": {
+                "description": "The actual value of payload",
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "value"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "weight",
+          "weightType",
+          "stickiness"
         ]
       },
       "createUserResponseSchema": {
@@ -5555,6 +5969,66 @@
           "rootRole"
         ]
       },
+      "environmentProjectSchema": {
+        "description": "Describes a project's configuration in a given environment.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The name of the environment",
+            "type": "string",
+            "example": "development"
+          },
+          "type": {
+            "description": "The [type of environment](https://docs.getunleash.io/reference/environments#environment-types).",
+            "type": "string",
+            "example": "production"
+          },
+          "enabled": {
+            "description": "`true` if the environment is enabled for the project, otherwise `false`",
+            "type": "boolean",
+            "example": true
+          },
+          "protected": {
+            "description": "`true` if the environment is protected, otherwise `false`. A *protected* environment can not be deleted.",
+            "type": "boolean",
+            "example": false
+          },
+          "sortOrder": {
+            "description": "Priority of the environment in a list of environments, the lower the value, the higher up in the list the environment will appear",
+            "type": "integer",
+            "example": 1
+          },
+          "projectApiTokenCount": {
+            "description": "The number of client and front-end API tokens that have access to this project",
+            "type": "integer",
+            "example": 5,
+            "minimum": 0
+          },
+          "projectEnabledToggleCount": {
+            "description": "The number of features enabled in this environment for this project",
+            "type": "integer",
+            "example": 7,
+            "minimum": 0
+          },
+          "defaultStrategy": {
+            "description": "The strategy configuration to add when enabling a feature environment by default",
+            "$ref": "#/components/schemas/createFeatureStrategySchema"
+          },
+          "visible": {
+            "description": "Indicates whether the environment can be enabled for feature flags in the project",
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "additionalProperties": true,
+        "required": [
+          "name",
+          "type",
+          "enabled",
+          "protected",
+          "sortOrder"
+        ]
+      },
       "environmentSchema": {
         "description": "A definition of the project environment",
         "type": "object",
@@ -5613,6 +6087,29 @@
           "enabled",
           "protected",
           "sortOrder"
+        ]
+      },
+      "environmentsProjectSchema": {
+        "description": "Environments defined for a given project",
+        "type": "object",
+        "properties": {
+          "version": {
+            "description": "Version of the environments schema",
+            "type": "integer",
+            "example": 1
+          },
+          "environments": {
+            "description": "List of environments",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/environmentProjectSchema"
+            }
+          }
+        },
+        "additionalProperties": true,
+        "required": [
+          "version",
+          "environments"
         ]
       },
       "environmentsSchema": {
@@ -5683,6 +6180,13 @@
           "value"
         ]
       },
+      "parametersSchema": {
+        "description": "A list of parameters for a strategy",
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
       "patSchema": {
         "description": "Describes a [personal access token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens), or PAT. PATs are automatically scoped to the authenticated user.",
         "type": "object",
@@ -5747,6 +6251,30 @@
             }
           }
         }
+      },
+      "projectEnvironmentSchema": {
+        "description": "Add an environment to a project, optionally also sets if change requests are enabled for this environment on the project",
+        "type": "object",
+        "properties": {
+          "environment": {
+            "description": "The environment to add to the project",
+            "type": "string",
+            "example": "development"
+          },
+          "changeRequestsEnabled": {
+            "description": "Whether change requests should be enabled or for this environment on the project or not",
+            "type": "boolean",
+            "example": true
+          },
+          "defaultStrategy": {
+            "description": "A default strategy to create for this environment on the project.",
+            "$ref": "#/components/schemas/createFeatureStrategySchema"
+          }
+        },
+        "additionalProperties": true,
+        "required": [
+          "environment"
+        ]
       },
       "projectSchema": {
         "description": "A definition of the project used for projects listing purposes",
@@ -6225,7 +6753,7 @@
             "default": "default"
           },
           "environments": {
-            "description": "A list of environments that should be enabled for this project. When provided, the list must contain at least one environment. If this property is missing, Unleash will default to enabling all non-deprecated environments for the project.",
+            "description": "A list of environments that should be enabled for this project. If this property is missing, Unleash will default to enabling all non-deprecated environments for the project. An empty list will result in no environment enabled for the project.",
             "type": "array",
             "items": {
               "type": "string",
@@ -6234,8 +6762,7 @@
             "example": [
               "production",
               "development"
-            ],
-            "minItems": 1
+            ]
           },
           "changeRequestEnvironments": {
             "description": "A list of environments that should have change requests enabled. If the list includes environments not in the `environments` list, they will still have change requests enabled.",
@@ -6978,6 +7505,66 @@
               }
             }
           }
+        ]
+      },
+      "changeRequestConfigSchema": {
+        "description": "A list of environment-specific [change request](https://docs.getunleash.io/reference/change-requests) configurations.",
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/changeRequestEnvironmentConfigSchema"
+        }
+      },
+      "changeRequestEnvironmentConfigSchema": {
+        "description": "The [change request](https://docs.getunleash.io/reference/change-requests) configuration for a specific environment.",
+        "type": "object",
+        "properties": {
+          "environment": {
+            "description": "The environment that this configuration applies to.",
+            "type": "string",
+            "example": "my-dev-environment"
+          },
+          "type": {
+            "description": "The [type of the environment](https://docs.getunleash.io/reference/environments#environment-types) listed in `environment`.",
+            "type": "string",
+            "example": "development"
+          },
+          "changeRequestEnabled": {
+            "description": "`true` if this environment has change requests enabled, otherwise `false`.",
+            "type": "boolean",
+            "example": true
+          },
+          "requiredApprovals": {
+            "description": "The number of approvals that are required for a change request to be fully approved and ready to be applied in this environment.",
+            "type": "number",
+            "example": 2,
+            "nullable": true
+          }
+        },
+        "additionalProperties": true,
+        "required": [
+          "environment",
+          "type",
+          "changeRequestEnabled",
+          "requiredApprovals"
+        ]
+      },
+      "updateChangeRequestEnvironmentConfigSchema": {
+        "description": "Data used to update change request in an environment",
+        "type": "object",
+        "properties": {
+          "changeRequestsEnabled": {
+            "description": "`true` if change requests should be enabled, otherwise `false`.",
+            "type": "boolean"
+          },
+          "requiredApprovals": {
+            "description": "The number of approvals required before a change request can be applied in this environment.",
+            "type": "integer",
+            "example": 3,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "changeRequestsEnabled"
         ]
       },
       "updateEnvironmentSchema": {

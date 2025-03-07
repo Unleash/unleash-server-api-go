@@ -4,14 +4,86 @@ All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**AddEnvironmentToProject**](ProjectsAPI.md#AddEnvironmentToProject) | **Post** /api/admin/projects/{projectId}/environments | Add an environment to a project.
 [**CreateProject**](ProjectsAPI.md#CreateProject) | **Post** /api/admin/projects | Create project
 [**DeleteProject**](ProjectsAPI.md#DeleteProject) | **Delete** /api/admin/projects/{projectId} | Delete project
 [**GetProjectAccess**](ProjectsAPI.md#GetProjectAccess) | **Get** /api/admin/projects/{projectId}/access | Get users and groups in project
 [**GetProjects**](ProjectsAPI.md#GetProjects) | **Get** /api/admin/projects | Get a list of all projects.
+[**RemoveEnvironmentFromProject**](ProjectsAPI.md#RemoveEnvironmentFromProject) | **Delete** /api/admin/projects/{projectId}/environments/{environment} | Remove an environment from a project.
 [**SetProjectAccess**](ProjectsAPI.md#SetProjectAccess) | **Put** /api/admin/projects/{projectId}/access | Set users and groups to roles in the current project
 [**UpdateProject**](ProjectsAPI.md#UpdateProject) | **Put** /api/admin/projects/{projectId} | Update project
 [**UpdateProjectEnterpriseSettings**](ProjectsAPI.md#UpdateProjectEnterpriseSettings) | **Put** /api/admin/projects/{projectId}/settings | Update project enterprise settings
 
+
+
+## AddEnvironmentToProject
+
+> AddEnvironmentToProject(ctx, projectId).ProjectEnvironmentSchema(projectEnvironmentSchema).Execute()
+
+Add an environment to a project.
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+	projectId := "projectId_example" // string | 
+	projectEnvironmentSchema := *openapiclient.NewProjectEnvironmentSchema("development") // ProjectEnvironmentSchema | projectEnvironmentSchema
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.ProjectsAPI.AddEnvironmentToProject(context.Background(), projectId).ProjectEnvironmentSchema(projectEnvironmentSchema).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.AddEnvironmentToProject``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**projectId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAddEnvironmentToProjectRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **projectEnvironmentSchema** | [**ProjectEnvironmentSchema**](ProjectEnvironmentSchema.md) | projectEnvironmentSchema | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## CreateProject
@@ -269,6 +341,77 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ProjectsSchema**](ProjectsSchema.md)
+
+### Authorization
+
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## RemoveEnvironmentFromProject
+
+> RemoveEnvironmentFromProject(ctx, projectId, environment).Execute()
+
+Remove an environment from a project.
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+	projectId := "projectId_example" // string | 
+	environment := "environment_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.ProjectsAPI.RemoveEnvironmentFromProject(context.Background(), projectId, environment).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.RemoveEnvironmentFromProject``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**projectId** | **string** |  | 
+**environment** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiRemoveEnvironmentFromProjectRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+### Return type
+
+ (empty response body)
 
 ### Authorization
 

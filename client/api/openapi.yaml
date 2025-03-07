@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Unleash API
-  version: 6.7.2
+  version: 6.8.0
 servers:
 - url: https://us.app.unleash-hosted.com/ushosted
 security:
@@ -736,6 +736,65 @@ paths:
       summary: Get the environment with `name`
       tags:
       - Environments
+  /api/admin/projects/{projectId}/change-requests/config:
+    get:
+      description: "Given a projectId, this endpoint will retrieve change request\
+        \ configuration for the project"
+      operationId: getProjectChangeRequestConfig
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/changeRequestConfigSchema'
+          description: changeRequestConfigSchema
+      summary: Retrieves change request configuration for a project
+      tags:
+      - Change Requests
+  /api/admin/projects/{projectId}/environments/{environment}/change-requests/config:
+    put:
+      description: "This endpoint will change the change request configuration for\
+        \ a given environment, set it to either on/off and optionally configure the\
+        \ number of approvals needed. The minimum number of approvals is 1 and the\
+        \ maximum number is 10. If you provide a number higher than 10 or lower than\
+        \ 1, Unleash will clamp it to the allowed range."
+      operationId: updateProjectChangeRequestConfig
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: environment
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateChangeRequestEnvironmentConfigSchema'
+        description: updateChangeRequestEnvironmentConfigSchema
+        required: true
+      responses:
+        "200":
+          description: This response has no body.
+      summary: Updates change request configuration for an environment in the project
+      tags:
+      - Change Requests
   /api/admin/service-account:
     get:
       description: Returns the list of all service accounts.
@@ -1933,22 +1992,29 @@ paths:
       summary: Update a user
       tags:
       - Users
-  /api/admin/environments/{name}/on:
+  /api/admin/projects/{projectId}/environments:
     post:
-      description: Makes it possible to enable this environment for a project. An
-        environment must first be globally enabled using this endpoint before it can
-        be enabled for a project
-      operationId: toggleEnvironmentOn
+      description: "This endpoint adds the provided environment to the specified project,\
+        \ with optional support for enabling and disabling change requests for the\
+        \ environment and project."
+      operationId: addEnvironmentToProject
       parameters:
       - explode: false
         in: path
-        name: name
+        name: projectId
         required: true
         schema:
           type: string
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/projectEnvironmentSchema'
+        description: projectEnvironmentSchema
+        required: true
       responses:
-        "204":
+        "200":
           description: This response has no body.
         "401":
           content:
@@ -1964,31 +2030,82 @@ paths:
                 $ref: '#/components/schemas/getSamlSettings_403_response'
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
-        "404":
+        "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
-          description: The requested resource was not found.
-      summary: Toggle the environment with `name` on
+                $ref: '#/components/schemas/createRole_409_response'
+          description: "The provided resource can not be created or updated because\
+            \ it would conflict with the current state of the resource or with an\
+            \ already existing resource, respectively."
+      summary: Add an environment to a project.
       tags:
-      - Environments
-  /api/admin/environments/{name}/off:
-    post:
-      description: Removes this environment from the list of available environments
-        for projects to use
-      operationId: toggleEnvironmentOff
+      - Projects
+  /api/admin/projects/{projectId}/environments/{environment}:
+    delete:
+      description: This endpoint removes the specified environment from the project.
+      operationId: removeEnvironmentFromProject
       parameters:
       - explode: false
         in: path
-        name: name
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: environment
         required: true
         schema:
           type: string
         style: simple
       responses:
-        "204":
+        "200":
           description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_400_response'
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_401_response'
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSamlSettings_403_response'
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Remove an environment from a project.
+      tags:
+      - Projects
+  /api/admin/environments/project/{projectId}:
+    get:
+      description: "Gets the environments that are available for this project. An\
+        \ environment is available for a project if enabled in the [project configuration](https://docs.getunleash.io/reference/environments#enable-an-environment)"
+      operationId: getProjectEnvironments
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentsProjectSchema'
+          description: environmentsProjectSchema
         "401":
           content:
             application/json:
@@ -2009,7 +2126,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/getRoleById_404_response'
           description: The requested resource was not found.
-      summary: Toggle the environment with `name` off
+      summary: Get the environments available to a project
       tags:
       - Environments
 components:
@@ -2146,6 +2263,68 @@ components:
           type: array
       required:
       - tokens
+      type: object
+    constraintSchema:
+      additionalProperties: true
+      description: "A strategy constraint. For more information, refer to [the strategy\
+        \ constraint reference documentation](https://docs.getunleash.io/reference/activation-strategies#constraints)"
+      properties:
+        contextName:
+          description: The name of the context field that this constraint should apply
+            to.
+          example: appName
+          type: string
+        operator:
+          description: "The operator to use when evaluating this constraint. For more\
+            \ information about the various operators, refer to [the strategy constraint\
+            \ operator documentation](https://docs.getunleash.io/reference/activation-strategies#constraint-operators)."
+          enum:
+          - NOT_IN
+          - IN
+          - STR_ENDS_WITH
+          - STR_STARTS_WITH
+          - STR_CONTAINS
+          - NUM_EQ
+          - NUM_GT
+          - NUM_GTE
+          - NUM_LT
+          - NUM_LTE
+          - DATE_AFTER
+          - DATE_BEFORE
+          - SEMVER_EQ
+          - SEMVER_GT
+          - SEMVER_LT
+          example: IN
+          type: string
+        caseInsensitive:
+          default: false
+          description: Whether the operator should be case sensitive or not. Defaults
+            to `false` (being case sensitive).
+          type: boolean
+        inverted:
+          default: false
+          description: "Whether the result should be negated or not. If `true`, will\
+            \ turn a `true` result into a `false` result and vice versa."
+          type: boolean
+        values:
+          description: The context values that should be used for constraint evaluation.
+            Use this property instead of `value` for properties that accept multiple
+            values.
+          example:
+          - my-app
+          - my-other-app
+          items:
+            type: string
+          type: array
+        value:
+          description: The context value that should be used for constraint evaluation.
+            Use this property instead of `values` for properties that only accept
+            single values.
+          example: my-app
+          type: string
+      required:
+      - contextName
+      - operator
       type: object
     contextFieldSchema:
       additionalProperties: true
@@ -2284,6 +2463,95 @@ components:
       required:
       - pattern
       type: object
+    createFeatureStrategySchema:
+      description: Create a strategy configuration in a feature
+      example:
+        sortOrder: 9999
+        name: flexibleRollout
+        disabled: false
+        variants:
+        - weightType: fix
+          payload:
+            type: json
+            value: "{\"color\": \"red\"}"
+          stickiness: custom.context.field
+          name: blue_group
+          weight: 80
+        - weightType: fix
+          payload:
+            type: json
+            value: "{\"color\": \"red\"}"
+          stickiness: custom.context.field
+          name: blue_group
+          weight: 80
+        title: Gradual Rollout 25-Prod
+        constraints:
+        - values:
+          - "1"
+          - "2"
+          inverted: false
+          operator: IN
+          contextName: appName
+          caseInsensitive: false
+        parameters:
+          key: parameters
+        segments:
+        - 1
+        - 2
+      properties:
+        name:
+          description: The name of the strategy type
+          example: flexibleRollout
+          type: string
+        title:
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+          nullable: true
+          type: string
+        disabled:
+          description: A toggle to disable the strategy. defaults to false. Disabled
+            strategies are not evaluated or returned to the SDKs
+          example: false
+          nullable: true
+          type: boolean
+        sortOrder:
+          description: The order of the strategy in the list
+          example: 9999
+          type: number
+        constraints:
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/activation-strategies#constraints
+          example:
+          - values:
+            - "1"
+            - "2"
+            inverted: false
+            operator: IN
+            contextName: appName
+            caseInsensitive: false
+          items:
+            $ref: '#/components/schemas/constraintSchema'
+          type: array
+        variants:
+          description: Strategy level variants
+          items:
+            $ref: '#/components/schemas/createStrategyVariantSchema'
+          type: array
+        parameters:
+          additionalProperties:
+            type: string
+          description: A list of parameters for a strategy
+          type: object
+        segments:
+          description: Ids of segments to use for this strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+          type: array
+      required:
+      - name
+      type: object
     createPatSchema:
       description: "Describes the properties required to create a [personal access\
         \ token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens),\
@@ -2301,6 +2569,56 @@ components:
       required:
       - description
       - expiresAt
+      type: object
+    createStrategyVariantSchema:
+      description: This is an experimental property. It may change or be removed as
+        we work on it. Please don't depend on it yet. A strategy variant allows you
+        to attach any data to strategies instead of only returning `true`/`false`.
+        Strategy variants take precedence over feature variants.
+      example:
+        weightType: fix
+        payload:
+          type: json
+          value: "{\"color\": \"red\"}"
+        stickiness: custom.context.field
+        name: blue_group
+        weight: 80
+      properties:
+        name:
+          description: The variant name. Must be unique for this feature flag
+          example: blue_group
+          type: string
+        weight:
+          description: "The weight is the likelihood of any one user getting this\
+            \ variant. It is an integer between 0 and 1000. See the section on [variant\
+            \ weights](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight)\
+            \ for more information"
+          maximum: 1000
+          minimum: 0
+          type: integer
+        weightType:
+          description: "Set to `fix` if this variant must have exactly the weight\
+            \ allocated to it. If the type is `variable`, the weight will adjust so\
+            \ that the total weight of all variants adds up to 1000. Refer to the\
+            \ [variant weight documentation](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight)."
+          enum:
+          - variable
+          - fix
+          example: fix
+          type: string
+        stickiness:
+          description: "The [stickiness](https://docs.getunleash.io/reference/feature-toggle-variants#variant-stickiness)\
+            \ to use for distribution of this variant. Stickiness is how Unleash guarantees\
+            \ that the same user gets the same variant every time"
+          example: custom.context.field
+          type: string
+        payload:
+          $ref: '#/components/schemas/createStrategyVariantSchema_payload'
+      required:
+      - name
+      - stickiness
+      - weight
+      - weightType
       type: object
     createUserResponseSchema:
       additionalProperties: true
@@ -2441,6 +2759,101 @@ components:
       required:
       - rootRole
       type: object
+    environmentProjectSchema:
+      additionalProperties: true
+      description: Describes a project's configuration in a given environment.
+      example:
+        projectApiTokenCount: 5
+        visible: true
+        protected: false
+        sortOrder: 1
+        projectEnabledToggleCount: 7
+        name: development
+        type: production
+        defaultStrategy:
+          sortOrder: 9999
+          name: flexibleRollout
+          disabled: false
+          variants:
+          - weightType: fix
+            payload:
+              type: json
+              value: "{\"color\": \"red\"}"
+            stickiness: custom.context.field
+            name: blue_group
+            weight: 80
+          - weightType: fix
+            payload:
+              type: json
+              value: "{\"color\": \"red\"}"
+            stickiness: custom.context.field
+            name: blue_group
+            weight: 80
+          title: Gradual Rollout 25-Prod
+          constraints:
+          - values:
+            - "1"
+            - "2"
+            inverted: false
+            operator: IN
+            contextName: appName
+            caseInsensitive: false
+          parameters:
+            key: parameters
+          segments:
+          - 1
+          - 2
+        enabled: true
+      properties:
+        name:
+          description: The name of the environment
+          example: development
+          type: string
+        type:
+          description: "The [type of environment](https://docs.getunleash.io/reference/environments#environment-types)."
+          example: production
+          type: string
+        enabled:
+          description: "`true` if the environment is enabled for the project, otherwise\
+            \ `false`"
+          example: true
+          type: boolean
+        protected:
+          description: "`true` if the environment is protected, otherwise `false`.\
+            \ A *protected* environment can not be deleted."
+          example: false
+          type: boolean
+        sortOrder:
+          description: "Priority of the environment in a list of environments, the\
+            \ lower the value, the higher up in the list the environment will appear"
+          example: 1
+          type: integer
+        projectApiTokenCount:
+          description: The number of client and front-end API tokens that have access
+            to this project
+          example: 5
+          minimum: 0
+          type: integer
+        projectEnabledToggleCount:
+          description: The number of features enabled in this environment for this
+            project
+          example: 7
+          minimum: 0
+          type: integer
+        defaultStrategy:
+          $ref: '#/components/schemas/createFeatureStrategySchema'
+        visible:
+          description: Indicates whether the environment can be enabled for feature
+            flags in the project
+          example: true
+          type: boolean
+      required:
+      - enabled
+      - name
+      - protected
+      - sortOrder
+      - type
+      type: object
     environmentSchema:
       additionalProperties: true
       description: A definition of the project environment
@@ -2502,6 +2915,108 @@ components:
       - protected
       - sortOrder
       - type
+      type: object
+    environmentsProjectSchema:
+      additionalProperties: true
+      description: Environments defined for a given project
+      example:
+        environments:
+        - projectApiTokenCount: 5
+          visible: true
+          protected: false
+          sortOrder: 1
+          projectEnabledToggleCount: 7
+          name: development
+          type: production
+          defaultStrategy:
+            sortOrder: 9999
+            name: flexibleRollout
+            disabled: false
+            variants:
+            - weightType: fix
+              payload:
+                type: json
+                value: "{\"color\": \"red\"}"
+              stickiness: custom.context.field
+              name: blue_group
+              weight: 80
+            - weightType: fix
+              payload:
+                type: json
+                value: "{\"color\": \"red\"}"
+              stickiness: custom.context.field
+              name: blue_group
+              weight: 80
+            title: Gradual Rollout 25-Prod
+            constraints:
+            - values:
+              - "1"
+              - "2"
+              inverted: false
+              operator: IN
+              contextName: appName
+              caseInsensitive: false
+            parameters:
+              key: parameters
+            segments:
+            - 1
+            - 2
+          enabled: true
+        - projectApiTokenCount: 5
+          visible: true
+          protected: false
+          sortOrder: 1
+          projectEnabledToggleCount: 7
+          name: development
+          type: production
+          defaultStrategy:
+            sortOrder: 9999
+            name: flexibleRollout
+            disabled: false
+            variants:
+            - weightType: fix
+              payload:
+                type: json
+                value: "{\"color\": \"red\"}"
+              stickiness: custom.context.field
+              name: blue_group
+              weight: 80
+            - weightType: fix
+              payload:
+                type: json
+                value: "{\"color\": \"red\"}"
+              stickiness: custom.context.field
+              name: blue_group
+              weight: 80
+            title: Gradual Rollout 25-Prod
+            constraints:
+            - values:
+              - "1"
+              - "2"
+              inverted: false
+              operator: IN
+              contextName: appName
+              caseInsensitive: false
+            parameters:
+              key: parameters
+            segments:
+            - 1
+            - 2
+          enabled: true
+        version: 1
+      properties:
+        version:
+          description: Version of the environments schema
+          example: 1
+          type: integer
+        environments:
+          description: List of environments
+          items:
+            $ref: '#/components/schemas/environmentProjectSchema'
+          type: array
+      required:
+      - environments
+      - version
       type: object
     environmentsSchema:
       additionalProperties: true
@@ -2600,6 +3115,11 @@ components:
       required:
       - value
       type: object
+    parametersSchema:
+      additionalProperties:
+        type: string
+      description: A list of parameters for a strategy
+      type: object
     patSchema:
       description: "Describes a [personal access token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens),\
         \ or PAT. PATs are automatically scoped to the authenticated user."
@@ -2681,6 +3201,25 @@ components:
           items:
             $ref: '#/components/schemas/patSchema'
           type: array
+      type: object
+    projectEnvironmentSchema:
+      additionalProperties: true
+      description: "Add an environment to a project, optionally also sets if change\
+        \ requests are enabled for this environment on the project"
+      properties:
+        environment:
+          description: The environment to add to the project
+          example: development
+          type: string
+        changeRequestsEnabled:
+          description: Whether change requests should be enabled or for this environment
+            on the project or not
+          example: true
+          type: boolean
+        defaultStrategy:
+          $ref: '#/components/schemas/createFeatureStrategySchema'
+      required:
+      - environment
       type: object
     projectSchema:
       additionalProperties: true
@@ -3137,16 +3676,15 @@ components:
           type: string
         environments:
           description: "A list of environments that should be enabled for this project.\
-            \ When provided, the list must contain at least one environment. If this\
-            \ property is missing, Unleash will default to enabling all non-deprecated\
-            \ environments for the project."
+            \ If this property is missing, Unleash will default to enabling all non-deprecated\
+            \ environments for the project. An empty list will result in no environment\
+            \ enabled for the project."
           example:
           - production
           - development
           items:
             example: production
             type: string
-          minItems: 1
           type: array
         changeRequestEnvironments:
           description: "A list of environments that should have change requests enabled.\
@@ -3582,6 +4120,63 @@ components:
       oneOf:
       - $ref: '#/components/schemas/samlSettingsSchema_oneOf'
       - $ref: '#/components/schemas/samlSettingsSchema_oneOf_1'
+      type: object
+    changeRequestConfigSchema:
+      description: "A list of environment-specific [change request](https://docs.getunleash.io/reference/change-requests)\
+        \ configurations."
+      items:
+        $ref: '#/components/schemas/changeRequestEnvironmentConfigSchema'
+      type: array
+    changeRequestEnvironmentConfigSchema:
+      additionalProperties: true
+      description: "The [change request](https://docs.getunleash.io/reference/change-requests)\
+        \ configuration for a specific environment."
+      example:
+        environment: my-dev-environment
+        changeRequestEnabled: true
+        requiredApprovals: 2
+        type: development
+      properties:
+        environment:
+          description: The environment that this configuration applies to.
+          example: my-dev-environment
+          type: string
+        type:
+          description: "The [type of the environment](https://docs.getunleash.io/reference/environments#environment-types)\
+            \ listed in `environment`."
+          example: development
+          type: string
+        changeRequestEnabled:
+          description: "`true` if this environment has change requests enabled, otherwise\
+            \ `false`."
+          example: true
+          type: boolean
+        requiredApprovals:
+          description: The number of approvals that are required for a change request
+            to be fully approved and ready to be applied in this environment.
+          example: 2
+          nullable: true
+          type: number
+      required:
+      - changeRequestEnabled
+      - environment
+      - requiredApprovals
+      - type
+      type: object
+    updateChangeRequestEnvironmentConfigSchema:
+      description: Data used to update change request in an environment
+      properties:
+        changeRequestsEnabled:
+          description: "`true` if change requests should be enabled, otherwise `false`."
+          type: boolean
+        requiredApprovals:
+          description: The number of approvals required before a change request can
+            be applied in this environment.
+          example: 3
+          minimum: 0
+          type: integer
+      required:
+      - changeRequestsEnabled
       type: object
     updateEnvironmentSchema:
       description: "Data used to update an [environment](https://docs.getunleash.io/reference/environments)."
@@ -4763,6 +5358,28 @@ components:
       required:
       - type
       - username
+      type: object
+    createStrategyVariantSchema_payload:
+      description: Extra data configured for this variant
+      example:
+        type: json
+        value: "{\"color\": \"red\"}"
+      properties:
+        type:
+          description: "The type of the value. Commonly used types are string, number,\
+            \ json and csv."
+          enum:
+          - json
+          - csv
+          - string
+          - number
+          type: string
+        value:
+          description: The actual value of payload
+          type: string
+      required:
+      - type
+      - value
       type: object
     createUserResponseSchema_rootRole:
       description: "Which [root role](https://docs.getunleash.io/reference/rbac#predefined-roles)\
