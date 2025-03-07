@@ -1,9 +1,13 @@
 {
   "openapi": "3.0.3",
-  "servers": [],
+  "servers": [
+    {
+      "url": "https://us.app.unleash-hosted.com/ushosted"
+    }
+  ],
   "info": {
     "title": "Unleash API",
-    "version": "6.7.2"
+    "version": "6.8.0"
   },
   "security": [
     {
@@ -26964,6 +26968,26 @@
                       "description": "A description of what went wrong."
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/invoices": {
+      "get": {
+        "tags": [
+          "Operational"
+        ],
+        "operationId": "getInvoices",
+        "responses": {
+          "200": {
+            "description": "invoicesSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/invoicesSchema"
                 }
               }
             }

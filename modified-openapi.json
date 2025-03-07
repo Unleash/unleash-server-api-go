@@ -2,9 +2,13 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Unleash API",
-    "version": "6.7.2"
+    "version": "6.8.0"
   },
-  "servers": [],
+  "servers": [
+    {
+      "url": "https://us.app.unleash-hosted.com/ushosted"
+    }
+  ],
   "paths": {
     "/api/admin/auth/saml/settings": {
       "get": {

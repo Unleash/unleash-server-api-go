@@ -1,6 +1,6 @@
 # \ServiceAccountsAPI
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
