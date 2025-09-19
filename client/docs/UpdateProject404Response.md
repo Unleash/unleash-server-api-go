@@ -1,4 +1,4 @@
-# GetRoleById404Response
+# UpdateProject404Response
 
 ## Properties
 
@@ -10,95 +10,95 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetRoleById404Response
+### NewUpdateProject404Response
 
-`func NewGetRoleById404Response() *GetRoleById404Response`
+`func NewUpdateProject404Response() *UpdateProject404Response`
 
-NewGetRoleById404Response instantiates a new GetRoleById404Response object
+NewUpdateProject404Response instantiates a new UpdateProject404Response object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetRoleById404ResponseWithDefaults
+### NewUpdateProject404ResponseWithDefaults
 
-`func NewGetRoleById404ResponseWithDefaults() *GetRoleById404Response`
+`func NewUpdateProject404ResponseWithDefaults() *UpdateProject404Response`
 
-NewGetRoleById404ResponseWithDefaults instantiates a new GetRoleById404Response object
+NewUpdateProject404ResponseWithDefaults instantiates a new UpdateProject404Response object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *GetRoleById404Response) GetId() string`
+`func (o *UpdateProject404Response) GetId() string`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *GetRoleById404Response) GetIdOk() (*string, bool)`
+`func (o *UpdateProject404Response) GetIdOk() (*string, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *GetRoleById404Response) SetId(v string)`
+`func (o *UpdateProject404Response) SetId(v string)`
 
 SetId sets Id field to given value.
 
 ### HasId
 
-`func (o *GetRoleById404Response) HasId() bool`
+`func (o *UpdateProject404Response) HasId() bool`
 
 HasId returns a boolean if a field has been set.
 
 ### GetName
 
-`func (o *GetRoleById404Response) GetName() string`
+`func (o *UpdateProject404Response) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *GetRoleById404Response) GetNameOk() (*string, bool)`
+`func (o *UpdateProject404Response) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *GetRoleById404Response) SetName(v string)`
+`func (o *UpdateProject404Response) SetName(v string)`
 
 SetName sets Name field to given value.
 
 ### HasName
 
-`func (o *GetRoleById404Response) HasName() bool`
+`func (o *UpdateProject404Response) HasName() bool`
 
 HasName returns a boolean if a field has been set.
 
 ### GetMessage
 
-`func (o *GetRoleById404Response) GetMessage() string`
+`func (o *UpdateProject404Response) GetMessage() string`
 
 GetMessage returns the Message field if non-nil, zero value otherwise.
 
 ### GetMessageOk
 
-`func (o *GetRoleById404Response) GetMessageOk() (*string, bool)`
+`func (o *UpdateProject404Response) GetMessageOk() (*string, bool)`
 
 GetMessageOk returns a tuple with the Message field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessage
 
-`func (o *GetRoleById404Response) SetMessage(v string)`
+`func (o *UpdateProject404Response) SetMessage(v string)`
 
 SetMessage sets Message field to given value.
 
 ### HasMessage
 
-`func (o *GetRoleById404Response) HasMessage() bool`
+`func (o *UpdateProject404Response) HasMessage() bool`
 
 HasMessage returns a boolean if a field has been set.
 

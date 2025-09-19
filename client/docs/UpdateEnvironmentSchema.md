@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | Pointer to **string** | Updates the type of environment (i.e. development or production). | [optional] 
 **SortOrder** | Pointer to **int32** | Changes the sort order of this environment. | [optional] 
+**RequiredApprovals** | Pointer to **NullableInt32** | Experimental field. The number of approvals required before a change request can be applied in this environment. | [optional] 
 
 ## Methods
 
@@ -76,6 +77,41 @@ SetSortOrder sets SortOrder field to given value.
 
 HasSortOrder returns a boolean if a field has been set.
 
+### GetRequiredApprovals
+
+`func (o *UpdateEnvironmentSchema) GetRequiredApprovals() int32`
+
+GetRequiredApprovals returns the RequiredApprovals field if non-nil, zero value otherwise.
+
+### GetRequiredApprovalsOk
+
+`func (o *UpdateEnvironmentSchema) GetRequiredApprovalsOk() (*int32, bool)`
+
+GetRequiredApprovalsOk returns a tuple with the RequiredApprovals field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRequiredApprovals
+
+`func (o *UpdateEnvironmentSchema) SetRequiredApprovals(v int32)`
+
+SetRequiredApprovals sets RequiredApprovals field to given value.
+
+### HasRequiredApprovals
+
+`func (o *UpdateEnvironmentSchema) HasRequiredApprovals() bool`
+
+HasRequiredApprovals returns a boolean if a field has been set.
+
+### SetRequiredApprovalsNil
+
+`func (o *UpdateEnvironmentSchema) SetRequiredApprovalsNil(b bool)`
+
+ SetRequiredApprovalsNil sets the value for RequiredApprovals to be an explicit nil
+
+### UnsetRequiredApprovals
+`func (o *UpdateEnvironmentSchema) UnsetRequiredApprovals()`
+
+UnsetRequiredApprovals ensures that no value is present for RequiredApprovals, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

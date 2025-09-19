@@ -18,6 +18,7 @@ inverseOperationIds:
   - updateUser
   - getUser
   - deleteUser
+  - searchUsers
 
   - getProjects
   - createProject

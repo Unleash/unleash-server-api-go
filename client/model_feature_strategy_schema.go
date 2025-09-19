@@ -15,52 +15,88 @@ import (
 	"fmt"
 )
 
-// checks if the CreateFeatureStrategySchema type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &CreateFeatureStrategySchema{}
+// checks if the FeatureStrategySchema type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &FeatureStrategySchema{}
 
-// CreateFeatureStrategySchema Create a strategy configuration in a feature
-type CreateFeatureStrategySchema struct {
-	// The name of the strategy type
+// FeatureStrategySchema A single activation strategy configuration schema for a feature
+type FeatureStrategySchema struct {
+	// A uuid for the feature strategy
+	Id *string `json:"id,omitempty"`
+	// The name or type of strategy
 	Name string `json:"name"`
 	// A descriptive title for the strategy
 	Title NullableString `json:"title,omitempty"`
 	// A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs
 	Disabled NullableBool `json:"disabled,omitempty"`
+	// The name or feature the strategy is attached to
+	FeatureName *string `json:"featureName,omitempty"`
 	// The order of the strategy in the list
 	SortOrder *float32 `json:"sortOrder,omitempty"`
+	// A list of segment ids attached to the strategy
+	Segments []float32 `json:"segments,omitempty"`
 	// A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/activation-strategies#constraints
 	Constraints []ConstraintSchema `json:"constraints,omitempty"`
 	// Strategy level variants
-	Variants []CreateStrategyVariantSchema `json:"variants,omitempty"`
+	Variants []StrategyVariantSchema `json:"variants,omitempty"`
 	// A list of parameters for a strategy
-	Parameters *map[string]string `json:"parameters,omitempty"`
-	// Ids of segments to use for this strategy
-	Segments             []float32 `json:"segments,omitempty"`
+	Parameters           *map[string]string `json:"parameters,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _CreateFeatureStrategySchema CreateFeatureStrategySchema
+type _FeatureStrategySchema FeatureStrategySchema
 
-// NewCreateFeatureStrategySchema instantiates a new CreateFeatureStrategySchema object
+// NewFeatureStrategySchema instantiates a new FeatureStrategySchema object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateFeatureStrategySchema(name string) *CreateFeatureStrategySchema {
-	this := CreateFeatureStrategySchema{}
+func NewFeatureStrategySchema(name string) *FeatureStrategySchema {
+	this := FeatureStrategySchema{}
 	this.Name = name
 	return &this
 }
 
-// NewCreateFeatureStrategySchemaWithDefaults instantiates a new CreateFeatureStrategySchema object
+// NewFeatureStrategySchemaWithDefaults instantiates a new FeatureStrategySchema object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewCreateFeatureStrategySchemaWithDefaults() *CreateFeatureStrategySchema {
-	this := CreateFeatureStrategySchema{}
+func NewFeatureStrategySchemaWithDefaults() *FeatureStrategySchema {
+	this := FeatureStrategySchema{}
 	return &this
 }
 
+// GetId returns the Id field value if set, zero value otherwise.
+func (o *FeatureStrategySchema) GetId() string {
+	if o == nil || IsNil(o.Id) {
+		var ret string
+		return ret
+	}
+	return *o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FeatureStrategySchema) GetIdOk() (*string, bool) {
+	if o == nil || IsNil(o.Id) {
+		return nil, false
+	}
+	return o.Id, true
+}
+
+// HasId returns a boolean if a field has been set.
+func (o *FeatureStrategySchema) HasId() bool {
+	if o != nil && !IsNil(o.Id) {
+		return true
+	}
+
+	return false
+}
+
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *FeatureStrategySchema) SetId(v string) {
+	o.Id = &v
+}
+
 // GetName returns the Name field value
-func (o *CreateFeatureStrategySchema) GetName() string {
+func (o *FeatureStrategySchema) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -71,7 +107,7 @@ func (o *CreateFeatureStrategySchema) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *CreateFeatureStrategySchema) GetNameOk() (*string, bool) {
+func (o *FeatureStrategySchema) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -79,12 +115,12 @@ func (o *CreateFeatureStrategySchema) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value
-func (o *CreateFeatureStrategySchema) SetName(v string) {
+func (o *FeatureStrategySchema) SetName(v string) {
 	o.Name = v
 }
 
 // GetTitle returns the Title field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *CreateFeatureStrategySchema) GetTitle() string {
+func (o *FeatureStrategySchema) GetTitle() string {
 	if o == nil || IsNil(o.Title.Get()) {
 		var ret string
 		return ret
@@ -95,7 +131,7 @@ func (o *CreateFeatureStrategySchema) GetTitle() string {
 // GetTitleOk returns a tuple with the Title field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *CreateFeatureStrategySchema) GetTitleOk() (*string, bool) {
+func (o *FeatureStrategySchema) GetTitleOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -103,7 +139,7 @@ func (o *CreateFeatureStrategySchema) GetTitleOk() (*string, bool) {
 }
 
 // HasTitle returns a boolean if a field has been set.
-func (o *CreateFeatureStrategySchema) HasTitle() bool {
+func (o *FeatureStrategySchema) HasTitle() bool {
 	if o != nil && o.Title.IsSet() {
 		return true
 	}
@@ -112,22 +148,22 @@ func (o *CreateFeatureStrategySchema) HasTitle() bool {
 }
 
 // SetTitle gets a reference to the given NullableString and assigns it to the Title field.
-func (o *CreateFeatureStrategySchema) SetTitle(v string) {
+func (o *FeatureStrategySchema) SetTitle(v string) {
 	o.Title.Set(&v)
 }
 
 // SetTitleNil sets the value for Title to be an explicit nil
-func (o *CreateFeatureStrategySchema) SetTitleNil() {
+func (o *FeatureStrategySchema) SetTitleNil() {
 	o.Title.Set(nil)
 }
 
 // UnsetTitle ensures that no value is present for Title, not even an explicit nil
-func (o *CreateFeatureStrategySchema) UnsetTitle() {
+func (o *FeatureStrategySchema) UnsetTitle() {
 	o.Title.Unset()
 }
 
 // GetDisabled returns the Disabled field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *CreateFeatureStrategySchema) GetDisabled() bool {
+func (o *FeatureStrategySchema) GetDisabled() bool {
 	if o == nil || IsNil(o.Disabled.Get()) {
 		var ret bool
 		return ret
@@ -138,7 +174,7 @@ func (o *CreateFeatureStrategySchema) GetDisabled() bool {
 // GetDisabledOk returns a tuple with the Disabled field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *CreateFeatureStrategySchema) GetDisabledOk() (*bool, bool) {
+func (o *FeatureStrategySchema) GetDisabledOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -146,7 +182,7 @@ func (o *CreateFeatureStrategySchema) GetDisabledOk() (*bool, bool) {
 }
 
 // HasDisabled returns a boolean if a field has been set.
-func (o *CreateFeatureStrategySchema) HasDisabled() bool {
+func (o *FeatureStrategySchema) HasDisabled() bool {
 	if o != nil && o.Disabled.IsSet() {
 		return true
 	}
@@ -155,22 +191,54 @@ func (o *CreateFeatureStrategySchema) HasDisabled() bool {
 }
 
 // SetDisabled gets a reference to the given NullableBool and assigns it to the Disabled field.
-func (o *CreateFeatureStrategySchema) SetDisabled(v bool) {
+func (o *FeatureStrategySchema) SetDisabled(v bool) {
 	o.Disabled.Set(&v)
 }
 
 // SetDisabledNil sets the value for Disabled to be an explicit nil
-func (o *CreateFeatureStrategySchema) SetDisabledNil() {
+func (o *FeatureStrategySchema) SetDisabledNil() {
 	o.Disabled.Set(nil)
 }
 
 // UnsetDisabled ensures that no value is present for Disabled, not even an explicit nil
-func (o *CreateFeatureStrategySchema) UnsetDisabled() {
+func (o *FeatureStrategySchema) UnsetDisabled() {
 	o.Disabled.Unset()
 }
 
+// GetFeatureName returns the FeatureName field value if set, zero value otherwise.
+func (o *FeatureStrategySchema) GetFeatureName() string {
+	if o == nil || IsNil(o.FeatureName) {
+		var ret string
+		return ret
+	}
+	return *o.FeatureName
+}
+
+// GetFeatureNameOk returns a tuple with the FeatureName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FeatureStrategySchema) GetFeatureNameOk() (*string, bool) {
+	if o == nil || IsNil(o.FeatureName) {
+		return nil, false
+	}
+	return o.FeatureName, true
+}
+
+// HasFeatureName returns a boolean if a field has been set.
+func (o *FeatureStrategySchema) HasFeatureName() bool {
+	if o != nil && !IsNil(o.FeatureName) {
+		return true
+	}
+
+	return false
+}
+
+// SetFeatureName gets a reference to the given string and assigns it to the FeatureName field.
+func (o *FeatureStrategySchema) SetFeatureName(v string) {
+	o.FeatureName = &v
+}
+
 // GetSortOrder returns the SortOrder field value if set, zero value otherwise.
-func (o *CreateFeatureStrategySchema) GetSortOrder() float32 {
+func (o *FeatureStrategySchema) GetSortOrder() float32 {
 	if o == nil || IsNil(o.SortOrder) {
 		var ret float32
 		return ret
@@ -180,7 +248,7 @@ func (o *CreateFeatureStrategySchema) GetSortOrder() float32 {
 
 // GetSortOrderOk returns a tuple with the SortOrder field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateFeatureStrategySchema) GetSortOrderOk() (*float32, bool) {
+func (o *FeatureStrategySchema) GetSortOrderOk() (*float32, bool) {
 	if o == nil || IsNil(o.SortOrder) {
 		return nil, false
 	}
@@ -188,7 +256,7 @@ func (o *CreateFeatureStrategySchema) GetSortOrderOk() (*float32, bool) {
 }
 
 // HasSortOrder returns a boolean if a field has been set.
-func (o *CreateFeatureStrategySchema) HasSortOrder() bool {
+func (o *FeatureStrategySchema) HasSortOrder() bool {
 	if o != nil && !IsNil(o.SortOrder) {
 		return true
 	}
@@ -197,108 +265,12 @@ func (o *CreateFeatureStrategySchema) HasSortOrder() bool {
 }
 
 // SetSortOrder gets a reference to the given float32 and assigns it to the SortOrder field.
-func (o *CreateFeatureStrategySchema) SetSortOrder(v float32) {
+func (o *FeatureStrategySchema) SetSortOrder(v float32) {
 	o.SortOrder = &v
 }
 
-// GetConstraints returns the Constraints field value if set, zero value otherwise.
-func (o *CreateFeatureStrategySchema) GetConstraints() []ConstraintSchema {
-	if o == nil || IsNil(o.Constraints) {
-		var ret []ConstraintSchema
-		return ret
-	}
-	return o.Constraints
-}
-
-// GetConstraintsOk returns a tuple with the Constraints field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *CreateFeatureStrategySchema) GetConstraintsOk() ([]ConstraintSchema, bool) {
-	if o == nil || IsNil(o.Constraints) {
-		return nil, false
-	}
-	return o.Constraints, true
-}
-
-// HasConstraints returns a boolean if a field has been set.
-func (o *CreateFeatureStrategySchema) HasConstraints() bool {
-	if o != nil && !IsNil(o.Constraints) {
-		return true
-	}
-
-	return false
-}
-
-// SetConstraints gets a reference to the given []ConstraintSchema and assigns it to the Constraints field.
-func (o *CreateFeatureStrategySchema) SetConstraints(v []ConstraintSchema) {
-	o.Constraints = v
-}
-
-// GetVariants returns the Variants field value if set, zero value otherwise.
-func (o *CreateFeatureStrategySchema) GetVariants() []CreateStrategyVariantSchema {
-	if o == nil || IsNil(o.Variants) {
-		var ret []CreateStrategyVariantSchema
-		return ret
-	}
-	return o.Variants
-}
-
-// GetVariantsOk returns a tuple with the Variants field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *CreateFeatureStrategySchema) GetVariantsOk() ([]CreateStrategyVariantSchema, bool) {
-	if o == nil || IsNil(o.Variants) {
-		return nil, false
-	}
-	return o.Variants, true
-}
-
-// HasVariants returns a boolean if a field has been set.
-func (o *CreateFeatureStrategySchema) HasVariants() bool {
-	if o != nil && !IsNil(o.Variants) {
-		return true
-	}
-
-	return false
-}
-
-// SetVariants gets a reference to the given []CreateStrategyVariantSchema and assigns it to the Variants field.
-func (o *CreateFeatureStrategySchema) SetVariants(v []CreateStrategyVariantSchema) {
-	o.Variants = v
-}
-
-// GetParameters returns the Parameters field value if set, zero value otherwise.
-func (o *CreateFeatureStrategySchema) GetParameters() map[string]string {
-	if o == nil || IsNil(o.Parameters) {
-		var ret map[string]string
-		return ret
-	}
-	return *o.Parameters
-}
-
-// GetParametersOk returns a tuple with the Parameters field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *CreateFeatureStrategySchema) GetParametersOk() (*map[string]string, bool) {
-	if o == nil || IsNil(o.Parameters) {
-		return nil, false
-	}
-	return o.Parameters, true
-}
-
-// HasParameters returns a boolean if a field has been set.
-func (o *CreateFeatureStrategySchema) HasParameters() bool {
-	if o != nil && !IsNil(o.Parameters) {
-		return true
-	}
-
-	return false
-}
-
-// SetParameters gets a reference to the given map[string]string and assigns it to the Parameters field.
-func (o *CreateFeatureStrategySchema) SetParameters(v map[string]string) {
-	o.Parameters = &v
-}
-
 // GetSegments returns the Segments field value if set, zero value otherwise.
-func (o *CreateFeatureStrategySchema) GetSegments() []float32 {
+func (o *FeatureStrategySchema) GetSegments() []float32 {
 	if o == nil || IsNil(o.Segments) {
 		var ret []float32
 		return ret
@@ -308,7 +280,7 @@ func (o *CreateFeatureStrategySchema) GetSegments() []float32 {
 
 // GetSegmentsOk returns a tuple with the Segments field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateFeatureStrategySchema) GetSegmentsOk() ([]float32, bool) {
+func (o *FeatureStrategySchema) GetSegmentsOk() ([]float32, bool) {
 	if o == nil || IsNil(o.Segments) {
 		return nil, false
 	}
@@ -316,7 +288,7 @@ func (o *CreateFeatureStrategySchema) GetSegmentsOk() ([]float32, bool) {
 }
 
 // HasSegments returns a boolean if a field has been set.
-func (o *CreateFeatureStrategySchema) HasSegments() bool {
+func (o *FeatureStrategySchema) HasSegments() bool {
 	if o != nil && !IsNil(o.Segments) {
 		return true
 	}
@@ -325,11 +297,107 @@ func (o *CreateFeatureStrategySchema) HasSegments() bool {
 }
 
 // SetSegments gets a reference to the given []float32 and assigns it to the Segments field.
-func (o *CreateFeatureStrategySchema) SetSegments(v []float32) {
+func (o *FeatureStrategySchema) SetSegments(v []float32) {
 	o.Segments = v
 }
 
-func (o CreateFeatureStrategySchema) MarshalJSON() ([]byte, error) {
+// GetConstraints returns the Constraints field value if set, zero value otherwise.
+func (o *FeatureStrategySchema) GetConstraints() []ConstraintSchema {
+	if o == nil || IsNil(o.Constraints) {
+		var ret []ConstraintSchema
+		return ret
+	}
+	return o.Constraints
+}
+
+// GetConstraintsOk returns a tuple with the Constraints field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FeatureStrategySchema) GetConstraintsOk() ([]ConstraintSchema, bool) {
+	if o == nil || IsNil(o.Constraints) {
+		return nil, false
+	}
+	return o.Constraints, true
+}
+
+// HasConstraints returns a boolean if a field has been set.
+func (o *FeatureStrategySchema) HasConstraints() bool {
+	if o != nil && !IsNil(o.Constraints) {
+		return true
+	}
+
+	return false
+}
+
+// SetConstraints gets a reference to the given []ConstraintSchema and assigns it to the Constraints field.
+func (o *FeatureStrategySchema) SetConstraints(v []ConstraintSchema) {
+	o.Constraints = v
+}
+
+// GetVariants returns the Variants field value if set, zero value otherwise.
+func (o *FeatureStrategySchema) GetVariants() []StrategyVariantSchema {
+	if o == nil || IsNil(o.Variants) {
+		var ret []StrategyVariantSchema
+		return ret
+	}
+	return o.Variants
+}
+
+// GetVariantsOk returns a tuple with the Variants field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FeatureStrategySchema) GetVariantsOk() ([]StrategyVariantSchema, bool) {
+	if o == nil || IsNil(o.Variants) {
+		return nil, false
+	}
+	return o.Variants, true
+}
+
+// HasVariants returns a boolean if a field has been set.
+func (o *FeatureStrategySchema) HasVariants() bool {
+	if o != nil && !IsNil(o.Variants) {
+		return true
+	}
+
+	return false
+}
+
+// SetVariants gets a reference to the given []StrategyVariantSchema and assigns it to the Variants field.
+func (o *FeatureStrategySchema) SetVariants(v []StrategyVariantSchema) {
+	o.Variants = v
+}
+
+// GetParameters returns the Parameters field value if set, zero value otherwise.
+func (o *FeatureStrategySchema) GetParameters() map[string]string {
+	if o == nil || IsNil(o.Parameters) {
+		var ret map[string]string
+		return ret
+	}
+	return *o.Parameters
+}
+
+// GetParametersOk returns a tuple with the Parameters field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FeatureStrategySchema) GetParametersOk() (*map[string]string, bool) {
+	if o == nil || IsNil(o.Parameters) {
+		return nil, false
+	}
+	return o.Parameters, true
+}
+
+// HasParameters returns a boolean if a field has been set.
+func (o *FeatureStrategySchema) HasParameters() bool {
+	if o != nil && !IsNil(o.Parameters) {
+		return true
+	}
+
+	return false
+}
+
+// SetParameters gets a reference to the given map[string]string and assigns it to the Parameters field.
+func (o *FeatureStrategySchema) SetParameters(v map[string]string) {
+	o.Parameters = &v
+}
+
+func (o FeatureStrategySchema) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -337,8 +405,11 @@ func (o CreateFeatureStrategySchema) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o CreateFeatureStrategySchema) ToMap() (map[string]interface{}, error) {
+func (o FeatureStrategySchema) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Id) {
+		toSerialize["id"] = o.Id
+	}
 	toSerialize["name"] = o.Name
 	if o.Title.IsSet() {
 		toSerialize["title"] = o.Title.Get()
@@ -346,8 +417,14 @@ func (o CreateFeatureStrategySchema) ToMap() (map[string]interface{}, error) {
 	if o.Disabled.IsSet() {
 		toSerialize["disabled"] = o.Disabled.Get()
 	}
+	if !IsNil(o.FeatureName) {
+		toSerialize["featureName"] = o.FeatureName
+	}
 	if !IsNil(o.SortOrder) {
 		toSerialize["sortOrder"] = o.SortOrder
+	}
+	if !IsNil(o.Segments) {
+		toSerialize["segments"] = o.Segments
 	}
 	if !IsNil(o.Constraints) {
 		toSerialize["constraints"] = o.Constraints
@@ -358,9 +435,6 @@ func (o CreateFeatureStrategySchema) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Parameters) {
 		toSerialize["parameters"] = o.Parameters
 	}
-	if !IsNil(o.Segments) {
-		toSerialize["segments"] = o.Segments
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -369,7 +443,7 @@ func (o CreateFeatureStrategySchema) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *CreateFeatureStrategySchema) UnmarshalJSON(data []byte) (err error) {
+func (o *FeatureStrategySchema) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -391,65 +465,67 @@ func (o *CreateFeatureStrategySchema) UnmarshalJSON(data []byte) (err error) {
 		}
 	}
 
-	varCreateFeatureStrategySchema := _CreateFeatureStrategySchema{}
+	varFeatureStrategySchema := _FeatureStrategySchema{}
 
-	err = json.Unmarshal(data, &varCreateFeatureStrategySchema)
+	err = json.Unmarshal(data, &varFeatureStrategySchema)
 
 	if err != nil {
 		return err
 	}
 
-	*o = CreateFeatureStrategySchema(varCreateFeatureStrategySchema)
+	*o = FeatureStrategySchema(varFeatureStrategySchema)
 
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "title")
 		delete(additionalProperties, "disabled")
+		delete(additionalProperties, "featureName")
 		delete(additionalProperties, "sortOrder")
+		delete(additionalProperties, "segments")
 		delete(additionalProperties, "constraints")
 		delete(additionalProperties, "variants")
 		delete(additionalProperties, "parameters")
-		delete(additionalProperties, "segments")
 		o.AdditionalProperties = additionalProperties
 	}
 
 	return err
 }
 
-type NullableCreateFeatureStrategySchema struct {
-	value *CreateFeatureStrategySchema
+type NullableFeatureStrategySchema struct {
+	value *FeatureStrategySchema
 	isSet bool
 }
 
-func (v NullableCreateFeatureStrategySchema) Get() *CreateFeatureStrategySchema {
+func (v NullableFeatureStrategySchema) Get() *FeatureStrategySchema {
 	return v.value
 }
 
-func (v *NullableCreateFeatureStrategySchema) Set(val *CreateFeatureStrategySchema) {
+func (v *NullableFeatureStrategySchema) Set(val *FeatureStrategySchema) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableCreateFeatureStrategySchema) IsSet() bool {
+func (v NullableFeatureStrategySchema) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableCreateFeatureStrategySchema) Unset() {
+func (v *NullableFeatureStrategySchema) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableCreateFeatureStrategySchema(val *CreateFeatureStrategySchema) *NullableCreateFeatureStrategySchema {
-	return &NullableCreateFeatureStrategySchema{value: val, isSet: true}
+func NewNullableFeatureStrategySchema(val *FeatureStrategySchema) *NullableFeatureStrategySchema {
+	return &NullableFeatureStrategySchema{value: val, isSet: true}
 }
 
-func (v NullableCreateFeatureStrategySchema) MarshalJSON() ([]byte, error) {
+func (v NullableFeatureStrategySchema) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableCreateFeatureStrategySchema) UnmarshalJSON(src []byte) error {
+func (v *NullableFeatureStrategySchema) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -15,11 +15,11 @@ import (
 	"fmt"
 )
 
-// checks if the CreateStrategyVariantSchema type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &CreateStrategyVariantSchema{}
+// checks if the StrategyVariantSchema type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &StrategyVariantSchema{}
 
-// CreateStrategyVariantSchema This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
-type CreateStrategyVariantSchema struct {
+// StrategyVariantSchema This is an experimental property. It may change or be removed as we work on it. Please don't depend on it yet. A strategy variant allows you to attach any data to strategies instead of only returning `true`/`false`. Strategy variants take precedence over feature variants.
+type StrategyVariantSchema struct {
 	// The variant name. Must be unique for this feature flag
 	Name string `json:"name"`
 	// The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight) for more information
@@ -32,14 +32,14 @@ type CreateStrategyVariantSchema struct {
 	AdditionalProperties map[string]interface{}
 }
 
-type _CreateStrategyVariantSchema CreateStrategyVariantSchema
+type _StrategyVariantSchema StrategyVariantSchema
 
-// NewCreateStrategyVariantSchema instantiates a new CreateStrategyVariantSchema object
+// NewStrategyVariantSchema instantiates a new StrategyVariantSchema object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateStrategyVariantSchema(name string, weight int32, weightType string, stickiness string) *CreateStrategyVariantSchema {
-	this := CreateStrategyVariantSchema{}
+func NewStrategyVariantSchema(name string, weight int32, weightType string, stickiness string) *StrategyVariantSchema {
+	this := StrategyVariantSchema{}
 	this.Name = name
 	this.Weight = weight
 	this.WeightType = weightType
@@ -47,16 +47,16 @@ func NewCreateStrategyVariantSchema(name string, weight int32, weightType string
 	return &this
 }
 
-// NewCreateStrategyVariantSchemaWithDefaults instantiates a new CreateStrategyVariantSchema object
+// NewStrategyVariantSchemaWithDefaults instantiates a new StrategyVariantSchema object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewCreateStrategyVariantSchemaWithDefaults() *CreateStrategyVariantSchema {
-	this := CreateStrategyVariantSchema{}
+func NewStrategyVariantSchemaWithDefaults() *StrategyVariantSchema {
+	this := StrategyVariantSchema{}
 	return &this
 }
 
 // GetName returns the Name field value
-func (o *CreateStrategyVariantSchema) GetName() string {
+func (o *StrategyVariantSchema) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -67,7 +67,7 @@ func (o *CreateStrategyVariantSchema) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *CreateStrategyVariantSchema) GetNameOk() (*string, bool) {
+func (o *StrategyVariantSchema) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -75,12 +75,12 @@ func (o *CreateStrategyVariantSchema) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value
-func (o *CreateStrategyVariantSchema) SetName(v string) {
+func (o *StrategyVariantSchema) SetName(v string) {
 	o.Name = v
 }
 
 // GetWeight returns the Weight field value
-func (o *CreateStrategyVariantSchema) GetWeight() int32 {
+func (o *StrategyVariantSchema) GetWeight() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -91,7 +91,7 @@ func (o *CreateStrategyVariantSchema) GetWeight() int32 {
 
 // GetWeightOk returns a tuple with the Weight field value
 // and a boolean to check if the value has been set.
-func (o *CreateStrategyVariantSchema) GetWeightOk() (*int32, bool) {
+func (o *StrategyVariantSchema) GetWeightOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -99,12 +99,12 @@ func (o *CreateStrategyVariantSchema) GetWeightOk() (*int32, bool) {
 }
 
 // SetWeight sets field value
-func (o *CreateStrategyVariantSchema) SetWeight(v int32) {
+func (o *StrategyVariantSchema) SetWeight(v int32) {
 	o.Weight = v
 }
 
 // GetWeightType returns the WeightType field value
-func (o *CreateStrategyVariantSchema) GetWeightType() string {
+func (o *StrategyVariantSchema) GetWeightType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -115,7 +115,7 @@ func (o *CreateStrategyVariantSchema) GetWeightType() string {
 
 // GetWeightTypeOk returns a tuple with the WeightType field value
 // and a boolean to check if the value has been set.
-func (o *CreateStrategyVariantSchema) GetWeightTypeOk() (*string, bool) {
+func (o *StrategyVariantSchema) GetWeightTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -123,12 +123,12 @@ func (o *CreateStrategyVariantSchema) GetWeightTypeOk() (*string, bool) {
 }
 
 // SetWeightType sets field value
-func (o *CreateStrategyVariantSchema) SetWeightType(v string) {
+func (o *StrategyVariantSchema) SetWeightType(v string) {
 	o.WeightType = v
 }
 
 // GetStickiness returns the Stickiness field value
-func (o *CreateStrategyVariantSchema) GetStickiness() string {
+func (o *StrategyVariantSchema) GetStickiness() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -139,7 +139,7 @@ func (o *CreateStrategyVariantSchema) GetStickiness() string {
 
 // GetStickinessOk returns a tuple with the Stickiness field value
 // and a boolean to check if the value has been set.
-func (o *CreateStrategyVariantSchema) GetStickinessOk() (*string, bool) {
+func (o *StrategyVariantSchema) GetStickinessOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -147,12 +147,12 @@ func (o *CreateStrategyVariantSchema) GetStickinessOk() (*string, bool) {
 }
 
 // SetStickiness sets field value
-func (o *CreateStrategyVariantSchema) SetStickiness(v string) {
+func (o *StrategyVariantSchema) SetStickiness(v string) {
 	o.Stickiness = v
 }
 
 // GetPayload returns the Payload field value if set, zero value otherwise.
-func (o *CreateStrategyVariantSchema) GetPayload() CreateStrategyVariantSchemaPayload {
+func (o *StrategyVariantSchema) GetPayload() CreateStrategyVariantSchemaPayload {
 	if o == nil || IsNil(o.Payload) {
 		var ret CreateStrategyVariantSchemaPayload
 		return ret
@@ -162,7 +162,7 @@ func (o *CreateStrategyVariantSchema) GetPayload() CreateStrategyVariantSchemaPa
 
 // GetPayloadOk returns a tuple with the Payload field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateStrategyVariantSchema) GetPayloadOk() (*CreateStrategyVariantSchemaPayload, bool) {
+func (o *StrategyVariantSchema) GetPayloadOk() (*CreateStrategyVariantSchemaPayload, bool) {
 	if o == nil || IsNil(o.Payload) {
 		return nil, false
 	}
@@ -170,7 +170,7 @@ func (o *CreateStrategyVariantSchema) GetPayloadOk() (*CreateStrategyVariantSche
 }
 
 // HasPayload returns a boolean if a field has been set.
-func (o *CreateStrategyVariantSchema) HasPayload() bool {
+func (o *StrategyVariantSchema) HasPayload() bool {
 	if o != nil && !IsNil(o.Payload) {
 		return true
 	}
@@ -179,11 +179,11 @@ func (o *CreateStrategyVariantSchema) HasPayload() bool {
 }
 
 // SetPayload gets a reference to the given CreateStrategyVariantSchemaPayload and assigns it to the Payload field.
-func (o *CreateStrategyVariantSchema) SetPayload(v CreateStrategyVariantSchemaPayload) {
+func (o *StrategyVariantSchema) SetPayload(v CreateStrategyVariantSchemaPayload) {
 	o.Payload = &v
 }
 
-func (o CreateStrategyVariantSchema) MarshalJSON() ([]byte, error) {
+func (o StrategyVariantSchema) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -191,7 +191,7 @@ func (o CreateStrategyVariantSchema) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o CreateStrategyVariantSchema) ToMap() (map[string]interface{}, error) {
+func (o StrategyVariantSchema) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	toSerialize["weight"] = o.Weight
@@ -208,7 +208,7 @@ func (o CreateStrategyVariantSchema) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *CreateStrategyVariantSchema) UnmarshalJSON(data []byte) (err error) {
+func (o *StrategyVariantSchema) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -233,15 +233,15 @@ func (o *CreateStrategyVariantSchema) UnmarshalJSON(data []byte) (err error) {
 		}
 	}
 
-	varCreateStrategyVariantSchema := _CreateStrategyVariantSchema{}
+	varStrategyVariantSchema := _StrategyVariantSchema{}
 
-	err = json.Unmarshal(data, &varCreateStrategyVariantSchema)
+	err = json.Unmarshal(data, &varStrategyVariantSchema)
 
 	if err != nil {
 		return err
 	}
 
-	*o = CreateStrategyVariantSchema(varCreateStrategyVariantSchema)
+	*o = StrategyVariantSchema(varStrategyVariantSchema)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -257,38 +257,38 @@ func (o *CreateStrategyVariantSchema) UnmarshalJSON(data []byte) (err error) {
 	return err
 }
 
-type NullableCreateStrategyVariantSchema struct {
-	value *CreateStrategyVariantSchema
+type NullableStrategyVariantSchema struct {
+	value *StrategyVariantSchema
 	isSet bool
 }
 
-func (v NullableCreateStrategyVariantSchema) Get() *CreateStrategyVariantSchema {
+func (v NullableStrategyVariantSchema) Get() *StrategyVariantSchema {
 	return v.value
 }
 
-func (v *NullableCreateStrategyVariantSchema) Set(val *CreateStrategyVariantSchema) {
+func (v *NullableStrategyVariantSchema) Set(val *StrategyVariantSchema) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableCreateStrategyVariantSchema) IsSet() bool {
+func (v NullableStrategyVariantSchema) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableCreateStrategyVariantSchema) Unset() {
+func (v *NullableStrategyVariantSchema) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableCreateStrategyVariantSchema(val *CreateStrategyVariantSchema) *NullableCreateStrategyVariantSchema {
-	return &NullableCreateStrategyVariantSchema{value: val, isSet: true}
+func NewNullableStrategyVariantSchema(val *StrategyVariantSchema) *NullableStrategyVariantSchema {
+	return &NullableStrategyVariantSchema{value: val, isSet: true}
 }
 
-func (v NullableCreateStrategyVariantSchema) MarshalJSON() ([]byte, error) {
+func (v NullableStrategyVariantSchema) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableCreateStrategyVariantSchema) UnmarshalJSON(src []byte) error {
+func (v *NullableStrategyVariantSchema) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -252,4 +252,45 @@ func Test_client_UsersAPIService(t *testing.T) {
 			t.Skip("Enterprise only feature")
 		}
 	})
+
+	t.Run("Test UsersAPIService SearchUsers", func(t *testing.T) {
+		user := createUser(t, apiClient, "searchable")
+		defer clean_up_user(user, apiClient)
+
+		// Test search by email
+		resp, httpRes, err := apiClient.UsersAPI.SearchUsers(context.Background()).Q("searchable-username@getunleash.io").Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+		assert.NotEmpty(t, resp.Users)
+
+		// Verify we found the created user
+		found := false
+		for _, searchedUser := range resp.Users {
+			if searchedUser.Id == user.Id {
+				found = true
+				break
+			}
+		}
+		assert.True(t, found, "Should find the created user in search results")
+
+		// Test search by username
+		resp, httpRes, err = apiClient.UsersAPI.SearchUsers(context.Background()).Q("searchable-username").Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+		assert.NotEmpty(t, resp.Users)
+
+		// Verify we found the created user again
+		found = false
+		for _, searchedUser := range resp.Users {
+			if searchedUser.Id == user.Id {
+				found = true
+				break
+			}
+		}
+		assert.True(t, found, "Should find the created user in search results by username")
+	})
 }

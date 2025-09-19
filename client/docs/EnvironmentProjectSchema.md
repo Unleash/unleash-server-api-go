@@ -11,8 +11,9 @@ Name | Type | Description | Notes
 **SortOrder** | **int32** | Priority of the environment in a list of environments, the lower the value, the higher up in the list the environment will appear | 
 **ProjectApiTokenCount** | Pointer to **int32** | The number of client and front-end API tokens that have access to this project | [optional] 
 **ProjectEnabledToggleCount** | Pointer to **int32** | The number of features enabled in this environment for this project | [optional] 
-**DefaultStrategy** | Pointer to [**CreateFeatureStrategySchema**](CreateFeatureStrategySchema.md) |  | [optional] 
+**DefaultStrategy** | Pointer to [**FeatureStrategySchema**](FeatureStrategySchema.md) |  | [optional] 
 **Visible** | Pointer to **bool** | Indicates whether the environment can be enabled for feature flags in the project | [optional] 
+**RequiredApprovals** | Pointer to **NullableInt32** | Experimental field. The number of approvals required before a change request can be applied in this environment. | [optional] 
 
 ## Methods
 
@@ -185,20 +186,20 @@ HasProjectEnabledToggleCount returns a boolean if a field has been set.
 
 ### GetDefaultStrategy
 
-`func (o *EnvironmentProjectSchema) GetDefaultStrategy() CreateFeatureStrategySchema`
+`func (o *EnvironmentProjectSchema) GetDefaultStrategy() FeatureStrategySchema`
 
 GetDefaultStrategy returns the DefaultStrategy field if non-nil, zero value otherwise.
 
 ### GetDefaultStrategyOk
 
-`func (o *EnvironmentProjectSchema) GetDefaultStrategyOk() (*CreateFeatureStrategySchema, bool)`
+`func (o *EnvironmentProjectSchema) GetDefaultStrategyOk() (*FeatureStrategySchema, bool)`
 
 GetDefaultStrategyOk returns a tuple with the DefaultStrategy field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDefaultStrategy
 
-`func (o *EnvironmentProjectSchema) SetDefaultStrategy(v CreateFeatureStrategySchema)`
+`func (o *EnvironmentProjectSchema) SetDefaultStrategy(v FeatureStrategySchema)`
 
 SetDefaultStrategy sets DefaultStrategy field to given value.
 
@@ -233,6 +234,41 @@ SetVisible sets Visible field to given value.
 
 HasVisible returns a boolean if a field has been set.
 
+### GetRequiredApprovals
+
+`func (o *EnvironmentProjectSchema) GetRequiredApprovals() int32`
+
+GetRequiredApprovals returns the RequiredApprovals field if non-nil, zero value otherwise.
+
+### GetRequiredApprovalsOk
+
+`func (o *EnvironmentProjectSchema) GetRequiredApprovalsOk() (*int32, bool)`
+
+GetRequiredApprovalsOk returns a tuple with the RequiredApprovals field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRequiredApprovals
+
+`func (o *EnvironmentProjectSchema) SetRequiredApprovals(v int32)`
+
+SetRequiredApprovals sets RequiredApprovals field to given value.
+
+### HasRequiredApprovals
+
+`func (o *EnvironmentProjectSchema) HasRequiredApprovals() bool`
+
+HasRequiredApprovals returns a boolean if a field has been set.
+
+### SetRequiredApprovalsNil
+
+`func (o *EnvironmentProjectSchema) SetRequiredApprovalsNil(b bool)`
+
+ SetRequiredApprovalsNil sets the value for RequiredApprovals to be an explicit nil
+
+### UnsetRequiredApprovals
+`func (o *EnvironmentProjectSchema) UnsetRequiredApprovals()`
+
+UnsetRequiredApprovals ensures that no value is present for RequiredApprovals, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
