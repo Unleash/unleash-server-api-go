@@ -98,7 +98,7 @@
       "post": {
         "operationId": "createProject",
         "summary": "Create project",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nCreate a new [Unleash project](https://docs.getunleash.io/reference/projects).",
+        "description": "**Enterprise feature**\n\nCreate a new [Unleash project](https://docs.getunleash.io/reference/projects).",
         "requestBody": {
           "description": "createProjectSchema",
           "required": true,
@@ -248,7 +248,7 @@
       "put": {
         "operationId": "updateProject",
         "summary": "Update project",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nUpdate a project with new configuration. Any fields not provided are ignored.",
+        "description": "**Enterprise feature**\n\nUpdate a project with new configuration. Any fields not provided are ignored.",
         "parameters": [
           {
             "name": "projectId",
@@ -417,7 +417,7 @@
       "delete": {
         "operationId": "deleteProject",
         "summary": "Delete project",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nPermanently delete the provided project. All feature flags in the project must be archived before you can delete it. This permanently deletes the project and its archived flags. It can not be undone.",
+        "description": "**Enterprise feature**\n\nPermanently delete the provided project. All feature flags in the project must be archived before you can delete it. This permanently deletes the project and its archived flags. It can not be undone.",
         "parameters": [
           {
             "name": "projectId",
@@ -523,7 +523,7 @@
       "put": {
         "operationId": "updateProjectEnterpriseSettings",
         "summary": "Update project enterprise settings",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nUpdate project enterprise settings with new values. Any fields not provided are ignored.",
+        "description": "**Enterprise feature**\n\nUpdate project enterprise settings with new values. Any fields not provided are ignored.",
         "parameters": [
           {
             "name": "projectId",
@@ -694,7 +694,7 @@
       "get": {
         "operationId": "getProjectAccess",
         "summary": "Get users and groups in project",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nGet all groups, users and their roles, and available roles for the given project.",
+        "description": "**Enterprise feature**\n\nGet all groups, users and their roles, and available roles for the given project.",
         "parameters": [
           {
             "name": "projectId",
@@ -778,7 +778,7 @@
       "put": {
         "operationId": "setProjectAccess",
         "summary": "Set users and groups to roles in the current project",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nSets all groups, users and their roles for the given project, overriding any existing configuration.",
+        "description": "**Enterprise feature**\n\nSets all groups, users and their roles for the given project, overriding any existing configuration.",
         "parameters": [
           {
             "name": "projectId",
@@ -868,7 +868,7 @@
       "get": {
         "operationId": "getPermissions",
         "summary": "Gets available permissions",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nReturns a list of available permissions",
+        "description": "**Enterprise feature**\n\nReturns a list of available permissions",
         "responses": {
           "200": {
             "description": "adminPermissionsSchema",
@@ -890,7 +890,7 @@
       "get": {
         "operationId": "getSamlSettings",
         "summary": "Get SAML auth settings",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nReturns the current settings for SAML authentication",
+        "description": "**Enterprise feature**\n\nReturns the current settings for SAML authentication",
         "responses": {
           "200": {
             "description": "samlSettingsResponseSchema",
@@ -991,7 +991,7 @@
       "post": {
         "operationId": "setSamlSettings",
         "summary": "Update SAML auth settings",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nUpdates the settings for SAML Authentication",
+        "description": "**Enterprise feature**\n\nUpdates the settings for SAML Authentication",
         "requestBody": {
           "description": "samlSettingsSchema",
           "required": true,
@@ -1132,7 +1132,7 @@
       "get": {
         "operationId": "getOidcSettings",
         "summary": "Get OIDC auth settings",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nReturns the current settings for OIDC Authentication",
+        "description": "**Enterprise feature**\n\nReturns the current settings for OIDC Authentication",
         "responses": {
           "200": {
             "description": "oidcSettingsResponseSchema",
@@ -1233,7 +1233,7 @@
       "post": {
         "operationId": "setOidcSettings",
         "summary": "Set OIDC settings",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nConfigure OpenID Connect as a login provider for Unleash.",
+        "description": "**Enterprise feature**\n\nConfigure OpenID Connect as a login provider for Unleash.",
         "requestBody": {
           "description": "oidcSettingsSchema",
           "required": true,
@@ -1374,7 +1374,7 @@
       "get": {
         "operationId": "getSimpleSettings",
         "summary": "Get Simple auth settings",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nIs simple authentication (username/password) enabled for this server",
+        "description": "**Enterprise feature**\n\nIs simple authentication (username/password) enabled for this server",
         "responses": {
           "200": {
             "description": "passwordAuthSchema",
@@ -1448,7 +1448,7 @@
       "post": {
         "operationId": "setSimpleSettings",
         "summary": "Update Simple auth settings",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nEnable or disable simple authentication (username/password)",
+        "description": "**Enterprise feature**\n\nEnable or disable simple authentication (username/password)",
         "requestBody": {
           "description": "passwordAuthSchema",
           "required": true,
@@ -1589,7 +1589,7 @@
       "get": {
         "operationId": "getRoles",
         "summary": "Get a list of roles",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nGet a list of project, root and custom roles for Role-Based Access Control",
+        "description": "**Enterprise feature**\n\nGet a list of project, root and custom roles for Role-Based Access Control",
         "responses": {
           "200": {
             "description": "rolesWithVersionSchema",
@@ -1663,7 +1663,7 @@
       "post": {
         "operationId": "createRole",
         "summary": "Create a new role",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nCreate a new custom role for Role-Based Access Control",
+        "description": "**Enterprise feature**\n\nCreate a new custom role for Role-Based Access Control",
         "requestBody": {
           "description": "createRoleWithPermissionsSchema",
           "required": true,
@@ -1804,7 +1804,7 @@
       "get": {
         "operationId": "getRoleById",
         "summary": "Get a single role",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nGet a single role by role id",
+        "description": "**Enterprise feature**\n\nGet a single role by role id",
         "parameters": [
           {
             "name": "roleId",
@@ -1915,7 +1915,7 @@
       "put": {
         "operationId": "updateRole",
         "summary": "Update a role",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nUpdate a custom role by role id",
+        "description": "**Enterprise feature**\n\nUpdate a custom role by role id",
         "parameters": [
           {
             "name": "roleId",
@@ -2091,7 +2091,7 @@
       "delete": {
         "operationId": "deleteRole",
         "summary": "Delete a custom role",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nDelete a custom role by id. You cannot delete built-in roles or roles that are in use.",
+        "description": "**Enterprise feature**\n\nDelete a custom role by id. You cannot delete built-in roles or roles that are in use.",
         "parameters": [
           {
             "name": "roleId",
@@ -2224,7 +2224,7 @@
       "post": {
         "operationId": "createEnvironment",
         "summary": "Creates a new environment",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nUses the details provided in the payload to create a new environment",
+        "description": "**Enterprise feature**\n\nUses the details provided in the payload to create a new environment",
         "requestBody": {
           "description": "createEnvironmentSchema",
           "required": true,
@@ -2394,7 +2394,7 @@
       "put": {
         "operationId": "updateEnvironment",
         "summary": "Updates an environment by name",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nGiven an environment by name updates the environment with the given payload. Note that `name`, `enabled` and `protected` cannot be changed by this API",
+        "description": "**Enterprise feature**\n\nGiven an environment by name updates the environment with the given payload. Note that `name`, `enabled` and `protected` cannot be changed by this API",
         "parameters": [
           {
             "name": "name",
@@ -2491,7 +2491,7 @@
       "delete": {
         "operationId": "removeEnvironment",
         "summary": "Deletes an environment by name",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nGiven an existing environment by name, this endpoint will attempt to delete it",
+        "description": "**Enterprise feature**\n\nGiven an existing environment by name, this endpoint will attempt to delete it",
         "parameters": [
           {
             "name": "name",
@@ -2681,7 +2681,7 @@
       "get": {
         "operationId": "getProjectChangeRequestConfig",
         "summary": "Retrieves change request configuration for a project",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nGiven a projectId, this endpoint will retrieve change request configuration for the project",
+        "description": "**Enterprise feature**\n\nGiven a projectId, this endpoint will retrieve change request configuration for the project",
         "parameters": [
           {
             "name": "projectId",
@@ -2713,7 +2713,7 @@
       "put": {
         "operationId": "updateProjectChangeRequestConfig",
         "summary": "Updates change request configuration for an environment in the project",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nThis endpoint will change the change request configuration for a given environment, set it to either on/off and optionally configure the number of approvals needed. The minimum number of approvals is 1 and the maximum number is 10. If you provide a number higher than 10 or lower than 1, Unleash will clamp it to the allowed range.",
+        "description": "**Enterprise feature**\n\nThis endpoint will change the change request configuration for a given environment, set it to either on/off and optionally configure the number of approvals needed. The minimum number of approvals is 1 and the maximum number is 10. If you provide a number higher than 10 or lower than 1, Unleash will clamp it to the allowed range.",
         "parameters": [
           {
             "name": "projectId",
@@ -2757,7 +2757,7 @@
       "get": {
         "operationId": "getServiceAccounts",
         "summary": "List service accounts.",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nReturns the list of all service accounts.",
+        "description": "**Enterprise feature**\n\nReturns the list of all service accounts.",
         "responses": {
           "200": {
             "description": "#/components/schemas/serviceAccountsSchema",
@@ -2831,7 +2831,7 @@
       "post": {
         "operationId": "createServiceAccount",
         "summary": "Create a service account.",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nCreates a new service account.",
+        "description": "**Enterprise feature**\n\nCreates a new service account.",
         "requestBody": {
           "description": "#/components/schemas/createServiceAccountSchema",
           "required": true,
@@ -3008,7 +3008,7 @@
       "put": {
         "operationId": "updateServiceAccount",
         "summary": "Update a service account.",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nUpdates an existing service account identified by its id.",
+        "description": "**Enterprise feature**\n\nUpdates an existing service account identified by its id.",
         "parameters": [
           {
             "name": "id",
@@ -3184,7 +3184,7 @@
       "delete": {
         "operationId": "deleteServiceAccount",
         "summary": "Delete a service account.",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nDeletes an existing service account identified by its id.",
+        "description": "**Enterprise feature**\n\nDeletes an existing service account identified by its id.",
         "parameters": [
           {
             "name": "id",
@@ -3290,7 +3290,7 @@
       "get": {
         "operationId": "getServiceAccountTokens",
         "summary": "List all tokens for a service account.",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nReturns the list of all tokens for a service account identified by the id.",
+        "description": "**Enterprise feature**\n\nReturns the list of all tokens for a service account identified by the id.",
         "parameters": [
           {
             "name": "id",
@@ -3401,7 +3401,7 @@
       "post": {
         "operationId": "createServiceAccountToken",
         "summary": "Create a token for a service account.",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nCreates a new token for the service account identified by the id.",
+        "description": "**Enterprise feature**\n\nCreates a new token for the service account identified by the id.",
         "parameters": [
           {
             "name": "id",
@@ -3588,7 +3588,7 @@
       "delete": {
         "operationId": "deleteServiceAccountToken",
         "summary": "Delete a token for a service account.",
-        "description": "![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**\n\nDeletes a token for the service account identified both by the service account's id and the token's id.",
+        "description": "**Enterprise feature**\n\nDeletes a token for the service account identified both by the service account's id and the token's id.",
         "parameters": [
           {
             "name": "id",

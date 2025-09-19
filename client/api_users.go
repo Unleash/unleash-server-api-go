@@ -41,7 +41,7 @@ func (r ApiCreateRoleRequest) Execute() (*RoleWithVersionSchema, *http.Response,
 /*
 CreateRole Create a new role
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Create a new custom role for Role-Based Access Control
 
@@ -364,7 +364,7 @@ func (r ApiDeleteRoleRequest) Execute() (*http.Response, error) {
 /*
 DeleteRole Delete a custom role
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Delete a custom role by id. You cannot delete built-in roles or roles that are in use.
 
@@ -653,7 +653,7 @@ func (r ApiGetRoleByIdRequest) Execute() (*RoleWithPermissionsSchema, *http.Resp
 /*
 GetRoleById Get a single role
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Get a single role by role id
 
@@ -804,7 +804,7 @@ func (r ApiGetRolesRequest) Execute() (*RolesWithVersionSchema, *http.Response, 
 /*
 GetRoles Get a list of roles
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Get a list of project, root and custom roles for Role-Based Access Control
 
@@ -1233,7 +1233,7 @@ func (r ApiUpdateRoleRequest) Execute() (*RoleWithVersionSchema, *http.Response,
 /*
 UpdateRole Update a role
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Update a custom role by role id
 

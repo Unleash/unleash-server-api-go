@@ -126,7 +126,7 @@ paths:
       - Projects
     post:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Create a new [Unleash project](https://docs.getunleash.io/reference/projects).
       operationId: createProject
@@ -187,7 +187,7 @@ paths:
   /api/admin/projects/{projectId}:
     delete:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Permanently delete the provided project. All feature flags in the project must be archived before you can delete it. This permanently deletes the project and its archived flags. It can not be undone.
       operationId: deleteProject
@@ -227,7 +227,7 @@ paths:
       - Projects
     put:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Update a project with new configuration. Any fields not provided are ignored.
       operationId: updateProject
@@ -290,7 +290,7 @@ paths:
   /api/admin/projects/{projectId}/settings:
     put:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Update project enterprise settings with new values. Any fields not provided are ignored.
       operationId: updateProjectEnterpriseSettings
@@ -353,7 +353,7 @@ paths:
   /api/admin/projects/{projectId}/access:
     get:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Get all groups, users and their roles, and available roles for the given project.
       operationId: getProjectAccess
@@ -391,7 +391,7 @@ paths:
       - Projects
     put:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Sets all groups, users and their roles for the given project, overriding any existing configuration.
       operationId: setProjectAccess
@@ -433,7 +433,7 @@ paths:
   /api/admin/permissions:
     get:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Returns a list of available permissions
       operationId: getPermissions
@@ -450,7 +450,7 @@ paths:
   /api/admin/auth/saml/settings:
     get:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Returns the current settings for SAML authentication
       operationId: getSamlSettings
@@ -486,7 +486,7 @@ paths:
       - Auth
     post:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Updates the settings for SAML Authentication
       operationId: setSamlSettings
@@ -539,7 +539,7 @@ paths:
   /api/admin/auth/oidc/settings:
     get:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Returns the current settings for OIDC Authentication
       operationId: getOidcSettings
@@ -575,7 +575,7 @@ paths:
       - Auth
     post:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Configure OpenID Connect as a login provider for Unleash.
       operationId: setOidcSettings
@@ -628,7 +628,7 @@ paths:
   /api/admin/auth/simple/settings:
     get:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Is simple authentication (username/password) enabled for this server
       operationId: getSimpleSettings
@@ -658,7 +658,7 @@ paths:
       - Auth
     post:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Enable or disable simple authentication (username/password)
       operationId: setSimpleSettings
@@ -711,7 +711,7 @@ paths:
   /api/admin/roles:
     get:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Get a list of project, root and custom roles for Role-Based Access Control
       operationId: getRoles
@@ -741,7 +741,7 @@ paths:
       - Users
     post:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Create a new custom role for Role-Based Access Control
       operationId: createRole
@@ -793,7 +793,7 @@ paths:
   /api/admin/roles/{roleId}:
     delete:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Delete a custom role by id. You cannot delete built-in roles or roles that are in use.
       operationId: deleteRole
@@ -839,7 +839,7 @@ paths:
       - Users
     get:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Get a single role by role id
       operationId: getRoleById
@@ -882,7 +882,7 @@ paths:
       - Users
     put:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Update a custom role by role id
       operationId: updateRole
@@ -975,7 +975,7 @@ paths:
       - Environments
     post:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Uses the details provided in the payload to create a new environment
       operationId: createEnvironment
@@ -1020,7 +1020,7 @@ paths:
   /api/admin/environments/update/{name}:
     put:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Given an environment by name updates the environment with the given payload. Note that `name`, `enabled` and `protected` cannot be changed by this API
       operationId: updateEnvironment
@@ -1065,7 +1065,7 @@ paths:
   /api/admin/environments/{name}:
     delete:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Given an existing environment by name, this endpoint will attempt to delete it
       operationId: removeEnvironment
@@ -1141,7 +1141,7 @@ paths:
   /api/admin/projects/{projectId}/change-requests/config:
     get:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Given a projectId, this endpoint will retrieve change request configuration for the project
       operationId: getProjectChangeRequestConfig
@@ -1166,7 +1166,7 @@ paths:
   /api/admin/projects/{projectId}/environments/{environment}/change-requests/config:
     put:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         This endpoint will change the change request configuration for a given environment, set it to either on/off and optionally configure the number of approvals needed. The minimum number of approvals is 1 and the maximum number is 10. If you provide a number higher than 10 or lower than 1, Unleash will clamp it to the allowed range.
       operationId: updateProjectChangeRequestConfig
@@ -1201,7 +1201,7 @@ paths:
   /api/admin/service-account:
     get:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Returns the list of all service accounts.
       operationId: getServiceAccounts
@@ -1231,7 +1231,7 @@ paths:
       - Service Accounts
     post:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Creates a new service account.
       operationId: createServiceAccount
@@ -1300,7 +1300,7 @@ paths:
   /api/admin/service-account/{id}:
     delete:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Deletes an existing service account identified by its id.
       operationId: deleteServiceAccount
@@ -1340,7 +1340,7 @@ paths:
       - Service Accounts
     put:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Updates an existing service account identified by its id.
       operationId: updateServiceAccount
@@ -1407,7 +1407,7 @@ paths:
   /api/admin/service-account/{id}/token:
     get:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Returns the list of all tokens for a service account identified by the id.
       operationId: getServiceAccountTokens
@@ -1451,7 +1451,7 @@ paths:
       - Service Accounts
     post:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Creates a new token for the service account identified by the id.
       operationId: createServiceAccountToken
@@ -1528,7 +1528,7 @@ paths:
   /api/admin/service-account/{id}/token/{tokenId}:
     delete:
       description: |-
-        ![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+        **Enterprise feature**
 
         Deletes a token for the service account identified both by the service account's id and the token's id.
       operationId: deleteServiceAccountToken

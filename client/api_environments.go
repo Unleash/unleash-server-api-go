@@ -41,7 +41,7 @@ func (r ApiCreateEnvironmentRequest) Execute() (*EnvironmentSchema, *http.Respon
 /*
 CreateEnvironment Creates a new environment
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Uses the details provided in the payload to create a new environment
 
@@ -619,7 +619,7 @@ func (r ApiRemoveEnvironmentRequest) Execute() (*http.Response, error) {
 /*
 RemoveEnvironment Deletes an environment by name
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Given an existing environment by name, this endpoint will attempt to delete it
 
@@ -755,7 +755,7 @@ func (r ApiUpdateEnvironmentRequest) Execute() (*EnvironmentSchema, *http.Respon
 /*
 UpdateEnvironment Updates an environment by name
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Given an environment by name updates the environment with the given payload. Note that `name`, `enabled` and `protected` cannot be changed by this API
 

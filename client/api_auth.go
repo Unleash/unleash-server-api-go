@@ -33,7 +33,7 @@ func (r ApiGetOidcSettingsRequest) Execute() (*OidcSettingsResponseSchema, *http
 /*
 GetOidcSettings Get OIDC auth settings
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Returns the current settings for OIDC Authentication
 
@@ -181,7 +181,7 @@ func (r ApiGetPermissionsRequest) Execute() (*AdminPermissionsSchema, *http.Resp
 /*
 GetPermissions Gets available permissions
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Returns a list of available permissions
 
@@ -297,7 +297,7 @@ func (r ApiGetSamlSettingsRequest) Execute() (*SamlSettingsResponseSchema, *http
 /*
 GetSamlSettings Get SAML auth settings
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Returns the current settings for SAML authentication
 
@@ -445,7 +445,7 @@ func (r ApiGetSimpleSettingsRequest) Execute() (*PasswordAuthSchema, *http.Respo
 /*
 GetSimpleSettings Get Simple auth settings
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Is simple authentication (username/password) enabled for this server
 
@@ -589,7 +589,7 @@ func (r ApiSetOidcSettingsRequest) Execute() (*OidcSettingsResponseSchema, *http
 /*
 SetOidcSettings Set OIDC settings
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Configure OpenID Connect as a login provider for Unleash.
 
@@ -760,7 +760,7 @@ func (r ApiSetSamlSettingsRequest) Execute() (*SamlSettingsResponseSchema, *http
 /*
 SetSamlSettings Update SAML auth settings
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Updates the settings for SAML Authentication
 
@@ -931,7 +931,7 @@ func (r ApiSetSimpleSettingsRequest) Execute() (*PasswordAuthSchema, *http.Respo
 /*
 SetSimpleSettings Update Simple auth settings
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Enable or disable simple authentication (username/password)
 

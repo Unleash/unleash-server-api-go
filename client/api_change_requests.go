@@ -35,7 +35,7 @@ func (r ApiGetProjectChangeRequestConfigRequest) Execute() ([]ChangeRequestEnvir
 /*
 GetProjectChangeRequestConfig Retrieves change request configuration for a project
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Given a projectId, this endpoint will retrieve change request configuration for the project
 
@@ -163,7 +163,7 @@ func (r ApiUpdateProjectChangeRequestConfigRequest) Execute() (*http.Response, e
 /*
 UpdateProjectChangeRequestConfig Updates change request configuration for an environment in the project
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 This endpoint will change the change request configuration for a given environment, set it to either on/off and optionally configure the number of approvals needed. The minimum number of approvals is 1 and the maximum number is 10. If you provide a number higher than 10 or lower than 1, Unleash will clamp it to the allowed range.
 

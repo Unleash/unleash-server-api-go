@@ -41,7 +41,7 @@ func (r ApiCreateServiceAccountRequest) Execute() (*ServiceAccountSchema, *http.
 /*
 CreateServiceAccount Create a service account.
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Creates a new service account.
 
@@ -224,7 +224,7 @@ func (r ApiCreateServiceAccountTokenRequest) Execute() (*PatSchema, *http.Respon
 /*
 CreateServiceAccountToken Create a token for a service account.
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Creates a new token for the service account identified by the id.
 
@@ -403,7 +403,7 @@ func (r ApiDeleteServiceAccountRequest) Execute() (*http.Response, error) {
 /*
 DeleteServiceAccount Delete a service account.
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Deletes an existing service account identified by its id.
 
@@ -544,7 +544,7 @@ func (r ApiDeleteServiceAccountTokenRequest) Execute() (*http.Response, error) {
 /*
 DeleteServiceAccountToken Delete a token for a service account.
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Deletes a token for the service account identified both by the service account's id and the token's id.
 
@@ -687,7 +687,7 @@ func (r ApiGetServiceAccountTokensRequest) Execute() (*PatsSchema, *http.Respons
 /*
 GetServiceAccountTokens List all tokens for a service account.
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Returns the list of all tokens for a service account identified by the id.
 
@@ -838,7 +838,7 @@ func (r ApiGetServiceAccountsRequest) Execute() (*ServiceAccountsSchema, *http.R
 /*
 GetServiceAccounts List service accounts.
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Returns the list of all service accounts.
 
@@ -983,7 +983,7 @@ func (r ApiUpdateServiceAccountRequest) Execute() (*ServiceAccountSchema, *http.
 /*
 UpdateServiceAccount Update a service account.
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Updates an existing service account identified by its id.
 

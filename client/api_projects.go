@@ -191,7 +191,7 @@ func (r ApiCreateProjectRequest) Execute() (*ProjectCreatedSchema, *http.Respons
 /*
 CreateProject Create project
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Create a new [Unleash project](https://docs.getunleash.io/reference/projects).
 
@@ -356,7 +356,7 @@ func (r ApiDeleteProjectRequest) Execute() (*http.Response, error) {
 /*
 DeleteProject Delete project
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Permanently delete the provided project. All feature flags in the project must be archived before you can delete it. This permanently deletes the project and its archived flags. It can not be undone.
 
@@ -496,7 +496,7 @@ func (r ApiGetProjectAccessRequest) Execute() (*ProjectAccessSchema, *http.Respo
 /*
 GetProjectAccess Get users and groups in project
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Get all groups, users and their roles, and available roles for the given project.
 
@@ -930,7 +930,7 @@ func (r ApiSetProjectAccessRequest) Execute() (*http.Response, error) {
 /*
 SetProjectAccess Set users and groups to roles in the current project
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Sets all groups, users and their roles for the given project, overriding any existing configuration.
 
@@ -1071,7 +1071,7 @@ func (r ApiUpdateProjectRequest) Execute() (*http.Response, error) {
 /*
 UpdateProject Update project
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Update a project with new configuration. Any fields not provided are ignored.
 
@@ -1245,7 +1245,7 @@ func (r ApiUpdateProjectEnterpriseSettingsRequest) Execute() (*http.Response, er
 /*
 UpdateProjectEnterpriseSettings Update project enterprise settings
 
-![Unleash Enterprise](/ushosted/openapi-static/Enterprise.svg) **Enterprise feature**
+**Enterprise feature**
 
 Update project enterprise settings with new values. Any fields not provided are ignored.
 
