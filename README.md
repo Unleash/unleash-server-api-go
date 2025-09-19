@@ -10,15 +10,7 @@
 
 1. OpenAPI generator: https://openapi-generator.tech/docs/installation#bash-launcher-script
 
-Version used:
-
-```
-openapi-generator-cli 6.6.0
-  commit : 7f8b853
-  built  : -999999999-01-01T00:00:00+18:00
-  source : https://github.com/openapitools/openapi-generator
-  docs   : https://openapi-generator.tech/
-```
+Version used available in [client/.openapi-generator/VERSION](./client/.openapi-generator/VERSION)
 
 2. openapi format: https://github.com/thim81/openapi-format
 
@@ -29,7 +21,7 @@ openapi-generator-cli 6.6.0
 1. docker compose up
 2. curl -s http://localhost:4242/docs/openapi.json | jq > openapi.json
 
-## Generate client from opeanpi.json
+## Generate client from openapi.json
 
 ```bash
 ./generate.sh
