@@ -22,8 +22,8 @@ jobs:
           - "unleashorg/unleash-server:5.12"
           - "unleashorg/unleash-server:6.0"
           - "unleashorg/unleash-server:latest"
-          - "ghcr.io/ivarconr/unleash-enterprise:6.8"
-          - "ghcr.io/ivarconr/unleash-enterprise:latest"
+          - "unleashorg/unleash-enterprise:6.9.1"
+          - "unleashorg/unleash-enterprise:latest"
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -32,13 +32,6 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: "1.20"
-      - name: Login to ghcr
-        if: contains(matrix.image, 'unleash-enterprise')
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: gastonfournier
-          password: ${{ secrets.GHCR_TOKEN }}
       - name: Setup enterprise docker image
         if: contains(matrix.image, 'unleash-enterprise')
         run: |
