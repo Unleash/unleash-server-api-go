@@ -10,7 +10,7 @@
 
 1. OpenAPI generator: https://openapi-generator.tech/docs/installation#bash-launcher-script
 
-Version used available in [client/.openapi-generator/VERSION](./client/.openapi-generator/VERSION)
+The specific version used can be found in [client/.openapi-generator/VERSION](./client/.openapi-generator/VERSION)
 
 2. openapi format: https://github.com/thim81/openapi-format
 
