@@ -1201,6 +1201,20 @@ func (a *UsersAPIService) SearchUsersExecute(r ApiSearchUsersRequest) (*UsersSch
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	trimmedBody := bytes.TrimSpace(localVarBody)
+	if len(trimmedBody) > 0 && trimmedBody[0] == '[' {
+		var users []UserSchema
+		if err := a.client.decode(&users, localVarBody, localVarHTTPResponse.Header.Get("Content-Type")); err != nil {
+			newErr := &GenericOpenAPIError{
+				body:  localVarBody,
+				error: err.Error(),
+			}
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		localVarReturnValue = &UsersSchema{Users: users}
+		return localVarReturnValue, localVarHTTPResponse, nil
+	}
+
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
