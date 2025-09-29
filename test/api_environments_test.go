@@ -104,7 +104,7 @@ func Test_client_EnvironmentAPIService(t *testing.T) {
 		require.Nil(t, err)
 		require.NotNil(t, resp)
 		require.Equal(t, 200, httpRes.StatusCode)
-		
+
 		// Filter out the "default" environment and assert we have 4 environments
 		// (the two we created + 2 other built-in ones, excluding "default")
 		// default is present in every unleash instance before v7
