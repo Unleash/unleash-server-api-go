@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **ProjectCount** | Pointer to **NullableInt32** | The number of projects with this environment | [optional] 
 **ApiTokenCount** | Pointer to **NullableInt32** | The number of API tokens for the project environment | [optional] 
 **EnabledToggleCount** | Pointer to **NullableInt32** | The number of enabled toggles for the project environment | [optional] 
+**RequiredApprovals** | Pointer to **NullableInt32** | Experimental field. The number of approvals required before a change request can be applied in this environment. | [optional] 
 
 ## Methods
 
@@ -237,6 +238,41 @@ HasEnabledToggleCount returns a boolean if a field has been set.
 `func (o *EnvironmentSchema) UnsetEnabledToggleCount()`
 
 UnsetEnabledToggleCount ensures that no value is present for EnabledToggleCount, not even an explicit nil
+### GetRequiredApprovals
+
+`func (o *EnvironmentSchema) GetRequiredApprovals() int32`
+
+GetRequiredApprovals returns the RequiredApprovals field if non-nil, zero value otherwise.
+
+### GetRequiredApprovalsOk
+
+`func (o *EnvironmentSchema) GetRequiredApprovalsOk() (*int32, bool)`
+
+GetRequiredApprovalsOk returns a tuple with the RequiredApprovals field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRequiredApprovals
+
+`func (o *EnvironmentSchema) SetRequiredApprovals(v int32)`
+
+SetRequiredApprovals sets RequiredApprovals field to given value.
+
+### HasRequiredApprovals
+
+`func (o *EnvironmentSchema) HasRequiredApprovals() bool`
+
+HasRequiredApprovals returns a boolean if a field has been set.
+
+### SetRequiredApprovalsNil
+
+`func (o *EnvironmentSchema) SetRequiredApprovalsNil(b bool)`
+
+ SetRequiredApprovalsNil sets the value for RequiredApprovals to be an explicit nil
+
+### UnsetRequiredApprovals
+`func (o *EnvironmentSchema) UnsetRequiredApprovals()`
+
+UnsetRequiredApprovals ensures that no value is present for RequiredApprovals, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

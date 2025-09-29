@@ -5,7 +5,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **int32** | The user id | 
-**IsAPI** | Pointer to **bool** | Deprecated in v5. Used internally to know which operations the user should be allowed to perform | [optional] 
 **Name** | Pointer to **NullableString** | Name of the user | [optional] 
 **Email** | Pointer to **string** | Email of the user | [optional] 
 **Username** | Pointer to **NullableString** | A unique username for the user | [optional] 
@@ -60,31 +59,6 @@ and a boolean to check if the value has been set.
 
 SetId sets Id field to given value.
 
-
-### GetIsAPI
-
-`func (o *UserSchema) GetIsAPI() bool`
-
-GetIsAPI returns the IsAPI field if non-nil, zero value otherwise.
-
-### GetIsAPIOk
-
-`func (o *UserSchema) GetIsAPIOk() (*bool, bool)`
-
-GetIsAPIOk returns a tuple with the IsAPI field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIsAPI
-
-`func (o *UserSchema) SetIsAPI(v bool)`
-
-SetIsAPI sets IsAPI field to given value.
-
-### HasIsAPI
-
-`func (o *UserSchema) HasIsAPI() bool`
-
-HasIsAPI returns a boolean if a field has been set.
 
 ### GetName
 

@@ -104,7 +104,17 @@ func Test_client_EnvironmentAPIService(t *testing.T) {
 		require.Nil(t, err)
 		require.NotNil(t, resp)
 		require.Equal(t, 200, httpRes.StatusCode)
-		require.Len(t, resp.Environments, 5) // we expect the two we created + the 3 built in ones
+
+		// Filter out the "default" environment and assert we have 4 environments
+		// (the two we created + 2 other built-in ones, excluding "default")
+		// default is present in every unleash instance before v7
+		filteredEnvironments := make([]client.EnvironmentSchema, 0)
+		for _, env := range resp.Environments {
+			if env.Name != "default" {
+				filteredEnvironments = append(filteredEnvironments, env)
+			}
+		}
+		require.Len(t, filteredEnvironments, 4)
 	})
 
 	t.Run("Test EnvironmentAPIService UpdateEnvironment", func(t *testing.T) {

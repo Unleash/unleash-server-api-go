@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Unleash API
-  version: 6.8.0
+  version: 7.2.1
 servers:
 - url: https://us.app.unleash-hosted.com/ushosted
 security:
@@ -23,15 +23,13 @@ tags:
   name: Banners
 - description: "API for managing [change requests](https://docs.getunleash.io/reference/change-requests)."
   name: Change Requests
-- description: "Endpoints for [Unleash server-side clients](https://docs.getunleash.io/reference/sdks)."
+- description: "Endpoints for [Unleash backend clients](https://docs.getunleash.io/reference/sdks)."
   name: Client
 - description: "Create, update, and delete [context fields](https://docs.getunleash.io/reference/unleash-context)\
     \ that Unleash is aware of."
   name: Context
 - description: Manage feature dependencies.
   name: Dependencies
-- description: Endpoints related to Unleash on the Edge.
-  name: Edge
 - description: "Create, update, delete, enable or disable [environments](https://docs.getunleash.io/reference/environments)\
     \ for this Unleash instance."
   name: Environments
@@ -41,7 +39,8 @@ tags:
   name: Feature Types
 - description: "Create, update, and delete [feature flags](https://docs.getunleash.io/reference/feature-toggles)."
   name: Features
-- description: API for connecting client-side (frontend) applications to Unleash.
+- description: "The [Frontend API](https://docs.getunleash.io/reference/front-end-api)\
+    \ is used for connecting client-side (frontend) applications to Unleash."
   name: Frontend API
 - description: "[Import and export](https://docs.getunleash.io/how-to/how-to-environment-import-export)\
     \ the state of your Unleash instance."
@@ -64,6 +63,8 @@ tags:
   name: Projects
 - description: "Create, update, and delete [Unleash Public Signup tokens](https://docs.getunleash.io/reference/public-signup-tokens)."
   name: Public signup tokens
+- description: "API for managing [release templates](https://docs.getunleash.io/reference/release-templates)."
+  name: Release Templates
 - description: Search for features.
   name: Search
 - description: "Create, update, delete, and manage [segments](https://docs.getunleash.io/reference/segments)."
@@ -77,53 +78,423 @@ tags:
   name: Tags
 - description: API for information about telemetry collection
   name: Telemetry
+- description: Endpoints related to unknown flags.
+  name: Unknown Flags
+- description: "Endpoints related to [Unleash Edge](https://docs.getunleash.io/reference/unleash-edge)."
+  name: Unleash Edge
 - description: Experimental endpoints that may change or disappear at any time.
   name: Unstable
 - description: Manage users and passwords.
   name: Users
 paths:
-  /api/admin/auth/saml/settings:
+  /api/admin/projects:
     get:
-      description: Returns the current settings for SAML authentication
-      operationId: getSamlSettings
+      description: This endpoint returns an list of all the projects in the Unleash
+        instance.
+      operationId: getProjects
+      parameters:
+      - explode: true
+        in: query
+        name: archived
+        required: false
+        schema:
+          type: boolean
+        style: form
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/samlSettingsResponseSchema'
-          description: samlSettingsResponseSchema
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
-          description: The request data does not match what we expect.
+                $ref: "#/components/schemas/projectsSchema"
+          description: projectsSchema
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get a list of all projects.
+      tags:
+      - Projects
+    post:
+      description: |-
+        **Enterprise feature**
+
+        Create a new [Unleash project](https://docs.getunleash.io/reference/projects).
+      operationId: createProject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createProjectSchema"
+        description: createProjectSchema
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/projectCreatedSchema"
+          description: The resource was successfully created.
+          headers:
+            location:
+              description: The location of the newly created resource.
+              explode: false
+              schema:
+                format: uri
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createProject_400_response"
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_401_response"
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_403_response"
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createProject_415_response"
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Create project
+      tags:
+      - Projects
+  /api/admin/projects/{projectId}:
+    delete:
+      description: |-
+        **Enterprise feature**
+
+        Permanently delete the provided project. All feature flags in the project must be archived before you can delete it. This permanently deletes the project and its archived flags. It can not be undone.
+      operationId: deleteProject
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createProject_400_response"
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_401_response"
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_403_response"
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Delete project
+      tags:
+      - Projects
+    put:
+      description: |-
+        **Enterprise feature**
+
+        Update a project with new configuration. Any fields not provided are ignored.
+      operationId: updateProject
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateProjectSchema"
+        description: updateProjectSchema
+        required: true
+      responses:
+        "200":
+          description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createProject_400_response"
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_401_response"
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_403_response"
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/updateProject_404_response"
+          description: The requested resource was not found.
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createProject_415_response"
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Update project
+      tags:
+      - Projects
+  /api/admin/projects/{projectId}/settings:
+    put:
+      description: |-
+        **Enterprise feature**
+
+        Update project enterprise settings with new values. Any fields not provided are ignored.
+      operationId: updateProjectEnterpriseSettings
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateProjectEnterpriseSettingsSchema"
+        description: updateProjectEnterpriseSettingsSchema
+        required: true
+      responses:
+        "200":
+          description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createProject_400_response"
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_401_response"
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_403_response"
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/updateProject_404_response"
+          description: The requested resource was not found.
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createProject_415_response"
+          description: The operation does not support request payloads of the provided
+            type. Please ensure that you're using one of the listed payload types
+            and that you have specified the right content type in the "content-type"
+            header.
+      summary: Update project enterprise settings
+      tags:
+      - Projects
+  /api/admin/projects/{projectId}/access:
+    get:
+      description: |-
+        **Enterprise feature**
+
+        Get all groups, users and their roles, and available roles for the given project.
+      operationId: getProjectAccess
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/projectAccessSchema"
+          description: projectAccessSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_401_response"
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_403_response"
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get users and groups in project
+      tags:
+      - Projects
+    put:
+      description: |-
+        **Enterprise feature**
+
+        Sets all groups, users and their roles for the given project, overriding any existing configuration.
+      operationId: setProjectAccess
+      parameters:
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/projectAccessConfigurationSchema"
+        description: projectAccessConfigurationSchema
+        required: true
+      responses:
+        "200":
+          description: This response has no body.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_401_response"
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_403_response"
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Set users and groups to roles in the current project
+      tags:
+      - Projects
+  /api/admin/permissions:
+    get:
+      description: |-
+        **Enterprise feature**
+
+        Returns a list of available permissions
+      operationId: getPermissions
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/adminPermissionsSchema"
+          description: adminPermissionsSchema
+      summary: Gets available permissions
+      tags:
+      - Auth
+  /api/admin/auth/saml/settings:
+    get:
+      description: |-
+        **Enterprise feature**
+
+        Returns the current settings for SAML authentication
+      operationId: getSamlSettings
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/samlSettingsResponseSchema"
+          description: samlSettingsResponseSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createProject_400_response"
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_401_response"
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get SAML auth settings
       tags:
       - Auth
     post:
-      description: Updates the settings for SAML Authentication
+      description: |-
+        **Enterprise feature**
+
+        Updates the settings for SAML Authentication
       operationId: setSamlSettings
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/samlSettingsSchema'
+              $ref: "#/components/schemas/samlSettingsSchema"
         description: samlSettingsSchema
         required: true
       responses:
@@ -131,33 +502,33 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/samlSettingsResponseSchema'
+                $ref: "#/components/schemas/samlSettingsResponseSchema"
           description: samlSettingsResponseSchema
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "415":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/setSamlSettings_415_response'
+                $ref: "#/components/schemas/createProject_415_response"
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -167,46 +538,52 @@ paths:
       - Auth
   /api/admin/auth/oidc/settings:
     get:
-      description: Returns the current settings for OIDC Authentication
+      description: |-
+        **Enterprise feature**
+
+        Returns the current settings for OIDC Authentication
       operationId: getOidcSettings
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/oidcSettingsResponseSchema'
+                $ref: "#/components/schemas/oidcSettingsResponseSchema"
           description: oidcSettingsResponseSchema
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get OIDC auth settings
       tags:
       - Auth
     post:
-      description: Configure OpenID Connect as a login provider for Unleash.
+      description: |-
+        **Enterprise feature**
+
+        Configure OpenID Connect as a login provider for Unleash.
       operationId: setOidcSettings
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/oidcSettingsSchema'
+              $ref: "#/components/schemas/oidcSettingsSchema"
         description: oidcSettingsSchema
         required: true
       responses:
@@ -214,33 +591,33 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/oidcSettingsResponseSchema'
+                $ref: "#/components/schemas/oidcSettingsResponseSchema"
           description: oidcSettingsResponseSchema
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "415":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/setSamlSettings_415_response'
+                $ref: "#/components/schemas/createProject_415_response"
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -250,40 +627,46 @@ paths:
       - Auth
   /api/admin/auth/simple/settings:
     get:
-      description: Is simple authentication (username/password) enabled for this server
+      description: |-
+        **Enterprise feature**
+
+        Is simple authentication (username/password) enabled for this server
       operationId: getSimpleSettings
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/passwordAuthSchema'
+                $ref: "#/components/schemas/passwordAuthSchema"
           description: passwordAuthSchema
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get Simple auth settings
       tags:
       - Auth
     post:
-      description: Enable or disable simple authentication (username/password)
+      description: |-
+        **Enterprise feature**
+
+        Enable or disable simple authentication (username/password)
       operationId: setSimpleSettings
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/passwordAuthSchema'
+              $ref: "#/components/schemas/passwordAuthSchema"
         description: passwordAuthSchema
         required: true
       responses:
@@ -291,33 +674,33 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/passwordAuthSchema'
+                $ref: "#/components/schemas/passwordAuthSchema"
           description: passwordAuthSchema
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "415":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/setSamlSettings_415_response'
+                $ref: "#/components/schemas/createProject_415_response"
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -327,41 +710,46 @@ paths:
       - Auth
   /api/admin/roles:
     get:
-      description: "Get a list of project, root and custom roles for Role-Based Access\
-        \ Control"
+      description: |-
+        **Enterprise feature**
+
+        Get a list of project, root and custom roles for Role-Based Access Control
       operationId: getRoles
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/rolesWithVersionSchema'
+                $ref: "#/components/schemas/rolesWithVersionSchema"
           description: rolesWithVersionSchema
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get a list of roles
       tags:
       - Users
     post:
-      description: Create a new custom role for Role-Based Access Control
+      description: |-
+        **Enterprise feature**
+
+        Create a new custom role for Role-Based Access Control
       operationId: createRole
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createRoleWithPermissionsSchema'
+              $ref: "#/components/schemas/createRoleWithPermissionsSchema"
         description: createRoleWithPermissionsSchema
         required: true
       responses:
@@ -369,33 +757,33 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/roleWithVersionSchema'
+                $ref: "#/components/schemas/roleWithVersionSchema"
           description: roleWithVersionSchema
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_409_response'
+                $ref: "#/components/schemas/createRole_409_response"
           description: "The provided resource can not be created or updated because\
             \ it would conflict with the current state of the resource or with an\
             \ already existing resource, respectively."
@@ -404,8 +792,10 @@ paths:
       - Users
   /api/admin/roles/{roleId}:
     delete:
-      description: Delete a custom role by id. You cannot delete built-in roles or
-        roles that are in use.
+      description: |-
+        **Enterprise feature**
+
+        Delete a custom role by id. You cannot delete built-in roles or roles that are in use.
       operationId: deleteRole
       parameters:
       - explode: false
@@ -422,33 +812,36 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
+                $ref: "#/components/schemas/updateProject_404_response"
           description: The requested resource was not found.
       summary: Delete a custom role
       tags:
       - Users
     get:
-      description: Get a single role by role id
+      description: |-
+        **Enterprise feature**
+
+        Get a single role by role id
       operationId: getRoleById
       parameters:
       - explode: false
@@ -463,32 +856,35 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/roleWithPermissionsSchema'
+                $ref: "#/components/schemas/roleWithPermissionsSchema"
           description: roleWithPermissionsSchema
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
+                $ref: "#/components/schemas/updateProject_404_response"
           description: The requested resource was not found.
       summary: Get a single role
       tags:
       - Users
     put:
-      description: Update a custom role by role id
+      description: |-
+        **Enterprise feature**
+
+        Update a custom role by role id
       operationId: updateRole
       parameters:
       - explode: false
@@ -502,7 +898,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createRoleWithPermissionsSchema'
+              $ref: "#/components/schemas/createRoleWithPermissionsSchema"
         description: createRoleWithPermissionsSchema
         required: true
       responses:
@@ -510,39 +906,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/roleWithVersionSchema'
+                $ref: "#/components/schemas/roleWithVersionSchema"
           description: roleWithVersionSchema
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
+                $ref: "#/components/schemas/updateProject_404_response"
           description: The requested resource was not found.
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_409_response'
+                $ref: "#/components/schemas/createRole_409_response"
           description: "The provided resource can not be created or updated because\
             \ it would conflict with the current state of the resource or with an\
             \ already existing resource, respectively."
@@ -558,33 +954,36 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/environmentsSchema'
+                $ref: "#/components/schemas/environmentsSchema"
           description: environmentsSchema
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get all environments
       tags:
       - Environments
     post:
-      description: Uses the details provided in the payload to create a new environment
+      description: |-
+        **Enterprise feature**
+
+        Uses the details provided in the payload to create a new environment
       operationId: createEnvironment
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createEnvironmentSchema'
+              $ref: "#/components/schemas/createEnvironmentSchema"
         description: createEnvironmentSchema
         required: true
       responses:
@@ -592,7 +991,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/environmentSchema'
+                $ref: "#/components/schemas/environmentSchema"
           description: The resource was successfully created.
           headers:
             location:
@@ -606,13 +1005,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
       summary: Creates a new environment
@@ -620,9 +1019,10 @@ paths:
       - Environments
   /api/admin/environments/update/{name}:
     put:
-      description: "Given an environment by name updates the environment with the\
-        \ given payload. Note that `name`, `enabled` and `protected` cannot be changed\
-        \ by this API"
+      description: |-
+        **Enterprise feature**
+
+        Given an environment by name updates the environment with the given payload. Note that `name`, `enabled` and `protected` cannot be changed by this API
       operationId: updateEnvironment
       parameters:
       - explode: false
@@ -636,7 +1036,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/updateEnvironmentSchema'
+              $ref: "#/components/schemas/updateEnvironmentSchema"
         description: updateEnvironmentSchema
         required: true
       responses:
@@ -644,19 +1044,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/environmentSchema'
+                $ref: "#/components/schemas/environmentSchema"
           description: environmentSchema
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
       summary: Updates an environment by name
@@ -664,8 +1064,10 @@ paths:
       - Environments
   /api/admin/environments/{name}:
     delete:
-      description: "Given an existing environment by name, this endpoint will attempt\
-        \ to delete it"
+      description: |-
+        **Enterprise feature**
+
+        Given an existing environment by name, this endpoint will attempt to delete it
       operationId: removeEnvironment
       parameters:
       - explode: false
@@ -682,13 +1084,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
       summary: Deletes an environment by name
@@ -711,35 +1113,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/environmentSchema'
+                $ref: "#/components/schemas/environmentSchema"
           description: environmentSchema
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
+                $ref: "#/components/schemas/updateProject_404_response"
           description: The requested resource was not found.
       summary: Get the environment with `name`
       tags:
       - Environments
   /api/admin/projects/{projectId}/change-requests/config:
     get:
-      description: "Given a projectId, this endpoint will retrieve change request\
-        \ configuration for the project"
+      description: |-
+        **Enterprise feature**
+
+        Given a projectId, this endpoint will retrieve change request configuration for the project
       operationId: getProjectChangeRequestConfig
       parameters:
       - explode: false
@@ -754,18 +1158,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/changeRequestConfigSchema'
+                $ref: "#/components/schemas/changeRequestConfigSchema"
           description: changeRequestConfigSchema
       summary: Retrieves change request configuration for a project
       tags:
       - Change Requests
   /api/admin/projects/{projectId}/environments/{environment}/change-requests/config:
     put:
-      description: "This endpoint will change the change request configuration for\
-        \ a given environment, set it to either on/off and optionally configure the\
-        \ number of approvals needed. The minimum number of approvals is 1 and the\
-        \ maximum number is 10. If you provide a number higher than 10 or lower than\
-        \ 1, Unleash will clamp it to the allowed range."
+      description: |-
+        **Enterprise feature**
+
+        This endpoint will change the change request configuration for a given environment, set it to either on/off and optionally configure the number of approvals needed. The minimum number of approvals is 1 and the maximum number is 10. If you provide a number higher than 10 or lower than 1, Unleash will clamp it to the allowed range.
       operationId: updateProjectChangeRequestConfig
       parameters:
       - explode: false
@@ -786,7 +1189,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/updateChangeRequestEnvironmentConfigSchema'
+              $ref: "#/components/schemas/updateChangeRequestEnvironmentConfigSchema"
         description: updateChangeRequestEnvironmentConfigSchema
         required: true
       responses:
@@ -797,48 +1200,54 @@ paths:
       - Change Requests
   /api/admin/service-account:
     get:
-      description: Returns the list of all service accounts.
+      description: |-
+        **Enterprise feature**
+
+        Returns the list of all service accounts.
       operationId: getServiceAccounts
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/serviceAccountsSchema'
-          description: '#/components/schemas/serviceAccountsSchema'
+                $ref: "#/components/schemas/serviceAccountsSchema"
+          description: "#/components/schemas/serviceAccountsSchema"
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: List service accounts.
       tags:
       - Service Accounts
     post:
-      description: Creates a new service account.
+      description: |-
+        **Enterprise feature**
+
+        Creates a new service account.
       operationId: createServiceAccount
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createServiceAccountSchema'
-        description: '#/components/schemas/createServiceAccountSchema'
+              $ref: "#/components/schemas/createServiceAccountSchema"
+        description: "#/components/schemas/createServiceAccountSchema"
         required: true
       responses:
         "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/serviceAccountSchema'
+                $ref: "#/components/schemas/serviceAccountSchema"
           description: The resource was successfully created.
           headers:
             location:
@@ -852,27 +1261,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_409_response'
+                $ref: "#/components/schemas/createRole_409_response"
           description: "The provided resource can not be created or updated because\
             \ it would conflict with the current state of the resource or with an\
             \ already existing resource, respectively."
@@ -880,7 +1289,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/setSamlSettings_415_response'
+                $ref: "#/components/schemas/createProject_415_response"
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -890,7 +1299,10 @@ paths:
       - Service Accounts
   /api/admin/service-account/{id}:
     delete:
-      description: Deletes an existing service account identified by its id.
+      description: |-
+        **Enterprise feature**
+
+        Deletes an existing service account identified by its id.
       operationId: deleteServiceAccount
       parameters:
       - explode: false
@@ -907,27 +1319,30 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
+                $ref: "#/components/schemas/updateProject_404_response"
           description: The requested resource was not found.
       summary: Delete a service account.
       tags:
       - Service Accounts
     put:
-      description: Updates an existing service account identified by its id.
+      description: |-
+        **Enterprise feature**
+
+        Updates an existing service account identified by its id.
       operationId: updateServiceAccount
       parameters:
       - explode: false
@@ -941,47 +1356,47 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/updateServiceAccountSchema'
-        description: '#/components/schemas/updateServiceAccountSchema'
+              $ref: "#/components/schemas/updateServiceAccountSchema"
+        description: "#/components/schemas/updateServiceAccountSchema"
         required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/serviceAccountSchema'
-          description: '#/components/schemas/serviceAccountSchema'
+                $ref: "#/components/schemas/serviceAccountSchema"
+          description: "#/components/schemas/serviceAccountSchema"
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
+                $ref: "#/components/schemas/updateProject_404_response"
           description: The requested resource was not found.
         "415":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/setSamlSettings_415_response'
+                $ref: "#/components/schemas/createProject_415_response"
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -991,8 +1406,10 @@ paths:
       - Service Accounts
   /api/admin/service-account/{id}/token:
     get:
-      description: Returns the list of all tokens for a service account identified
-        by the id.
+      description: |-
+        **Enterprise feature**
+
+        Returns the list of all tokens for a service account identified by the id.
       operationId: getServiceAccountTokens
       parameters:
       - explode: false
@@ -1007,33 +1424,36 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/patsSchema'
-          description: '#/components/schemas/patsSchema'
+                $ref: "#/components/schemas/patsSchema"
+          description: "#/components/schemas/patsSchema"
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
+                $ref: "#/components/schemas/updateProject_404_response"
           description: The requested resource was not found.
       summary: List all tokens for a service account.
       tags:
       - Service Accounts
     post:
-      description: Creates a new token for the service account identified by the id.
+      description: |-
+        **Enterprise feature**
+
+        Creates a new token for the service account identified by the id.
       operationId: createServiceAccountToken
       parameters:
       - explode: false
@@ -1047,15 +1467,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createPatSchema'
-        description: '#/components/schemas/createPatSchema'
+              $ref: "#/components/schemas/createPatSchema"
+        description: "#/components/schemas/createPatSchema"
         required: true
       responses:
         "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/patSchema'
+                $ref: "#/components/schemas/patSchema"
           description: The resource was successfully created.
           headers:
             location:
@@ -1069,27 +1489,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
+                $ref: "#/components/schemas/updateProject_404_response"
           description: The requested resource was not found.
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_409_response'
+                $ref: "#/components/schemas/createRole_409_response"
           description: "The provided resource can not be created or updated because\
             \ it would conflict with the current state of the resource or with an\
             \ already existing resource, respectively."
@@ -1097,7 +1517,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/setSamlSettings_415_response'
+                $ref: "#/components/schemas/createProject_415_response"
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -1107,8 +1527,10 @@ paths:
       - Service Accounts
   /api/admin/service-account/{id}/token/{tokenId}:
     delete:
-      description: Deletes a token for the service account identified both by the
-        service account's id and the token's id.
+      description: |-
+        **Enterprise feature**
+
+        Deletes a token for the service account identified both by the service account's id and the token's id.
       operationId: deleteServiceAccountToken
       parameters:
       - explode: false
@@ -1132,370 +1554,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
+                $ref: "#/components/schemas/updateProject_404_response"
           description: The requested resource was not found.
       summary: Delete a token for a service account.
       tags:
       - Service Accounts
-  /api/admin/projects:
-    get:
-      description: This endpoint returns an list of all the projects in the Unleash
-        instance.
-      operationId: getProjects
-      parameters:
-      - explode: true
-        in: query
-        name: archived
-        required: false
-        schema:
-          type: boolean
-        style: form
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/projectsSchema'
-          description: projectsSchema
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
-          description: "Authorization information is missing or invalid. Provide a\
-            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
-          description: "The provided user credentials are valid, but the user does\
-            \ not have the necessary permissions to perform this operation"
-      summary: Get a list of all projects.
-      tags:
-      - Projects
-    post:
-      description: "Create a new [Unleash project](https://docs.getunleash.io/reference/projects)."
-      operationId: createProject
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/createProjectSchema'
-        description: createProjectSchema
-        required: true
-      responses:
-        "201":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/projectCreatedSchema'
-          description: The resource was successfully created.
-          headers:
-            location:
-              description: The location of the newly created resource.
-              explode: false
-              schema:
-                format: uri
-                type: string
-              style: simple
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
-          description: The request data does not match what we expect.
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
-          description: "Authorization information is missing or invalid. Provide a\
-            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
-          description: "The provided user credentials are valid, but the user does\
-            \ not have the necessary permissions to perform this operation"
-        "415":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/setSamlSettings_415_response'
-          description: The operation does not support request payloads of the provided
-            type. Please ensure that you're using one of the listed payload types
-            and that you have specified the right content type in the "content-type"
-            header.
-      summary: Create project
-      tags:
-      - Projects
-  /api/admin/projects/{projectId}:
-    delete:
-      description: Permanently delete the provided project. All feature flags in the
-        project must be archived before you can delete it. This permanently deletes
-        the project and its archived flags. It can not be undone.
-      operationId: deleteProject
-      parameters:
-      - explode: false
-        in: path
-        name: projectId
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        "200":
-          description: This response has no body.
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
-          description: The request data does not match what we expect.
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
-          description: "Authorization information is missing or invalid. Provide a\
-            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
-          description: "The provided user credentials are valid, but the user does\
-            \ not have the necessary permissions to perform this operation"
-      summary: Delete project
-      tags:
-      - Projects
-    put:
-      description: Update a project with new configuration. Any fields not provided
-        are ignored.
-      operationId: updateProject
-      parameters:
-      - explode: false
-        in: path
-        name: projectId
-        required: true
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/updateProjectSchema'
-        description: updateProjectSchema
-        required: true
-      responses:
-        "200":
-          description: This response has no body.
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
-          description: The request data does not match what we expect.
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
-          description: "Authorization information is missing or invalid. Provide a\
-            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
-          description: "The provided user credentials are valid, but the user does\
-            \ not have the necessary permissions to perform this operation"
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
-          description: The requested resource was not found.
-        "415":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/setSamlSettings_415_response'
-          description: The operation does not support request payloads of the provided
-            type. Please ensure that you're using one of the listed payload types
-            and that you have specified the right content type in the "content-type"
-            header.
-      summary: Update project
-      tags:
-      - Projects
-  /api/admin/projects/{projectId}/settings:
-    put:
-      description: Update project enterprise settings with new values. Any fields
-        not provided are ignored.
-      operationId: updateProjectEnterpriseSettings
-      parameters:
-      - explode: false
-        in: path
-        name: projectId
-        required: true
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/updateProjectEnterpriseSettingsSchema'
-        description: updateProjectEnterpriseSettingsSchema
-        required: true
-      responses:
-        "200":
-          description: This response has no body.
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
-          description: The request data does not match what we expect.
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
-          description: "Authorization information is missing or invalid. Provide a\
-            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
-          description: "The provided user credentials are valid, but the user does\
-            \ not have the necessary permissions to perform this operation"
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
-          description: The requested resource was not found.
-        "415":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/setSamlSettings_415_response'
-          description: The operation does not support request payloads of the provided
-            type. Please ensure that you're using one of the listed payload types
-            and that you have specified the right content type in the "content-type"
-            header.
-      summary: Update project enterprise settings
-      tags:
-      - Projects
-  /api/admin/projects/{projectId}/access:
-    get:
-      description: "Get all groups, users and their roles, and available roles for\
-        \ the given project."
-      operationId: getProjectAccess
-      parameters:
-      - explode: false
-        in: path
-        name: projectId
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/projectAccessSchema'
-          description: projectAccessSchema
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
-          description: "Authorization information is missing or invalid. Provide a\
-            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
-          description: "The provided user credentials are valid, but the user does\
-            \ not have the necessary permissions to perform this operation"
-      summary: Get users and groups in project
-      tags:
-      - Projects
-    put:
-      description: "Sets all groups, users and their roles for the given project,\
-        \ overriding any existing configuration."
-      operationId: setProjectAccess
-      parameters:
-      - explode: false
-        in: path
-        name: projectId
-        required: true
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/projectAccessConfigurationSchema'
-        description: projectAccessConfigurationSchema
-        required: true
-      responses:
-        "200":
-          description: This response has no body.
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
-          description: "Authorization information is missing or invalid. Provide a\
-            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
-          description: "The provided user credentials are valid, but the user does\
-            \ not have the necessary permissions to perform this operation"
-      summary: Set users and groups to roles in the current project
-      tags:
-      - Projects
-  /api/admin/permissions:
-    get:
-      description: Returns a list of available permissions
-      operationId: getPermissions
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/adminPermissionsSchema'
-          description: adminPermissionsSchema
-      summary: Gets available permissions
-      tags:
-      - Auth
   /api/admin/context:
     get:
       description: "Returns all configured [Context fields](https://docs.getunleash.io/reference/unleash-context)\
@@ -1506,7 +1583,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/contextFieldsSchema'
+                $ref: "#/components/schemas/contextFieldsSchema"
           description: contextFieldsSchema
       summary: Gets configured context fields
       tags:
@@ -1518,7 +1595,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createContextFieldSchema'
+              $ref: "#/components/schemas/createContextFieldSchema"
         description: createContextFieldSchema
         required: true
       responses:
@@ -1526,7 +1603,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/contextFieldSchema'
+                $ref: "#/components/schemas/contextFieldSchema"
           description: The resource was successfully created.
           headers:
             location:
@@ -1576,7 +1653,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/contextFieldSchema'
+                $ref: "#/components/schemas/contextFieldSchema"
           description: contextFieldSchema
       summary: Gets context field
       tags:
@@ -1597,7 +1674,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/updateContextFieldSchema'
+              $ref: "#/components/schemas/updateContextFieldSchema"
         description: updateContextFieldSchema
         required: true
       responses:
@@ -1615,20 +1692,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/apiTokensSchema'
+                $ref: "#/components/schemas/apiTokensSchema"
           description: apiTokensSchema
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get API tokens
@@ -1636,13 +1713,13 @@ paths:
       - API tokens
     post:
       description: "Create an API token of a specific type: one of client, admin,\
-        \ frontend."
+        \ frontend, backend."
       operationId: createApiToken
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createApiTokenSchema'
+              $ref: "#/components/schemas/createApiTokenSchema"
         description: createApiTokenSchema
         required: true
       responses:
@@ -1650,7 +1727,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/apiTokenSchema'
+                $ref: "#/components/schemas/apiTokenSchema"
           description: The resource was successfully created.
           headers:
             location:
@@ -1664,21 +1741,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "415":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/setSamlSettings_415_response'
+                $ref: "#/components/schemas/createProject_415_response"
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -1706,20 +1783,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/apiTokensSchema'
+                $ref: "#/components/schemas/apiTokensSchema"
           description: apiTokensSchema
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Get API tokens by name
@@ -1746,14 +1823,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Delete API token
@@ -1776,7 +1853,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/updateApiTokenSchema'
+              $ref: "#/components/schemas/updateApiTokenSchema"
         description: updateApiTokenSchema
         required: true
       responses:
@@ -1786,21 +1863,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "415":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/setSamlSettings_415_response'
+                $ref: "#/components/schemas/createProject_415_response"
           description: The operation does not support request payloads of the provided
             type. Please ensure that you're using one of the listed payload types
             and that you have specified the right content type in the "content-type"
@@ -1816,7 +1893,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createUserSchema'
+              $ref: "#/components/schemas/createUserSchema"
         description: createUserSchema
         required: true
       responses:
@@ -1824,7 +1901,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createUserResponseSchema'
+                $ref: "#/components/schemas/createUserResponseSchema"
           description: The resource was successfully created.
           headers:
             location:
@@ -1838,23 +1915,54 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Create a new user
+      tags:
+      - Users
+  /api/admin/user-admin/search:
+    get:
+      description: ' It will preform a simple search based on name and email matching
+        the given query. Requires minimum 2 characters'
+      operationId: searchUsers
+      parameters:
+      - description: The pattern to search in the username or email
+        explode: true
+        in: query
+        name: q
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/usersSchema"
+          description: usersSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_401_response"
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+      summary: Search users
       tags:
       - Users
   /api/admin/user-admin/{id}:
@@ -1877,21 +1985,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
+                $ref: "#/components/schemas/updateProject_404_response"
           description: The requested resource was not found.
       summary: Delete a user
       tags:
@@ -1913,26 +2021,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/userSchema'
+                $ref: "#/components/schemas/userSchema"
           description: userSchema
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
+                $ref: "#/components/schemas/updateProject_404_response"
           description: The requested resource was not found.
       summary: Get user
       tags:
@@ -1953,7 +2061,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/updateUserSchema'
+              $ref: "#/components/schemas/updateUserSchema"
         description: updateUserSchema
         required: true
       responses:
@@ -1961,33 +2069,33 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createUserResponseSchema'
+                $ref: "#/components/schemas/createUserResponseSchema"
           description: createUserResponseSchema
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
+                $ref: "#/components/schemas/updateProject_404_response"
           description: The requested resource was not found.
       summary: Update a user
       tags:
@@ -2010,7 +2118,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/projectEnvironmentSchema'
+              $ref: "#/components/schemas/projectEnvironmentSchema"
         description: projectEnvironmentSchema
         required: true
       responses:
@@ -2020,21 +2128,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "409":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRole_409_response'
+                $ref: "#/components/schemas/createRole_409_response"
           description: "The provided resource can not be created or updated because\
             \ it would conflict with the current state of the resource or with an\
             \ already existing resource, respectively."
@@ -2067,20 +2175,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_400_response'
+                $ref: "#/components/schemas/createProject_400_response"
           description: The request data does not match what we expect.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
       summary: Remove an environment from a project.
@@ -2104,27 +2212,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/environmentsProjectSchema'
+                $ref: "#/components/schemas/environmentsProjectSchema"
           description: environmentsProjectSchema
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_401_response'
+                $ref: "#/components/schemas/getProjects_401_response"
           description: "Authorization information is missing or invalid. Provide a\
             \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getSamlSettings_403_response'
+                $ref: "#/components/schemas/getProjects_403_response"
           description: "The provided user credentials are valid, but the user does\
             \ not have the necessary permissions to perform this operation"
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getRoleById_404_response'
+                $ref: "#/components/schemas/updateProject_404_response"
           description: The requested resource was not found.
       summary: Get the environments available to a project
       tags:
@@ -2147,17 +2255,10 @@ components:
         secret: project:environment.xyzrandomstring
         type: client
         expiresAt: 2023-04-19T08:15:14Z
-        username: a-name
       properties:
         secret:
           description: The token used for authentication.
           example: project:environment.xyzrandomstring
-          type: string
-        username:
-          deprecated: true
-          description: This property was deprecated in Unleash v5. Prefer the `tokenName`
-            property instead.
-          example: a-name
           type: string
         tokenName:
           description: A unique name for this particular token
@@ -2169,11 +2270,12 @@ components:
           - client
           - admin
           - frontend
+          - backend
           example: client
           type: string
         environment:
-          description: The environment the token has access to. `*` if it has access
-            to all environments.
+          default: development
+          description: The environment the token has access to.
           example: development
           type: string
         project:
@@ -2218,7 +2320,6 @@ components:
           type: string
       required:
       - createdAt
-      - project
       - projects
       - secret
       - tokenName
@@ -2241,7 +2342,6 @@ components:
           secret: project:environment.xyzrandomstring
           type: client
           expiresAt: 2023-04-19T08:15:14Z
-          username: a-name
         - createdAt: 2023-04-19T08:15:14Z
           environment: development
           seenAt: 2023-04-19T08:15:14Z
@@ -2254,12 +2354,11 @@ components:
           secret: project:environment.xyzrandomstring
           type: client
           expiresAt: 2023-04-19T08:15:14Z
-          username: a-name
       properties:
         tokens:
           description: A list of Unleash API tokens.
           items:
-            $ref: '#/components/schemas/apiTokenSchema'
+            $ref: "#/components/schemas/apiTokenSchema"
           type: array
       required:
       - tokens
@@ -2268,6 +2367,15 @@ components:
       additionalProperties: true
       description: "A strategy constraint. For more information, refer to [the strategy\
         \ constraint reference documentation](https://docs.getunleash.io/reference/activation-strategies#constraints)"
+      example:
+        contextName: appName
+        values:
+        - my-app
+        - my-other-app
+        caseInsensitive: false
+        inverted: false
+        value: my-app
+        operator: IN
       properties:
         contextName:
           description: The name of the context field that this constraint should apply
@@ -2332,9 +2440,9 @@ components:
       example:
         legalValues:
         - description: Deep fuchsia
-          value: '#c154c1'
+          value: "#c154c1"
         - description: Deep fuchsia
-          value: '#c154c1'
+          value: "#c154c1"
         createdAt: 2023-06-29T10:19:00Z
         stickiness: true
         sortOrder: 900
@@ -2384,7 +2492,7 @@ components:
           description: Allowed values for this context field schema. Can be used to
             narrow down accepted input
           items:
-            $ref: '#/components/schemas/legalValueSchema'
+            $ref: "#/components/schemas/legalValueSchema"
           type: array
       required:
       - name
@@ -2392,15 +2500,51 @@ components:
     contextFieldsSchema:
       description: A list of context fields
       items:
-        $ref: '#/components/schemas/contextFieldSchema'
+        $ref: "#/components/schemas/contextFieldSchema"
       type: array
     createApiTokenSchema:
-      description: "The data required to create an [Unleash API token](https://docs.getunleash.io/reference/api-tokens-and-client-keys)."
-      oneOf:
-      - $ref: '#/components/schemas/createApiTokenSchema_oneOf'
-      - $ref: '#/components/schemas/createApiTokenSchema_oneOf_1'
-      - $ref: '#/components/schemas/createApiTokenSchema_oneOf_2'
-      - $ref: '#/components/schemas/createApiTokenSchema_oneOf_3'
+      properties:
+        expiresAt:
+          description: The time when this token should expire.
+          example: 2023-07-04T11:26:24+02:00
+          format: date-time
+          type: string
+        type:
+          description: "A client or frontend token. Must be one of the strings \"\
+            client\" (deprecated), \"backend\" (preferred over \"client\") or \"frontend\"\
+            \ (not case sensitive)."
+          example: frontend
+          pattern: "^([Cc][Ll][Ii][Ee][Nn][Tt]|[Bb][Aa][Cc][Kk][Ee][Nn][Dd]|[Ff][Rr][Oo][Nn][Tt][Ee][Nn][Dd])$"
+          type: string
+        environment:
+          description: The environment that the token should be valid for. Defaults
+            to "default"
+          example: development
+          type: string
+        project:
+          description: "The project that the token should be valid for. Defaults to\
+            \ \"*\" meaning every project. This property is mutually incompatible\
+            \ with the `projects` property. If you specify one, you cannot specify\
+            \ the other."
+          example: project-851
+          type: string
+        projects:
+          description: "A list of projects that the token should be valid for. This\
+            \ property is mutually incompatible with the `project` property. If you\
+            \ specify one, you cannot specify the other."
+          example:
+          - project-851
+          - project-852
+          items:
+            type: string
+          type: array
+        tokenName:
+          description: The name of the token.
+          example: token-64522
+          type: string
+      required:
+      - tokenName
+      - type
       type: object
     createContextFieldSchema:
       description: Data used to create a context field configuration.
@@ -2427,7 +2571,7 @@ components:
           - value: silver
           - value: crystal
           items:
-            $ref: '#/components/schemas/legalValueSchema'
+            $ref: "#/components/schemas/legalValueSchema"
           type: array
         name:
           description: The name of the context field.
@@ -2448,7 +2592,7 @@ components:
         example:
           description: An example of a feature name that matches the pattern. Must
             itself match the pattern supplied.
-          example: dx.feature1.1-135
+          example: dx.feature.1-135
           nullable: true
           type: string
         description:
@@ -2465,39 +2609,6 @@ components:
       type: object
     createFeatureStrategySchema:
       description: Create a strategy configuration in a feature
-      example:
-        sortOrder: 9999
-        name: flexibleRollout
-        disabled: false
-        variants:
-        - weightType: fix
-          payload:
-            type: json
-            value: "{\"color\": \"red\"}"
-          stickiness: custom.context.field
-          name: blue_group
-          weight: 80
-        - weightType: fix
-          payload:
-            type: json
-            value: "{\"color\": \"red\"}"
-          stickiness: custom.context.field
-          name: blue_group
-          weight: 80
-        title: Gradual Rollout 25-Prod
-        constraints:
-        - values:
-          - "1"
-          - "2"
-          inverted: false
-          operator: IN
-          contextName: appName
-          caseInsensitive: false
-        parameters:
-          key: parameters
-        segments:
-        - 1
-        - 2
       properties:
         name:
           description: The name of the strategy type
@@ -2529,12 +2640,12 @@ components:
             contextName: appName
             caseInsensitive: false
           items:
-            $ref: '#/components/schemas/constraintSchema'
+            $ref: "#/components/schemas/constraintSchema"
           type: array
         variants:
           description: Strategy level variants
           items:
-            $ref: '#/components/schemas/createStrategyVariantSchema'
+            $ref: "#/components/schemas/createStrategyVariantSchema"
           type: array
         parameters:
           additionalProperties:
@@ -2575,14 +2686,6 @@ components:
         we work on it. Please don't depend on it yet. A strategy variant allows you
         to attach any data to strategies instead of only returning `true`/`false`.
         Strategy variants take precedence over feature variants.
-      example:
-        weightType: fix
-        payload:
-          type: json
-          value: "{\"color\": \"red\"}"
-        stickiness: custom.context.field
-        name: blue_group
-        weight: 80
       properties:
         name:
           description: The variant name. Must be unique for this feature flag
@@ -2613,7 +2716,7 @@ components:
           example: custom.context.field
           type: string
         payload:
-          $ref: '#/components/schemas/createStrategyVariantSchema_payload'
+          $ref: "#/components/schemas/createStrategyVariantSchema_payload"
       required:
       - name
       - stickiness
@@ -2627,7 +2730,6 @@ components:
         loginAttempts: 3
         inviteLink: http://localhost:4242/invite-link/some-secret
         accountType: User
-        isAPI: true
         scimId: 01HTMEXAMPLESCIMID7SWWGHN6
         createdAt: 2023-06-30T11:41:00.123Z
         seenAt: 2023-06-30T11:42:00.345Z
@@ -2648,12 +2750,6 @@ components:
           description: The user id
           example: 123
           type: integer
-        isAPI:
-          deprecated: true
-          description: Deprecated in v5. Used internally to know which operations
-            the user should be allowed to perform
-          example: true
-          type: boolean
         name:
           description: Name of the user
           example: User
@@ -2687,7 +2783,7 @@ components:
           example: false
           type: boolean
         rootRole:
-          $ref: '#/components/schemas/createUserResponseSchema_rootRole'
+          $ref: "#/components/schemas/createUserResponseSchema_rootRole"
         seenAt:
           description: The last time this user logged in
           example: 2023-06-30T11:42:00.345Z
@@ -2701,6 +2797,9 @@ components:
           type: string
         accountType:
           description: A user is either an actual User or a Service Account
+          enum:
+          - User
+          - Service Account
           example: User
           type: string
         permissions:
@@ -2750,7 +2849,7 @@ components:
           example: k!5As3HquUrQ
           type: string
         rootRole:
-          $ref: '#/components/schemas/createUserSchema_rootRole'
+          $ref: "#/components/schemas/createUserSchema_rootRole"
         sendEmail:
           description: Whether to send a welcome email with a login link to the user
             or not. Defaults to `true`.
@@ -2766,14 +2865,17 @@ components:
         projectApiTokenCount: 5
         visible: true
         protected: false
+        requiredApprovals: 3
         sortOrder: 1
         projectEnabledToggleCount: 7
         name: development
         type: production
         defaultStrategy:
+          featureName: myAwesomeFeature
           sortOrder: 9999
           name: flexibleRollout
           disabled: false
+          id: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
           variants:
           - weightType: fix
             payload:
@@ -2791,13 +2893,22 @@ components:
             weight: 80
           title: Gradual Rollout 25-Prod
           constraints:
-          - values:
-            - "1"
-            - "2"
-            inverted: false
-            operator: IN
-            contextName: appName
+          - contextName: appName
+            values:
+            - my-app
+            - my-other-app
             caseInsensitive: false
+            inverted: false
+            value: my-app
+            operator: IN
+          - contextName: appName
+            values:
+            - my-app
+            - my-other-app
+            caseInsensitive: false
+            inverted: false
+            value: my-app
+            operator: IN
           parameters:
             key: parameters
           segments:
@@ -2841,12 +2952,19 @@ components:
           minimum: 0
           type: integer
         defaultStrategy:
-          $ref: '#/components/schemas/createFeatureStrategySchema'
+          $ref: "#/components/schemas/featureStrategySchema"
         visible:
           description: Indicates whether the environment can be enabled for feature
             flags in the project
           example: true
           type: boolean
+        requiredApprovals:
+          description: Experimental field. The number of approvals required before
+            a change request can be applied in this environment.
+          example: 3
+          minimum: 1
+          nullable: true
+          type: integer
       required:
       - enabled
       - name
@@ -2861,6 +2979,7 @@ components:
         projectCount: 10
         enabledToggleCount: 10
         protected: true
+        requiredApprovals: 3
         sortOrder: 3
         name: my-dev-env
         type: development
@@ -2909,6 +3028,13 @@ components:
           minimum: 0
           nullable: true
           type: integer
+        requiredApprovals:
+          description: Experimental field. The number of approvals required before
+            a change request can be applied in this environment.
+          example: 3
+          minimum: 1
+          nullable: true
+          type: integer
       required:
       - enabled
       - name
@@ -2924,14 +3050,17 @@ components:
         - projectApiTokenCount: 5
           visible: true
           protected: false
+          requiredApprovals: 3
           sortOrder: 1
           projectEnabledToggleCount: 7
           name: development
           type: production
           defaultStrategy:
+            featureName: myAwesomeFeature
             sortOrder: 9999
             name: flexibleRollout
             disabled: false
+            id: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
             variants:
             - weightType: fix
               payload:
@@ -2949,13 +3078,22 @@ components:
               weight: 80
             title: Gradual Rollout 25-Prod
             constraints:
-            - values:
-              - "1"
-              - "2"
-              inverted: false
-              operator: IN
-              contextName: appName
+            - contextName: appName
+              values:
+              - my-app
+              - my-other-app
               caseInsensitive: false
+              inverted: false
+              value: my-app
+              operator: IN
+            - contextName: appName
+              values:
+              - my-app
+              - my-other-app
+              caseInsensitive: false
+              inverted: false
+              value: my-app
+              operator: IN
             parameters:
               key: parameters
             segments:
@@ -2965,14 +3103,17 @@ components:
         - projectApiTokenCount: 5
           visible: true
           protected: false
+          requiredApprovals: 3
           sortOrder: 1
           projectEnabledToggleCount: 7
           name: development
           type: production
           defaultStrategy:
+            featureName: myAwesomeFeature
             sortOrder: 9999
             name: flexibleRollout
             disabled: false
+            id: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
             variants:
             - weightType: fix
               payload:
@@ -2990,13 +3131,22 @@ components:
               weight: 80
             title: Gradual Rollout 25-Prod
             constraints:
-            - values:
-              - "1"
-              - "2"
-              inverted: false
-              operator: IN
-              contextName: appName
+            - contextName: appName
+              values:
+              - my-app
+              - my-other-app
               caseInsensitive: false
+              inverted: false
+              value: my-app
+              operator: IN
+            - contextName: appName
+              values:
+              - my-app
+              - my-other-app
+              caseInsensitive: false
+              inverted: false
+              value: my-app
+              operator: IN
             parameters:
               key: parameters
             segments:
@@ -3012,7 +3162,7 @@ components:
         environments:
           description: List of environments
           items:
-            $ref: '#/components/schemas/environmentProjectSchema'
+            $ref: "#/components/schemas/environmentProjectSchema"
           type: array
       required:
       - environments
@@ -3026,6 +3176,7 @@ components:
         - projectCount: 10
           enabledToggleCount: 10
           protected: true
+          requiredApprovals: 3
           sortOrder: 3
           name: my-dev-env
           type: development
@@ -3034,6 +3185,7 @@ components:
         - projectCount: 10
           enabledToggleCount: 10
           protected: true
+          requiredApprovals: 3
           sortOrder: 3
           name: my-dev-env
           type: development
@@ -3048,11 +3200,112 @@ components:
         environments:
           description: List of environments
           items:
-            $ref: '#/components/schemas/environmentSchema'
+            $ref: "#/components/schemas/environmentSchema"
           type: array
       required:
       - environments
       - version
+      type: object
+    featureStrategySchema:
+      additionalProperties: true
+      description: A single activation strategy configuration schema for a feature
+      example:
+        featureName: myAwesomeFeature
+        sortOrder: 9999
+        name: flexibleRollout
+        disabled: false
+        id: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
+        variants:
+        - weightType: fix
+          payload:
+            type: json
+            value: "{\"color\": \"red\"}"
+          stickiness: custom.context.field
+          name: blue_group
+          weight: 80
+        - weightType: fix
+          payload:
+            type: json
+            value: "{\"color\": \"red\"}"
+          stickiness: custom.context.field
+          name: blue_group
+          weight: 80
+        title: Gradual Rollout 25-Prod
+        constraints:
+        - contextName: appName
+          values:
+          - my-app
+          - my-other-app
+          caseInsensitive: false
+          inverted: false
+          value: my-app
+          operator: IN
+        - contextName: appName
+          values:
+          - my-app
+          - my-other-app
+          caseInsensitive: false
+          inverted: false
+          value: my-app
+          operator: IN
+        parameters:
+          key: parameters
+        segments:
+        - 1
+        - 2
+      properties:
+        id:
+          description: A uuid for the feature strategy
+          example: 6b5157cb-343a-41e7-bfa3-7b4ec3044840
+          type: string
+        name:
+          description: The name or type of strategy
+          example: flexibleRollout
+          type: string
+        title:
+          description: A descriptive title for the strategy
+          example: Gradual Rollout 25-Prod
+          nullable: true
+          type: string
+        disabled:
+          description: A toggle to disable the strategy. defaults to false. Disabled
+            strategies are not evaluated or returned to the SDKs
+          example: false
+          nullable: true
+          type: boolean
+        featureName:
+          description: The name or feature the strategy is attached to
+          example: myAwesomeFeature
+          type: string
+        sortOrder:
+          description: The order of the strategy in the list
+          example: 9999
+          type: number
+        segments:
+          description: A list of segment ids attached to the strategy
+          example:
+          - 1
+          - 2
+          items:
+            type: number
+          type: array
+        constraints:
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/activation-strategies#constraints
+          items:
+            $ref: "#/components/schemas/constraintSchema"
+          type: array
+        variants:
+          description: Strategy level variants
+          items:
+            $ref: "#/components/schemas/strategyVariantSchema"
+          type: array
+        parameters:
+          additionalProperties:
+            type: string
+          description: A list of parameters for a strategy
+          type: object
+      required:
+      - name
       type: object
     groupUserModelSchema:
       additionalProperties: true
@@ -3064,7 +3317,6 @@ components:
           loginAttempts: 3
           inviteLink: http://localhost:4242/invite-link/some-secret
           accountType: User
-          isAPI: true
           scimId: 01HTMEXAMPLESCIMID7SWWGHN6
           createdAt: 2023-06-30T11:41:00.123Z
           seenAt: 2023-06-30T11:42:00.345Z
@@ -3092,7 +3344,7 @@ components:
           nullable: true
           type: string
         user:
-          $ref: '#/components/schemas/userSchema'
+          $ref: "#/components/schemas/userSchema"
       required:
       - user
       type: object
@@ -3102,11 +3354,11 @@ components:
         for contextFields or strategy properties
       example:
         description: Deep fuchsia
-        value: '#c154c1'
+        value: "#c154c1"
       properties:
         value:
           description: The valid value
-          example: '#c154c1'
+          example: "#c154c1"
           type: string
         description:
           description: Describes this specific legal value
@@ -3199,7 +3451,7 @@ components:
         pats:
           description: A collection of PATs.
           items:
-            $ref: '#/components/schemas/patSchema'
+            $ref: "#/components/schemas/patSchema"
           type: array
       type: object
     projectEnvironmentSchema:
@@ -3217,9 +3469,27 @@ components:
           example: true
           type: boolean
         defaultStrategy:
-          $ref: '#/components/schemas/createFeatureStrategySchema'
+          $ref: "#/components/schemas/createFeatureStrategySchema"
       required:
       - environment
+      type: object
+    projectLinkTemplateSchema:
+      additionalProperties: true
+      description: A template for a link that can be automatically added to new feature
+        flags.
+      properties:
+        title:
+          description: The title of the link.
+          example: Code search
+          nullable: true
+          type: string
+        urlTemplate:
+          description: "The URL to use as a template. Can contain {{project}} or {{feature}}\
+            \ as placeholders."
+          example: "https://github.com/search?type=code&q=repo%3AUnleash%2F{{project}}+{{feature}}"
+          type: string
+      required:
+      - urlTemplate
       type: object
     projectSchema:
       additionalProperties: true
@@ -3280,7 +3550,7 @@ components:
         projects:
           description: A list of projects in the Unleash instance
           items:
-            $ref: '#/components/schemas/projectSchema'
+            $ref: "#/components/schemas/projectSchema"
           type: array
       required:
       - projects
@@ -3334,6 +3604,57 @@ components:
       - name
       - type
       type: object
+    strategyVariantSchema:
+      additionalProperties: true
+      description: This is an experimental property. It may change or be removed as
+        we work on it. Please don't depend on it yet. A strategy variant allows you
+        to attach any data to strategies instead of only returning `true`/`false`.
+        Strategy variants take precedence over feature variants.
+      example:
+        weightType: fix
+        payload:
+          type: json
+          value: "{\"color\": \"red\"}"
+        stickiness: custom.context.field
+        name: blue_group
+        weight: 80
+      properties:
+        name:
+          description: The variant name. Must be unique for this feature flag
+          example: blue_group
+          type: string
+        weight:
+          description: "The weight is the likelihood of any one user getting this\
+            \ variant. It is an integer between 0 and 1000. See the section on [variant\
+            \ weights](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight)\
+            \ for more information"
+          maximum: 1000
+          minimum: 0
+          type: integer
+        weightType:
+          description: "Set to `fix` if this variant must have exactly the weight\
+            \ allocated to it. If the type is `variable`, the weight will adjust so\
+            \ that the total weight of all variants adds up to 1000. Refer to the\
+            \ [variant weight documentation](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight)."
+          enum:
+          - variable
+          - fix
+          example: fix
+          type: string
+        stickiness:
+          description: "The [stickiness](https://docs.getunleash.io/reference/feature-toggle-variants#variant-stickiness)\
+            \ to use for distribution of this variant. Stickiness is how Unleash guarantees\
+            \ that the same user gets the same variant every time"
+          example: custom.context.field
+          type: string
+        payload:
+          $ref: "#/components/schemas/createStrategyVariantSchema_payload"
+      required:
+      - name
+      - stickiness
+      - weight
+      - weightType
+      type: object
     updateApiTokenSchema:
       description: An object with fields to updated for a given API token.
       properties:
@@ -3370,7 +3691,7 @@ components:
           - value: silver
           - value: crystal
           items:
-            $ref: '#/components/schemas/legalValueSchema'
+            $ref: "#/components/schemas/legalValueSchema"
           type: array
       type: object
     updateUserSchema:
@@ -3386,7 +3707,7 @@ components:
           example: Sam Seawright
           type: string
         rootRole:
-          $ref: '#/components/schemas/createUserSchema_rootRole'
+          $ref: "#/components/schemas/createUserSchema_rootRole"
       type: object
     userSchema:
       additionalProperties: true
@@ -3395,7 +3716,6 @@ components:
         loginAttempts: 3
         inviteLink: http://localhost:4242/invite-link/some-secret
         accountType: User
-        isAPI: true
         scimId: 01HTMEXAMPLESCIMID7SWWGHN6
         createdAt: 2023-06-30T11:41:00.123Z
         seenAt: 2023-06-30T11:42:00.345Z
@@ -3416,12 +3736,6 @@ components:
           description: The user id
           example: 123
           type: integer
-        isAPI:
-          deprecated: true
-          description: Deprecated in v5. Used internally to know which operations
-            the user should be allowed to perform
-          example: true
-          type: boolean
         name:
           description: Name of the user
           example: User
@@ -3473,6 +3787,9 @@ components:
           type: string
         accountType:
           description: A user is either an actual User or a Service Account
+          enum:
+          - User
+          - Service Account
           example: User
           type: string
         permissions:
@@ -3497,6 +3814,81 @@ components:
           type: number
       required:
       - id
+      type: object
+    usersSchema:
+      additionalProperties: true
+      description: Users and root roles
+      example:
+        rootRoles:
+        - name: Editor
+          description: Users with the editor role have access to most features in
+            Unleash but can not manage users and roles in the global scope. Editors
+            will be added as project owners when creating projects and get superuser
+            rights within the context of these projects. Users with the editor role
+            will also get access to most permissions on the default project by default.
+          project: default
+          id: 9
+          type: root
+        - name: Editor
+          description: Users with the editor role have access to most features in
+            Unleash but can not manage users and roles in the global scope. Editors
+            will be added as project owners when creating projects and get superuser
+            rights within the context of these projects. Users with the editor role
+            will also get access to most permissions on the default project by default.
+          project: default
+          id: 9
+          type: root
+        users:
+        - loginAttempts: 3
+          inviteLink: http://localhost:4242/invite-link/some-secret
+          accountType: User
+          scimId: 01HTMEXAMPLESCIMID7SWWGHN6
+          createdAt: 2023-06-30T11:41:00.123Z
+          seenAt: 2023-06-30T11:42:00.345Z
+          rootRole: 1
+          deletedSessions: 1
+          emailSent: false
+          permissions:
+          - permissions
+          - permissions
+          activeSessions: 2
+          imageUrl: https://example.com/242x200.png
+          name: User
+          id: 123
+          email: user@example.com
+          username: hunter
+        - loginAttempts: 3
+          inviteLink: http://localhost:4242/invite-link/some-secret
+          accountType: User
+          scimId: 01HTMEXAMPLESCIMID7SWWGHN6
+          createdAt: 2023-06-30T11:41:00.123Z
+          seenAt: 2023-06-30T11:42:00.345Z
+          rootRole: 1
+          deletedSessions: 1
+          emailSent: false
+          permissions:
+          - permissions
+          - permissions
+          activeSessions: 2
+          imageUrl: https://example.com/242x200.png
+          name: User
+          id: 123
+          email: user@example.com
+          username: hunter
+      properties:
+        users:
+          description: A list of users in the Unleash instance.
+          items:
+            $ref: "#/components/schemas/userSchema"
+          type: array
+        rootRoles:
+          description: "A list of [root roles](https://docs.getunleash.io/reference/rbac#predefined-roles)\
+            \ in the Unleash instance."
+          items:
+            $ref: "#/components/schemas/roleSchema"
+          type: array
+      required:
+      - users
       type: object
     adminPermissionSchema:
       additionalProperties: true
@@ -3528,6 +3920,7 @@ components:
         environment:
           description: Which environment this permission applies to
           example: development
+          nullable: true
           type: string
       required:
       - displayName
@@ -3590,7 +3983,7 @@ components:
         version: 1
       properties:
         permissions:
-          $ref: '#/components/schemas/adminPermissionsSchema_permissions'
+          $ref: "#/components/schemas/adminPermissionsSchema_permissions"
         version:
           description: The api version of this response. A natural increasing number.
             Only increases if format changes
@@ -3631,6 +4024,13 @@ components:
           description: "Defines where in the list of environments to place this environment.\
             \ The list uses an ascending sort, so lower numbers are shown first. You\
             \ can change this value later."
+          type: integer
+        requiredApprovals:
+          description: Experimental field. The number of approvals required before
+            a change request can be applied in this environment.
+          example: 3
+          minimum: 1
+          nullable: true
           type: integer
       required:
       - name
@@ -3691,15 +4091,15 @@ components:
             \ If the list includes environments not in the `environments` list, they\
             \ will still have change requests enabled."
           items:
-            $ref: '#/components/schemas/createProjectSchema_changeRequestEnvironments_inner'
+            $ref: "#/components/schemas/createProjectSchema_changeRequestEnvironments_inner"
           type: array
       required:
       - name
       type: object
     createRoleWithPermissionsSchema:
       anyOf:
-      - $ref: '#/components/schemas/createRoleWithPermissionsSchema_anyOf'
-      - $ref: '#/components/schemas/createRoleWithPermissionsSchema_anyOf_1'
+      - $ref: "#/components/schemas/createRoleWithPermissionsSchema_anyOf"
+      - $ref: "#/components/schemas/createRoleWithPermissionsSchema_anyOf_1"
       description: A write model for the custom role and permissions to allow Unleash
         to decide what actions a role holder is allowed to perform
       type: object
@@ -3707,8 +4107,8 @@ components:
       description: Settings for configuring OpenID Connect as a login provider for
         Unleash
       oneOf:
-      - $ref: '#/components/schemas/oidcSettingsSchema_oneOf'
-      - $ref: '#/components/schemas/oidcSettingsSchema_oneOf_1'
+      - $ref: "#/components/schemas/oidcSettingsSchema_oneOf"
+      - $ref: "#/components/schemas/oidcSettingsSchema_oneOf_1"
       type: object
     passwordAuthSchema:
       description: Does the server allow username/password authentication
@@ -3728,7 +4128,7 @@ components:
         roles:
           description: A list of roles that are available within this project.
           items:
-            $ref: '#/components/schemas/projectAccessConfigurationSchema_roles_inner'
+            $ref: "#/components/schemas/projectAccessConfigurationSchema_roles_inner"
           type: array
       required:
       - roles
@@ -3778,7 +4178,6 @@ components:
               loginAttempts: 3
               inviteLink: http://localhost:4242/invite-link/some-secret
               accountType: User
-              isAPI: true
               scimId: 01HTMEXAMPLESCIMID7SWWGHN6
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
@@ -3800,7 +4199,6 @@ components:
               loginAttempts: 3
               inviteLink: http://localhost:4242/invite-link/some-secret
               accountType: User
-              isAPI: true
               scimId: 01HTMEXAMPLESCIMID7SWWGHN6
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
@@ -3838,7 +4236,6 @@ components:
               loginAttempts: 3
               inviteLink: http://localhost:4242/invite-link/some-secret
               accountType: User
-              isAPI: true
               scimId: 01HTMEXAMPLESCIMID7SWWGHN6
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
@@ -3860,7 +4257,6 @@ components:
               loginAttempts: 3
               inviteLink: http://localhost:4242/invite-link/some-secret
               accountType: User
-              isAPI: true
               scimId: 01HTMEXAMPLESCIMID7SWWGHN6
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
@@ -3902,17 +4298,17 @@ components:
         groups:
           description: A list of groups that have access to this project
           items:
-            $ref: '#/components/schemas/groupWithProjectRoleSchema'
+            $ref: "#/components/schemas/groupWithProjectRoleSchema"
           type: array
         users:
           description: A list of users and their roles within this project
           items:
-            $ref: '#/components/schemas/userWithProjectRoleSchema'
+            $ref: "#/components/schemas/userWithProjectRoleSchema"
           type: array
         roles:
           description: A list of roles that are available within this project.
           items:
-            $ref: '#/components/schemas/roleSchema'
+            $ref: "#/components/schemas/roleSchema"
           type: array
       required:
       - groups
@@ -3980,12 +4376,11 @@ components:
           - staging
           items:
             type: string
-          minItems: 1
           type: array
         changeRequestEnvironments:
           description: The list of environments that have change requests enabled.
           items:
-            $ref: '#/components/schemas/projectCreatedSchema_changeRequestEnvironments_inner'
+            $ref: "#/components/schemas/projectCreatedSchema_changeRequestEnvironments_inner"
           type: array
       required:
       - id
@@ -4041,7 +4436,7 @@ components:
         permissions:
           description: A list of permissions assigned to this role
           items:
-            $ref: '#/components/schemas/adminPermissionSchema'
+            $ref: "#/components/schemas/adminPermissionSchema"
           type: array
       required:
       - id
@@ -4071,7 +4466,7 @@ components:
           minimum: 1
           type: integer
         roles:
-          $ref: '#/components/schemas/roleSchema'
+          $ref: "#/components/schemas/roleSchema"
       required:
       - roles
       - version
@@ -4109,7 +4504,7 @@ components:
         roles:
           description: A list of roles
           items:
-            $ref: '#/components/schemas/roleSchema'
+            $ref: "#/components/schemas/roleSchema"
           type: array
       required:
       - roles
@@ -4118,14 +4513,14 @@ components:
     samlSettingsSchema:
       description: Settings used to authenticate via SAML
       oneOf:
-      - $ref: '#/components/schemas/samlSettingsSchema_oneOf'
-      - $ref: '#/components/schemas/samlSettingsSchema_oneOf_1'
+      - $ref: "#/components/schemas/samlSettingsSchema_oneOf"
+      - $ref: "#/components/schemas/samlSettingsSchema_oneOf_1"
       type: object
     changeRequestConfigSchema:
       description: "A list of environment-specific [change request](https://docs.getunleash.io/reference/change-requests)\
         \ configurations."
       items:
-        $ref: '#/components/schemas/changeRequestEnvironmentConfigSchema'
+        $ref: "#/components/schemas/changeRequestEnvironmentConfigSchema"
       type: array
     changeRequestEnvironmentConfigSchema:
       additionalProperties: true
@@ -4187,6 +4582,13 @@ components:
         sortOrder:
           description: Changes the sort order of this environment.
           type: integer
+        requiredApprovals:
+          description: Experimental field. The number of approvals required before
+            a change request can be applied in this environment.
+          example: 3
+          minimum: 1
+          nullable: true
+          type: integer
       type: object
     updateProjectSchema:
       description: "Data used to update a [project](https://docs.getunleash.io/reference/projects)"
@@ -4232,7 +4634,13 @@ components:
           example: open
           type: string
         featureNaming:
-          $ref: '#/components/schemas/createFeatureNamingPatternSchema'
+          $ref: "#/components/schemas/createFeatureNamingPatternSchema"
+        linkTemplates:
+          description: A list of link templates that can be automatically added to
+            new feature flags.
+          items:
+            $ref: "#/components/schemas/projectLinkTemplateSchema"
+          type: array
       type: object
     userWithProjectRoleSchema:
       description: Data about a user including their project role
@@ -4318,7 +4726,6 @@ components:
             loginAttempts: 3
             inviteLink: http://localhost:4242/invite-link/some-secret
             accountType: User
-            isAPI: true
             scimId: 01HTMEXAMPLESCIMID7SWWGHN6
             createdAt: 2023-06-30T11:41:00.123Z
             seenAt: 2023-06-30T11:42:00.345Z
@@ -4340,7 +4747,6 @@ components:
             loginAttempts: 3
             inviteLink: http://localhost:4242/invite-link/some-secret
             accountType: User
-            isAPI: true
             scimId: 01HTMEXAMPLESCIMID7SWWGHN6
             createdAt: 2023-06-30T11:41:00.123Z
             seenAt: 2023-06-30T11:42:00.345Z
@@ -4417,7 +4823,7 @@ components:
         users:
           description: A list of users belonging to this group
           items:
-            $ref: '#/components/schemas/groupUserModelSchema'
+            $ref: "#/components/schemas/groupUserModelSchema"
           type: array
         scimId:
           description: "The SCIM ID of the group, only present if managed by SCIM"
@@ -4525,7 +4931,7 @@ components:
         tokens:
           description: The list of tokens associated with the service account
           items:
-            $ref: '#/components/schemas/patSchema'
+            $ref: "#/components/schemas/patSchema"
           type: array
       required:
       - id
@@ -4613,13 +5019,13 @@ components:
         serviceAccounts:
           description: A list of service accounts
           items:
-            $ref: '#/components/schemas/serviceAccountSchema'
+            $ref: "#/components/schemas/serviceAccountSchema"
           type: array
         rootRoles:
           description: A list of root roles that are referenced from service account
             objects in the `serviceAccounts` list
           items:
-            $ref: '#/components/schemas/roleSchema'
+            $ref: "#/components/schemas/roleSchema"
           type: array
       required:
       - serviceAccounts
@@ -4936,197 +5342,7 @@ components:
           example: false
           type: boolean
       type: object
-    edgeEndpointTrafficSchema:
-      additionalProperties: true
-      description: Represents traffic data for a single endpoint in Edge
-      properties:
-        requests200:
-          description: Number of 20x requests
-          minimum: 0
-          type: number
-        requests304:
-          description: Number of 30x requests
-          minimum: 0
-          type: number
-      type: object
-    edgeInstanceDataSchema:
-      description: Represents Edge instance observability data.
-      properties:
-        identifier:
-          description: "The ID of the Edge process, typically a ULID. Newly generated\
-            \ for each restart of the instance."
-          example: 01ARZ3NDEKTSV4RRFFQ69G5FAV
-          type: string
-        appName:
-          description: "The name of the application, configured by the user, typically\
-            \ persistent across restarts of Edge."
-          example: unleash-edge-us-east-1
-          type: string
-        region:
-          description: Which region the Edge instance is running in. Set to AWS_REGION
-            by default (if present).
-          example: us-east-1
-          nullable: true
-          type: string
-        edgeVersion:
-          description: Which version (semver) of Edge is the Edge instance running.
-          example: 19.6.3
-          type: string
-        processMetrics:
-          $ref: '#/components/schemas/edgeProcessMetricsSchema'
-        started:
-          description: RFC3339 timestamp for when the Edge instance was started.
-          format: date-time
-          type: string
-        traffic:
-          $ref: '#/components/schemas/edgeInstanceTrafficSchema'
-        latencyUpstream:
-          $ref: '#/components/schemas/edgeUpstreamLatencySchema'
-        connectedStreamingClients:
-          description: How many streaming clients are connected to the Edge instance.
-          minimum: 0
-          type: number
-        connectedEdges:
-          description: A list of Edge instances connected to the Edge instance.
-          items:
-            $ref: '#/components/schemas/edgeInstanceDataSchema'
-          type: array
-        requestsSinceLastReport:
-          $ref: '#/components/schemas/edgeRequestStatsSchema'
-      required:
-      - appName
-      - connectedEdges
-      - connectedStreamingClients
-      - edgeVersion
-      - identifier
-      - latencyUpstream
-      - started
-      - traffic
-      type: object
-    edgeInstanceTrafficSchema:
-      additionalProperties: true
-      description: "Represents requests to the Edge instance (/api/client/features,\
-        \ /api/frontend, etc.)"
-      properties:
-        get:
-          additionalProperties:
-            $ref: '#/components/schemas/edgeLatencyMetricsSchema'
-          description: A map containing GET requests.
-          type: object
-        post:
-          additionalProperties:
-            $ref: '#/components/schemas/edgeLatencyMetricsSchema'
-          description: A map containing POST requests.
-          type: object
-        accessDenied:
-          additionalProperties:
-            $ref: '#/components/schemas/edgeLatencyMetricsSchema'
-          description: A map containing requests that were denied.
-          type: object
-        cachedResponses:
-          additionalProperties:
-            $ref: '#/components/schemas/edgeLatencyMetricsSchema'
-          description: A map containing requests that had cached responses.
-          type: object
-      required:
-      - accessDenied
-      - cachedResponses
-      - get
-      - post
-      type: object
-    edgeLatencyMetricsSchema:
-      additionalProperties: true
-      description: Representing latency for an Edge operation.
-      properties:
-        avg:
-          description: Average time per request in milliseconds.
-          minimum: 0
-          type: number
-        count:
-          description: Total number of requests made.
-          minimum: 0
-          type: number
-        p99:
-          description: 99% of requests finished within this amount of milliseconds.
-          example: 34.5
-          minimum: 0
-          type: number
-      required:
-      - avg
-      - count
-      - p99
-      type: object
-    edgeProcessMetricsSchema:
-      description: Represents Edge instance resource usage data.
-      properties:
-        cpuUsage:
-          description: "CPU usage, in seconds, since start of process."
-          example: 54.54
-          minimum: 0
-          type: number
-        memoryUsage:
-          description: Current process_resident_memory (in bytes) usage.
-          example: 34000432
-          minimum: 0
-          type: number
-      required:
-      - cpuUsage
-      - memoryUsage
-      type: object
-    edgeRequestStatsSchema:
-      description: Represents Edge traffic data.
-      properties:
-        /api/client/features:
-          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
-        /api/frontend:
-          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
-        /api/proxy:
-          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
-        /api/client/metrics:
-          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
-        /api/client/metrics/bulk:
-          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
-        /api/client/metrics/edge:
-          $ref: '#/components/schemas/edgeEndpointTrafficSchema'
-      type: object
-    edgeUpstreamLatencySchema:
-      additionalProperties: true
-      description: "Latencies for upstream actions from Edge (downloading/syncing\
-        \ new features, uploading metrics, uploading instance data)"
-      properties:
-        features:
-          $ref: '#/components/schemas/edgeLatencyMetricsSchema'
-        metrics:
-          $ref: '#/components/schemas/edgeLatencyMetricsSchema'
-        edge:
-          $ref: '#/components/schemas/edgeLatencyMetricsSchema'
-      required:
-      - edge
-      - features
-      - metrics
-      type: object
-    getSamlSettings_400_response:
-      example:
-        name: ValidationError
-        id: 9c40958a-daac-400e-98fb-3bb438567008
-        message: "The request payload you provided doesn't conform to the schema.\
-          \ The .parameters property should be object. You sent []."
-      properties:
-        id:
-          description: The ID of the error instance
-          example: 9c40958a-daac-400e-98fb-3bb438567008
-          type: string
-        name:
-          description: The name of the error kind
-          example: ValidationError
-          type: string
-        message:
-          description: A description of what went wrong.
-          example: "The request payload you provided doesn't conform to the schema.\
-            \ The .parameters property should be object. You sent []."
-          type: string
-      type: object
-    getSamlSettings_401_response:
+    getProjects_401_response:
       example:
         name: AuthenticationRequired
         id: 9c40958a-daac-400e-98fb-3bb438567008
@@ -5147,7 +5363,7 @@ components:
             \ header, so we could not authorize you. Try logging in at /auth/simple/login."
           type: string
       type: object
-    getSamlSettings_403_response:
+    getProjects_403_response:
       example:
         name: NoAccessError
         id: 9c40958a-daac-400e-98fb-3bb438567008
@@ -5168,7 +5384,28 @@ components:
             the "development" environment.
           type: string
       type: object
-    setSamlSettings_415_response:
+    createProject_400_response:
+      example:
+        name: ValidationError
+        id: 9c40958a-daac-400e-98fb-3bb438567008
+        message: "The request payload you provided doesn't conform to the schema.\
+          \ The .parameters property should be object. You sent []."
+      properties:
+        id:
+          description: The ID of the error instance
+          example: 9c40958a-daac-400e-98fb-3bb438567008
+          type: string
+        name:
+          description: The name of the error kind
+          example: ValidationError
+          type: string
+        message:
+          description: A description of what went wrong.
+          example: "The request payload you provided doesn't conform to the schema.\
+            \ The .parameters property should be object. You sent []."
+          type: string
+      type: object
+    createProject_415_response:
       example:
         name: ContentTypeerror
         id: 9c40958a-daac-400e-98fb-3bb438567008
@@ -5191,26 +5428,7 @@ components:
             and make sure the body is in the corresponding format.
           type: string
       type: object
-    createRole_409_response:
-      example:
-        name: NameExistsError
-        id: 9c40958a-daac-400e-98fb-3bb438567008
-        message: There is already a feature called "my-awesome-feature".
-      properties:
-        id:
-          description: The ID of the error instance
-          example: 9c40958a-daac-400e-98fb-3bb438567008
-          type: string
-        name:
-          description: The name of the error kind
-          example: NameExistsError
-          type: string
-        message:
-          description: A description of what went wrong.
-          example: There is already a feature called "my-awesome-feature".
-          type: string
-      type: object
-    getRoleById_404_response:
+    updateProject_404_response:
       example:
         name: NotFoundError
         id: 9c40958a-daac-400e-98fb-3bb438567008
@@ -5229,135 +5447,24 @@ components:
           example: Could not find the addon with ID "12345".
           type: string
       type: object
-    createApiTokenSchema_oneOf:
+    createRole_409_response:
+      example:
+        name: NameExistsError
+        id: 9c40958a-daac-400e-98fb-3bb438567008
+        message: There is already a feature called "my-awesome-feature".
       properties:
-        expiresAt:
-          description: The time when this token should expire.
-          example: 2023-07-04T11:26:24+02:00
-          format: date-time
+        id:
+          description: The ID of the error instance
+          example: 9c40958a-daac-400e-98fb-3bb438567008
           type: string
-        type:
-          description: An admin token. Must be the string "admin" (not case sensitive).
-          example: admin
-          pattern: "^[Aa][Dd][Mm][Ii][Nn]$"
+        name:
+          description: The name of the error kind
+          example: NameExistsError
           type: string
-        tokenName:
-          description: The name of the token.
-          example: token-64522
+        message:
+          description: A description of what went wrong.
+          example: There is already a feature called "my-awesome-feature".
           type: string
-      required:
-      - tokenName
-      - type
-      type: object
-    createApiTokenSchema_oneOf_1:
-      properties:
-        expiresAt:
-          description: The time when this token should expire.
-          example: 2023-07-04T11:26:24+02:00
-          format: date-time
-          type: string
-        type:
-          description: An admin token. Must be the string "admin" (not case sensitive).
-          example: admin
-          pattern: "^[Aa][Dd][Mm][Ii][Nn]$"
-          type: string
-        username:
-          deprecated: true
-          description: The name of the token. This property was deprecated in v5.
-            Use `tokenName` instead.
-          example: token-64523
-          type: string
-      required:
-      - type
-      - username
-      type: object
-    createApiTokenSchema_oneOf_2:
-      properties:
-        expiresAt:
-          description: The time when this token should expire.
-          example: 2023-07-04T11:26:24+02:00
-          format: date-time
-          type: string
-        type:
-          description: A client or frontend token. Must be one of the strings "client"
-            or "frontend" (not case sensitive).
-          example: frontend
-          pattern: "^([Cc][Ll][Ii][Ee][Nn][Tt]|[Ff][Rr][Oo][Nn][Tt][Ee][Nn][Dd])$"
-          type: string
-        environment:
-          description: The environment that the token should be valid for. Defaults
-            to "default"
-          example: development
-          type: string
-        project:
-          description: "The project that the token should be valid for. Defaults to\
-            \ \"*\" meaning every project. This property is mutually incompatible\
-            \ with the `projects` property. If you specify one, you cannot specify\
-            \ the other."
-          example: project-851
-          type: string
-        projects:
-          description: "A list of projects that the token should be valid for. This\
-            \ property is mutually incompatible with the `project` property. If you\
-            \ specify one, you cannot specify the other."
-          example:
-          - project-851
-          - project-852
-          items:
-            type: string
-          type: array
-        tokenName:
-          description: The name of the token.
-          example: token-64522
-          type: string
-      required:
-      - tokenName
-      - type
-      type: object
-    createApiTokenSchema_oneOf_3:
-      properties:
-        expiresAt:
-          description: The time when this token should expire.
-          example: 2023-07-04T11:26:24+02:00
-          format: date-time
-          type: string
-        type:
-          description: A client or frontend token. Must be one of the strings "client"
-            or "frontend" (not case sensitive).
-          example: frontend
-          pattern: "^([Cc][Ll][Ii][Ee][Nn][Tt]|[Ff][Rr][Oo][Nn][Tt][Ee][Nn][Dd])$"
-          type: string
-        environment:
-          description: The environment that the token should be valid for. Defaults
-            to "default"
-          example: development
-          type: string
-        project:
-          description: "The project that the token should be valid for. Defaults to\
-            \ \"*\" meaning every project. This property is mutually incompatible\
-            \ with the `projects` property. If you specify one, you cannot specify\
-            \ the other."
-          example: project-851
-          type: string
-        projects:
-          description: "A list of projects that the token should be valid for. This\
-            \ property is mutually incompatible with the `project` property. If you\
-            \ specify one, you cannot specify the other."
-          example:
-          - project-851
-          - project-852
-          items:
-            type: string
-          type: array
-        username:
-          deprecated: true
-          description: The name of the token. This property was deprecated in v5.
-            Use `tokenName` instead.
-          example: token-64523
-          type: string
-      required:
-      - type
-      - username
       type: object
     createStrategyVariantSchema_payload:
       description: Extra data configured for this variant
@@ -5435,7 +5542,7 @@ components:
         permissions:
           description: Permissions available for this environment
           items:
-            $ref: '#/components/schemas/adminPermissionSchema'
+            $ref: "#/components/schemas/adminPermissionSchema"
           type: array
       required:
       - name
@@ -5497,17 +5604,17 @@ components:
           description: "Permissions available at the root level, i.e. not connected\
             \ to any specific project or environment"
           items:
-            $ref: '#/components/schemas/adminPermissionSchema'
+            $ref: "#/components/schemas/adminPermissionSchema"
           type: array
         project:
           description: Permissions available at the project level
           items:
-            $ref: '#/components/schemas/adminPermissionSchema'
+            $ref: "#/components/schemas/adminPermissionSchema"
           type: array
         environments:
           description: A list of environments with available permissions per environment
           items:
-            $ref: '#/components/schemas/adminPermissionsSchema_permissions_environments_inner'
+            $ref: "#/components/schemas/adminPermissionsSchema_permissions_environments_inner"
           type: array
       required:
       - environments
@@ -5570,7 +5677,7 @@ components:
         permissions:
           description: A list of permissions assigned to this role
           items:
-            $ref: '#/components/schemas/createRoleWithPermissionsSchema_anyOf_permissions_inner'
+            $ref: "#/components/schemas/createRoleWithPermissionsSchema_anyOf_permissions_inner"
           type: array
       required:
       - name
@@ -5616,7 +5723,7 @@ components:
         permissions:
           description: A list of permissions assigned to this role
           items:
-            $ref: '#/components/schemas/createRoleWithPermissionsSchema_anyOf_1_permissions_inner'
+            $ref: "#/components/schemas/createRoleWithPermissionsSchema_anyOf_1_permissions_inner"
           type: array
       required:
       - name

@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **Name** | **string** | The name of this permission | 
 **DisplayName** | **string** | The name to display in listings of permissions | 
 **Type** | **string** | What level this permission applies to. Either root, project or the name of the environment it applies to | 
-**Environment** | Pointer to **string** | Which environment this permission applies to | [optional] 
+**Environment** | Pointer to **NullableString** | Which environment this permission applies to | [optional] 
 
 ## Methods
 
@@ -134,6 +134,16 @@ SetEnvironment sets Environment field to given value.
 
 HasEnvironment returns a boolean if a field has been set.
 
+### SetEnvironmentNil
+
+`func (o *AdminPermissionSchema) SetEnvironmentNil(b bool)`
+
+ SetEnvironmentNil sets the value for Environment to be an explicit nil
+
+### UnsetEnvironment
+`func (o *AdminPermissionSchema) UnsetEnvironment()`
+
+UnsetEnvironment ensures that no value is present for Environment, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

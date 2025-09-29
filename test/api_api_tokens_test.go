@@ -26,14 +26,13 @@ func Test_client_APITokensAPIService(t *testing.T) {
 		expireDate, err := time.Parse(time.RFC3339, "2021-01-01T00:00:00.000Z")
 		require.Nil(t, err)
 		environment := "development"
-		token := client.CreateApiTokenSchemaOneOf2{
+		token := client.CreateApiTokenSchema{
 			Type:        "client",
 			TokenName:   "test client token",
 			ExpiresAt:   &expireDate,
 			Environment: &environment,
 		}
-		createTokenSchema := client.CreateApiTokenSchemaOneOf2AsCreateApiTokenSchema(&token)
-		resp, httpRes, err := apiClient.APITokensAPI.CreateApiToken(context.Background()).CreateApiTokenSchema(createTokenSchema).Execute()
+		resp, httpRes, err := apiClient.APITokensAPI.CreateApiToken(context.Background()).CreateApiTokenSchema(token).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -46,15 +45,14 @@ func Test_client_APITokensAPIService(t *testing.T) {
 		require.Nil(t, err)
 		environment := "development"
 		project := "default"
-		token := client.CreateApiTokenSchemaOneOf2{
+		token := client.CreateApiTokenSchema{
 			Type:        "frontend",
 			TokenName:   "test frontend token",
 			ExpiresAt:   &expireDate,
 			Environment: &environment,
 			Project:     &project,
 		}
-		createTokenSchema := client.CreateApiTokenSchemaOneOf2AsCreateApiTokenSchema(&token)
-		resp, httpRes, err := apiClient.APITokensAPI.CreateApiToken(context.Background()).CreateApiTokenSchema(createTokenSchema).Execute()
+		resp, httpRes, err := apiClient.APITokensAPI.CreateApiToken(context.Background()).CreateApiTokenSchema(token).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -67,15 +65,14 @@ func Test_client_APITokensAPIService(t *testing.T) {
 		require.Nil(t, err)
 		environment := "development"
 		project := "default"
-		tokenBody := client.CreateApiTokenSchemaOneOf2{
+		tokenBody := client.CreateApiTokenSchema{
 			Type:        "frontend",
 			TokenName:   "test token for deletion",
 			ExpiresAt:   &expireDate,
 			Environment: &environment,
 			Project:     &project,
 		}
-		createTokenSchema := client.CreateApiTokenSchemaOneOf2AsCreateApiTokenSchema(&tokenBody)
-		resp, httpRes, err := apiClient.APITokensAPI.CreateApiToken(context.Background()).CreateApiTokenSchema(createTokenSchema).Execute()
+		resp, httpRes, err := apiClient.APITokensAPI.CreateApiToken(context.Background()).CreateApiTokenSchema(tokenBody).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

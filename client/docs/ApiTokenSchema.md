@@ -5,11 +5,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Secret** | **string** | The token used for authentication. | 
-**Username** | Pointer to **string** | This property was deprecated in Unleash v5. Prefer the &#x60;tokenName&#x60; property instead. | [optional] 
 **TokenName** | **string** | A unique name for this particular token | 
 **Type** | **string** | The type of API token | 
-**Environment** | Pointer to **string** | The environment the token has access to. &#x60;*&#x60; if it has access to all environments. | [optional] 
-**Project** | **string** | The project this token belongs to. | 
+**Environment** | Pointer to **string** | The environment the token has access to. | [optional] [default to "development"]
+**Project** | Pointer to **string** | The project this token belongs to. | [optional] 
 **Projects** | **[]string** | The list of projects this token has access to. If the token has access to specific projects they will be listed here. If the token has access to all projects it will be represented as &#x60;[*]&#x60; | 
 **ExpiresAt** | Pointer to **NullableTime** | The token&#39;s expiration date. NULL if the token doesn&#39;t have an expiration set. | [optional] 
 **CreatedAt** | **time.Time** | When the token was created. | 
@@ -20,7 +19,7 @@ Name | Type | Description | Notes
 
 ### NewApiTokenSchema
 
-`func NewApiTokenSchema(secret string, tokenName string, type_ string, project string, projects []string, createdAt time.Time, ) *ApiTokenSchema`
+`func NewApiTokenSchema(secret string, tokenName string, type_ string, projects []string, createdAt time.Time, ) *ApiTokenSchema`
 
 NewApiTokenSchema instantiates a new ApiTokenSchema object
 This constructor will assign default values to properties that have it defined,
@@ -54,31 +53,6 @@ and a boolean to check if the value has been set.
 
 SetSecret sets Secret field to given value.
 
-
-### GetUsername
-
-`func (o *ApiTokenSchema) GetUsername() string`
-
-GetUsername returns the Username field if non-nil, zero value otherwise.
-
-### GetUsernameOk
-
-`func (o *ApiTokenSchema) GetUsernameOk() (*string, bool)`
-
-GetUsernameOk returns a tuple with the Username field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetUsername
-
-`func (o *ApiTokenSchema) SetUsername(v string)`
-
-SetUsername sets Username field to given value.
-
-### HasUsername
-
-`func (o *ApiTokenSchema) HasUsername() bool`
-
-HasUsername returns a boolean if a field has been set.
 
 ### GetTokenName
 
@@ -164,6 +138,11 @@ and a boolean to check if the value has been set.
 
 SetProject sets Project field to given value.
 
+### HasProject
+
+`func (o *ApiTokenSchema) HasProject() bool`
+
+HasProject returns a boolean if a field has been set.
 
 ### GetProjects
 

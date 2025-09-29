@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **Type** | **string** | The [type of environment](https://docs.getunleash.io/reference/environments#environment-types) you would like to create. Unleash officially recognizes the following values: - &#x60;development&#x60; - &#x60;test&#x60; - &#x60;preproduction&#x60; - &#x60;production&#x60;  If you pass a string that is not one of the recognized values, Unleash will accept it, but it will carry no special semantics. | 
 **Enabled** | Pointer to **bool** | Newly created environments are enabled by default. Set this property to &#x60;false&#x60; to create the environment in a disabled state. | [optional] 
 **SortOrder** | Pointer to **int32** | Defines where in the list of environments to place this environment. The list uses an ascending sort, so lower numbers are shown first. You can change this value later. | [optional] 
+**RequiredApprovals** | Pointer to **NullableInt32** | Experimental field. The number of approvals required before a change request can be applied in this environment. | [optional] 
 
 ## Methods
 
@@ -118,6 +119,41 @@ SetSortOrder sets SortOrder field to given value.
 
 HasSortOrder returns a boolean if a field has been set.
 
+### GetRequiredApprovals
+
+`func (o *CreateEnvironmentSchema) GetRequiredApprovals() int32`
+
+GetRequiredApprovals returns the RequiredApprovals field if non-nil, zero value otherwise.
+
+### GetRequiredApprovalsOk
+
+`func (o *CreateEnvironmentSchema) GetRequiredApprovalsOk() (*int32, bool)`
+
+GetRequiredApprovalsOk returns a tuple with the RequiredApprovals field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRequiredApprovals
+
+`func (o *CreateEnvironmentSchema) SetRequiredApprovals(v int32)`
+
+SetRequiredApprovals sets RequiredApprovals field to given value.
+
+### HasRequiredApprovals
+
+`func (o *CreateEnvironmentSchema) HasRequiredApprovals() bool`
+
+HasRequiredApprovals returns a boolean if a field has been set.
+
+### SetRequiredApprovalsNil
+
+`func (o *CreateEnvironmentSchema) SetRequiredApprovalsNil(b bool)`
+
+ SetRequiredApprovalsNil sets the value for RequiredApprovals to be an explicit nil
+
+### UnsetRequiredApprovals
+`func (o *CreateEnvironmentSchema) UnsetRequiredApprovals()`
+
+UnsetRequiredApprovals ensures that no value is present for RequiredApprovals, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

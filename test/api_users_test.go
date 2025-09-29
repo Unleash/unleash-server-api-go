@@ -252,4 +252,75 @@ func Test_client_UsersAPIService(t *testing.T) {
 			t.Skip("Enterprise only feature")
 		}
 	})
+
+	t.Run("Test UsersAPIService SearchUsers", func(t *testing.T) {
+		user := createUser(t, apiClient, "searchable")
+		defer clean_up_user(user, apiClient)
+
+		testCases := []struct {
+			name        string
+			query       string
+			description string
+			expected    bool
+		}{
+			{
+				name:        "Search by email",
+				query:       "searchable-username@getunleash.io",
+				description: "Should find the user in search results by email",
+				expected:    true,
+			},
+			{
+				name:        "Search by username",
+				query:       "searchable-username",
+				description: "Should find the user in search results by username",
+				expected:    true,
+			},
+			{
+				name:        "Search by username",
+				query:       "sear",
+				description: "Should find the user in search results by part of username",
+				expected:    true,
+			},
+			{
+				name:        "Search by part of username in the middle",
+				query:       "able-user",
+				description: "Should not find the user as search is from the beginning",
+				expected:    false,
+			},
+			{
+				name:        "Search by less than 2 characters",
+				query:       "s",
+				description: "Should not find the user as search requires at least 2 characters",
+				expected:    false,
+			},
+		}
+
+		for _, tc := range testCases {
+			t.Run(tc.name, func(t *testing.T) {
+				resp, httpRes, err := apiClient.UsersAPI.SearchUsers(context.Background()).Q(tc.query).Execute()
+
+				require.Nil(t, err)
+				require.NotNil(t, resp)
+				assert.Equal(t, 200, httpRes.StatusCode)
+				if tc.expected {
+					assert.NotEmpty(t, resp.Users)
+				} else {
+					assert.Empty(t, resp.Users)
+				}
+
+				found := false
+				for _, searchedUser := range resp.Users {
+					if searchedUser.Id == user.Id {
+						found = true
+						break
+					}
+				}
+				if tc.expected {
+					assert.True(t, found, tc.description)
+				} else {
+					assert.False(t, found, tc.description)
+				}
+			})
+		}
+	})
 }

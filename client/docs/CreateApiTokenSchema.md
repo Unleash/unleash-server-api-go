@@ -5,18 +5,17 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ExpiresAt** | Pointer to **time.Time** | The time when this token should expire. | [optional] 
-**Type** | **string** | A client or frontend token. Must be one of the strings \&quot;client\&quot; or \&quot;frontend\&quot; (not case sensitive). | 
-**TokenName** | **string** | The name of the token. | 
-**Username** | **string** | The name of the token. This property was deprecated in v5. Use &#x60;tokenName&#x60; instead. | 
+**Type** | **string** | A client or frontend token. Must be one of the strings \&quot;client\&quot; (deprecated), \&quot;backend\&quot; (preferred over \&quot;client\&quot;) or \&quot;frontend\&quot; (not case sensitive). | 
 **Environment** | Pointer to **string** | The environment that the token should be valid for. Defaults to \&quot;default\&quot; | [optional] 
 **Project** | Pointer to **string** | The project that the token should be valid for. Defaults to \&quot;*\&quot; meaning every project. This property is mutually incompatible with the &#x60;projects&#x60; property. If you specify one, you cannot specify the other. | [optional] 
 **Projects** | Pointer to **[]string** | A list of projects that the token should be valid for. This property is mutually incompatible with the &#x60;project&#x60; property. If you specify one, you cannot specify the other. | [optional] 
+**TokenName** | **string** | The name of the token. | 
 
 ## Methods
 
 ### NewCreateApiTokenSchema
 
-`func NewCreateApiTokenSchema(type_ string, tokenName string, username string, ) *CreateApiTokenSchema`
+`func NewCreateApiTokenSchema(type_ string, tokenName string, ) *CreateApiTokenSchema`
 
 NewCreateApiTokenSchema instantiates a new CreateApiTokenSchema object
 This constructor will assign default values to properties that have it defined,
@@ -74,46 +73,6 @@ and a boolean to check if the value has been set.
 `func (o *CreateApiTokenSchema) SetType(v string)`
 
 SetType sets Type field to given value.
-
-
-### GetTokenName
-
-`func (o *CreateApiTokenSchema) GetTokenName() string`
-
-GetTokenName returns the TokenName field if non-nil, zero value otherwise.
-
-### GetTokenNameOk
-
-`func (o *CreateApiTokenSchema) GetTokenNameOk() (*string, bool)`
-
-GetTokenNameOk returns a tuple with the TokenName field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTokenName
-
-`func (o *CreateApiTokenSchema) SetTokenName(v string)`
-
-SetTokenName sets TokenName field to given value.
-
-
-### GetUsername
-
-`func (o *CreateApiTokenSchema) GetUsername() string`
-
-GetUsername returns the Username field if non-nil, zero value otherwise.
-
-### GetUsernameOk
-
-`func (o *CreateApiTokenSchema) GetUsernameOk() (*string, bool)`
-
-GetUsernameOk returns a tuple with the Username field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetUsername
-
-`func (o *CreateApiTokenSchema) SetUsername(v string)`
-
-SetUsername sets Username field to given value.
 
 
 ### GetEnvironment
@@ -190,6 +149,26 @@ SetProjects sets Projects field to given value.
 `func (o *CreateApiTokenSchema) HasProjects() bool`
 
 HasProjects returns a boolean if a field has been set.
+
+### GetTokenName
+
+`func (o *CreateApiTokenSchema) GetTokenName() string`
+
+GetTokenName returns the TokenName field if non-nil, zero value otherwise.
+
+### GetTokenNameOk
+
+`func (o *CreateApiTokenSchema) GetTokenNameOk() (*string, bool)`
+
+GetTokenNameOk returns a tuple with the TokenName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTokenName
+
+`func (o *CreateApiTokenSchema) SetTokenName(v string)`
+
+SetTokenName sets TokenName field to given value.
+
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

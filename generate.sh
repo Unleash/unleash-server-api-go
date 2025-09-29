@@ -24,6 +24,9 @@ done
 # There's no reason to have additionalProperties equal to false, it can only cause breakages, so let's just... turn that on
 jq 'walk(if type == "object" and .additionalProperties == false then .additionalProperties = true else . end)' modified-openapi.json > tmp.json && mv tmp.json modified-openapi.json
 
+# Remove Enterprise SVG images from descriptions while keeping the Enterprise feature text
+jq 'walk(if type == "string" then gsub("!\\[Unleash Enterprise\\]\\(/ushosted/openapi-static/Enterprise\\.svg\\) "; "") else . end)' modified-openapi.json > tmp.json && mv tmp.json modified-openapi.json
+
 openapi-generator-cli generate \
     --git-user-id Unleash \
     --git-repo-id unleash-server-api-go \
