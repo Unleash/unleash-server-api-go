@@ -6,12 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** | The name of the context field | 
 **Description** | Pointer to **NullableString** | The description of the context field. | [optional] 
-**Stickiness** | Pointer to **bool** | Does this context field support being used for [stickiness](https://docs.getunleash.io/reference/stickiness) calculations | [optional] 
+**Stickiness** | Pointer to **bool** | Does this context field support being used for [stickiness](https://docs.getunleash.io/concepts/stickiness) calculations | [optional] 
 **SortOrder** | Pointer to **int32** | Used when sorting a list of context fields. Is also used as a tiebreaker if a list of context fields is sorted alphabetically. | [optional] 
 **CreatedAt** | Pointer to **NullableTime** | When this context field was created | [optional] 
 **UsedInFeatures** | Pointer to **NullableInt32** | Number of projects where this context field is used in | [optional] 
 **UsedInProjects** | Pointer to **NullableInt32** | Number of projects where this context field is used in | [optional] 
 **LegalValues** | Pointer to [**[]LegalValueSchema**](LegalValueSchema.md) | Allowed values for this context field schema. Can be used to narrow down accepted input | [optional] 
+**Project** | Pointer to **string** | The project this context field belongs to (if it is project-specific) | [optional] 
 
 ## Methods
 
@@ -266,6 +267,31 @@ SetLegalValues sets LegalValues field to given value.
 `func (o *ContextFieldSchema) HasLegalValues() bool`
 
 HasLegalValues returns a boolean if a field has been set.
+
+### GetProject
+
+`func (o *ContextFieldSchema) GetProject() string`
+
+GetProject returns the Project field if non-nil, zero value otherwise.
+
+### GetProjectOk
+
+`func (o *ContextFieldSchema) GetProjectOk() (*string, bool)`
+
+GetProjectOk returns a tuple with the Project field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProject
+
+`func (o *ContextFieldSchema) SetProject(v string)`
+
+SetProject sets Project field to given value.
+
+### HasProject
+
+`func (o *ContextFieldSchema) HasProject() bool`
+
+HasProject returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

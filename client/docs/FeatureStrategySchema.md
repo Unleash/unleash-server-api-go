@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **FeatureName** | Pointer to **string** | The name or feature the strategy is attached to | [optional] 
 **SortOrder** | Pointer to **float32** | The order of the strategy in the list | [optional] 
 **Segments** | Pointer to **[]float32** | A list of segment ids attached to the strategy | [optional] 
-**Constraints** | Pointer to [**[]ConstraintSchema**](ConstraintSchema.md) | A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/activation-strategies#constraints | [optional] 
+**Constraints** | Pointer to [**[]ConstraintSchema**](ConstraintSchema.md) | A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints | [optional] 
 **Variants** | Pointer to [**[]StrategyVariantSchema**](StrategyVariantSchema.md) | Strategy level variants | [optional] 
 **Parameters** | Pointer to **map[string]string** | A list of parameters for a strategy | [optional] 
 

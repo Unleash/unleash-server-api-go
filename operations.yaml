@@ -20,6 +20,12 @@ inverseOperationIds:
   - deleteUser
   - searchUsers
 
+  - createGroup
+  - deleteGroup
+  - updateGroup
+  - getGroups
+  - getGroup
+
   - getProjects
   - createProject
   - updateProject

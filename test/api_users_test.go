@@ -10,6 +10,7 @@ package client
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/Unleash/unleash-server-api-go/client"
@@ -39,6 +40,7 @@ func createUser(t *testing.T, apiClient *client.APIClient, prefix string) *clien
 	assert.Equal(t, 201, httpRes.StatusCode)
 	return resp
 }
+
 func createRole(name string, description string, roleType string) *client.CreateRoleWithPermissionsSchema {
 	var newRole *client.CreateRoleWithPermissionsSchema
 	if roleType == "root-custom" {
@@ -91,8 +93,175 @@ func clean_up_role(role *client.RoleWithVersionSchema, apiClient *client.APIClie
 	}
 }
 
+func createGroup(t *testing.T, apiCient *client.APIClient, prefix string) *client.GroupSchema {
+	createGroupSchema := client.CreateGroupSchema{}
+	createGroupSchema.SetName(prefix + "-group")
+	createGroupSchema.SetDescription("Test group description")
+
+	resp, httpResp, err := apiCient.UsersAPI.CreateGroup(context.Background()).CreateGroupSchema(createGroupSchema).Execute()
+
+	require.Nil(t, err)
+	require.NotNil(t, resp)
+	assert.Equal(t, 201, httpResp.StatusCode)
+	return resp
+}
+
+func createGroupWithUsers(t *testing.T, apiCient *client.APIClient, prefix string, uids []int32) *client.GroupSchema {
+	// Populate Users array
+	var users []client.CreateGroupSchemaUsersInner
+	for _, uid := range uids {
+		users = append(users, client.CreateGroupSchemaUsersInner{
+			User: client.CreateGroupSchemaUsersInnerUser{
+				Id: uid,
+			},
+		})
+	}
+	createGroupSchema := client.CreateGroupSchema{}
+	createGroupSchema.SetName(prefix + "-group")
+	createGroupSchema.SetDescription("Test group with users description")
+	createGroupSchema.SetUsers(users)
+
+	resp, httpResp, err := apiCient.UsersAPI.CreateGroup(context.Background()).CreateGroupSchema(createGroupSchema).Execute()
+
+	require.Nil(t, err)
+	require.NotNil(t, resp)
+	assert.Equal(t, 201, httpResp.StatusCode)
+	return resp
+}
+
+func createGroupWithSSO(t *testing.T, apiCient *client.APIClient, prefix string, mappingSSO []string) *client.GroupSchema {
+	// Set up group with SSO
+	createGroupSchema := client.CreateGroupSchema{}
+	createGroupSchema.SetName(prefix + "-group")
+	createGroupSchema.SetDescription("Test group with SSO mappings description")
+	createGroupSchema.SetMappingsSSO(mappingSSO)
+
+	resp, httpResp, err := apiCient.UsersAPI.CreateGroup(context.Background()).CreateGroupSchema(createGroupSchema).Execute()
+
+	require.Nil(t, err)
+	require.NotNil(t, resp)
+	assert.Equal(t, 201, httpResp.StatusCode)
+	return resp
+}
+
+func cleanUpGroup(apiClient *client.APIClient, group *client.GroupSchema) {
+	groupID := fmt.Sprint(group.Id)
+	httpResp, err := apiClient.UsersAPI.DeleteGroup(context.Background(), groupID).Execute()
+	if err != nil || httpResp.StatusCode != 200 {
+		fmt.Println("Failed to clean up a service after a test, this means the test is probably fine but your state is dirty and you should run a docker compose rm --force")
+	}
+}
+
 func Test_client_UsersAPIService(t *testing.T) {
 	apiClient := testClient()
+	t.Run("Test UsersAPIService Minimal CreateGroup", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			group := createGroup(t, apiClient, "test")
+			defer cleanUpGroup(apiClient, group)
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+	t.Run("Test UsersAPIService Users CreateGroup", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			user1 := createUser(t, apiClient, "test-user-1")
+			defer clean_up_user(user1, apiClient)
+			user2 := createUser(t, apiClient, "test-user-2")
+			defer clean_up_user(user2, apiClient)
+
+			group := createGroupWithUsers(t, apiClient, "test", []int32{user1.Id, user2.Id})
+			defer cleanUpGroup(apiClient, group)
+			assert.NotNil(t, group.Users)
+			assert.Equal(t, 2, len(group.Users))
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+	t.Run("Test UsersAPIService SSO CreateGroup", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			SSOs := [...]string{"SSOGroup1", "SSOGroup2"}
+			group := createGroupWithSSO(t, apiClient, "test", SSOs[:])
+			defer cleanUpGroup(apiClient, group)
+			assert.NotNil(t, group.MappingsSSO)
+			assert.Equal(t, 2, len(group.MappingsSSO))
+			assert.Contains(t, group.MappingsSSO, "SSOGroup1")
+			assert.Contains(t, group.MappingsSSO, "SSOGroup2")
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+	t.Run("Test UsersAPIService DeleteGroup", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			group := createGroup(t, apiClient, "to-be-deleted")
+			gID := string(strconv.Itoa(int(*group.Id)))
+			httpRes, err := apiClient.UsersAPI.DeleteGroup(context.Background(), gID).Execute()
+
+			require.Nil(t, err)
+			assert.Equal(t, 200, httpRes.StatusCode)
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+	t.Run("Test UsersAPIService GetGroup", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			group := createGroup(t, apiClient, "to-be-retrieved")
+			gID := string(strconv.Itoa(int(*group.Id)))
+			defer cleanUpGroup(apiClient, group)
+
+			resp, httpRes, err := apiClient.UsersAPI.GetGroup(context.Background(), gID).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+			assert.Equal(t, group.Id, resp.Id)
+			assert.Equal(t, group.Name, resp.Name)
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+	t.Run("Test UsersAPIService GetGroups", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			group1 := createGroup(t, apiClient, "to-be-retrieved-1")
+			group2 := createGroup(t, apiClient, "to-be-retrieved-2")
+
+			defer cleanUpGroup(apiClient, group1)
+			defer cleanUpGroup(apiClient, group2)
+
+			resp, httpRes, err := apiClient.UsersAPI.GetGroups(context.Background()).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 201, httpRes.StatusCode)
+			assert.NotNil(t, resp.Groups)
+			assert.NotEmpty(t, resp.Groups)
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
+	t.Run("Test UsersAPIService UpdateGroup", func(t *testing.T) {
+		if enterpriseEnvironmentAvailable() {
+			group := createGroup(t, apiClient, "to-be-updated")
+			gID := fmt.Sprint(group.Id) // Simpler, like you did in cleanUpGroup
+			defer cleanUpGroup(apiClient, group)
+
+			newName := "newTestName"
+			newDescription := "newTestDescription"
+			updateGroup := client.CreateGroupSchema{}
+
+			updateGroup.SetName(newName)
+			updateGroup.SetDescription(newDescription)
+
+			resp, httpRes, err := apiClient.UsersAPI.UpdateGroup(context.Background(), gID).CreateGroupSchema(updateGroup).Execute()
+
+			require.Nil(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+			assert.Equal(t, newName, resp.Name)
+			assert.Equal(t, newDescription, *resp.Description.Get())
+		} else {
+			t.Skip("Enterprise only feature")
+		}
+	})
 
 	t.Run("Test UsersAPIService CreateUser", func(t *testing.T) {
 		user := createUser(t, apiClient, "test")
@@ -100,7 +269,6 @@ func Test_client_UsersAPIService(t *testing.T) {
 	})
 
 	t.Run("Test UsersAPIService DeleteUser", func(t *testing.T) {
-
 		user := createUser(t, apiClient, "to-be-deleted")
 
 		httpRes, err := apiClient.UsersAPI.DeleteUser(context.Background(), user.Id).Execute()
@@ -118,11 +286,9 @@ func Test_client_UsersAPIService(t *testing.T) {
 		require.Nil(t, err)
 		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
-
 	})
 
 	t.Run("Test UsersAPIService UpdateUser", func(t *testing.T) {
-
 		user := createUser(t, apiClient, "to-be-updated")
 		defer clean_up_user(user, apiClient)
 
@@ -138,7 +304,6 @@ func Test_client_UsersAPIService(t *testing.T) {
 		require.Nil(t, err)
 		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
-
 	})
 
 	t.Run("Test UsersAPIService CreateRole (root-custom)", func(t *testing.T) {

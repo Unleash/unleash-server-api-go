@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Id** | **string** | The id of this project | 
 **Name** | **string** | The name of this project | 
 **Description** | Pointer to **NullableString** | Additional information about the project | [optional] 
-**Mode** | Pointer to **string** | The project&#39;s [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not. | [optional] 
+**Mode** | Pointer to **string** | The project&#39;s [collaboration mode](https://docs.getunleash.io/concepts/project-collaboration-mode). Determines whether non-project members can submit change requests or not. | [optional] 
 
 ## Methods
 

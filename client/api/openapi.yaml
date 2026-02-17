@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Unleash API
-  version: 7.2.1
+  version: 7.4.1
 servers:
 - url: https://us.app.unleash-hosted.com/ushosted
 security:
@@ -13,36 +13,36 @@ tags:
 - description: Configuration for the Unleash Admin UI. These endpoints should not
     be relied upon and can change at any point without prior notice.
   name: Admin UI
-- description: "Create, update, and delete [Unleash API tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys)."
+- description: "Create, update, and delete [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys)."
   name: API tokens
 - description: "Revive or permanently delete [archived feature flags](https://docs.getunleash.io/advanced/archived_toggles)."
   name: Archive
 - description: "Manage logins, passwords, etc."
   name: Auth
-- description: "Create, update, flag, and delete [banners](https://docs.getunleash.io/reference/banners)."
+- description: "Create, update, flag, and delete [banners](https://docs.getunleash.io/concepts/banners)."
   name: Banners
-- description: "API for managing [change requests](https://docs.getunleash.io/reference/change-requests)."
+- description: "API for managing [change requests](https://docs.getunleash.io/concepts/change-requests)."
   name: Change Requests
-- description: "Endpoints for [Unleash backend clients](https://docs.getunleash.io/reference/sdks)."
+- description: "Endpoints for [Unleash backend clients](https://docs.getunleash.io/sdks)."
   name: Client
-- description: "Create, update, and delete [context fields](https://docs.getunleash.io/reference/unleash-context)\
+- description: "Create, update, and delete [context fields](https://docs.getunleash.io/concepts/unleash-context)\
     \ that Unleash is aware of."
   name: Context
 - description: Manage feature dependencies.
   name: Dependencies
-- description: "Create, update, delete, enable or disable [environments](https://docs.getunleash.io/reference/environments)\
+- description: "Create, update, delete, enable or disable [environments](https://docs.getunleash.io/concepts/environments)\
     \ for this Unleash instance."
   name: Environments
 - description: Read events from this Unleash instance.
   name: Events
-- description: "Manage [feature flag types](https://docs.getunleash.io/reference/feature-toggles#feature-flag-types)."
+- description: "Manage [feature flag types](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types)."
   name: Feature Types
-- description: "Create, update, and delete [feature flags](https://docs.getunleash.io/reference/feature-toggles)."
+- description: "Create, update, and delete [feature flags](https://docs.getunleash.io/concepts/feature-flags)."
   name: Features
-- description: "The [Frontend API](https://docs.getunleash.io/reference/front-end-api)\
+- description: "The [Frontend API](https://docs.getunleash.io/concepts/front-end-api)\
     \ is used for connecting client-side (frontend) applications to Unleash."
   name: Frontend API
-- description: "[Import and export](https://docs.getunleash.io/how-to/how-to-environment-import-export)\
+- description: "[Import and export](https://docs.getunleash.io/concepts/import-export)\
     \ the state of your Unleash instance."
   name: Import/Export
 - description: Instance admin endpoints used to manage the Unleash instance itself.
@@ -51,36 +51,36 @@ tags:
   name: Maintenance
 - description: "Register, read, or delete metrics recorded by Unleash."
   name: Metrics
-- description: "API for managing [notifications](https://docs.getunleash.io/reference/notifications)."
+- description: "API for managing [notifications](https://docs.getunleash.io/concepts/notifications)."
   name: Notifications
 - description: Endpoints related to the operational status of this Unleash instance.
   name: Operational
-- description: "Create, update, and delete [Personal access tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens)."
+- description: "Create, update, and delete [Personal access tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens)."
   name: Personal access tokens
 - description: Evaluate an Unleash context against your feature flags.
   name: Playground
-- description: "Create, update, and delete [Unleash projects](https://docs.getunleash.io/reference/projects)."
+- description: "Create, update, and delete [Unleash projects](https://docs.getunleash.io/concepts/projects)."
   name: Projects
-- description: "Create, update, and delete [Unleash Public Signup tokens](https://docs.getunleash.io/reference/public-signup-tokens)."
+- description: "Create, update, and delete [Unleash Public Signup tokens](https://docs.getunleash.io/concepts/public-signup-tokens)."
   name: Public signup tokens
-- description: "API for managing [release templates](https://docs.getunleash.io/reference/release-templates)."
+- description: "API for managing [release templates](https://docs.getunleash.io/concepts/release-templates)."
   name: Release Templates
 - description: Search for features.
   name: Search
-- description: "Create, update, delete, and manage [segments](https://docs.getunleash.io/reference/segments)."
+- description: "Create, update, delete, and manage [segments](https://docs.getunleash.io/concepts/segments)."
   name: Segments
-- description: "Endpoints for managing [Service Accounts](https://docs.getunleash.io/reference/service-accounts),\
+- description: "Endpoints for managing [Service Accounts](https://docs.getunleash.io/concepts/service-accounts),\
     \ which enable programmatic access to the Unleash API."
   name: Service Accounts
-- description: "Create, update, delete, manage [custom strategies](https://docs.getunleash.io/reference/custom-activation-strategies)."
+- description: "Create, update, delete, manage [custom strategies](https://docs.getunleash.io/concepts/activation-strategies#custom-strategies)."
   name: Strategies
-- description: "Create, update, and delete [tags and tag types](https://docs.getunleash.io/reference/feature-toggles#tags)."
+- description: "Create, update, and delete [tags and tag types](https://docs.getunleash.io/concepts/feature-flags#tags)."
   name: Tags
 - description: API for information about telemetry collection
   name: Telemetry
 - description: Endpoints related to unknown flags.
   name: Unknown Flags
-- description: "Endpoints related to [Unleash Edge](https://docs.getunleash.io/reference/unleash-edge)."
+- description: "Endpoints related to [Unleash Edge](https://docs.getunleash.io/unleash-edge)."
   name: Unleash Edge
 - description: Experimental endpoints that may change or disappear at any time.
   name: Unstable
@@ -124,11 +124,12 @@ paths:
       summary: Get a list of all projects.
       tags:
       - Projects
+      x-stability-level: stable
     post:
       description: |-
         **Enterprise feature**
 
-        Create a new [Unleash project](https://docs.getunleash.io/reference/projects).
+        Create a new [Unleash project](https://docs.getunleash.io/concepts/projects).
       operationId: createProject
       requestBody:
         content:
@@ -184,6 +185,7 @@ paths:
       summary: Create project
       tags:
       - Projects
+      x-stability-level: stable
   /api/admin/projects/{projectId}:
     delete:
       description: |-
@@ -225,6 +227,7 @@ paths:
       summary: Delete project
       tags:
       - Projects
+      x-stability-level: stable
     put:
       description: |-
         **Enterprise feature**
@@ -287,6 +290,7 @@ paths:
       summary: Update project
       tags:
       - Projects
+      x-stability-level: stable
   /api/admin/projects/{projectId}/settings:
     put:
       description: |-
@@ -350,6 +354,7 @@ paths:
       summary: Update project enterprise settings
       tags:
       - Projects
+      x-stability-level: stable
   /api/admin/projects/{projectId}/access:
     get:
       description: |-
@@ -389,6 +394,7 @@ paths:
       summary: Get users and groups in project
       tags:
       - Projects
+      x-stability-level: stable
     put:
       description: |-
         **Enterprise feature**
@@ -430,6 +436,7 @@ paths:
       summary: Set users and groups to roles in the current project
       tags:
       - Projects
+      x-stability-level: stable
   /api/admin/permissions:
     get:
       description: |-
@@ -447,6 +454,7 @@ paths:
       summary: Gets available permissions
       tags:
       - Auth
+      x-stability-level: stable
   /api/admin/auth/saml/settings:
     get:
       description: |-
@@ -484,6 +492,7 @@ paths:
       summary: Get SAML auth settings
       tags:
       - Auth
+      x-stability-level: stable
     post:
       description: |-
         **Enterprise feature**
@@ -536,6 +545,7 @@ paths:
       summary: Update SAML auth settings
       tags:
       - Auth
+      x-stability-level: stable
   /api/admin/auth/oidc/settings:
     get:
       description: |-
@@ -573,6 +583,7 @@ paths:
       summary: Get OIDC auth settings
       tags:
       - Auth
+      x-stability-level: stable
     post:
       description: |-
         **Enterprise feature**
@@ -625,6 +636,7 @@ paths:
       summary: Set OIDC settings
       tags:
       - Auth
+      x-stability-level: stable
   /api/admin/auth/simple/settings:
     get:
       description: |-
@@ -656,6 +668,7 @@ paths:
       summary: Get Simple auth settings
       tags:
       - Auth
+      x-stability-level: stable
     post:
       description: |-
         **Enterprise feature**
@@ -708,6 +721,258 @@ paths:
       summary: Update Simple auth settings
       tags:
       - Auth
+      x-stability-level: stable
+  /api/admin/groups:
+    get:
+      description: |-
+        **Enterprise feature**
+
+        Get a list of user groups for Role-Based Access Control
+      operationId: getGroups
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/groupsSchema"
+          description: groupsSchema
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_401_response"
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_403_response"
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Get a list of groups
+      tags:
+      - Users
+      x-stability-level: stable
+    post:
+      description: |-
+        **Enterprise feature**
+
+        Create a new user group for Role-Based Access Control
+      operationId: createGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createGroupSchema"
+        description: createGroupSchema
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/groupSchema"
+          description: The resource was successfully created.
+          headers:
+            location:
+              description: The location of the newly created resource.
+              explode: false
+              schema:
+                format: uri
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createProject_400_response"
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_401_response"
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_403_response"
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createGroup_409_response"
+          description: "The provided resource can not be created or updated because\
+            \ it would conflict with the current state of the resource or with an\
+            \ already existing resource, respectively."
+      summary: Create a new group
+      tags:
+      - Users
+      x-stability-level: stable
+  /api/admin/groups/{groupId}:
+    delete:
+      description: |-
+        **Enterprise feature**
+
+        Delete a single user group by group id
+      operationId: deleteGroup
+      parameters:
+      - explode: false
+        in: path
+        name: groupId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: This response has no body.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createProject_400_response"
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_401_response"
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_403_response"
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+      summary: Delete a single group
+      tags:
+      - Users
+      x-stability-level: stable
+    get:
+      description: |-
+        **Enterprise feature**
+
+        Get a single user group by group id
+      operationId: getGroup
+      parameters:
+      - explode: false
+        in: path
+        name: groupId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/groupSchema"
+          description: groupSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createProject_400_response"
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_401_response"
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_403_response"
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/updateProject_404_response"
+          description: The requested resource was not found.
+      summary: Get a single group
+      tags:
+      - Users
+      x-stability-level: stable
+    put:
+      description: |-
+        **Enterprise feature**
+
+        Update existing user group by group id. It overrides previous group details.
+      operationId: updateGroup
+      parameters:
+      - explode: false
+        in: path
+        name: groupId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createGroupSchema"
+        description: createGroupSchema
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/groupSchema"
+          description: groupSchema
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createProject_400_response"
+          description: The request data does not match what we expect.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_401_response"
+          description: "Authorization information is missing or invalid. Provide a\
+            \ valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProjects_403_response"
+          description: "The provided user credentials are valid, but the user does\
+            \ not have the necessary permissions to perform this operation"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/updateProject_404_response"
+          description: The requested resource was not found.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createGroup_409_response"
+          description: "The provided resource can not be created or updated because\
+            \ it would conflict with the current state of the resource or with an\
+            \ already existing resource, respectively."
+      summary: Update a group
+      tags:
+      - Users
+      x-stability-level: stable
   /api/admin/roles:
     get:
       description: |-
@@ -739,6 +1004,7 @@ paths:
       summary: Get a list of roles
       tags:
       - Users
+      x-stability-level: stable
     post:
       description: |-
         **Enterprise feature**
@@ -783,13 +1049,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/createRole_409_response"
+                $ref: "#/components/schemas/createGroup_409_response"
           description: "The provided resource can not be created or updated because\
             \ it would conflict with the current state of the resource or with an\
             \ already existing resource, respectively."
       summary: Create a new role
       tags:
       - Users
+      x-stability-level: stable
   /api/admin/roles/{roleId}:
     delete:
       description: |-
@@ -837,6 +1104,7 @@ paths:
       summary: Delete a custom role
       tags:
       - Users
+      x-stability-level: stable
     get:
       description: |-
         **Enterprise feature**
@@ -880,6 +1148,7 @@ paths:
       summary: Get a single role
       tags:
       - Users
+      x-stability-level: stable
     put:
       description: |-
         **Enterprise feature**
@@ -938,13 +1207,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/createRole_409_response"
+                $ref: "#/components/schemas/createGroup_409_response"
           description: "The provided resource can not be created or updated because\
             \ it would conflict with the current state of the resource or with an\
             \ already existing resource, respectively."
       summary: Update a role
       tags:
       - Users
+      x-stability-level: stable
   /api/admin/environments:
     get:
       description: Retrieves all environments that exist in this Unleash instance.
@@ -973,6 +1243,7 @@ paths:
       summary: Get all environments
       tags:
       - Environments
+      x-stability-level: stable
     post:
       description: |-
         **Enterprise feature**
@@ -1017,6 +1288,7 @@ paths:
       summary: Creates a new environment
       tags:
       - Environments
+      x-stability-level: stable
   /api/admin/environments/update/{name}:
     put:
       description: |-
@@ -1062,6 +1334,7 @@ paths:
       summary: Updates an environment by name
       tags:
       - Environments
+      x-stability-level: stable
   /api/admin/environments/{name}:
     delete:
       description: |-
@@ -1096,6 +1369,7 @@ paths:
       summary: Deletes an environment by name
       tags:
       - Environments
+      x-stability-level: stable
     get:
       description: Retrieves the environment with `name` if it exists in this Unleash
         instance
@@ -1138,6 +1412,7 @@ paths:
       summary: Get the environment with `name`
       tags:
       - Environments
+      x-stability-level: stable
   /api/admin/projects/{projectId}/change-requests/config:
     get:
       description: |-
@@ -1163,6 +1438,7 @@ paths:
       summary: Retrieves change request configuration for a project
       tags:
       - Change Requests
+      x-stability-level: stable
   /api/admin/projects/{projectId}/environments/{environment}/change-requests/config:
     put:
       description: |-
@@ -1198,6 +1474,7 @@ paths:
       summary: Updates change request configuration for an environment in the project
       tags:
       - Change Requests
+      x-stability-level: stable
   /api/admin/service-account:
     get:
       description: |-
@@ -1229,6 +1506,7 @@ paths:
       summary: List service accounts.
       tags:
       - Service Accounts
+      x-stability-level: stable
     post:
       description: |-
         **Enterprise feature**
@@ -1281,7 +1559,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/createRole_409_response"
+                $ref: "#/components/schemas/createGroup_409_response"
           description: "The provided resource can not be created or updated because\
             \ it would conflict with the current state of the resource or with an\
             \ already existing resource, respectively."
@@ -1297,6 +1575,7 @@ paths:
       summary: Create a service account.
       tags:
       - Service Accounts
+      x-stability-level: stable
   /api/admin/service-account/{id}:
     delete:
       description: |-
@@ -1338,6 +1617,7 @@ paths:
       summary: Delete a service account.
       tags:
       - Service Accounts
+      x-stability-level: stable
     put:
       description: |-
         **Enterprise feature**
@@ -1404,6 +1684,7 @@ paths:
       summary: Update a service account.
       tags:
       - Service Accounts
+      x-stability-level: stable
   /api/admin/service-account/{id}/token:
     get:
       description: |-
@@ -1449,6 +1730,7 @@ paths:
       summary: List all tokens for a service account.
       tags:
       - Service Accounts
+      x-stability-level: stable
     post:
       description: |-
         **Enterprise feature**
@@ -1509,7 +1791,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/createRole_409_response"
+                $ref: "#/components/schemas/createGroup_409_response"
           description: "The provided resource can not be created or updated because\
             \ it would conflict with the current state of the resource or with an\
             \ already existing resource, respectively."
@@ -1525,6 +1807,7 @@ paths:
       summary: Create a token for a service account.
       tags:
       - Service Accounts
+      x-stability-level: stable
   /api/admin/service-account/{id}/token/{tokenId}:
     delete:
       description: |-
@@ -1573,11 +1856,31 @@ paths:
       summary: Delete a token for a service account.
       tags:
       - Service Accounts
+      x-stability-level: stable
   /api/admin/context:
     get:
-      description: "Returns all configured [Context fields](https://docs.getunleash.io/reference/unleash-context)\
+      description: "Returns all configured [Context fields](https://docs.getunleash.io/concepts/unleash-context)\
         \ that have been created."
       operationId: getContextFields
+      parameters:
+      - description: "Whether the response should include project-specific or root\
+          \ context fields in addition to the fields in the default response. When\
+          \ querying the root context API, `include=project` will yield a response\
+          \ that includes all project-specific context fields in addition to all root\
+          \ context fields. Conversely, when querying a project-specific context API,\
+          \ using `include=root` will yield a response that includes all root context\
+          \ fields in addition to the project-specific context fields. The other combinations\
+          \ have no effect, because the responses already include those fields. When\
+          \ including project-specific context fields via the root-level API, context\
+          \ fields in private projects the user does not have access to will be omitted."
+        explode: true
+        in: query
+        name: include
+        required: false
+        schema:
+          example: project
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -1588,8 +1891,9 @@ paths:
       summary: Gets configured context fields
       tags:
       - Context
+      x-stability-level: stable
     post:
-      description: "Endpoint that allows creation of [custom context fields](https://docs.getunleash.io/reference/unleash-context#custom-context-fields)"
+      description: "Endpoint that allows creation of [custom context fields](https://docs.getunleash.io/concepts/unleash-context#custom-context-fields)"
       operationId: createContextField
       requestBody:
         content:
@@ -1616,6 +1920,7 @@ paths:
       summary: Create a context field
       tags:
       - Context
+      x-stability-level: stable
   /api/admin/context/{contextField}:
     delete:
       description: "Endpoint that allows deletion of a custom context field. Does\
@@ -1636,8 +1941,9 @@ paths:
       summary: Delete an existing context field
       tags:
       - Context
+      x-stability-level: stable
     get:
-      description: "Returns specific [context field](https://docs.getunleash.io/reference/unleash-context)\
+      description: "Returns specific [context field](https://docs.getunleash.io/concepts/unleash-context)\
         \ identified by the name in the path"
       operationId: getContextField
       parameters:
@@ -1658,6 +1964,7 @@ paths:
       summary: Gets context field
       tags:
       - Context
+      x-stability-level: stable
     put:
       description: Endpoint that allows updating a custom context field. Used to toggle
         stickiness and add/remove legal values for this context field
@@ -1683,6 +1990,7 @@ paths:
       summary: Update an existing context field
       tags:
       - Context
+      x-stability-level: stable
   /api/admin/api-tokens:
     get:
       description: Retrieves all API tokens that exist in the Unleash instance.
@@ -1711,6 +2019,7 @@ paths:
       summary: Get API tokens
       tags:
       - API tokens
+      x-stability-level: stable
     post:
       description: "Create an API token of a specific type: one of client, admin,\
         \ frontend, backend."
@@ -1763,6 +2072,7 @@ paths:
       summary: Create API token
       tags:
       - API tokens
+      x-stability-level: stable
   /api/admin/api-tokens/{name}:
     get:
       description: "Retrieves all API tokens that match a given token name. Because\
@@ -1802,6 +2112,7 @@ paths:
       summary: Get API tokens by name
       tags:
       - API tokens
+      x-stability-level: stable
   /api/admin/api-tokens/{token}:
     delete:
       description: "Deletes an existing API token. The `token` path parameter is the\
@@ -1836,6 +2147,7 @@ paths:
       summary: Delete API token
       tags:
       - API tokens
+      x-stability-level: stable
     put:
       description: "Updates an existing API token with a new expiry date. The `token`\
         \ path parameter is the token's `secret`. If the token does not exist, this\
@@ -1885,6 +2197,7 @@ paths:
       summary: Update API token
       tags:
       - API tokens
+      x-stability-level: stable
   /api/admin/user-admin:
     post:
       description: Creates a new user with the given root role.
@@ -1934,6 +2247,7 @@ paths:
       summary: Create a new user
       tags:
       - Users
+      x-stability-level: stable
   /api/admin/user-admin/search:
     get:
       description: ' It will preform a simple search based on name and email matching
@@ -1965,6 +2279,7 @@ paths:
       summary: Search users
       tags:
       - Users
+      x-stability-level: stable
   /api/admin/user-admin/{id}:
     delete:
       description: Deletes the user with the given userId
@@ -2004,6 +2319,7 @@ paths:
       summary: Delete a user
       tags:
       - Users
+      x-stability-level: stable
     get:
       description: Will return a single user by id
       operationId: getUser
@@ -2045,6 +2361,7 @@ paths:
       summary: Get user
       tags:
       - Users
+      x-stability-level: stable
     put:
       description: Only the explicitly specified fields get updated.
       operationId: updateUser
@@ -2100,6 +2417,7 @@ paths:
       summary: Update a user
       tags:
       - Users
+      x-stability-level: stable
   /api/admin/projects/{projectId}/environments:
     post:
       description: "This endpoint adds the provided environment to the specified project,\
@@ -2142,13 +2460,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/createRole_409_response"
+                $ref: "#/components/schemas/createGroup_409_response"
           description: "The provided resource can not be created or updated because\
             \ it would conflict with the current state of the resource or with an\
             \ already existing resource, respectively."
       summary: Add an environment to a project.
       tags:
       - Projects
+      x-stability-level: stable
   /api/admin/projects/{projectId}/environments/{environment}:
     delete:
       description: This endpoint removes the specified environment from the project.
@@ -2194,10 +2513,11 @@ paths:
       summary: Remove an environment from a project.
       tags:
       - Projects
+      x-stability-level: stable
   /api/admin/environments/project/{projectId}:
     get:
       description: "Gets the environments that are available for this project. An\
-        \ environment is available for a project if enabled in the [project configuration](https://docs.getunleash.io/reference/environments#enable-an-environment)"
+        \ environment is available for a project if enabled in the [project configuration](https://docs.getunleash.io/concepts/environments#enable-an-environment)"
       operationId: getProjectEnvironments
       parameters:
       - explode: false
@@ -2237,11 +2557,12 @@ paths:
       summary: Get the environments available to a project
       tags:
       - Environments
+      x-stability-level: stable
 components:
   schemas:
     apiTokenSchema:
       additionalProperties: true
-      description: "An overview of an [Unleash API token](https://docs.getunleash.io/reference/api-tokens-and-client-keys)."
+      description: "An overview of an [Unleash API token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys)."
       example:
         createdAt: 2023-04-19T08:15:14Z
         environment: development
@@ -2327,7 +2648,7 @@ components:
       type: object
     apiTokensSchema:
       additionalProperties: true
-      description: "An object with [Unleash API tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys)"
+      description: "An object with [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys)"
       example:
         tokens:
         - createdAt: 2023-04-19T08:15:14Z
@@ -2366,7 +2687,7 @@ components:
     constraintSchema:
       additionalProperties: true
       description: "A strategy constraint. For more information, refer to [the strategy\
-        \ constraint reference documentation](https://docs.getunleash.io/reference/activation-strategies#constraints)"
+        \ constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)"
       example:
         contextName: appName
         values:
@@ -2385,7 +2706,7 @@ components:
         operator:
           description: "The operator to use when evaluating this constraint. For more\
             \ information about the various operators, refer to [the strategy constraint\
-            \ operator documentation](https://docs.getunleash.io/reference/activation-strategies#constraint-operators)."
+            \ operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators)."
           enum:
           - NOT_IN
           - IN
@@ -2436,7 +2757,7 @@ components:
       type: object
     contextFieldSchema:
       additionalProperties: true
-      description: "A representation of a [context field](https://docs.getunleash.io/reference/unleash-context)."
+      description: "A representation of a [context field](https://docs.getunleash.io/concepts/unleash-context)."
       example:
         legalValues:
         - description: Deep fuchsia
@@ -2448,6 +2769,7 @@ components:
         sortOrder: 900
         name: userId
         description: Used to uniquely identify users
+        project: my-project
         usedInFeatures: 3
         usedInProjects: 2
       properties:
@@ -2461,7 +2783,7 @@ components:
           nullable: true
           type: string
         stickiness:
-          description: "Does this context field support being used for [stickiness](https://docs.getunleash.io/reference/stickiness)\
+          description: "Does this context field support being used for [stickiness](https://docs.getunleash.io/concepts/stickiness)\
             \ calculations"
           example: true
           type: boolean
@@ -2494,6 +2816,10 @@ components:
           items:
             $ref: "#/components/schemas/legalValueSchema"
           type: array
+        project:
+          description: The project this context field belongs to (if it is project-specific)
+          example: my-project
+          type: string
       required:
       - name
       type: object
@@ -2555,7 +2881,7 @@ components:
           type: string
         stickiness:
           description: "`true` if this field should be available for use with [custom\
-            \ stickiness](https://docs.getunleash.io/reference/stickiness#custom-stickiness),\
+            \ stickiness](https://docs.getunleash.io/concepts/stickiness#custom-stickiness),\
             \ otherwise `false`"
           example: false
           type: boolean
@@ -2573,6 +2899,10 @@ components:
           items:
             $ref: "#/components/schemas/legalValueSchema"
           type: array
+        project:
+          description: The project this context field belongs to (if it is project-specific)
+          example: my-project
+          type: string
         name:
           description: The name of the context field.
           example: subscriptionTier
@@ -2630,7 +2960,7 @@ components:
           example: 9999
           type: number
         constraints:
-          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/activation-strategies#constraints
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
           example:
           - values:
             - "1"
@@ -2663,9 +2993,43 @@ components:
       required:
       - name
       type: object
+    createGroupSchema:
+      description: A detailed information about a user group
+      properties:
+        name:
+          description: The name of the group
+          example: DX team
+          type: string
+        description:
+          description: A custom description of the group
+          example: Current members of the DX squad
+          nullable: true
+          type: string
+        mappingsSSO:
+          description: A list of SSO groups that should map to this Unleash group
+          example:
+          - SSOGroup1
+          - SSOGroup2
+          items:
+            type: string
+          type: array
+        rootRole:
+          description: "A role id that is used as the root role for all users in this\
+            \ group. This can be either the id of the Viewer, Editor or Admin role."
+          example: 1
+          nullable: true
+          type: number
+        users:
+          description: A list of users belonging to this group
+          items:
+            $ref: "#/components/schemas/createGroupSchema_users_inner"
+          type: array
+      required:
+      - name
+      type: object
     createPatSchema:
       description: "Describes the properties required to create a [personal access\
-        \ token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens),\
+        \ token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens),\
         \ or PAT. PATs are automatically scoped to the authenticated user."
       properties:
         description:
@@ -2694,7 +3058,7 @@ components:
         weight:
           description: "The weight is the likelihood of any one user getting this\
             \ variant. It is an integer between 0 and 1000. See the section on [variant\
-            \ weights](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight)\
+            \ weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight)\
             \ for more information"
           maximum: 1000
           minimum: 0
@@ -2703,14 +3067,14 @@ components:
           description: "Set to `fix` if this variant must have exactly the weight\
             \ allocated to it. If the type is `variable`, the weight will adjust so\
             \ that the total weight of all variants adds up to 1000. Refer to the\
-            \ [variant weight documentation](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight)."
+            \ [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight)."
           enum:
           - variable
           - fix
           example: fix
           type: string
         stickiness:
-          description: "The [stickiness](https://docs.getunleash.io/reference/feature-toggle-variants#variant-stickiness)\
+          description: "The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness)\
             \ to use for distribution of this variant. Stickiness is how Unleash guarantees\
             \ that the same user gets the same variant every time"
           example: custom.context.field
@@ -2727,12 +3091,14 @@ components:
       additionalProperties: true
       description: An Unleash user after creation
       example:
+        companyRole: Developer
         loginAttempts: 3
         inviteLink: http://localhost:4242/invite-link/some-secret
         accountType: User
         scimId: 01HTMEXAMPLESCIMID7SWWGHN6
         createdAt: 2023-06-30T11:41:00.123Z
         seenAt: 2023-06-30T11:42:00.345Z
+        seatType: Regular
         rootRole: 1
         deletedSessions: 1
         emailSent: false
@@ -2742,6 +3108,7 @@ components:
         activeSessions: 2
         imageUrl: https://example.com/242x200.png
         name: User
+        productUpdatesEmailConsent: false
         id: 123
         email: user@example.com
         username: hunter
@@ -2812,6 +3179,21 @@ components:
           example: 01HTMEXAMPLESCIMID7SWWGHN6
           nullable: true
           type: string
+        seatType:
+          description: The seat type of this user
+          example: Regular
+          nullable: true
+          type: string
+        companyRole:
+          description: The role of the user within the company.
+          example: Developer
+          nullable: true
+          type: string
+        productUpdatesEmailConsent:
+          description: Whether the user has consented to receive product update emails.
+          example: false
+          nullable: true
+          type: boolean
         activeSessions:
           description: Count of active browser sessions for this user
           example: 2
@@ -2921,7 +3303,7 @@ components:
           example: development
           type: string
         type:
-          description: "The [type of environment](https://docs.getunleash.io/reference/environments#environment-types)."
+          description: "The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types)."
           example: production
           type: string
         enabled:
@@ -2991,7 +3373,7 @@ components:
           example: my-dev-env
           type: string
         type:
-          description: "The [type of environment](https://docs.getunleash.io/reference/environments#environment-types)."
+          description: "The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types)."
           example: development
           type: string
         enabled:
@@ -3290,7 +3672,7 @@ components:
             type: number
           type: array
         constraints:
-          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/activation-strategies#constraints
+          description: A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints
           items:
             $ref: "#/components/schemas/constraintSchema"
           type: array
@@ -3307,6 +3689,138 @@ components:
       required:
       - name
       type: object
+    groupSchema:
+      additionalProperties: true
+      description: A detailed information about a user group
+      example:
+        createdAt: 2023-06-30T11:41:00.123Z
+        projects:
+        - default
+        - my-project
+        userCount: 1
+        rootRole: 1
+        createdBy: admin
+        mappingsSSO:
+        - SSOGroup1
+        - SSOGroup2
+        name: DX team
+        description: Current members of the DX squad
+        id: 1
+        users:
+        - createdBy: admin
+          joinedAt: 2023-06-30T11:41:00.123Z
+          user:
+            companyRole: Developer
+            loginAttempts: 3
+            inviteLink: http://localhost:4242/invite-link/some-secret
+            accountType: User
+            scimId: 01HTMEXAMPLESCIMID7SWWGHN6
+            createdAt: 2023-06-30T11:41:00.123Z
+            seenAt: 2023-06-30T11:42:00.345Z
+            seatType: Regular
+            rootRole: 1
+            deletedSessions: 1
+            emailSent: false
+            permissions:
+            - permissions
+            - permissions
+            activeSessions: 2
+            imageUrl: https://example.com/242x200.png
+            name: User
+            productUpdatesEmailConsent: false
+            id: 123
+            email: user@example.com
+            username: hunter
+        - createdBy: admin
+          joinedAt: 2023-06-30T11:41:00.123Z
+          user:
+            companyRole: Developer
+            loginAttempts: 3
+            inviteLink: http://localhost:4242/invite-link/some-secret
+            accountType: User
+            scimId: 01HTMEXAMPLESCIMID7SWWGHN6
+            createdAt: 2023-06-30T11:41:00.123Z
+            seenAt: 2023-06-30T11:42:00.345Z
+            seatType: Regular
+            rootRole: 1
+            deletedSessions: 1
+            emailSent: false
+            permissions:
+            - permissions
+            - permissions
+            activeSessions: 2
+            imageUrl: https://example.com/242x200.png
+            name: User
+            productUpdatesEmailConsent: false
+            id: 123
+            email: user@example.com
+            username: hunter
+        scimId: 01HTMEXAMPLESCIMID7SWWGHN7
+      properties:
+        id:
+          description: The group id
+          example: 1
+          type: integer
+        name:
+          description: The name of the group
+          example: DX team
+          type: string
+        description:
+          description: A custom description of the group
+          example: Current members of the DX squad
+          nullable: true
+          type: string
+        mappingsSSO:
+          description: A list of SSO groups that should map to this Unleash group
+          example:
+          - SSOGroup1
+          - SSOGroup2
+          items:
+            type: string
+          type: array
+        rootRole:
+          description: "A role id that is used as the root role for all users in this\
+            \ group. This can be either the id of the Viewer, Editor or Admin role."
+          example: 1
+          nullable: true
+          type: number
+        createdBy:
+          description: A user who created this group
+          example: admin
+          nullable: true
+          type: string
+        createdAt:
+          description: When was this group created
+          example: 2023-06-30T11:41:00.123Z
+          format: date-time
+          nullable: true
+          type: string
+        users:
+          description: A list of users belonging to this group
+          items:
+            $ref: "#/components/schemas/groupUserModelSchema"
+          type: array
+        projects:
+          description: A list of projects where this group is used
+          example:
+          - default
+          - my-project
+          items:
+            type: string
+          type: array
+        userCount:
+          description: The number of users that belong to this group
+          example: 1
+          minimum: 0
+          type: integer
+        scimId:
+          description: "The SCIM ID of the group, only present if managed by SCIM"
+          example: 01HTMEXAMPLESCIMID7SWWGHN7
+          nullable: true
+          type: string
+      required:
+      - name
+      type: object
     groupUserModelSchema:
       additionalProperties: true
       description: Details for a single user belonging to a group
@@ -3314,12 +3828,14 @@ components:
         createdBy: admin
         joinedAt: 2023-06-30T11:41:00.123Z
         user:
+          companyRole: Developer
           loginAttempts: 3
           inviteLink: http://localhost:4242/invite-link/some-secret
           accountType: User
           scimId: 01HTMEXAMPLESCIMID7SWWGHN6
           createdAt: 2023-06-30T11:41:00.123Z
           seenAt: 2023-06-30T11:42:00.345Z
+          seatType: Regular
           rootRole: 1
           deletedSessions: 1
           emailSent: false
@@ -3329,6 +3845,7 @@ components:
           activeSessions: 2
           imageUrl: https://example.com/242x200.png
           name: User
+          productUpdatesEmailConsent: false
           id: 123
           email: user@example.com
           username: hunter
@@ -3347,6 +3864,144 @@ components:
           $ref: "#/components/schemas/userSchema"
       required:
       - user
+      type: object
+    groupsSchema:
+      additionalProperties: true
+      description: "A list of [user groups](https://docs.getunleash.io/concepts/rbac#user-groups)"
+      example:
+        groups:
+        - createdAt: 2023-06-30T11:41:00.123Z
+          projects:
+          - default
+          - my-project
+          userCount: 1
+          rootRole: 1
+          createdBy: admin
+          mappingsSSO:
+          - SSOGroup1
+          - SSOGroup2
+          name: DX team
+          description: Current members of the DX squad
+          id: 1
+          users:
+          - createdBy: admin
+            joinedAt: 2023-06-30T11:41:00.123Z
+            user:
+              companyRole: Developer
+              loginAttempts: 3
+              inviteLink: http://localhost:4242/invite-link/some-secret
+              accountType: User
+              scimId: 01HTMEXAMPLESCIMID7SWWGHN6
+              createdAt: 2023-06-30T11:41:00.123Z
+              seenAt: 2023-06-30T11:42:00.345Z
+              seatType: Regular
+              rootRole: 1
+              deletedSessions: 1
+              emailSent: false
+              permissions:
+              - permissions
+              - permissions
+              activeSessions: 2
+              imageUrl: https://example.com/242x200.png
+              name: User
+              productUpdatesEmailConsent: false
+              id: 123
+              email: user@example.com
+              username: hunter
+          - createdBy: admin
+            joinedAt: 2023-06-30T11:41:00.123Z
+            user:
+              companyRole: Developer
+              loginAttempts: 3
+              inviteLink: http://localhost:4242/invite-link/some-secret
+              accountType: User
+              scimId: 01HTMEXAMPLESCIMID7SWWGHN6
+              createdAt: 2023-06-30T11:41:00.123Z
+              seenAt: 2023-06-30T11:42:00.345Z
+              seatType: Regular
+              rootRole: 1
+              deletedSessions: 1
+              emailSent: false
+              permissions:
+              - permissions
+              - permissions
+              activeSessions: 2
+              imageUrl: https://example.com/242x200.png
+              name: User
+              productUpdatesEmailConsent: false
+              id: 123
+              email: user@example.com
+              username: hunter
+          scimId: 01HTMEXAMPLESCIMID7SWWGHN7
+        - createdAt: 2023-06-30T11:41:00.123Z
+          projects:
+          - default
+          - my-project
+          userCount: 1
+          rootRole: 1
+          createdBy: admin
+          mappingsSSO:
+          - SSOGroup1
+          - SSOGroup2
+          name: DX team
+          description: Current members of the DX squad
+          id: 1
+          users:
+          - createdBy: admin
+            joinedAt: 2023-06-30T11:41:00.123Z
+            user:
+              companyRole: Developer
+              loginAttempts: 3
+              inviteLink: http://localhost:4242/invite-link/some-secret
+              accountType: User
+              scimId: 01HTMEXAMPLESCIMID7SWWGHN6
+              createdAt: 2023-06-30T11:41:00.123Z
+              seenAt: 2023-06-30T11:42:00.345Z
+              seatType: Regular
+              rootRole: 1
+              deletedSessions: 1
+              emailSent: false
+              permissions:
+              - permissions
+              - permissions
+              activeSessions: 2
+              imageUrl: https://example.com/242x200.png
+              name: User
+              productUpdatesEmailConsent: false
+              id: 123
+              email: user@example.com
+              username: hunter
+          - createdBy: admin
+            joinedAt: 2023-06-30T11:41:00.123Z
+            user:
+              companyRole: Developer
+              loginAttempts: 3
+              inviteLink: http://localhost:4242/invite-link/some-secret
+              accountType: User
+              scimId: 01HTMEXAMPLESCIMID7SWWGHN6
+              createdAt: 2023-06-30T11:41:00.123Z
+              seenAt: 2023-06-30T11:42:00.345Z
+              seatType: Regular
+              rootRole: 1
+              deletedSessions: 1
+              emailSent: false
+              permissions:
+              - permissions
+              - permissions
+              activeSessions: 2
+              imageUrl: https://example.com/242x200.png
+              name: User
+              productUpdatesEmailConsent: false
+              id: 123
+              email: user@example.com
+              username: hunter
+          scimId: 01HTMEXAMPLESCIMID7SWWGHN7
+      properties:
+        groups:
+          description: A list of groups
+          items:
+            $ref: "#/components/schemas/groupSchema"
+          type: array
       type: object
     legalValueSchema:
       additionalProperties: true
@@ -3373,7 +4028,7 @@ components:
       description: A list of parameters for a strategy
       type: object
     patSchema:
-      description: "Describes a [personal access token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens),\
+      description: "Describes a [personal access token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens),\
         \ or PAT. PATs are automatically scoped to the authenticated user."
       example:
         createdAt: 2023-04-19T08:15:14Z
@@ -3429,7 +4084,7 @@ components:
       - id
       type: object
     patsSchema:
-      description: "Contains a collection of [personal access tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens),\
+      description: "Contains a collection of [personal access tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens),\
         \ or PATs. PATs are automatically scoped to the authenticated user."
       example:
         pats:
@@ -3515,7 +4170,7 @@ components:
           nullable: true
           type: string
         mode:
-          description: "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode).\
+          description: "The project's [collaboration mode](https://docs.getunleash.io/concepts/project-collaboration-mode).\
             \ Determines whether non-project members can submit change requests or\
             \ not."
           enum:
@@ -3626,7 +4281,7 @@ components:
         weight:
           description: "The weight is the likelihood of any one user getting this\
             \ variant. It is an integer between 0 and 1000. See the section on [variant\
-            \ weights](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight)\
+            \ weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight)\
             \ for more information"
           maximum: 1000
           minimum: 0
@@ -3635,14 +4290,14 @@ components:
           description: "Set to `fix` if this variant must have exactly the weight\
             \ allocated to it. If the type is `variable`, the weight will adjust so\
             \ that the total weight of all variants adds up to 1000. Refer to the\
-            \ [variant weight documentation](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight)."
+            \ [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight)."
           enum:
           - variable
           - fix
           example: fix
           type: string
         stickiness:
-          description: "The [stickiness](https://docs.getunleash.io/reference/feature-toggle-variants#variant-stickiness)\
+          description: "The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness)\
             \ to use for distribution of this variant. Stickiness is how Unleash guarantees\
             \ that the same user gets the same variant every time"
           example: custom.context.field
@@ -3675,7 +4330,7 @@ components:
           type: string
         stickiness:
           description: "`true` if this field should be available for use with [custom\
-            \ stickiness](https://docs.getunleash.io/reference/stickiness#custom-stickiness),\
+            \ stickiness](https://docs.getunleash.io/concepts/stickiness#custom-stickiness),\
             \ otherwise `false`"
           example: false
           type: boolean
@@ -3693,6 +4348,10 @@ components:
           items:
             $ref: "#/components/schemas/legalValueSchema"
           type: array
+        project:
+          description: The project this context field belongs to (if it is project-specific)
+          example: my-project
+          type: string
       type: object
     updateUserSchema:
       description: All fields that can be directly changed for the user
@@ -3713,12 +4372,14 @@ components:
       additionalProperties: true
       description: An Unleash user
       example:
+        companyRole: Developer
         loginAttempts: 3
         inviteLink: http://localhost:4242/invite-link/some-secret
         accountType: User
         scimId: 01HTMEXAMPLESCIMID7SWWGHN6
         createdAt: 2023-06-30T11:41:00.123Z
         seenAt: 2023-06-30T11:42:00.345Z
+        seatType: Regular
         rootRole: 1
         deletedSessions: 1
         emailSent: false
@@ -3728,6 +4389,7 @@ components:
         activeSessions: 2
         imageUrl: https://example.com/242x200.png
         name: User
+        productUpdatesEmailConsent: false
         id: 123
         email: user@example.com
         username: hunter
@@ -3769,7 +4431,7 @@ components:
           example: false
           type: boolean
         rootRole:
-          description: "Which [root role](https://docs.getunleash.io/reference/rbac#predefined-roles)\
+          description: "Which [root role](https://docs.getunleash.io/concepts/rbac#predefined-roles)\
             \ this user is assigned"
           example: 1
           minimum: 0
@@ -3802,6 +4464,21 @@ components:
           example: 01HTMEXAMPLESCIMID7SWWGHN6
           nullable: true
           type: string
+        seatType:
+          description: The seat type of this user
+          example: Regular
+          nullable: true
+          type: string
+        companyRole:
+          description: The role of the user within the company.
+          example: Developer
+          nullable: true
+          type: string
+        productUpdatesEmailConsent:
+          description: Whether the user has consented to receive product update emails.
+          example: false
+          nullable: true
+          type: boolean
         activeSessions:
           description: Count of active browser sessions for this user
           example: 2
@@ -3839,12 +4516,14 @@ components:
           id: 9
           type: root
         users:
-        - loginAttempts: 3
+        - companyRole: Developer
+          loginAttempts: 3
           inviteLink: http://localhost:4242/invite-link/some-secret
           accountType: User
           scimId: 01HTMEXAMPLESCIMID7SWWGHN6
           createdAt: 2023-06-30T11:41:00.123Z
           seenAt: 2023-06-30T11:42:00.345Z
+          seatType: Regular
           rootRole: 1
           deletedSessions: 1
           emailSent: false
@@ -3854,15 +4533,18 @@ components:
           activeSessions: 2
           imageUrl: https://example.com/242x200.png
           name: User
+          productUpdatesEmailConsent: false
           id: 123
           email: user@example.com
           username: hunter
-        - loginAttempts: 3
+        - companyRole: Developer
+          loginAttempts: 3
           inviteLink: http://localhost:4242/invite-link/some-secret
           accountType: User
           scimId: 01HTMEXAMPLESCIMID7SWWGHN6
           createdAt: 2023-06-30T11:41:00.123Z
           seenAt: 2023-06-30T11:42:00.345Z
+          seatType: Regular
           rootRole: 1
           deletedSessions: 1
           emailSent: false
@@ -3872,6 +4554,7 @@ components:
           activeSessions: 2
           imageUrl: https://example.com/242x200.png
           name: User
+          productUpdatesEmailConsent: false
           id: 123
           email: user@example.com
           username: hunter
@@ -3882,7 +4565,7 @@ components:
             $ref: "#/components/schemas/userSchema"
           type: array
         rootRoles:
-          description: "A list of [root roles](https://docs.getunleash.io/reference/rbac#predefined-roles)\
+          description: "A list of [root roles](https://docs.getunleash.io/concepts/rbac#predefined-roles)\
             \ in the Unleash instance."
           items:
             $ref: "#/components/schemas/roleSchema"
@@ -3998,7 +4681,7 @@ components:
       - version
       type: object
     createEnvironmentSchema:
-      description: "Data required to create a new [environment](https://docs.getunleash.io/reference/environments)"
+      description: "Data required to create a new [environment](https://docs.getunleash.io/concepts/environments)"
       properties:
         name:
           description: "The name of the environment. Must be a URL-friendly string\
@@ -4007,7 +4690,7 @@ components:
           type: string
         type:
           description: |-
-            The [type of environment](https://docs.getunleash.io/reference/environments#environment-types) you would like to create. Unleash officially recognizes the following values:
+            The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types) you would like to create. Unleash officially recognizes the following values:
             - `development`
             - `test`
             - `preproduction`
@@ -4037,7 +4720,7 @@ components:
       - type
       type: object
     createProjectSchema:
-      description: "Data used to create a new [project](https://docs.getunleash.io/reference/projects)."
+      description: "Data used to create a new [project](https://docs.getunleash.io/concepts/projects)."
       properties:
         id:
           deprecated: true
@@ -4175,12 +4858,14 @@ components:
           - createdBy: admin
             joinedAt: 2023-06-30T11:41:00.123Z
             user:
+              companyRole: Developer
               loginAttempts: 3
               inviteLink: http://localhost:4242/invite-link/some-secret
               accountType: User
               scimId: 01HTMEXAMPLESCIMID7SWWGHN6
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
+              seatType: Regular
               rootRole: 1
               deletedSessions: 1
               emailSent: false
@@ -4190,18 +4875,21 @@ components:
               activeSessions: 2
               imageUrl: https://example.com/242x200.png
               name: User
+              productUpdatesEmailConsent: false
               id: 123
               email: user@example.com
               username: hunter
           - createdBy: admin
             joinedAt: 2023-06-30T11:41:00.123Z
             user:
+              companyRole: Developer
               loginAttempts: 3
               inviteLink: http://localhost:4242/invite-link/some-secret
               accountType: User
               scimId: 01HTMEXAMPLESCIMID7SWWGHN6
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
+              seatType: Regular
               rootRole: 1
               deletedSessions: 1
               emailSent: false
@@ -4211,6 +4899,7 @@ components:
               activeSessions: 2
               imageUrl: https://example.com/242x200.png
               name: User
+              productUpdatesEmailConsent: false
               id: 123
               email: user@example.com
               username: hunter
@@ -4233,12 +4922,14 @@ components:
           - createdBy: admin
             joinedAt: 2023-06-30T11:41:00.123Z
             user:
+              companyRole: Developer
               loginAttempts: 3
               inviteLink: http://localhost:4242/invite-link/some-secret
               accountType: User
               scimId: 01HTMEXAMPLESCIMID7SWWGHN6
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
+              seatType: Regular
               rootRole: 1
               deletedSessions: 1
               emailSent: false
@@ -4248,18 +4939,21 @@ components:
               activeSessions: 2
               imageUrl: https://example.com/242x200.png
               name: User
+              productUpdatesEmailConsent: false
               id: 123
               email: user@example.com
               username: hunter
           - createdBy: admin
             joinedAt: 2023-06-30T11:41:00.123Z
             user:
+              companyRole: Developer
               loginAttempts: 3
               inviteLink: http://localhost:4242/invite-link/some-secret
               accountType: User
               scimId: 01HTMEXAMPLESCIMID7SWWGHN6
               createdAt: 2023-06-30T11:41:00.123Z
               seenAt: 2023-06-30T11:42:00.345Z
+              seatType: Regular
               rootRole: 1
               deletedSessions: 1
               emailSent: false
@@ -4269,6 +4963,7 @@ components:
               activeSessions: 2
               imageUrl: https://example.com/242x200.png
               name: User
+              productUpdatesEmailConsent: false
               id: 123
               email: user@example.com
               username: hunter
@@ -4517,14 +5212,14 @@ components:
       - $ref: "#/components/schemas/samlSettingsSchema_oneOf_1"
       type: object
     changeRequestConfigSchema:
-      description: "A list of environment-specific [change request](https://docs.getunleash.io/reference/change-requests)\
+      description: "A list of environment-specific [change request](https://docs.getunleash.io/concepts/change-requests)\
         \ configurations."
       items:
         $ref: "#/components/schemas/changeRequestEnvironmentConfigSchema"
       type: array
     changeRequestEnvironmentConfigSchema:
       additionalProperties: true
-      description: "The [change request](https://docs.getunleash.io/reference/change-requests)\
+      description: "The [change request](https://docs.getunleash.io/concepts/change-requests)\
         \ configuration for a specific environment."
       example:
         environment: my-dev-environment
@@ -4537,7 +5232,7 @@ components:
           example: my-dev-environment
           type: string
         type:
-          description: "The [type of the environment](https://docs.getunleash.io/reference/environments#environment-types)\
+          description: "The [type of the environment](https://docs.getunleash.io/concepts/environments#environment-types)\
             \ listed in `environment`."
           example: development
           type: string
@@ -4574,7 +5269,7 @@ components:
       - changeRequestsEnabled
       type: object
     updateEnvironmentSchema:
-      description: "Data used to update an [environment](https://docs.getunleash.io/reference/environments)."
+      description: "Data used to update an [environment](https://docs.getunleash.io/concepts/environments)."
       properties:
         type:
           description: Updates the type of environment (i.e. development or production).
@@ -4591,7 +5286,7 @@ components:
           type: integer
       type: object
     updateProjectSchema:
-      description: "Data used to update a [project](https://docs.getunleash.io/reference/projects)"
+      description: "Data used to update a [project](https://docs.getunleash.io/concepts/projects)"
       properties:
         name:
           description: The new name of the project. The name must contain at least
@@ -4621,7 +5316,7 @@ components:
       - name
       type: object
     updateProjectEnterpriseSettingsSchema:
-      description: "Data used to update a [project](https://docs.getunleash.io/reference/projects)\
+      description: "Data used to update a [project](https://docs.getunleash.io/concepts/projects)\
         \ settings"
       properties:
         mode:
@@ -4723,12 +5418,14 @@ components:
         - createdBy: admin
           joinedAt: 2023-06-30T11:41:00.123Z
           user:
+            companyRole: Developer
             loginAttempts: 3
             inviteLink: http://localhost:4242/invite-link/some-secret
             accountType: User
             scimId: 01HTMEXAMPLESCIMID7SWWGHN6
             createdAt: 2023-06-30T11:41:00.123Z
             seenAt: 2023-06-30T11:42:00.345Z
+            seatType: Regular
             rootRole: 1
             deletedSessions: 1
             emailSent: false
@@ -4738,18 +5435,21 @@ components:
             activeSessions: 2
             imageUrl: https://example.com/242x200.png
             name: User
+            productUpdatesEmailConsent: false
             id: 123
             email: user@example.com
             username: hunter
         - createdBy: admin
           joinedAt: 2023-06-30T11:41:00.123Z
           user:
+            companyRole: Developer
             loginAttempts: 3
             inviteLink: http://localhost:4242/invite-link/some-secret
             accountType: User
             scimId: 01HTMEXAMPLESCIMID7SWWGHN6
             createdAt: 2023-06-30T11:41:00.123Z
             seenAt: 2023-06-30T11:42:00.345Z
+            seatType: Regular
             rootRole: 1
             deletedSessions: 1
             emailSent: false
@@ -4759,6 +5459,7 @@ components:
             activeSessions: 2
             imageUrl: https://example.com/242x200.png
             name: User
+            productUpdatesEmailConsent: false
             id: 123
             email: user@example.com
             username: hunter
@@ -4835,7 +5536,7 @@ components:
       type: object
     serviceAccountSchema:
       additionalProperties: true
-      description: "Represents a [service account](https://docs.getunleash.io/reference/service-accounts).\
+      description: "Represents a [service account](https://docs.getunleash.io/concepts/service-accounts).\
         \ Service accounts are used to let systems interact with the Unleash API."
       example:
         loginAttempts: 0
@@ -5236,7 +5937,7 @@ components:
           type: number
         enableGroupSyncing:
           description: "Should we enable group syncing. Refer to the documentation\
-            \ [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)"
+            \ [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)"
           example: false
           type: boolean
         groupJsonPath:
@@ -5258,6 +5959,7 @@ components:
         enabled: true
         groupJsonPath: groups
         addGroupsScope: false
+        enablePkce: false
         enableSingleSignOut: true
         defaultRootRole: Viewer
         discoverUrl: https://myoidchost.azure.com/.well-known/openid-configuration
@@ -5290,7 +5992,7 @@ components:
             clientId they may have active
           type: boolean
         defaultRootRole:
-          description: "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles)\
+          description: "[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles)\
             \ granted to users auto-created from email. Only relevant if autoCreate\
             \ is `true`"
           enum:
@@ -5328,7 +6030,7 @@ components:
           type: string
         enableGroupSyncing:
           description: "Should we enable group syncing. Refer to the documentation\
-            \ [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)"
+            \ [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)"
           example: false
           type: boolean
         groupJsonPath:
@@ -5339,6 +6041,12 @@ components:
         addGroupsScope:
           description: When enabled Unleash will also request the 'groups' scope as
             part of the login request.
+          example: false
+          type: boolean
+        enablePkce:
+          description: Enable PKCE (Proof Key for Code Exchange) for enhanced security.
+            Recommended for public clients and provides additional protection against
+            authorization code interception attacks.
           example: false
           type: boolean
       type: object
@@ -5447,7 +6155,7 @@ components:
           example: Could not find the addon with ID "12345".
           type: string
       type: object
-    createRole_409_response:
+    createGroup_409_response:
       example:
         name: NameExistsError
         id: 9c40958a-daac-400e-98fb-3bb438567008
@@ -5465,6 +6173,25 @@ components:
           description: A description of what went wrong.
           example: There is already a feature called "my-awesome-feature".
           type: string
+      type: object
+    createGroupSchema_users_inner_user:
+      description: A minimal user object
+      properties:
+        id:
+          description: The user id
+          example: 123
+          minimum: 0
+          type: integer
+      required:
+      - id
+      type: object
+    createGroupSchema_users_inner:
+      description: A minimal user object
+      properties:
+        user:
+          $ref: "#/components/schemas/createGroupSchema_users_inner_user"
+      required:
+      - user
       type: object
     createStrategyVariantSchema_payload:
       description: Extra data configured for this variant
@@ -5489,7 +6216,7 @@ components:
       - value
       type: object
     createUserResponseSchema_rootRole:
-      description: "Which [root role](https://docs.getunleash.io/reference/rbac#predefined-roles)\
+      description: "Which [root role](https://docs.getunleash.io/concepts/rbac#predefined-roles)\
         \ this user is assigned. Usually a numeric role ID, but can be a string when\
         \ returning newly created user with an explicit string role."
       oneOf:
@@ -5502,6 +6229,7 @@ components:
         - Viewer
         - Owner
         - Member
+        - Reader
         example: Admin
         type: string
     createUserSchema_rootRole:
@@ -5517,6 +6245,7 @@ components:
         - Viewer
         - Owner
         - Member
+        - Reader
         example: Admin
         type: string
     adminPermissionsSchema_permissions_environments_inner:
@@ -5665,9 +6394,9 @@ components:
             features in Unleash
           type: string
         type:
-          description: "[Custom root roles](https://docs.getunleash.io/reference/rbac#custom-root-roles)\
+          description: "[Custom root roles](https://docs.getunleash.io/concepts/rbac#custom-root-roles)\
             \ (type=root-custom) are root roles with a custom set of permissions.\
-            \ [Custom project roles](https://docs.getunleash.io/reference/rbac#custom-project-roles)\
+            \ [Custom project roles](https://docs.getunleash.io/concepts/rbac#custom-project-roles)\
             \ (type=custom) contain a specific set of permissions for project resources."
           enum:
           - root-custom
@@ -5714,7 +6443,7 @@ components:
             features in Unleash
           type: string
         type:
-          description: "[Custom project roles](https://docs.getunleash.io/reference/rbac#custom-project-roles)\
+          description: "[Custom project roles](https://docs.getunleash.io/concepts/rbac#custom-project-roles)\
             \ contain a specific set of permissions for project resources."
           enum:
           - custom
@@ -5757,7 +6486,7 @@ components:
             clientId they may have active
           type: boolean
         defaultRootRole:
-          description: "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles)\
+          description: "[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles)\
             \ granted to users auto-created from email. Only relevant if autoCreate\
             \ is `true`"
           enum:
@@ -5795,7 +6524,7 @@ components:
           type: string
         enableGroupSyncing:
           description: "Should we enable group syncing. Refer to the documentation\
-            \ [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)"
+            \ [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)"
           example: false
           type: boolean
         groupJsonPath:
@@ -5806,6 +6535,12 @@ components:
         addGroupsScope:
           description: When enabled Unleash will also request the 'groups' scope as
             part of the login request.
+          example: false
+          type: boolean
+        enablePkce:
+          description: Enable PKCE (Proof Key for Code Exchange) for enhanced security.
+            Recommended for public clients and provides additional protection against
+            authorization code interception attacks.
           example: false
           type: boolean
       required:
@@ -5842,7 +6577,7 @@ components:
             clientId they may have active
           type: boolean
         defaultRootRole:
-          description: "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles)\
+          description: "[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles)\
             \ granted to users auto-created from email. Only relevant if autoCreate\
             \ is `true`"
           enum:
@@ -5880,7 +6615,7 @@ components:
           type: string
         enableGroupSyncing:
           description: "Should we enable group syncing. Refer to the documentation\
-            \ [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)"
+            \ [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)"
           example: false
           type: boolean
         groupJsonPath:
@@ -5891,6 +6626,12 @@ components:
         addGroupsScope:
           description: When enabled Unleash will also request the 'groups' scope as
             part of the login request.
+          example: false
+          type: boolean
+        enablePkce:
+          description: Enable PKCE (Proof Key for Code Exchange) for enhanced security.
+            Recommended for public clients and provides additional protection against
+            authorization code interception attacks.
           example: false
           type: boolean
       type: object
@@ -6048,7 +6789,7 @@ components:
           type: number
         enableGroupSyncing:
           description: "Should we enable group syncing. Refer to the documentation\
-            \ [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)"
+            \ [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)"
           example: false
           type: boolean
         groupJsonPath:
@@ -6166,7 +6907,7 @@ components:
           type: number
         enableGroupSyncing:
           description: "Should we enable group syncing. Refer to the documentation\
-            \ [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)"
+            \ [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)"
           example: false
           type: boolean
         groupJsonPath:
