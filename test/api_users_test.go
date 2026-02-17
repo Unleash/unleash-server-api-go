@@ -205,7 +205,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 	t.Run("Test UsersAPIService GetGroup", func(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
 			group := createGroup(t, apiClient, "to-be-retrieved")
-			gID := string(strconv.Itoa(int(*group.Id)))
+			gID := fmt.Sprint(group.Id)
 			defer cleanUpGroup(apiClient, group)
 
 			resp, httpRes, err := apiClient.UsersAPI.GetGroup(context.Background(), gID).Execute()
@@ -231,7 +231,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 			require.Nil(t, err)
 			require.NotNil(t, resp)
-			assert.Equal(t, 201, httpRes.StatusCode)
+			assert.Equal(t, 200, httpRes.StatusCode)
 			assert.NotNil(t, resp.Groups)
 			assert.NotEmpty(t, resp.Groups)
 		} else {
@@ -241,7 +241,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 	t.Run("Test UsersAPIService UpdateGroup", func(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
 			group := createGroup(t, apiClient, "to-be-updated")
-			gID := fmt.Sprint(group.Id) // Simpler, like you did in cleanUpGroup
+			gID := fmt.Sprint(group.Id)
 			defer cleanUpGroup(apiClient, group)
 
 			newName := "newTestName"
