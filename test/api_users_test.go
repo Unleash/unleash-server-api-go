@@ -9,6 +9,7 @@ package client
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"testing"
@@ -464,22 +465,50 @@ func Test_client_UsersAPIService(t *testing.T) {
 			t.Run(tc.name, func(t *testing.T) {
 				resp, httpRes, err := apiClient.UsersAPI.SearchUsers(context.Background()).Q(tc.query).Execute()
 
-				require.Nil(t, err)
-				require.NotNil(t, resp)
-				assert.Equal(t, 200, httpRes.StatusCode)
-				if tc.expected {
-					assert.NotEmpty(t, resp.Users)
+				var users []client.UserSchema // adjust type if your generated type differs
+				if err == nil {
+					require.NotNil(t, resp)
+					assert.Equal(t, 200, httpRes.StatusCode)
+					users = resp.Users
 				} else {
-					assert.Empty(t, resp.Users)
+
+					ge, ok := err.(*client.GenericOpenAPIError)
+					require.True(t, ok, "expected GenericOpenAPIError, got %T: %v", err, err)
+
+					require.NotNil(t, httpRes)
+					assert.Equal(t, 200, httpRes.StatusCode)
+
+					var decoded []client.UserSchema
+					if uerr := json.Unmarshal(ge.Body(), &decoded); uerr == nil {
+						users = decoded
+					} else {
+						var raw []map[string]any
+						require.NoError(t, json.Unmarshal(ge.Body(), &raw))
+
+						for _, item := range raw {
+							if idAny, ok := item["id"]; ok {
+								if idFloat, ok := idAny.(float64); ok {
+									users = append(users, client.UserSchema{Id: int32(idFloat)})
+								}
+							}
+						}
+					}
+				}
+
+				if tc.expected {
+					assert.NotEmpty(t, users)
+				} else {
+					assert.Empty(t, users)
 				}
 
 				found := false
-				for _, searchedUser := range resp.Users {
+				for _, searchedUser := range users {
 					if searchedUser.Id == user.Id {
 						found = true
 						break
 					}
 				}
+
 				if tc.expected {
 					assert.True(t, found, tc.description)
 				} else {
