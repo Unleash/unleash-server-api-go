@@ -107,7 +107,7 @@ func createGroup(t *testing.T, apiCient *client.APIClient, prefix string) *clien
 	return resp
 }
 
-func createGroupWithUsers(t *testing.T, apiCient *client.APIClient, prefix string, uids []int32) *client.GroupSchema {
+func createGroupWithUsers(t *testing.T, apiClient *client.APIClient, prefix string, uids []int32) *client.GroupSchema {
 	// Populate Users array
 	var users []client.CreateGroupSchemaUsersInner
 	for _, uid := range uids {
@@ -122,12 +122,23 @@ func createGroupWithUsers(t *testing.T, apiCient *client.APIClient, prefix strin
 	createGroupSchema.SetDescription("Test group with users description")
 	createGroupSchema.SetUsers(users)
 
-	resp, httpResp, err := apiCient.UsersAPI.CreateGroup(context.Background()).CreateGroupSchema(createGroupSchema).Execute()
+	// NOTE :There is a bug in the unleash server and we must therefore do another get to obtain the users created.
+	// See issue: https://github.com/Unleash/unleash/issues/11375.
+	createResp, createHttpResp, err := apiClient.UsersAPI.CreateGroup(context.Background()).CreateGroupSchema(createGroupSchema).Execute()
 
+	groupID := strconv.Itoa(int(createResp.GetId()))
 	require.Nil(t, err)
-	require.NotNil(t, resp)
-	assert.Equal(t, 201, httpResp.StatusCode)
-	return resp
+	require.NotNil(t, createResp)
+	assert.Equal(t, 201, createHttpResp.StatusCode)
+
+	// Do the get
+	createdGroup, httpRes, getErr := apiClient.UsersAPI.GetGroup(context.Background(), groupID).Execute()
+
+	require.Nil(t, getErr)
+	require.NotNil(t, httpRes)
+	assert.Equal(t, 200, httpRes.StatusCode)
+
+	return createdGroup
 }
 
 func createGroupWithSSO(t *testing.T, apiCient *client.APIClient, prefix string, mappingSSO []string) *client.GroupSchema {
@@ -146,7 +157,7 @@ func createGroupWithSSO(t *testing.T, apiCient *client.APIClient, prefix string,
 }
 
 func cleanUpGroup(apiClient *client.APIClient, group *client.GroupSchema) {
-	groupID := fmt.Sprint(group.Id)
+	groupID := strconv.Itoa(int(group.GetId()))
 	httpResp, err := apiClient.UsersAPI.DeleteGroup(context.Background(), groupID).Execute()
 	if err != nil || httpResp.StatusCode != 200 {
 		fmt.Println("Failed to clean up a service after a test, this means the test is probably fine but your state is dirty and you should run a docker compose rm --force")
@@ -174,6 +185,13 @@ func Test_client_UsersAPIService(t *testing.T) {
 			defer cleanUpGroup(apiClient, group)
 			assert.NotNil(t, group.Users)
 			assert.Equal(t, 2, len(group.Users))
+			var userIDs []int32
+			for _, u := range group.Users {
+				userIDs = append(userIDs, u.User.Id)
+			}
+			assert.Contains(t, userIDs, user1.GetId())
+			assert.Contains(t, userIDs, user2.GetId())
+
 		} else {
 			t.Skip("Enterprise only feature")
 		}
@@ -194,7 +212,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 	t.Run("Test UsersAPIService DeleteGroup", func(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
 			group := createGroup(t, apiClient, "to-be-deleted")
-			gID := string(strconv.Itoa(int(*group.Id)))
+			gID := strconv.Itoa(int(group.GetId()))
 			httpRes, err := apiClient.UsersAPI.DeleteGroup(context.Background(), gID).Execute()
 
 			require.Nil(t, err)
@@ -206,7 +224,8 @@ func Test_client_UsersAPIService(t *testing.T) {
 	t.Run("Test UsersAPIService GetGroup", func(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
 			group := createGroup(t, apiClient, "to-be-retrieved")
-			gID := fmt.Sprint(group.Id)
+
+			gID := strconv.Itoa(int(group.GetId()))
 			defer cleanUpGroup(apiClient, group)
 
 			resp, httpRes, err := apiClient.UsersAPI.GetGroup(context.Background(), gID).Execute()
@@ -242,7 +261,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 	t.Run("Test UsersAPIService UpdateGroup", func(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
 			group := createGroup(t, apiClient, "to-be-updated")
-			gID := fmt.Sprint(group.Id)
+			gID := strconv.Itoa(int(group.GetId()))
 			defer cleanUpGroup(apiClient, group)
 
 			newName := "newTestName"
@@ -251,14 +270,15 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 			updateGroup.SetName(newName)
 			updateGroup.SetDescription(newDescription)
+			updateGroup.SetUsers([]client.CreateGroupSchemaUsersInner{})
 
 			resp, httpRes, err := apiClient.UsersAPI.UpdateGroup(context.Background(), gID).CreateGroupSchema(updateGroup).Execute()
 
 			require.Nil(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
-			assert.Equal(t, newName, resp.Name)
-			assert.Equal(t, newDescription, *resp.Description.Get())
+			assert.Equal(t, newName, resp.GetName())
+			assert.Equal(t, newDescription, resp.GetDescription())
 		} else {
 			t.Skip("Enterprise only feature")
 		}
