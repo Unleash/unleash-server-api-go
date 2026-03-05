@@ -7,7 +7,7 @@
   ],
   "info": {
     "title": "Unleash API",
-    "version": "7.4.2"
+    "version": "7.5.0"
   },
   "security": [
     {
@@ -9977,6 +9977,12 @@
             "items": {
               "type": "number"
             }
+          },
+          "disabled": {
+            "type": "boolean",
+            "description": "A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs",
+            "example": false,
+            "nullable": true
           }
         }
       },
@@ -14217,6 +14223,43 @@
               "payload",
               "action"
             ],
+            "description": "Update a milestone strategy belonging to this feature.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "updateMilestoneStrategy"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "id"
+                ],
+                "$ref": "#/components/schemas/updateMilestoneStrategySchema",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "0103487d-8788-4cda-af59-0a68642dbc5a",
+                    "description": "The ID of the strategy to update."
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
             "description": "Update a strategy belonging to this feature.",
             "properties": {
               "feature": {
@@ -14870,6 +14913,43 @@
               "payload",
               "action"
             ],
+            "description": "Update a milestone strategy belonging to this feature.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "updateMilestoneStrategy"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "id"
+                ],
+                "$ref": "#/components/schemas/updateMilestoneStrategySchema",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "0103487d-8788-4cda-af59-0a68642dbc5a",
+                    "description": "The ID of the strategy to update."
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
             "description": "Update a strategy belonging to this feature.",
             "properties": {
               "feature": {
@@ -15491,6 +15571,43 @@
                 ],
                 "$ref": "#/components/schemas/createFeatureStrategySchema",
                 "type": "object"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature",
+              "payload",
+              "action"
+            ],
+            "description": "Update a milestone strategy belonging to this feature.",
+            "properties": {
+              "feature": {
+                "type": "string",
+                "example": "my-best-feature",
+                "description": "The name of the feature that this change applies to."
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "updateMilestoneStrategy"
+                ],
+                "description": "The name of this action."
+              },
+              "payload": {
+                "required": [
+                  "id"
+                ],
+                "$ref": "#/components/schemas/updateMilestoneStrategySchema",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "0103487d-8788-4cda-af59-0a68642dbc5a",
+                    "description": "The ID of the strategy to update."
+                  }
+                }
               }
             }
           },
@@ -23395,8 +23512,8 @@
         "tags": [
           "Projects"
         ],
-        "summary": "[BETA] Archive project",
-        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\n**[BETA]** This API is in beta state, which means it may change or be removed in the future.\n\nArchive the provided project. All feature flags in the project must be archived before you can archive the project.",
+        "summary": "Archive project",
+        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\nArchive the provided project. All feature flags in the project must be archived before you can archive the project.",
         "operationId": "archiveProject",
         "responses": {
           "200": {
@@ -23484,7 +23601,7 @@
             }
           }
         },
-        "x-stability-level": "beta",
+        "x-stability-level": "stable",
         "parameters": [
           {
             "name": "projectId",
@@ -23502,8 +23619,8 @@
         "tags": [
           "Projects"
         ],
-        "summary": "[BETA] Revive project",
-        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\n**[BETA]** This API is in beta state, which means it may change or be removed in the future.\n\nRevive the specified project from the archive.",
+        "summary": "Revive project",
+        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\nRevive the specified project from the archive.",
         "operationId": "reviveProject",
         "responses": {
           "200": {
@@ -23591,7 +23708,7 @@
             }
           }
         },
-        "x-stability-level": "beta",
+        "x-stability-level": "stable",
         "parameters": [
           {
             "name": "projectId",
@@ -25025,9 +25142,9 @@
             "in": "query"
           }
         ],
-        "summary": "[BETA] Get instance information",
-        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\n**[BETA]** This API is in beta state, which means it may change or be removed in the future.\n\nGets high level information about the usage of this Unleash instance, including user, project, and flag information.",
-        "x-stability-level": "beta"
+        "summary": "Get instance information",
+        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\nGets high level information about the usage of this Unleash instance, including user, project, and flag information.",
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/email-subscription/{subscription}": {
@@ -25194,8 +25311,8 @@
           "Users"
         ],
         "operationId": "getAllLicensedUsers",
-        "summary": "[BETA] Retrieves all licensed users data.",
-        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\n**[BETA]** This API is in beta state, which means it may change or be removed in the future.\n\nFetches an array of licensed users with date and count.",
+        "summary": "Retrieves all licensed users data.",
+        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\nFetches an array of licensed users with date and count.",
         "responses": {
           "200": {
             "description": "licensedUsersSchema",
@@ -25208,7 +25325,7 @@
             }
           }
         },
-        "x-stability-level": "beta"
+        "x-stability-level": "stable"
       }
     },
     "/api/client/metrics/edge": {
@@ -25240,8 +25357,8 @@
     },
     "/api/client/edge-licensing/heartbeat": {
       "post": {
-        "summary": "[BETA] Heartbeat for Enterprise Edge instances.",
-        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\n**[BETA]** This API is in beta state, which means it may change or be removed in the future.\n\nReports that an Enterprise Edge instance is alive and in use. This is related to billing and usage tracking.",
+        "summary": "Heartbeat for Enterprise Edge instances.",
+        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\nReports that an Enterprise Edge instance is alive and in use. This is related to billing and usage tracking.",
         "tags": [
           "Unleash Edge"
         ],
@@ -25285,7 +25402,7 @@
             }
           }
         },
-        "x-stability-level": "beta"
+        "x-stability-level": "stable"
       }
     },
     "/auth/simple/login": {
@@ -28420,8 +28537,8 @@
     },
     "/api/admin/projects/{projectId}/change-requests/actionable": {
       "get": {
-        "summary": "[BETA] Get the number of change requests you can do something with",
-        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\n**[BETA]** This API is in beta state, which means it may change or be removed in the future.\n\nReturns the number of change requests in this project that your user can move into the next stage by approving or applying them.",
+        "summary": "Get the number of change requests you can do something with",
+        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\nReturns the number of change requests in this project that your user can move into the next stage by approving or applying them.",
         "tags": [
           "Change Requests"
         ],
@@ -28438,7 +28555,7 @@
             }
           }
         },
-        "x-stability-level": "beta",
+        "x-stability-level": "stable",
         "parameters": [
           {
             "name": "projectId",
@@ -31846,8 +31963,8 @@
           "Auth"
         ],
         "operationId": "getScimSettings",
-        "summary": "[BETA] Get SCIM settings.",
-        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\n**[BETA]** This API is in beta state, which means it may change or be removed in the future.\n\nReturns the current settings for SCIM provisioning.",
+        "summary": "Get SCIM settings.",
+        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\nReturns the current settings for SCIM provisioning.",
         "responses": {
           "200": {
             "description": "#/components/schemas/scimSettingsSchema",
@@ -31887,15 +32004,15 @@
             }
           }
         },
-        "x-stability-level": "beta"
+        "x-stability-level": "stable"
       },
       "post": {
         "tags": [
           "Auth"
         ],
         "operationId": "setScimSettings",
-        "summary": "[BETA] Set SCIM settings.",
-        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\n**[BETA]** This API is in beta state, which means it may change or be removed in the future.\n\nSets new settings for SCIM provisioning.",
+        "summary": "Set SCIM settings.",
+        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\nSets new settings for SCIM provisioning.",
         "requestBody": {
           "description": "#/components/schemas/setScimSettingsSchema",
           "required": true,
@@ -32020,7 +32137,7 @@
             }
           }
         },
-        "x-stability-level": "beta"
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/scim-settings/generate-new-token": {
@@ -32029,8 +32146,8 @@
           "Auth"
         ],
         "operationId": "generateNewToken",
-        "summary": "[BETA] Generates a new SCIM API token.",
-        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\n**[BETA]** This API is in beta state, which means it may change or be removed in the future.\n\nGenerates a new SCIM API token. Previously generated tokens will be invalidated.",
+        "summary": "Generates a new SCIM API token.",
+        "description": "![Unleash Enterprise](/openapi-static/Enterprise.svg) **Enterprise feature**\n\nGenerates a new SCIM API token. Previously generated tokens will be invalidated.",
         "responses": {
           "200": {
             "description": "#/components/schemas/scimTokenSchema",
@@ -32124,7 +32241,7 @@
             }
           }
         },
-        "x-stability-level": "beta"
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/release-plan-templates": {
@@ -38846,6 +38963,33 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/profileSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008",
+                      "description": "The ID of the error instance"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "ValidationError",
+                      "description": "The name of the error kind"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent [].",
+                      "description": "A description of what went wrong."
+                    }
+                  }
                 }
               }
             }
@@ -55369,8 +55513,8 @@
         "security": [
           {}
         ],
-        "summary": "[ALPHA] Get or create valid tokens for the requested environment",
-        "description": "**[ALPHA]** This API is in alpha state, which means it may change or be removed in the future.\n\nThis operation accepts a list of environments/project pairs to return tokens for. If they do not exist, Unleash will generate them",
+        "summary": "[BETA] Get or create valid tokens for the requested environment",
+        "description": "**[BETA]** This API is in beta state, which means it may change or be removed in the future.\n\nThis operation accepts a list of environments/project pairs to return tokens for. If they do not exist, Unleash will generate them",
         "operationId": "edgeCreateOrReturnTokens",
         "requestBody": {
           "description": "edgeEnvironmentProjectsListSchema",
@@ -55503,7 +55647,7 @@
             }
           }
         },
-        "x-stability-level": "alpha"
+        "x-stability-level": "beta"
       }
     }
   }

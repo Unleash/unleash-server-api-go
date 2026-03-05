@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Unleash API
-  version: 7.4.2
+  version: 7.5.0
 servers:
 - url: https://unleash.example.com
 security:
