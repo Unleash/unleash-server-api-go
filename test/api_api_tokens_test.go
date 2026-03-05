@@ -26,12 +26,12 @@ func Test_client_APITokensAPIService(t *testing.T) {
 		expireDate, err := time.Parse(time.RFC3339, "2021-01-01T00:00:00.000Z")
 		require.Nil(t, err)
 		environment := "development"
-		token := client.CreateApiTokenSchema{
+		token := client.CreateApiTokenSchemaOneOfAsCreateApiTokenSchema(&client.CreateApiTokenSchemaOneOf{
 			Type:        "client",
 			TokenName:   "test client token",
 			ExpiresAt:   &expireDate,
 			Environment: &environment,
-		}
+		})
 		resp, httpRes, err := apiClient.APITokensAPI.CreateApiToken(context.Background()).CreateApiTokenSchema(token).Execute()
 
 		require.Nil(t, err)
@@ -45,13 +45,13 @@ func Test_client_APITokensAPIService(t *testing.T) {
 		require.Nil(t, err)
 		environment := "development"
 		project := "default"
-		token := client.CreateApiTokenSchema{
+		token := client.CreateApiTokenSchemaOneOfAsCreateApiTokenSchema(&client.CreateApiTokenSchemaOneOf{
 			Type:        "frontend",
 			TokenName:   "test frontend token",
 			ExpiresAt:   &expireDate,
 			Environment: &environment,
 			Project:     &project,
-		}
+		})
 		resp, httpRes, err := apiClient.APITokensAPI.CreateApiToken(context.Background()).CreateApiTokenSchema(token).Execute()
 
 		require.Nil(t, err)
@@ -65,13 +65,13 @@ func Test_client_APITokensAPIService(t *testing.T) {
 		require.Nil(t, err)
 		environment := "development"
 		project := "default"
-		tokenBody := client.CreateApiTokenSchema{
+		tokenBody := client.CreateApiTokenSchemaOneOfAsCreateApiTokenSchema(&client.CreateApiTokenSchemaOneOf{
 			Type:        "frontend",
 			TokenName:   "test token for deletion",
 			ExpiresAt:   &expireDate,
 			Environment: &environment,
 			Project:     &project,
-		}
+		})
 		resp, httpRes, err := apiClient.APITokensAPI.CreateApiToken(context.Background()).CreateApiTokenSchema(tokenBody).Execute()
 
 		require.Nil(t, err)
