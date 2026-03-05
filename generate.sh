@@ -1,12 +1,23 @@
 #!/bin/bash
 
-rm -rf client
 set -e
+rm -rf client
 
-# Download the latest OpenAPI specification
-# This should be another step
-# get enterprise version
-curl -s https://us.app.unleash-hosted.com/ushosted/docs/openapi.json | jq >openapi.json
+# Download the OpenAPI specification.
+# Prefer local Unleash (useful for pinned Docker images), fallback to hosted.
+LOCAL_OPENAPI_URL=${LOCAL_OPENAPI_URL:-http://localhost:4242/docs/openapi.json}
+HOSTED_OPENAPI_URL=${HOSTED_OPENAPI_URL:-https://us.app.unleash-hosted.com/ushosted/docs/openapi.json}
+
+if curl -fsS --max-time 5 "$LOCAL_OPENAPI_URL" | jq >openapi.json; then
+  echo "Using local OpenAPI spec from: $LOCAL_OPENAPI_URL"
+else
+  echo "Local OpenAPI spec unavailable, falling back to: $HOSTED_OPENAPI_URL"
+  curl -fsS "$HOSTED_OPENAPI_URL" | jq >openapi.json
+fi
+
+# Normalize source-specific metadata to keep diffs stable between local and hosted specs.
+OPENAPI_SERVER_URL=${OPENAPI_SERVER_URL:-https://unleash.example.com}
+jq --arg serverUrl "$OPENAPI_SERVER_URL" '.servers = [{url: $serverUrl}]' openapi.json >tmp.json && mv tmp.json openapi.json
 
 # Keep only the operations we support
 openapi-format openapi.json --filterFile operations.yaml --json -o modified-openapi.json
@@ -25,7 +36,7 @@ done
 jq 'walk(if type == "object" and .additionalProperties == false then .additionalProperties = true else . end)' modified-openapi.json >tmp.json && mv tmp.json modified-openapi.json
 
 # Remove Enterprise SVG images from descriptions while keeping the Enterprise feature text
-jq 'walk(if type == "string" then gsub("!\\[Unleash Enterprise\\]\\(/ushosted/openapi-static/Enterprise\\.svg\\) "; "") else . end)' modified-openapi.json >tmp.json && mv tmp.json modified-openapi.json
+jq 'walk(if type == "string" then gsub("!\\[Unleash Enterprise\\]\\([^)]*Enterprise\\.svg\\) ?"; "") else . end)' modified-openapi.json >tmp.json && mv tmp.json modified-openapi.json
 
 openapi-generator-cli generate \
   --git-user-id Unleash \

@@ -27,6 +27,7 @@ docs/ConstraintSchema.md
 docs/ContextAPI.md
 docs/ContextFieldSchema.md
 docs/CreateApiTokenSchema.md
+docs/CreateApiTokenSchemaOneOf.md
 docs/CreateContextFieldSchema.md
 docs/CreateEnvironmentSchema.md
 docs/CreateFeatureNamingPatternSchema.md
@@ -118,6 +119,7 @@ model_change_request_environment_config_schema.go
 model_constraint_schema.go
 model_context_field_schema.go
 model_create_api_token_schema.go
+model_create_api_token_schema_one_of.go
 model_create_context_field_schema.go
 model_create_environment_schema.go
 model_create_feature_naming_pattern_schema.go

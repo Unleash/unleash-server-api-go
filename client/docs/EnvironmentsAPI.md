@@ -1,6 +1,6 @@
 # \EnvironmentsAPI
 
-All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
+All URIs are relative to *https://unleash.example.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

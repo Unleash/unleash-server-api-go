@@ -2,11 +2,11 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Unleash API",
-    "version": "7.4.1"
+    "version": "7.4.2"
   },
   "servers": [
     {
-      "url": "https://us.app.unleash-hosted.com/ushosted"
+      "url": "https://unleash.example.com"
     }
   ],
   "paths": {
@@ -6063,7 +6063,8 @@
               "DATE_BEFORE",
               "SEMVER_EQ",
               "SEMVER_GT",
-              "SEMVER_LT"
+              "SEMVER_LT",
+              "REGEX"
             ]
           },
           "caseInsensitive": {
@@ -9342,6 +9343,10 @@
       "description": "Endpoints for managing [Service Accounts](https://docs.getunleash.io/concepts/service-accounts), which enable programmatic access to the Unleash API."
     },
     {
+      "name": "Signup",
+      "description": "Endpoints related to signup and account setup."
+    },
+    {
       "name": "Strategies",
       "description": "Create, update, delete, manage [custom strategies](https://docs.getunleash.io/concepts/activation-strategies#custom-strategies)."
     },
@@ -9360,10 +9365,6 @@
     {
       "name": "Unleash Edge",
       "description": "Endpoints related to [Unleash Edge](https://docs.getunleash.io/unleash-edge)."
-    },
-    {
-      "name": "Unstable",
-      "description": "Experimental endpoints that may change or disappear at any time."
     },
     {
       "name": "Users",
