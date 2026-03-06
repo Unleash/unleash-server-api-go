@@ -100,3 +100,29 @@ We recommend copying specific tests from `client/test` into `test` and adapting 
 1. `docker compose up`
 1. `go test ./test/... -count=1 -v`
 1. `UNLEASH_ENTERPRISE=true go test ./test/... -count=1 -v`
+
+## Validating external PRs (maintainers)
+
+PRs from forks do not get access to repository secrets in GitHub Actions (for example `UNLEASH_DEV_LICENSE`), so enterprise matrix jobs may fail in the fork context.
+
+To validate the same changes with secrets enabled:
+
+1. Fetch the PR head into a local branch:
+
+```bash
+git fetch origin pull/<PR_NUMBER>/head:pr-<PR_NUMBER>
+```
+
+2. Push that branch to this repository:
+
+```bash
+git push origin pr-<PR_NUMBER>
+```
+
+3. Run the workflow on `pr-<PR_NUMBER>` from the base repository Actions page.
+
+4. (optional) Delete the temporary branch when done:
+
+```bash
+git push origin --delete pr-<PR_NUMBER>
+```
