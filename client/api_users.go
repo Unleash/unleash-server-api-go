@@ -1702,7 +1702,7 @@ func (r ApiSearchUsersRequest) Q(q string) ApiSearchUsersRequest {
 	return r
 }
 
-func (r ApiSearchUsersRequest) Execute() (*UsersSchema, *http.Response, error) {
+func (r ApiSearchUsersRequest) Execute() ([]UserSchema, *http.Response, error) {
 	return r.ApiService.SearchUsersExecute(r)
 }
 
@@ -1723,13 +1723,13 @@ func (a *UsersAPIService) SearchUsers(ctx context.Context) ApiSearchUsersRequest
 
 // Execute executes the request
 //
-//	@return UsersSchema
-func (a *UsersAPIService) SearchUsersExecute(r ApiSearchUsersRequest) (*UsersSchema, *http.Response, error) {
+//	@return []UserSchema
+func (a *UsersAPIService) SearchUsersExecute(r ApiSearchUsersRequest) ([]UserSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *UsersSchema
+		localVarReturnValue []UserSchema
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsersAPIService.SearchUsers")

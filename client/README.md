@@ -224,7 +224,6 @@ Class | Method | HTTP request | Description
  - [UpdateUserSchema](docs/UpdateUserSchema.md)
  - [UserSchema](docs/UserSchema.md)
  - [UserWithProjectRoleSchema](docs/UserWithProjectRoleSchema.md)
- - [UsersSchema](docs/UsersSchema.md)
 
 
 ## Documentation For Authorization

@@ -2267,8 +2267,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/usersSchema'
-          description: usersSchema
+                $ref: '#/components/schemas/usersSearchSchema'
+          description: usersSearchSchema
         "401":
           content:
             application/json:
@@ -4454,87 +4454,11 @@ components:
       required:
       - id
       type: object
-    usersSchema:
-      additionalProperties: true
-      description: Users and root roles
-      example:
-        rootRoles:
-        - name: Editor
-          description: Users with the editor role have access to most features in
-            Unleash but can not manage users and roles in the global scope. Editors
-            will be added as project owners when creating projects and get superuser
-            rights within the context of these projects. Users with the editor role
-            will also get access to most permissions on the default project by default.
-          project: default
-          id: 9
-          type: root
-        - name: Editor
-          description: Users with the editor role have access to most features in
-            Unleash but can not manage users and roles in the global scope. Editors
-            will be added as project owners when creating projects and get superuser
-            rights within the context of these projects. Users with the editor role
-            will also get access to most permissions on the default project by default.
-          project: default
-          id: 9
-          type: root
-        users:
-        - companyRole: Developer
-          loginAttempts: 3
-          inviteLink: http://localhost:4242/invite-link/some-secret
-          accountType: User
-          scimId: 01HTMEXAMPLESCIMID7SWWGHN6
-          createdAt: 2023-06-30T11:41:00.123Z
-          seenAt: 2023-06-30T11:42:00.345Z
-          seatType: Regular
-          rootRole: 1
-          deletedSessions: 1
-          emailSent: false
-          permissions:
-          - permissions
-          - permissions
-          activeSessions: 2
-          imageUrl: https://example.com/242x200.png
-          name: User
-          productUpdatesEmailConsent: false
-          id: 123
-          email: user@example.com
-          username: hunter
-        - companyRole: Developer
-          loginAttempts: 3
-          inviteLink: http://localhost:4242/invite-link/some-secret
-          accountType: User
-          scimId: 01HTMEXAMPLESCIMID7SWWGHN6
-          createdAt: 2023-06-30T11:41:00.123Z
-          seenAt: 2023-06-30T11:42:00.345Z
-          seatType: Regular
-          rootRole: 1
-          deletedSessions: 1
-          emailSent: false
-          permissions:
-          - permissions
-          - permissions
-          activeSessions: 2
-          imageUrl: https://example.com/242x200.png
-          name: User
-          productUpdatesEmailConsent: false
-          id: 123
-          email: user@example.com
-          username: hunter
-      properties:
-        users:
-          description: A list of users in the Unleash instance.
-          items:
-            $ref: '#/components/schemas/userSchema'
-          type: array
-        rootRoles:
-          description: "A list of [root roles](https://docs.getunleash.io/concepts/rbac#predefined-roles)\
-            \ in the Unleash instance."
-          items:
-            $ref: '#/components/schemas/roleSchema'
-          type: array
-      required:
-      - users
-      type: object
+    usersSearchSchema:
+      description: A list of users
+      items:
+        $ref: '#/components/schemas/userSchema'
+      type: array
     adminPermissionSchema:
       additionalProperties: true
       description: Describes a single permission

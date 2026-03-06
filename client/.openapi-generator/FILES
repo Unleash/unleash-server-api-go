@@ -107,7 +107,6 @@ docs/UpdateUserSchema.md
 docs/UserSchema.md
 docs/UserWithProjectRoleSchema.md
 docs/UsersAPI.md
-docs/UsersSchema.md
 git_push.sh
 model_admin_permission_schema.go
 model_admin_permissions_schema.go
@@ -195,7 +194,6 @@ model_update_service_account_schema.go
 model_update_user_schema.go
 model_user_schema.go
 model_user_with_project_role_schema.go
-model_users_schema.go
 response.go
 test/api_api_tokens_test.go
 test/api_auth_test.go
