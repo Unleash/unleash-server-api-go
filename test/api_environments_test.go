@@ -15,7 +15,7 @@ func cleanupEnvironment(t *testing.T, apiClient *client.APIClient, name string) 
 		t.Log(err)
 	}
 
-	require.Nil(t, err)
+	requireNoError(t, err)
 }
 
 func Test_client_EnvironmentAPIService(t *testing.T) {
@@ -44,7 +44,7 @@ func Test_client_EnvironmentAPIService(t *testing.T) {
 
 		defer cleanupEnvironment(t, apiClient, envName)
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		require.NotNil(t, resp)
 		require.Equal(t, 201, httpRes.StatusCode)
 	})
@@ -67,7 +67,7 @@ func Test_client_EnvironmentAPIService(t *testing.T) {
 
 		resp, httpRes, err := apiClient.EnvironmentsAPI.GetEnvironment(context.Background(), envName).Execute()
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		require.NotNil(t, resp)
 		require.Equal(t, 200, httpRes.StatusCode)
 	})
@@ -101,7 +101,7 @@ func Test_client_EnvironmentAPIService(t *testing.T) {
 
 		resp, httpRes, err := apiClient.EnvironmentsAPI.GetAllEnvironments(context.Background()).Execute()
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		require.NotNil(t, resp)
 		require.Equal(t, 200, httpRes.StatusCode)
 
@@ -138,13 +138,13 @@ func Test_client_EnvironmentAPIService(t *testing.T) {
 
 		resp, httpRes, err := apiClient.EnvironmentsAPI.UpdateEnvironment(context.Background(), envName).UpdateEnvironmentSchema(updateEnvironmentSchema).Execute()
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		require.NotNil(t, resp)
 		require.Equal(t, 200, httpRes.StatusCode)
 
 		getResp, _, err := apiClient.EnvironmentsAPI.GetEnvironment(context.Background(), envName).Execute()
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		require.NotNil(t, getResp)
 		require.Equal(t, "development", getResp.Type)
 	})

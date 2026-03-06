@@ -31,7 +31,7 @@ func Test_client_ChangeRequestService(t *testing.T) {
 
 		var config, httpRes, err = apiClient.ChangeRequestsAPI.GetProjectChangeRequestConfig(context.Background(), project).Execute()
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 		require.NotNil(t, config)
 		require.NotNil(t, config[1])
@@ -52,12 +52,12 @@ func Test_client_ChangeRequestService(t *testing.T) {
 			fmt.Println(err)
 		}
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		assert.Equal(t, 204, httpRes.StatusCode)
 
 		config, httpRes, err = apiClient.ChangeRequestsAPI.GetProjectChangeRequestConfig(context.Background(), project).Execute()
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 		require.NotNil(t, config)
 		require.NotNil(t, config[1])

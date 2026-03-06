@@ -36,7 +36,7 @@ func createUser(t *testing.T, apiClient *client.APIClient, prefix string) *clien
 	resp, httpRes, err := apiClient.UsersAPI.CreateUser(context.Background()).CreateUserSchema(createUserSchema).Execute()
 
 	fmt.Println(err)
-	require.Nil(t, err)
+	requireNoError(t, err)
 	require.NotNil(t, resp)
 	assert.Equal(t, 201, httpRes.StatusCode)
 	return resp
@@ -101,7 +101,7 @@ func createGroup(t *testing.T, apiCient *client.APIClient, prefix string) *clien
 
 	resp, httpResp, err := apiCient.UsersAPI.CreateGroup(context.Background()).CreateGroupSchema(createGroupSchema).Execute()
 
-	require.Nil(t, err)
+	requireNoError(t, err)
 	require.NotNil(t, resp)
 	assert.Equal(t, 201, httpResp.StatusCode)
 	return resp
@@ -127,7 +127,7 @@ func createGroupWithUsers(t *testing.T, apiClient *client.APIClient, prefix stri
 	createResp, createHttpResp, err := apiClient.UsersAPI.CreateGroup(context.Background()).CreateGroupSchema(createGroupSchema).Execute()
 
 	groupID := strconv.Itoa(int(createResp.GetId()))
-	require.Nil(t, err)
+	requireNoError(t, err)
 	require.NotNil(t, createResp)
 	assert.Equal(t, 201, createHttpResp.StatusCode)
 
@@ -150,7 +150,7 @@ func createGroupWithSSO(t *testing.T, apiCient *client.APIClient, prefix string,
 
 	resp, httpResp, err := apiCient.UsersAPI.CreateGroup(context.Background()).CreateGroupSchema(createGroupSchema).Execute()
 
-	require.Nil(t, err)
+	requireNoError(t, err)
 	require.NotNil(t, resp)
 	assert.Equal(t, 201, httpResp.StatusCode)
 	return resp
@@ -215,7 +215,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 			gID := strconv.Itoa(int(group.GetId()))
 			httpRes, err := apiClient.UsersAPI.DeleteGroup(context.Background(), gID).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			assert.Equal(t, 200, httpRes.StatusCode)
 		} else {
 			t.Skip("Enterprise only feature")
@@ -230,7 +230,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 			resp, httpRes, err := apiClient.UsersAPI.GetGroup(context.Background(), gID).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 			assert.Equal(t, group.Id, resp.Id)
@@ -249,7 +249,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 			resp, httpRes, err := apiClient.UsersAPI.GetGroups(context.Background()).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 			assert.NotNil(t, resp.Groups)
@@ -274,7 +274,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 			resp, httpRes, err := apiClient.UsersAPI.UpdateGroup(context.Background(), gID).CreateGroupSchema(updateGroup).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 			assert.Equal(t, newName, resp.GetName())
@@ -294,7 +294,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 		httpRes, err := apiClient.UsersAPI.DeleteUser(context.Background(), user.Id).Execute()
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 	})
 
@@ -304,7 +304,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 		resp, httpRes, err := apiClient.UsersAPI.GetUser(context.Background(), user.Id).Execute()
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 	})
@@ -322,7 +322,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 		resp, httpRes, err := apiClient.UsersAPI.UpdateUser(context.Background(), user.Id).UpdateUserSchema(*updateUser).Execute()
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 	})
@@ -334,7 +334,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 			resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
 			defer clean_up_role(resp, apiClient)
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 		} else {
@@ -349,7 +349,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 			resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
 			defer clean_up_role(resp, apiClient)
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 		} else {
@@ -364,7 +364,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 			resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
 			defer clean_up_role(resp, apiClient)
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 
@@ -372,7 +372,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 			updatedRole := createRole("updated-role-name", "New role description", "root-custom")
 			resp, httpRes, err = apiClient.UsersAPI.UpdateRole(context.Background(), roleId).CreateRoleWithPermissionsSchema(*updatedRole).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 		} else {
@@ -387,12 +387,12 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 			createResp, _, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			defer clean_up_role(createResp, apiClient)
 
 			resp, httpRes, err := apiClient.UsersAPI.GetRoles(context.Background()).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 			assert.NotEmpty(t, resp.Roles)
@@ -408,7 +408,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 			resp, httpRes, err := apiClient.UsersAPI.GetRoleById(context.Background(), roleId).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 			assert.Equal(t, resp.Name, "Editor")
@@ -423,7 +423,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 			newRole := createRole("role-to-be-deleted", "ephimeral role", "root-custom")
 			resp, httpRes, err := apiClient.UsersAPI.CreateRole(context.Background()).CreateRoleWithPermissionsSchema(*newRole).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 
@@ -432,7 +432,7 @@ func Test_client_UsersAPIService(t *testing.T) {
 
 			httpRes, err = apiClient.UsersAPI.DeleteRole(context.Background(), roleId).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			assert.Equal(t, 200, httpRes.StatusCode)
 		} else {
 			t.Skip("Enterprise only feature")

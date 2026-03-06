@@ -23,7 +23,7 @@ func Test_client_AuthAPIService(t *testing.T) {
 		if enterpriseEnvironmentAvailable() {
 			resp, httpRes, err := apiClient.AuthAPI.GetPermissions(context.Background()).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 			fmt.Sprintln(resp.Permissions)
