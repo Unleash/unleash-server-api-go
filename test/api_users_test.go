@@ -485,11 +485,11 @@ func Test_client_UsersAPIService(t *testing.T) {
 			t.Run(tc.name, func(t *testing.T) {
 				resp, httpRes, err := apiClient.UsersAPI.SearchUsers(context.Background()).Q(tc.query).Execute()
 
-				var users []client.UserSchema // adjust type if your generated type differs
+				var users []client.UserSchema
 				if err == nil {
 					require.NotNil(t, resp)
 					assert.Equal(t, 200, httpRes.StatusCode)
-					users = resp.Users
+					users = resp
 				} else {
 
 					ge, ok := err.(*client.GenericOpenAPIError)

@@ -5170,11 +5170,11 @@
         ],
         "responses": {
           "200": {
-            "description": "usersSchema",
+            "description": "usersSearchSchema",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/usersSchema"
+                  "$ref": "#/components/schemas/usersSearchSchema"
                 }
               }
             }
@@ -7625,29 +7625,12 @@
           "id"
         ]
       },
-      "usersSchema": {
-        "description": "Users and root roles",
-        "type": "object",
-        "properties": {
-          "users": {
-            "description": "A list of users in the Unleash instance.",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/userSchema"
-            }
-          },
-          "rootRoles": {
-            "description": "A list of [root roles](https://docs.getunleash.io/concepts/rbac#predefined-roles) in the Unleash instance.",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/roleSchema"
-            }
-          }
-        },
-        "additionalProperties": true,
-        "required": [
-          "users"
-        ]
+      "usersSearchSchema": {
+        "description": "A list of users",
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/userSchema"
+        }
       },
       "adminPermissionSchema": {
         "description": "Describes a single permission",

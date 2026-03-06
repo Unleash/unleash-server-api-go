@@ -758,7 +758,7 @@ Name | Type | Description  | Notes
 
 ## SearchUsers
 
-> UsersSchema SearchUsers(ctx).Q(q).Execute()
+> []UserSchema SearchUsers(ctx).Q(q).Execute()
 
 Search users
 
@@ -786,7 +786,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.SearchUsers``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `SearchUsers`: UsersSchema
+	// response from `SearchUsers`: []UserSchema
 	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.SearchUsers`: %v\n", resp)
 }
 ```
@@ -806,7 +806,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UsersSchema**](UsersSchema.md)
+[**[]UserSchema**](UserSchema.md)
 
 ### Authorization
 
