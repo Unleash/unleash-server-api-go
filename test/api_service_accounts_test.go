@@ -34,7 +34,7 @@ func createServiceAccount(t *testing.T, name string, userName string, apiClient 
 	createProjectSchema.SetRootRole(1)
 	resp, httpRes, err := apiClient.ServiceAccountsAPI.CreateServiceAccount(context.Background()).CreateServiceAccountSchema(createProjectSchema).Execute()
 
-	require.Nil(t, err)
+	requireNoError(t, err)
 	require.NotNil(t, resp)
 	assert.Equal(t, 201, httpRes.StatusCode)
 
@@ -60,7 +60,7 @@ func Test_client_ServiceAccountAPIService(t *testing.T) {
 
 			httpRes, err := apiClient.ServiceAccountsAPI.DeleteServiceAccount(context.Background(), id).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			assert.Equal(t, 200, httpRes.StatusCode)
 		} else {
 			t.Skip("Enterprise only feature")
@@ -77,7 +77,7 @@ func Test_client_ServiceAccountAPIService(t *testing.T) {
 
 			resp, httpRes, err := apiClient.ServiceAccountsAPI.GetServiceAccounts(context.Background()).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 			assert.Equal(t, 2, len(resp.ServiceAccounts))
@@ -104,7 +104,7 @@ func Test_client_ServiceAccountAPIService(t *testing.T) {
 
 			resp, httpRes, err := apiClient.ServiceAccountsAPI.GetServiceAccounts(context.Background()).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 			assert.Equal(t, "new-name", *resp.ServiceAccounts[0].Name)
@@ -125,7 +125,7 @@ func Test_client_ServiceAccountAPIService(t *testing.T) {
 
 			resp, httpRes, err := apiClient.ServiceAccountsAPI.CreateServiceAccountToken(context.Background(), fmt.Sprint(serviceAccount.Id)).CreatePatSchema(patSchema).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 201, httpRes.StatusCode)
 		} else {
@@ -150,7 +150,7 @@ func Test_client_ServiceAccountAPIService(t *testing.T) {
 
 			resp, httpRes, err := apiClient.ServiceAccountsAPI.GetServiceAccountTokens(context.Background(), fmt.Sprint(serviceAccount.Id)).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 
@@ -176,7 +176,7 @@ func Test_client_ServiceAccountAPIService(t *testing.T) {
 
 			resp, _, err := apiClient.ServiceAccountsAPI.GetServiceAccountTokens(context.Background(), fmt.Sprint(serviceAccount.Id)).Execute()
 			assert.Equal(t, 1, len(resp.Pats))
-			require.Nil(t, err)
+			requireNoError(t, err)
 
 			deleteRHttpRes, deleteErr := apiClient.ServiceAccountsAPI.DeleteServiceAccountToken(context.Background(), fmt.Sprint(serviceAccount.Id), fmt.Sprint(resp.Pats[0].Id)).Execute()
 			require.Nil(t, deleteErr)
@@ -184,7 +184,7 @@ func Test_client_ServiceAccountAPIService(t *testing.T) {
 
 			resp, _, err = apiClient.ServiceAccountsAPI.GetServiceAccountTokens(context.Background(), fmt.Sprint(serviceAccount.Id)).Execute()
 			assert.Equal(t, 0, len(resp.Pats))
-			require.Nil(t, err)
+			requireNoError(t, err)
 
 		} else {
 			t.Skip("Enterprise only feature")

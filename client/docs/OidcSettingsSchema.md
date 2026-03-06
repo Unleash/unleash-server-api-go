@@ -10,14 +10,15 @@ Name | Type | Description | Notes
 **Secret** | **string** | Shared secret from OpenID server. Used to authenticate login requests | 
 **AutoCreate** | Pointer to **bool** | Auto create users based on email addresses from login tokens | [optional] 
 **EnableSingleSignOut** | Pointer to **bool** | Support Single sign out when user clicks logout in Unleash. If &#x60;true&#x60; user is signed out of all OpenID Connect sessions against the clientId they may have active | [optional] 
-**DefaultRootRole** | Pointer to **string** | [Default role](https://docs.getunleash.io/reference/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is &#x60;true&#x60; | [optional] 
+**DefaultRootRole** | Pointer to **string** | [Default role](https://docs.getunleash.io/concepts/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is &#x60;true&#x60; | [optional] 
 **DefaultRootRoleId** | Pointer to **float32** | Assign this root role to auto created users. Should be a role ID and takes precedence over &#x60;defaultRootRole&#x60;. | [optional] 
 **EmailDomains** | Pointer to **string** | Comma separated list of email domains that are automatically approved for an account in the server. Only relevant if autoCreate is &#x60;true&#x60; | [optional] 
 **AcrValues** | Pointer to **string** | Authentication Context Class Reference, used to request extra values in the acr claim returned from the server. If multiple values are required, they should be space separated.   Consult [the OIDC reference](https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationEndpoint) for more information   | [optional] 
 **IdTokenSigningAlgorithm** | Pointer to **string** | The signing algorithm used to sign our token. Refer to the [JWT signatures](https://jwt.io/introduction) documentation for more information. | [optional] 
-**EnableGroupSyncing** | Pointer to **bool** | Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync) | [optional] 
+**EnableGroupSyncing** | Pointer to **bool** | Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync) | [optional] 
 **GroupJsonPath** | Pointer to **string** | Specifies the path in the OIDC token response to read which groups the user belongs to from. | [optional] 
 **AddGroupsScope** | Pointer to **bool** | When enabled Unleash will also request the &#39;groups&#39; scope as part of the login request. | [optional] 
+**EnablePkce** | Pointer to **bool** | Enable PKCE (Proof Key for Code Exchange) for enhanced security. Recommended for public clients and provides additional protection against authorization code interception attacks. | [optional] 
 
 ## Methods
 
@@ -372,6 +373,31 @@ SetAddGroupsScope sets AddGroupsScope field to given value.
 `func (o *OidcSettingsSchema) HasAddGroupsScope() bool`
 
 HasAddGroupsScope returns a boolean if a field has been set.
+
+### GetEnablePkce
+
+`func (o *OidcSettingsSchema) GetEnablePkce() bool`
+
+GetEnablePkce returns the EnablePkce field if non-nil, zero value otherwise.
+
+### GetEnablePkceOk
+
+`func (o *OidcSettingsSchema) GetEnablePkceOk() (*bool, bool)`
+
+GetEnablePkceOk returns a tuple with the EnablePkce field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEnablePkce
+
+`func (o *OidcSettingsSchema) SetEnablePkce(v bool)`
+
+SetEnablePkce sets EnablePkce field to given value.
+
+### HasEnablePkce
+
+`func (o *OidcSettingsSchema) HasEnablePkce() bool`
+
+HasEnablePkce returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

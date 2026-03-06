@@ -5,9 +5,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Description** | Pointer to **string** | A description of the context field | [optional] 
-**Stickiness** | Pointer to **bool** | &#x60;true&#x60; if this field should be available for use with [custom stickiness](https://docs.getunleash.io/reference/stickiness#custom-stickiness), otherwise &#x60;false&#x60; | [optional] 
+**Stickiness** | Pointer to **bool** | &#x60;true&#x60; if this field should be available for use with [custom stickiness](https://docs.getunleash.io/concepts/stickiness#custom-stickiness), otherwise &#x60;false&#x60; | [optional] 
 **SortOrder** | Pointer to **int32** | How this context field should be sorted if no other sort order is selected | [optional] 
 **LegalValues** | Pointer to [**[]LegalValueSchema**](LegalValueSchema.md) | A list of allowed values for this context field | [optional] 
+**Project** | Pointer to **string** | The project this context field belongs to (if it is project-specific) | [optional] 
 
 ## Methods
 
@@ -127,6 +128,31 @@ SetLegalValues sets LegalValues field to given value.
 `func (o *UpdateContextFieldSchema) HasLegalValues() bool`
 
 HasLegalValues returns a boolean if a field has been set.
+
+### GetProject
+
+`func (o *UpdateContextFieldSchema) GetProject() string`
+
+GetProject returns the Project field if non-nil, zero value otherwise.
+
+### GetProjectOk
+
+`func (o *UpdateContextFieldSchema) GetProjectOk() (*string, bool)`
+
+GetProjectOk returns a tuple with the Project field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProject
+
+`func (o *UpdateContextFieldSchema) SetProject(v string)`
+
+SetProject sets Project field to given value.
+
+### HasProject
+
+`func (o *UpdateContextFieldSchema) HasProject() bool`
+
+HasProject returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

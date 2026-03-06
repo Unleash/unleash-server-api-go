@@ -12,12 +12,15 @@ Name | Type | Description | Notes
 **InviteLink** | Pointer to **string** | If the user is actively inviting other users, this is the link that can be shared with other users | [optional] 
 **LoginAttempts** | Pointer to **int32** | How many unsuccessful attempts at logging in has the user made | [optional] 
 **EmailSent** | Pointer to **bool** | Is the welcome email sent to the user or not | [optional] 
-**RootRole** | Pointer to **int32** | Which [root role](https://docs.getunleash.io/reference/rbac#predefined-roles) this user is assigned | [optional] 
+**RootRole** | Pointer to **int32** | Which [root role](https://docs.getunleash.io/concepts/rbac#predefined-roles) this user is assigned | [optional] 
 **SeenAt** | Pointer to **NullableTime** | The last time this user logged in | [optional] 
 **CreatedAt** | Pointer to **time.Time** | The user was created at this time | [optional] 
 **AccountType** | Pointer to **string** | A user is either an actual User or a Service Account | [optional] 
 **Permissions** | Pointer to **[]string** | Deprecated | [optional] 
 **ScimId** | Pointer to **NullableString** | The SCIM ID of the user, only present if managed by SCIM | [optional] 
+**SeatType** | Pointer to **NullableString** | The seat type of this user | [optional] 
+**CompanyRole** | Pointer to **NullableString** | The role of the user within the company. | [optional] 
+**ProductUpdatesEmailConsent** | Pointer to **NullableBool** | Whether the user has consented to receive product update emails. | [optional] 
 **ActiveSessions** | Pointer to **NullableInt32** | Count of active browser sessions for this user | [optional] 
 **DeletedSessions** | Pointer to **float32** | Experimental. The number of deleted browser sessions after last login | [optional] 
 
@@ -425,6 +428,111 @@ HasScimId returns a boolean if a field has been set.
 `func (o *UserSchema) UnsetScimId()`
 
 UnsetScimId ensures that no value is present for ScimId, not even an explicit nil
+### GetSeatType
+
+`func (o *UserSchema) GetSeatType() string`
+
+GetSeatType returns the SeatType field if non-nil, zero value otherwise.
+
+### GetSeatTypeOk
+
+`func (o *UserSchema) GetSeatTypeOk() (*string, bool)`
+
+GetSeatTypeOk returns a tuple with the SeatType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSeatType
+
+`func (o *UserSchema) SetSeatType(v string)`
+
+SetSeatType sets SeatType field to given value.
+
+### HasSeatType
+
+`func (o *UserSchema) HasSeatType() bool`
+
+HasSeatType returns a boolean if a field has been set.
+
+### SetSeatTypeNil
+
+`func (o *UserSchema) SetSeatTypeNil(b bool)`
+
+ SetSeatTypeNil sets the value for SeatType to be an explicit nil
+
+### UnsetSeatType
+`func (o *UserSchema) UnsetSeatType()`
+
+UnsetSeatType ensures that no value is present for SeatType, not even an explicit nil
+### GetCompanyRole
+
+`func (o *UserSchema) GetCompanyRole() string`
+
+GetCompanyRole returns the CompanyRole field if non-nil, zero value otherwise.
+
+### GetCompanyRoleOk
+
+`func (o *UserSchema) GetCompanyRoleOk() (*string, bool)`
+
+GetCompanyRoleOk returns a tuple with the CompanyRole field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCompanyRole
+
+`func (o *UserSchema) SetCompanyRole(v string)`
+
+SetCompanyRole sets CompanyRole field to given value.
+
+### HasCompanyRole
+
+`func (o *UserSchema) HasCompanyRole() bool`
+
+HasCompanyRole returns a boolean if a field has been set.
+
+### SetCompanyRoleNil
+
+`func (o *UserSchema) SetCompanyRoleNil(b bool)`
+
+ SetCompanyRoleNil sets the value for CompanyRole to be an explicit nil
+
+### UnsetCompanyRole
+`func (o *UserSchema) UnsetCompanyRole()`
+
+UnsetCompanyRole ensures that no value is present for CompanyRole, not even an explicit nil
+### GetProductUpdatesEmailConsent
+
+`func (o *UserSchema) GetProductUpdatesEmailConsent() bool`
+
+GetProductUpdatesEmailConsent returns the ProductUpdatesEmailConsent field if non-nil, zero value otherwise.
+
+### GetProductUpdatesEmailConsentOk
+
+`func (o *UserSchema) GetProductUpdatesEmailConsentOk() (*bool, bool)`
+
+GetProductUpdatesEmailConsentOk returns a tuple with the ProductUpdatesEmailConsent field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProductUpdatesEmailConsent
+
+`func (o *UserSchema) SetProductUpdatesEmailConsent(v bool)`
+
+SetProductUpdatesEmailConsent sets ProductUpdatesEmailConsent field to given value.
+
+### HasProductUpdatesEmailConsent
+
+`func (o *UserSchema) HasProductUpdatesEmailConsent() bool`
+
+HasProductUpdatesEmailConsent returns a boolean if a field has been set.
+
+### SetProductUpdatesEmailConsentNil
+
+`func (o *UserSchema) SetProductUpdatesEmailConsentNil(b bool)`
+
+ SetProductUpdatesEmailConsentNil sets the value for ProductUpdatesEmailConsent to be an explicit nil
+
+### UnsetProductUpdatesEmailConsent
+`func (o *UserSchema) UnsetProductUpdatesEmailConsent()`
+
+UnsetProductUpdatesEmailConsent ensures that no value is present for ProductUpdatesEmailConsent, not even an explicit nil
 ### GetActiveSessions
 
 `func (o *UserSchema) GetActiveSessions() int32`

@@ -11,12 +11,12 @@ import (
 
 func cleanupContextField(t *testing.T, apiClient *client.APIClient, name string) {
 	_, err := apiClient.ContextAPI.DeleteContextField(context.Background(), name).Execute()
-	require.Nil(t, err)
+	requireNoError(t, err)
 }
 
 func fetchContextField(t *testing.T, apiClient *client.APIClient, name string) *client.ContextFieldSchema {
 	response, _, err := apiClient.ContextAPI.GetContextField(context.Background(), name).Execute()
-	require.Nil(t, err)
+	requireNoError(t, err)
 	require.NotNil(t, response)
 	return response
 }
@@ -47,7 +47,7 @@ func Test_client_ContextFieldAPIService(t *testing.T) {
 			t.Log(err)
 		}
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		require.NotNil(t, resp)
 		assert.Equal(t, 201, httpRes.StatusCode)
 	})
@@ -66,7 +66,7 @@ func Test_client_ContextFieldAPIService(t *testing.T) {
 			t.Log(err)
 		}
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		require.NotNil(t, resp)
 		assert.Equal(t, 201, httpRes.StatusCode)
 
@@ -79,7 +79,7 @@ func Test_client_ContextFieldAPIService(t *testing.T) {
 
 		httpRes, err = apiClient.ContextAPI.UpdateContextField(context.Background(), targetedContextField).UpdateContextFieldSchema(updateContextFieldRequest).Execute()
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 		if err != nil {
@@ -112,7 +112,7 @@ func Test_client_ContextFieldAPIService(t *testing.T) {
 			t.Log(err)
 		}
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		require.NotNil(t, resp)
 		assert.Equal(t, 201, httpRes.StatusCode)
 
@@ -127,7 +127,7 @@ func Test_client_ContextFieldAPIService(t *testing.T) {
 
 		httpRes, err = apiClient.ContextAPI.UpdateContextField(context.Background(), targetedContextField).UpdateContextFieldSchema(updateContextFieldRequest).Execute()
 
-		require.Nil(t, err)
+		requireNoError(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 		fieldValue := fetchContextField(t, apiClient, targetedContextField)

@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** | The name of the custom role | 
 **Description** | Pointer to **string** | A more detailed description of the custom role and what use it&#39;s intended for | [optional] 
-**Type** | Pointer to **string** | [Custom root roles](https://docs.getunleash.io/reference/rbac#custom-root-roles) (type&#x3D;root-custom) are root roles with a custom set of permissions. [Custom project roles](https://docs.getunleash.io/reference/rbac#custom-project-roles) (type&#x3D;custom) contain a specific set of permissions for project resources. | [optional] 
+**Type** | Pointer to **string** | [Custom root roles](https://docs.getunleash.io/concepts/rbac#custom-root-roles) (type&#x3D;root-custom) are root roles with a custom set of permissions. [Custom project roles](https://docs.getunleash.io/concepts/rbac#custom-project-roles) (type&#x3D;custom) contain a specific set of permissions for project resources. | [optional] 
 **Permissions** | Pointer to [**[]CreateRoleWithPermissionsSchemaAnyOfPermissionsInner**](CreateRoleWithPermissionsSchemaAnyOfPermissionsInner.md) | A list of permissions assigned to this role | [optional] 
 
 ## Methods

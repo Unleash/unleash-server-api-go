@@ -2,11 +2,11 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Unleash API",
-    "version": "7.2.1"
+    "version": "7.5.0"
   },
   "servers": [
     {
-      "url": "https://us.app.unleash-hosted.com/ushosted"
+      "url": "https://unleash.example.com"
     }
   ],
   "paths": {
@@ -93,12 +93,13 @@
         },
         "tags": [
           "Projects"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "post": {
         "operationId": "createProject",
         "summary": "Create project",
-        "description": "**Enterprise feature**\n\nCreate a new [Unleash project](https://docs.getunleash.io/reference/projects).",
+        "description": "**Enterprise feature**\n\nCreate a new [Unleash project](https://docs.getunleash.io/concepts/projects).",
         "requestBody": {
           "description": "createProjectSchema",
           "required": true,
@@ -241,7 +242,8 @@
         },
         "tags": [
           "Projects"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/projects/{projectId}": {
@@ -412,7 +414,8 @@
         },
         "tags": [
           "Projects"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "delete": {
         "operationId": "deleteProject",
@@ -516,7 +519,8 @@
         },
         "tags": [
           "Projects"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/projects/{projectId}/settings": {
@@ -687,7 +691,8 @@
         },
         "tags": [
           "Projects"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/projects/{projectId}/access": {
@@ -773,7 +778,8 @@
         },
         "tags": [
           "Projects"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "put": {
         "operationId": "setProjectAccess",
@@ -861,7 +867,8 @@
         },
         "tags": [
           "Projects"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/permissions": {
@@ -883,7 +890,8 @@
         },
         "tags": [
           "Auth"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/auth/saml/settings": {
@@ -986,7 +994,8 @@
         },
         "tags": [
           "Auth"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "post": {
         "operationId": "setSamlSettings",
@@ -1125,7 +1134,8 @@
         },
         "tags": [
           "Auth"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/auth/oidc/settings": {
@@ -1228,7 +1238,8 @@
         },
         "tags": [
           "Auth"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "post": {
         "operationId": "setOidcSettings",
@@ -1367,7 +1378,8 @@
         },
         "tags": [
           "Auth"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/auth/simple/settings": {
@@ -1443,7 +1455,8 @@
         },
         "tags": [
           "Auth"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "post": {
         "operationId": "setSimpleSettings",
@@ -1582,7 +1595,657 @@
         },
         "tags": [
           "Auth"
-        ]
+        ],
+        "x-stability-level": "stable"
+      }
+    },
+    "/api/admin/groups": {
+      "get": {
+        "operationId": "getGroups",
+        "summary": "Get a list of groups",
+        "description": "**Enterprise feature**\n\nGet a list of user groups for Role-Based Access Control",
+        "responses": {
+          "200": {
+            "description": "groupsSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/groupsSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ],
+        "x-stability-level": "stable"
+      },
+      "post": {
+        "operationId": "createGroup",
+        "summary": "Create a new group",
+        "description": "**Enterprise feature**\n\nCreate a new user group for Role-Based Access Control",
+        "requestBody": {
+          "description": "createGroupSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createGroupSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The resource was successfully created.",
+            "headers": {
+              "location": {
+                "description": "The location of the newly created resource.",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/groupSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NameExistsError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "There is already a feature called \"my-awesome-feature\"."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ],
+        "x-stability-level": "stable"
+      }
+    },
+    "/api/admin/groups/{groupId}": {
+      "get": {
+        "operationId": "getGroup",
+        "summary": "Get a single group",
+        "description": "**Enterprise feature**\n\nGet a single user group by group id",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "groupSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/groupSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NotFoundError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\"."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ],
+        "x-stability-level": "stable"
+      },
+      "put": {
+        "operationId": "updateGroup",
+        "summary": "Update a group",
+        "description": "**Enterprise feature**\n\nUpdate existing user group by group id. It overrides previous group details.",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "createGroupSchema",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createGroupSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "groupSchema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/groupSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NotFoundError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "Could not find the addon with ID \"12345\"."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The provided resource can not be created or updated because it would conflict with the current state of the resource or with an already existing resource, respectively.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NameExistsError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "There is already a feature called \"my-awesome-feature\"."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ],
+        "x-stability-level": "stable"
+      },
+      "delete": {
+        "operationId": "deleteGroup",
+        "summary": "Delete a single group",
+        "description": "**Enterprise feature**\n\nDelete a single user group by group id",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This response has no body."
+          },
+          "400": {
+            "description": "The request data does not match what we expect.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "ValidationError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "The request payload you provided doesn't conform to the schema. The .parameters property should be object. You sent []."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization information is missing or invalid. Provide a valid API token as the `authorization` header, e.g. `authorization:*.*.my-admin-token`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "AuthenticationRequired"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You must log in to use Unleash. Your request had no authorization header, so we could not authorize you. Try logging in at /auth/simple/login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The provided user credentials are valid, but the user does not have the necessary permissions to perform this operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The ID of the error instance",
+                      "type": "string",
+                      "example": "9c40958a-daac-400e-98fb-3bb438567008"
+                    },
+                    "name": {
+                      "description": "The name of the error kind",
+                      "type": "string",
+                      "example": "NoAccessError"
+                    },
+                    "message": {
+                      "description": "A description of what went wrong.",
+                      "type": "string",
+                      "example": "You need the \"UPDATE_ADDON\" permission to perform this action in the \"development\" environment."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Users"
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/roles": {
@@ -1658,7 +2321,8 @@
         },
         "tags": [
           "Users"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "post": {
         "operationId": "createRole",
@@ -1797,7 +2461,8 @@
         },
         "tags": [
           "Users"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/roles/{roleId}": {
@@ -1910,7 +2575,8 @@
         },
         "tags": [
           "Users"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "put": {
         "operationId": "updateRole",
@@ -2086,7 +2752,8 @@
         },
         "tags": [
           "Users"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "delete": {
         "operationId": "deleteRole",
@@ -2217,7 +2884,8 @@
         },
         "tags": [
           "Users"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/environments": {
@@ -2313,7 +2981,8 @@
         },
         "tags": [
           "Environments"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "get": {
         "operationId": "getAllEnvironments",
@@ -2387,7 +3056,8 @@
         },
         "tags": [
           "Environments"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/environments/update/{name}": {
@@ -2484,7 +3154,8 @@
         },
         "tags": [
           "Environments"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/environments/{name}": {
@@ -2563,7 +3234,8 @@
         },
         "tags": [
           "Environments"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "get": {
         "operationId": "getEnvironment",
@@ -2674,7 +3346,8 @@
         },
         "tags": [
           "Environments"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/projects/{projectId}/change-requests/config": {
@@ -2706,7 +3379,8 @@
         },
         "tags": [
           "Change Requests"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/projects/{projectId}/environments/{environment}/change-requests/config": {
@@ -2750,7 +3424,8 @@
         },
         "tags": [
           "Change Requests"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/service-account": {
@@ -2826,7 +3501,8 @@
         },
         "tags": [
           "Service Accounts"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "post": {
         "operationId": "createServiceAccount",
@@ -3001,7 +3677,8 @@
         },
         "tags": [
           "Service Accounts"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/service-account/{id}": {
@@ -3179,7 +3856,8 @@
         },
         "tags": [
           "Service Accounts"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "delete": {
         "operationId": "deleteServiceAccount",
@@ -3283,7 +3961,8 @@
         },
         "tags": [
           "Service Accounts"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/service-account/{id}/token": {
@@ -3396,7 +4075,8 @@
         },
         "tags": [
           "Service Accounts"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "post": {
         "operationId": "createServiceAccountToken",
@@ -3581,7 +4261,8 @@
         },
         "tags": [
           "Service Accounts"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/service-account/{id}/token/{tokenId}": {
@@ -3695,14 +4376,26 @@
         },
         "tags": [
           "Service Accounts"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/context": {
       "get": {
         "operationId": "getContextFields",
         "summary": "Gets configured context fields",
-        "description": "Returns all configured [Context fields](https://docs.getunleash.io/reference/unleash-context) that have been created.",
+        "description": "Returns all configured [Context fields](https://docs.getunleash.io/concepts/unleash-context) that have been created.",
+        "parameters": [
+          {
+            "name": "include",
+            "in": "query",
+            "description": "Whether the response should include project-specific or root context fields in addition to the fields in the default response. When querying the root context API, `include=project` will yield a response that includes all project-specific context fields in addition to all root context fields. Conversely, when querying a project-specific context API, using `include=root` will yield a response that includes all root context fields in addition to the project-specific context fields. The other combinations have no effect, because the responses already include those fields. When including project-specific context fields via the root-level API, context fields in private projects the user does not have access to will be omitted.",
+            "schema": {
+              "type": "string",
+              "example": "project"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "contextFieldsSchema",
@@ -3717,12 +4410,13 @@
         },
         "tags": [
           "Context"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "post": {
         "operationId": "createContextField",
         "summary": "Create a context field",
-        "description": "Endpoint that allows creation of [custom context fields](https://docs.getunleash.io/reference/unleash-context#custom-context-fields)",
+        "description": "Endpoint that allows creation of [custom context fields](https://docs.getunleash.io/concepts/unleash-context#custom-context-fields)",
         "requestBody": {
           "description": "createContextFieldSchema",
           "required": true,
@@ -3757,14 +4451,15 @@
         },
         "tags": [
           "Context"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/context/{contextField}": {
       "get": {
         "operationId": "getContextField",
         "summary": "Gets context field",
-        "description": "Returns specific [context field](https://docs.getunleash.io/reference/unleash-context) identified by the name in the path",
+        "description": "Returns specific [context field](https://docs.getunleash.io/concepts/unleash-context) identified by the name in the path",
         "parameters": [
           {
             "name": "contextField",
@@ -3789,7 +4484,8 @@
         },
         "tags": [
           "Context"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "put": {
         "operationId": "updateContextField",
@@ -3823,7 +4519,8 @@
         },
         "tags": [
           "Context"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "delete": {
         "operationId": "deleteContextField",
@@ -3846,7 +4543,8 @@
         },
         "tags": [
           "Context"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/api-tokens": {
@@ -3922,7 +4620,8 @@
         },
         "tags": [
           "API tokens"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "post": {
         "operationId": "createApiToken",
@@ -4043,7 +4742,8 @@
         },
         "tags": [
           "API tokens"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/api-tokens/{name}": {
@@ -4129,7 +4829,8 @@
         },
         "tags": [
           "API tokens"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/api-tokens/{token}": {
@@ -4246,7 +4947,8 @@
         },
         "tags": [
           "API tokens"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "delete": {
         "operationId": "deleteApiToken",
@@ -4323,7 +5025,8 @@
         },
         "tags": [
           "API tokens"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/user-admin": {
@@ -4446,7 +5149,8 @@
         },
         "tags": [
           "Users"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/user-admin/search": {
@@ -4505,7 +5209,8 @@
         },
         "tags": [
           "Users"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/user-admin/{id}": {
@@ -4619,7 +5324,8 @@
         },
         "tags": [
           "Users"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "put": {
         "operationId": "updateUser",
@@ -4769,7 +5475,8 @@
         },
         "tags": [
           "Users"
-        ]
+        ],
+        "x-stability-level": "stable"
       },
       "delete": {
         "operationId": "deleteUser",
@@ -4874,7 +5581,8 @@
         },
         "tags": [
           "Users"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/projects/{projectId}/environments": {
@@ -4991,7 +5699,8 @@
         },
         "tags": [
           "Projects"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/projects/{projectId}/environments/{environment}": {
@@ -5105,14 +5814,15 @@
         },
         "tags": [
           "Projects"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     },
     "/api/admin/environments/project/{projectId}": {
       "get": {
         "operationId": "getProjectEnvironments",
         "summary": "Get the environments available to a project",
-        "description": "Gets the environments that are available for this project. An environment is available for a project if enabled in the [project configuration](https://docs.getunleash.io/reference/environments#enable-an-environment)",
+        "description": "Gets the environments that are available for this project. An environment is available for a project if enabled in the [project configuration](https://docs.getunleash.io/concepts/environments#enable-an-environment)",
         "parameters": [
           {
             "name": "projectId",
@@ -5218,14 +5928,15 @@
         },
         "tags": [
           "Environments"
-        ]
+        ],
+        "x-stability-level": "stable"
       }
     }
   },
   "components": {
     "schemas": {
       "apiTokenSchema": {
-        "description": "An overview of an [Unleash API token](https://docs.getunleash.io/reference/api-tokens-and-client-keys).",
+        "description": "An overview of an [Unleash API token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys).",
         "type": "object",
         "properties": {
           "secret": {
@@ -5308,7 +6019,7 @@
         ]
       },
       "apiTokensSchema": {
-        "description": "An object with [Unleash API tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys)",
+        "description": "An object with [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys)",
         "type": "object",
         "properties": {
           "tokens": {
@@ -5325,7 +6036,7 @@
         ]
       },
       "constraintSchema": {
-        "description": "A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/reference/activation-strategies#constraints)",
+        "description": "A strategy constraint. For more information, refer to [the strategy constraint reference documentation](https://docs.getunleash.io/concepts/activation-strategies#constraints)",
         "type": "object",
         "properties": {
           "contextName": {
@@ -5334,7 +6045,7 @@
             "example": "appName"
           },
           "operator": {
-            "description": "The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/reference/activation-strategies#constraint-operators).",
+            "description": "The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators).",
             "type": "string",
             "example": "IN",
             "enum": [
@@ -5352,7 +6063,8 @@
               "DATE_BEFORE",
               "SEMVER_EQ",
               "SEMVER_GT",
-              "SEMVER_LT"
+              "SEMVER_LT",
+              "REGEX"
             ]
           },
           "caseInsensitive": {
@@ -5389,7 +6101,7 @@
         ]
       },
       "contextFieldSchema": {
-        "description": "A representation of a [context field](https://docs.getunleash.io/reference/unleash-context).",
+        "description": "A representation of a [context field](https://docs.getunleash.io/concepts/unleash-context).",
         "type": "object",
         "properties": {
           "name": {
@@ -5404,7 +6116,7 @@
             "nullable": true
           },
           "stickiness": {
-            "description": "Does this context field support being used for [stickiness](https://docs.getunleash.io/reference/stickiness) calculations",
+            "description": "Does this context field support being used for [stickiness](https://docs.getunleash.io/concepts/stickiness) calculations",
             "type": "boolean",
             "example": true
           },
@@ -5440,6 +6152,11 @@
             "items": {
               "$ref": "#/components/schemas/legalValueSchema"
             }
+          },
+          "project": {
+            "description": "The project this context field belongs to (if it is project-specific)",
+            "type": "string",
+            "example": "my-project"
           }
         },
         "additionalProperties": true,
@@ -5455,7 +6172,7 @@
         }
       },
       "createApiTokenSchema": {
-        "description": "The data required to create an [Unleash API token](https://docs.getunleash.io/reference/api-tokens-and-client-keys).",
+        "description": "The data required to create an [Unleash API token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys).",
         "type": "object",
         "oneOf": [
           {
@@ -5517,7 +6234,7 @@
             "example": "The user's subscription tier"
           },
           "stickiness": {
-            "description": "`true` if this field should be available for use with [custom stickiness](https://docs.getunleash.io/reference/stickiness#custom-stickiness), otherwise `false`",
+            "description": "`true` if this field should be available for use with [custom stickiness](https://docs.getunleash.io/concepts/stickiness#custom-stickiness), otherwise `false`",
             "type": "boolean",
             "example": false
           },
@@ -5543,6 +6260,11 @@
                 "value": "crystal"
               }
             ]
+          },
+          "project": {
+            "description": "The project this context field belongs to (if it is project-specific)",
+            "type": "string",
+            "example": "my-project"
           },
           "name": {
             "description": "The name of the context field.",
@@ -5608,7 +6330,7 @@
             "example": 9999
           },
           "constraints": {
-            "description": "A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/activation-strategies#constraints",
+            "description": "A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/constraintSchema"
@@ -5658,8 +6380,73 @@
           "name"
         ]
       },
+      "createGroupSchema": {
+        "description": "A detailed information about a user group",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The name of the group",
+            "type": "string",
+            "example": "DX team"
+          },
+          "description": {
+            "description": "A custom description of the group",
+            "type": "string",
+            "example": "Current members of the DX squad",
+            "nullable": true
+          },
+          "mappingsSSO": {
+            "description": "A list of SSO groups that should map to this Unleash group",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "SSOGroup1",
+              "SSOGroup2"
+            ]
+          },
+          "rootRole": {
+            "description": "A role id that is used as the root role for all users in this group. This can be either the id of the Viewer, Editor or Admin role.",
+            "type": "number",
+            "example": 1,
+            "nullable": true
+          },
+          "users": {
+            "description": "A list of users belonging to this group",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "A minimal user object",
+              "required": [
+                "user"
+              ],
+              "properties": {
+                "user": {
+                  "description": "A minimal user object",
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The user id",
+                      "type": "integer",
+                      "example": 123,
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
       "createPatSchema": {
-        "description": "Describes the properties required to create a [personal access token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens), or PAT. PATs are automatically scoped to the authenticated user.",
+        "description": "Describes the properties required to create a [personal access token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens), or PAT. PATs are automatically scoped to the authenticated user.",
         "type": "object",
         "properties": {
           "description": {
@@ -5689,13 +6476,13 @@
             "example": "blue_group"
           },
           "weight": {
-            "description": "The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight) for more information",
+            "description": "The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information",
             "type": "integer",
             "maximum": 1000,
             "minimum": 0
           },
           "weightType": {
-            "description": "Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight).",
+            "description": "Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).",
             "type": "string",
             "example": "fix",
             "enum": [
@@ -5704,7 +6491,7 @@
             ]
           },
           "stickiness": {
-            "description": "The [stickiness](https://docs.getunleash.io/reference/feature-toggle-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time",
+            "description": "The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time",
             "type": "string",
             "example": "custom.context.field"
           },
@@ -5792,7 +6579,7 @@
             "example": false
           },
           "rootRole": {
-            "description": "Which [root role](https://docs.getunleash.io/reference/rbac#predefined-roles) this user is assigned. Usually a numeric role ID, but can be a string when returning newly created user with an explicit string role.",
+            "description": "Which [root role](https://docs.getunleash.io/concepts/rbac#predefined-roles) this user is assigned. Usually a numeric role ID, but can be a string when returning newly created user with an explicit string role.",
             "oneOf": [
               {
                 "type": "integer",
@@ -5807,7 +6594,8 @@
                   "Editor",
                   "Viewer",
                   "Owner",
-                  "Member"
+                  "Member",
+                  "Reader"
                 ]
               }
             ]
@@ -5845,6 +6633,24 @@
             "description": "The SCIM ID of the user, only present if managed by SCIM",
             "type": "string",
             "example": "01HTMEXAMPLESCIMID7SWWGHN6",
+            "nullable": true
+          },
+          "seatType": {
+            "description": "The seat type of this user",
+            "type": "string",
+            "example": "Regular",
+            "nullable": true
+          },
+          "companyRole": {
+            "description": "The role of the user within the company.",
+            "type": "string",
+            "example": "Developer",
+            "nullable": true
+          },
+          "productUpdatesEmailConsent": {
+            "description": "Whether the user has consented to receive product update emails.",
+            "type": "boolean",
+            "example": false,
             "nullable": true
           },
           "activeSessions": {
@@ -5904,7 +6710,8 @@
                   "Editor",
                   "Viewer",
                   "Owner",
-                  "Member"
+                  "Member",
+                  "Reader"
                 ]
               }
             ]
@@ -5930,7 +6737,7 @@
             "example": "development"
           },
           "type": {
-            "description": "The [type of environment](https://docs.getunleash.io/reference/environments#environment-types).",
+            "description": "The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types).",
             "type": "string",
             "example": "production"
           },
@@ -5997,7 +6804,7 @@
             "example": "my-dev-env"
           },
           "type": {
-            "description": "The [type of environment](https://docs.getunleash.io/reference/environments#environment-types).",
+            "description": "The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types).",
             "type": "string",
             "example": "development"
           },
@@ -6148,7 +6955,7 @@
             ]
           },
           "constraints": {
-            "description": "A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/activation-strategies#constraints",
+            "description": "A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/constraintSchema"
@@ -6163,6 +6970,92 @@
           },
           "parameters": {
             "$ref": "#/components/schemas/parametersSchema"
+          }
+        },
+        "additionalProperties": true,
+        "required": [
+          "name"
+        ]
+      },
+      "groupSchema": {
+        "description": "A detailed information about a user group",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "The group id",
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "description": "The name of the group",
+            "type": "string",
+            "example": "DX team"
+          },
+          "description": {
+            "description": "A custom description of the group",
+            "type": "string",
+            "example": "Current members of the DX squad",
+            "nullable": true
+          },
+          "mappingsSSO": {
+            "description": "A list of SSO groups that should map to this Unleash group",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "SSOGroup1",
+              "SSOGroup2"
+            ]
+          },
+          "rootRole": {
+            "description": "A role id that is used as the root role for all users in this group. This can be either the id of the Viewer, Editor or Admin role.",
+            "type": "number",
+            "example": 1,
+            "nullable": true
+          },
+          "createdBy": {
+            "description": "A user who created this group",
+            "type": "string",
+            "example": "admin",
+            "nullable": true
+          },
+          "createdAt": {
+            "description": "When was this group created",
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-06-30T11:41:00.123Z",
+            "nullable": true
+          },
+          "users": {
+            "description": "A list of users belonging to this group",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/groupUserModelSchema"
+            }
+          },
+          "projects": {
+            "description": "A list of projects where this group is used",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "default",
+              "my-project"
+            ]
+          },
+          "userCount": {
+            "description": "The number of users that belong to this group",
+            "type": "integer",
+            "example": 1,
+            "minimum": 0
+          },
+          "scimId": {
+            "description": "The SCIM ID of the group, only present if managed by SCIM",
+            "type": "string",
+            "example": "01HTMEXAMPLESCIMID7SWWGHN7",
+            "nullable": true
           }
         },
         "additionalProperties": true,
@@ -6195,6 +7088,20 @@
           "user"
         ]
       },
+      "groupsSchema": {
+        "description": "A list of [user groups](https://docs.getunleash.io/concepts/rbac#user-groups)",
+        "type": "object",
+        "properties": {
+          "groups": {
+            "description": "A list of groups",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/groupSchema"
+            }
+          }
+        },
+        "additionalProperties": true
+      },
       "legalValueSchema": {
         "description": "Describes a legal value. Typically used to limit possible values for contextFields or strategy properties",
         "type": "object",
@@ -6223,7 +7130,7 @@
         }
       },
       "patSchema": {
-        "description": "Describes a [personal access token](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens), or PAT. PATs are automatically scoped to the authenticated user.",
+        "description": "Describes a [personal access token](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens), or PAT. PATs are automatically scoped to the authenticated user.",
         "type": "object",
         "properties": {
           "id": {
@@ -6275,7 +7182,7 @@
         ]
       },
       "patsSchema": {
-        "description": "Contains a collection of [personal access tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens), or PATs. PATs are automatically scoped to the authenticated user.",
+        "description": "Contains a collection of [personal access tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens), or PATs. PATs are automatically scoped to the authenticated user.",
         "type": "object",
         "properties": {
           "pats": {
@@ -6354,7 +7261,7 @@
             "nullable": true
           },
           "mode": {
-            "description": "The project's [collaboration mode](https://docs.getunleash.io/reference/project-collaboration-mode). Determines whether non-project members can submit change requests or not.",
+            "description": "The project's [collaboration mode](https://docs.getunleash.io/concepts/project-collaboration-mode). Determines whether non-project members can submit change requests or not.",
             "type": "string",
             "example": "open",
             "enum": [
@@ -6442,13 +7349,13 @@
             "example": "blue_group"
           },
           "weight": {
-            "description": "The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight) for more information",
+            "description": "The weight is the likelihood of any one user getting this variant. It is an integer between 0 and 1000. See the section on [variant weights](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight) for more information",
             "type": "integer",
             "maximum": 1000,
             "minimum": 0
           },
           "weightType": {
-            "description": "Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/reference/feature-toggle-variants#variant-weight).",
+            "description": "Set to `fix` if this variant must have exactly the weight allocated to it. If the type is `variable`, the weight will adjust so that the total weight of all variants adds up to 1000. Refer to the [variant weight documentation](https://docs.getunleash.io/concepts/feature-flag-variants#variant-weight).",
             "type": "string",
             "example": "fix",
             "enum": [
@@ -6457,7 +7364,7 @@
             ]
           },
           "stickiness": {
-            "description": "The [stickiness](https://docs.getunleash.io/reference/feature-toggle-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time",
+            "description": "The [stickiness](https://docs.getunleash.io/concepts/feature-flag-variants#variant-stickiness) to use for distribution of this variant. Stickiness is how Unleash guarantees that the same user gets the same variant every time",
             "type": "string",
             "example": "custom.context.field"
           },
@@ -6523,7 +7430,7 @@
             "example": "The user's subscription tier"
           },
           "stickiness": {
-            "description": "`true` if this field should be available for use with [custom stickiness](https://docs.getunleash.io/reference/stickiness#custom-stickiness), otherwise `false`",
+            "description": "`true` if this field should be available for use with [custom stickiness](https://docs.getunleash.io/concepts/stickiness#custom-stickiness), otherwise `false`",
             "type": "boolean",
             "example": false
           },
@@ -6549,6 +7456,11 @@
                 "value": "crystal"
               }
             ]
+          },
+          "project": {
+            "description": "The project this context field belongs to (if it is project-specific)",
+            "type": "string",
+            "example": "my-project"
           }
         }
       },
@@ -6582,7 +7494,8 @@
                   "Editor",
                   "Viewer",
                   "Owner",
-                  "Member"
+                  "Member",
+                  "Reader"
                 ]
               }
             ]
@@ -6637,7 +7550,7 @@
             "example": false
           },
           "rootRole": {
-            "description": "Which [root role](https://docs.getunleash.io/reference/rbac#predefined-roles) this user is assigned",
+            "description": "Which [root role](https://docs.getunleash.io/concepts/rbac#predefined-roles) this user is assigned",
             "type": "integer",
             "example": 1,
             "minimum": 0
@@ -6677,6 +7590,24 @@
             "example": "01HTMEXAMPLESCIMID7SWWGHN6",
             "nullable": true
           },
+          "seatType": {
+            "description": "The seat type of this user",
+            "type": "string",
+            "example": "Regular",
+            "nullable": true
+          },
+          "companyRole": {
+            "description": "The role of the user within the company.",
+            "type": "string",
+            "example": "Developer",
+            "nullable": true
+          },
+          "productUpdatesEmailConsent": {
+            "description": "Whether the user has consented to receive product update emails.",
+            "type": "boolean",
+            "example": false,
+            "nullable": true
+          },
           "activeSessions": {
             "description": "Count of active browser sessions for this user",
             "type": "integer",
@@ -6706,7 +7637,7 @@
             }
           },
           "rootRoles": {
-            "description": "A list of [root roles](https://docs.getunleash.io/reference/rbac#predefined-roles) in the Unleash instance.",
+            "description": "A list of [root roles](https://docs.getunleash.io/concepts/rbac#predefined-roles) in the Unleash instance.",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/roleSchema"
@@ -6830,7 +7761,7 @@
         ]
       },
       "createEnvironmentSchema": {
-        "description": "Data required to create a new [environment](https://docs.getunleash.io/reference/environments)",
+        "description": "Data required to create a new [environment](https://docs.getunleash.io/concepts/environments)",
         "type": "object",
         "properties": {
           "name": {
@@ -6839,7 +7770,7 @@
             "pattern": "^[a-zA-Z0-9~_.-]+$"
           },
           "type": {
-            "description": "The [type of environment](https://docs.getunleash.io/reference/environments#environment-types) you would like to create. Unleash officially recognizes the following values:\n- `development`\n- `test`\n- `preproduction`\n- `production`\n\nIf you pass a string that is not one of the recognized values, Unleash will accept it, but it will carry no special semantics.",
+            "description": "The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types) you would like to create. Unleash officially recognizes the following values:\n- `development`\n- `test`\n- `preproduction`\n- `production`\n\nIf you pass a string that is not one of the recognized values, Unleash will accept it, but it will carry no special semantics.",
             "type": "string",
             "minLength": 1
           },
@@ -6865,7 +7796,7 @@
         ]
       },
       "createProjectSchema": {
-        "description": "Data used to create a new [project](https://docs.getunleash.io/reference/projects).",
+        "description": "Data used to create a new [project](https://docs.getunleash.io/concepts/projects).",
         "type": "object",
         "properties": {
           "id": {
@@ -6965,7 +7896,7 @@
                 "example": "Users with external-contributors role have limited access to most features in Unleash"
               },
               "type": {
-                "description": "[Custom root roles](https://docs.getunleash.io/reference/rbac#custom-root-roles) (type=root-custom) are root roles with a custom set of permissions. [Custom project roles](https://docs.getunleash.io/reference/rbac#custom-project-roles) (type=custom) contain a specific set of permissions for project resources.",
+                "description": "[Custom root roles](https://docs.getunleash.io/concepts/rbac#custom-root-roles) (type=root-custom) are root roles with a custom set of permissions. [Custom project roles](https://docs.getunleash.io/concepts/rbac#custom-project-roles) (type=custom) contain a specific set of permissions for project resources.",
                 "type": "string",
                 "example": "root-custom",
                 "enum": [
@@ -7015,7 +7946,7 @@
                 "example": "Users with external-contributors role have limited access to most features in Unleash"
               },
               "type": {
-                "description": "[Custom project roles](https://docs.getunleash.io/reference/rbac#custom-project-roles) contain a specific set of permissions for project resources.",
+                "description": "[Custom project roles](https://docs.getunleash.io/concepts/rbac#custom-project-roles) contain a specific set of permissions for project resources.",
                 "type": "string",
                 "example": "custom",
                 "enum": [
@@ -7099,7 +8030,7 @@
                 "type": "boolean"
               },
               "defaultRootRole": {
-                "description": "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`",
+                "description": "[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`",
                 "type": "string",
                 "enum": [
                   "Viewer",
@@ -7133,7 +8064,7 @@
                 ]
               },
               "enableGroupSyncing": {
-                "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)",
+                "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)",
                 "type": "boolean",
                 "example": false
               },
@@ -7144,6 +8075,11 @@
               },
               "addGroupsScope": {
                 "description": "When enabled Unleash will also request the 'groups' scope as part of the login request.",
+                "type": "boolean",
+                "example": false
+              },
+              "enablePkce": {
+                "description": "Enable PKCE (Proof Key for Code Exchange) for enhanced security. Recommended for public clients and provides additional protection against authorization code interception attacks.",
                 "type": "boolean",
                 "example": false
               }
@@ -7185,7 +8121,7 @@
                 "type": "boolean"
               },
               "defaultRootRole": {
-                "description": "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`",
+                "description": "[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`",
                 "type": "string",
                 "enum": [
                   "Viewer",
@@ -7219,7 +8155,7 @@
                 ]
               },
               "enableGroupSyncing": {
-                "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)",
+                "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)",
                 "type": "boolean",
                 "example": false
               },
@@ -7230,6 +8166,11 @@
               },
               "addGroupsScope": {
                 "description": "When enabled Unleash will also request the 'groups' scope as part of the login request.",
+                "type": "boolean",
+                "example": false
+              },
+              "enablePkce": {
+                "description": "Enable PKCE (Proof Key for Code Exchange) for enhanced security. Recommended for public clients and provides additional protection against authorization code interception attacks.",
                 "type": "boolean",
                 "example": false
               }
@@ -7572,7 +8513,7 @@
                 "example": 2
               },
               "enableGroupSyncing": {
-                "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)",
+                "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)",
                 "type": "boolean",
                 "example": false
               },
@@ -7645,7 +8586,7 @@
                 "example": 2
               },
               "enableGroupSyncing": {
-                "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)",
+                "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)",
                 "type": "boolean",
                 "example": false
               },
@@ -7659,14 +8600,14 @@
         ]
       },
       "changeRequestConfigSchema": {
-        "description": "A list of environment-specific [change request](https://docs.getunleash.io/reference/change-requests) configurations.",
+        "description": "A list of environment-specific [change request](https://docs.getunleash.io/concepts/change-requests) configurations.",
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/changeRequestEnvironmentConfigSchema"
         }
       },
       "changeRequestEnvironmentConfigSchema": {
-        "description": "The [change request](https://docs.getunleash.io/reference/change-requests) configuration for a specific environment.",
+        "description": "The [change request](https://docs.getunleash.io/concepts/change-requests) configuration for a specific environment.",
         "type": "object",
         "properties": {
           "environment": {
@@ -7675,7 +8616,7 @@
             "example": "my-dev-environment"
           },
           "type": {
-            "description": "The [type of the environment](https://docs.getunleash.io/reference/environments#environment-types) listed in `environment`.",
+            "description": "The [type of the environment](https://docs.getunleash.io/concepts/environments#environment-types) listed in `environment`.",
             "type": "string",
             "example": "development"
           },
@@ -7719,7 +8660,7 @@
         ]
       },
       "updateEnvironmentSchema": {
-        "description": "Data used to update an [environment](https://docs.getunleash.io/reference/environments).",
+        "description": "Data used to update an [environment](https://docs.getunleash.io/concepts/environments).",
         "type": "object",
         "properties": {
           "type": {
@@ -7740,7 +8681,7 @@
         }
       },
       "updateProjectSchema": {
-        "description": "Data used to update a [project](https://docs.getunleash.io/reference/projects)",
+        "description": "Data used to update a [project](https://docs.getunleash.io/concepts/projects)",
         "type": "object",
         "properties": {
           "name": {
@@ -7775,7 +8716,7 @@
         ]
       },
       "updateProjectEnterpriseSettingsSchema": {
-        "description": "Data used to update a [project](https://docs.getunleash.io/reference/projects) settings",
+        "description": "Data used to update a [project](https://docs.getunleash.io/concepts/projects) settings",
         "type": "object",
         "properties": {
           "mode": {
@@ -7951,7 +8892,7 @@
         ]
       },
       "serviceAccountSchema": {
-        "description": "Represents a [service account](https://docs.getunleash.io/reference/service-accounts). Service accounts are used to let systems interact with the Unleash API.",
+        "description": "Represents a [service account](https://docs.getunleash.io/concepts/service-accounts). Service accounts are used to let systems interact with the Unleash API.",
         "type": "object",
         "properties": {
           "id": {
@@ -8166,7 +9107,7 @@
             "example": 2
           },
           "enableGroupSyncing": {
-            "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)",
+            "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)",
             "type": "boolean",
             "example": false
           },
@@ -8214,7 +9155,7 @@
             "type": "boolean"
           },
           "defaultRootRole": {
-            "description": "[Default role](https://docs.getunleash.io/reference/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`",
+            "description": "[Default role](https://docs.getunleash.io/concepts/rbac#standard-roles) granted to users auto-created from email. Only relevant if autoCreate is `true`",
             "type": "string",
             "enum": [
               "Viewer",
@@ -8248,7 +9189,7 @@
             ]
           },
           "enableGroupSyncing": {
-            "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync)",
+            "description": "Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync)",
             "type": "boolean",
             "example": false
           },
@@ -8259,6 +9200,11 @@
           },
           "addGroupsScope": {
             "description": "When enabled Unleash will also request the 'groups' scope as part of the login request.",
+            "type": "boolean",
+            "example": false
+          },
+          "enablePkce": {
+            "description": "Enable PKCE (Proof Key for Code Exchange) for enhanced security. Recommended for public clients and provides additional protection against authorization code interception attacks.",
             "type": "boolean",
             "example": false
           }
@@ -8290,7 +9236,7 @@
     },
     {
       "name": "API tokens",
-      "description": "Create, update, and delete [Unleash API tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys)."
+      "description": "Create, update, and delete [Unleash API tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys)."
     },
     {
       "name": "Archive",
@@ -8302,19 +9248,19 @@
     },
     {
       "name": "Banners",
-      "description": "Create, update, flag, and delete [banners](https://docs.getunleash.io/reference/banners)."
+      "description": "Create, update, flag, and delete [banners](https://docs.getunleash.io/concepts/banners)."
     },
     {
       "name": "Change Requests",
-      "description": "API for managing [change requests](https://docs.getunleash.io/reference/change-requests)."
+      "description": "API for managing [change requests](https://docs.getunleash.io/concepts/change-requests)."
     },
     {
       "name": "Client",
-      "description": "Endpoints for [Unleash backend clients](https://docs.getunleash.io/reference/sdks)."
+      "description": "Endpoints for [Unleash backend clients](https://docs.getunleash.io/sdks)."
     },
     {
       "name": "Context",
-      "description": "Create, update, and delete [context fields](https://docs.getunleash.io/reference/unleash-context) that Unleash is aware of."
+      "description": "Create, update, and delete [context fields](https://docs.getunleash.io/concepts/unleash-context) that Unleash is aware of."
     },
     {
       "name": "Dependencies",
@@ -8322,7 +9268,7 @@
     },
     {
       "name": "Environments",
-      "description": "Create, update, delete, enable or disable [environments](https://docs.getunleash.io/reference/environments) for this Unleash instance."
+      "description": "Create, update, delete, enable or disable [environments](https://docs.getunleash.io/concepts/environments) for this Unleash instance."
     },
     {
       "name": "Events",
@@ -8330,19 +9276,19 @@
     },
     {
       "name": "Feature Types",
-      "description": "Manage [feature flag types](https://docs.getunleash.io/reference/feature-toggles#feature-flag-types)."
+      "description": "Manage [feature flag types](https://docs.getunleash.io/concepts/feature-flags#feature-flag-types)."
     },
     {
       "name": "Features",
-      "description": "Create, update, and delete [feature flags](https://docs.getunleash.io/reference/feature-toggles)."
+      "description": "Create, update, and delete [feature flags](https://docs.getunleash.io/concepts/feature-flags)."
     },
     {
       "name": "Frontend API",
-      "description": "The [Frontend API](https://docs.getunleash.io/reference/front-end-api) is used for connecting client-side (frontend) applications to Unleash."
+      "description": "The [Frontend API](https://docs.getunleash.io/concepts/front-end-api) is used for connecting client-side (frontend) applications to Unleash."
     },
     {
       "name": "Import/Export",
-      "description": "[Import and export](https://docs.getunleash.io/how-to/how-to-environment-import-export) the state of your Unleash instance."
+      "description": "[Import and export](https://docs.getunleash.io/concepts/import-export) the state of your Unleash instance."
     },
     {
       "name": "Instance Admin",
@@ -8358,7 +9304,7 @@
     },
     {
       "name": "Notifications",
-      "description": "API for managing [notifications](https://docs.getunleash.io/reference/notifications)."
+      "description": "API for managing [notifications](https://docs.getunleash.io/concepts/notifications)."
     },
     {
       "name": "Operational",
@@ -8366,7 +9312,7 @@
     },
     {
       "name": "Personal access tokens",
-      "description": "Create, update, and delete [Personal access tokens](https://docs.getunleash.io/reference/api-tokens-and-client-keys#personal-access-tokens)."
+      "description": "Create, update, and delete [Personal access tokens](https://docs.getunleash.io/concepts/api-tokens-and-client-keys#personal-access-tokens)."
     },
     {
       "name": "Playground",
@@ -8374,15 +9320,15 @@
     },
     {
       "name": "Projects",
-      "description": "Create, update, and delete [Unleash projects](https://docs.getunleash.io/reference/projects)."
+      "description": "Create, update, and delete [Unleash projects](https://docs.getunleash.io/concepts/projects)."
     },
     {
       "name": "Public signup tokens",
-      "description": "Create, update, and delete [Unleash Public Signup tokens](https://docs.getunleash.io/reference/public-signup-tokens)."
+      "description": "Create, update, and delete [Unleash Public Signup tokens](https://docs.getunleash.io/concepts/public-signup-tokens)."
     },
     {
       "name": "Release Templates",
-      "description": "API for managing [release templates](https://docs.getunleash.io/reference/release-templates)."
+      "description": "API for managing [release templates](https://docs.getunleash.io/concepts/release-templates)."
     },
     {
       "name": "Search",
@@ -8390,19 +9336,23 @@
     },
     {
       "name": "Segments",
-      "description": "Create, update, delete, and manage [segments](https://docs.getunleash.io/reference/segments)."
+      "description": "Create, update, delete, and manage [segments](https://docs.getunleash.io/concepts/segments)."
     },
     {
       "name": "Service Accounts",
-      "description": "Endpoints for managing [Service Accounts](https://docs.getunleash.io/reference/service-accounts), which enable programmatic access to the Unleash API."
+      "description": "Endpoints for managing [Service Accounts](https://docs.getunleash.io/concepts/service-accounts), which enable programmatic access to the Unleash API."
+    },
+    {
+      "name": "Signup",
+      "description": "Endpoints related to signup and account setup."
     },
     {
       "name": "Strategies",
-      "description": "Create, update, delete, manage [custom strategies](https://docs.getunleash.io/reference/custom-activation-strategies)."
+      "description": "Create, update, delete, manage [custom strategies](https://docs.getunleash.io/concepts/activation-strategies#custom-strategies)."
     },
     {
       "name": "Tags",
-      "description": "Create, update, and delete [tags and tag types](https://docs.getunleash.io/reference/feature-toggles#tags)."
+      "description": "Create, update, and delete [tags and tag types](https://docs.getunleash.io/concepts/feature-flags#tags)."
     },
     {
       "name": "Telemetry",
@@ -8414,11 +9364,7 @@
     },
     {
       "name": "Unleash Edge",
-      "description": "Endpoints related to [Unleash Edge](https://docs.getunleash.io/reference/unleash-edge)."
-    },
-    {
-      "name": "Unstable",
-      "description": "Experimental endpoints that may change or disappear at any time."
+      "description": "Endpoints related to [Unleash Edge](https://docs.getunleash.io/unleash-edge)."
     },
     {
       "name": "Users",

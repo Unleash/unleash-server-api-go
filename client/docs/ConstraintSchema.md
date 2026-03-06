@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ContextName** | **string** | The name of the context field that this constraint should apply to. | 
-**Operator** | **string** | The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/reference/activation-strategies#constraint-operators). | 
+**Operator** | **string** | The operator to use when evaluating this constraint. For more information about the various operators, refer to [the strategy constraint operator documentation](https://docs.getunleash.io/concepts/activation-strategies#constraint-operators). | 
 **CaseInsensitive** | Pointer to **bool** | Whether the operator should be case sensitive or not. Defaults to &#x60;false&#x60; (being case sensitive). | [optional] [default to false]
 **Inverted** | Pointer to **bool** | Whether the result should be negated or not. If &#x60;true&#x60;, will turn a &#x60;true&#x60; result into a &#x60;false&#x60; result and vice versa. | [optional] [default to false]
 **Values** | Pointer to **[]string** | The context values that should be used for constraint evaluation. Use this property instead of &#x60;value&#x60; for properties that accept multiple values. | [optional] 

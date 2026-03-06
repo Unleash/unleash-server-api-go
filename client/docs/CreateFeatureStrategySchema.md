@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **Title** | Pointer to **NullableString** | A descriptive title for the strategy | [optional] 
 **Disabled** | Pointer to **NullableBool** | A toggle to disable the strategy. defaults to false. Disabled strategies are not evaluated or returned to the SDKs | [optional] 
 **SortOrder** | Pointer to **float32** | The order of the strategy in the list | [optional] 
-**Constraints** | Pointer to [**[]ConstraintSchema**](ConstraintSchema.md) | A list of the constraints attached to the strategy. See https://docs.getunleash.io/reference/activation-strategies#constraints | [optional] 
+**Constraints** | Pointer to [**[]ConstraintSchema**](ConstraintSchema.md) | A list of the constraints attached to the strategy. See https://docs.getunleash.io/concepts/activation-strategies#constraints | [optional] 
 **Variants** | Pointer to [**[]CreateStrategyVariantSchema**](CreateStrategyVariantSchema.md) | Strategy level variants | [optional] 
 **Parameters** | Pointer to **map[string]string** | A list of parameters for a strategy | [optional] 
 **Segments** | Pointer to **[]float32** | Ids of segments to use for this strategy | [optional] 

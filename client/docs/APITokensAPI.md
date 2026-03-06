@@ -1,6 +1,6 @@
 # \APITokensAPI
 
-All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
+All URIs are relative to *https://unleash.example.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -33,7 +33,7 @@ import (
 )
 
 func main() {
-	createApiTokenSchema := *openapiclient.NewCreateApiTokenSchema("frontend", "token-64522") // CreateApiTokenSchema | createApiTokenSchema
+	createApiTokenSchema := openapiclient.createApiTokenSchema{CreateApiTokenSchemaOneOf: openapiclient.NewCreateApiTokenSchemaOneOf("frontend", "token-64522")} // CreateApiTokenSchema | createApiTokenSchema
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

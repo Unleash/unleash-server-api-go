@@ -40,7 +40,7 @@ func Test_client_SSOSettingsAPIService(t *testing.T) {
 			}
 			samlSettingsResponse, httpRes, err := apiClient.AuthAPI.SetSamlSettings(context.Background()).SamlSettingsSchema(samlSettings).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, samlSettingsResponse)
 			require.Equal(t, 200, httpRes.StatusCode)
 		} else {
@@ -65,7 +65,7 @@ func Test_client_SSOSettingsAPIService(t *testing.T) {
 			}
 			samlSettingsResponse, httpRes, err := apiClient.AuthAPI.SetSamlSettings(context.Background()).SamlSettingsSchema(samlSettings).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, samlSettingsResponse)
 			require.Equal(t, 200, httpRes.StatusCode)
 		} else {
@@ -88,13 +88,13 @@ func Test_client_SSOSettingsAPIService(t *testing.T) {
 			}
 			setSamlResponse, httpRes, err := apiClient.AuthAPI.SetSamlSettings(context.Background()).SamlSettingsSchema(samlSettings).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, setSamlResponse)
 			require.Equal(t, 200, httpRes.StatusCode)
 
 			samlSettingsResponse, httpRes, err := apiClient.AuthAPI.GetSamlSettings(context.Background()).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, samlSettingsResponse)
 			require.Equal(t, 200, httpRes.StatusCode)
 
@@ -137,7 +137,7 @@ func Test_client_SSOSettingsAPIService(t *testing.T) {
 			}
 			oidcSettingsResponse, httpRes, err := apiClient.AuthAPI.SetOidcSettings(context.Background()).OidcSettingsSchema(oidcSettings).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, oidcSettingsResponse)
 			require.Equal(t, 200, httpRes.StatusCode)
 
@@ -169,7 +169,7 @@ func Test_client_SSOSettingsAPIService(t *testing.T) {
 			}
 			oidcSettingsResponse, httpRes, err := apiClient.AuthAPI.SetOidcSettings(context.Background()).OidcSettingsSchema(oidcSettings).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, oidcSettingsResponse)
 			require.Equal(t, 200, httpRes.StatusCode)
 
@@ -201,13 +201,13 @@ func Test_client_SSOSettingsAPIService(t *testing.T) {
 			}
 			oidcSettingsResponse, httpRes, err := apiClient.AuthAPI.SetOidcSettings(context.Background()).OidcSettingsSchema(oidcSettings).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, oidcSettingsResponse)
 			require.Equal(t, 200, httpRes.StatusCode)
 
 			oidcSettingsResponse, httpRes, err = apiClient.AuthAPI.GetOidcSettings(context.Background()).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, oidcSettingsResponse)
 			require.Equal(t, 200, httpRes.StatusCode)
 
@@ -233,7 +233,7 @@ func Test_client_SSOSettingsAPIService(t *testing.T) {
 
 			simpleSettingsResponse, httpRes, err := apiClient.AuthAPI.SetSimpleSettings(context.Background()).PasswordAuthSchema(*simpleSettingsRequest).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, simpleSettingsResponse)
 			require.Equal(t, 200, httpRes.StatusCode)
 		} else {
@@ -248,13 +248,13 @@ func Test_client_SSOSettingsAPIService(t *testing.T) {
 
 			simpleSettingsResponse, httpRes, err := apiClient.AuthAPI.SetSimpleSettings(context.Background()).PasswordAuthSchema(*simpleSettingsRequest).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, simpleSettingsResponse)
 			require.Equal(t, 200, httpRes.StatusCode)
 
 			simpleSettingsResponse, httpRes, err = apiClient.AuthAPI.GetSimpleSettings(context.Background()).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, simpleSettingsResponse)
 			require.Equal(t, 200, httpRes.StatusCode)
 

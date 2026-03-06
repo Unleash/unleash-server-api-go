@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **EmailDomains** | Pointer to **string** | A comma separated list of email domains that Unleash will auto create user accounts for. | [optional] 
 **DefaultRootRole** | Pointer to **string** | Assign this root role to auto created users | [optional] 
 **DefaultRootRoleId** | Pointer to **float32** | Assign this root role to auto created users. Should be a role ID and takes precedence over &#x60;defaultRootRole&#x60;. | [optional] 
-**EnableGroupSyncing** | Pointer to **bool** | Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/how-to/how-to-set-up-group-sso-sync) | [optional] 
+**EnableGroupSyncing** | Pointer to **bool** | Should we enable group syncing. Refer to the documentation [Group syncing](https://docs.getunleash.io/guides/how-to-set-up-group-sso-sync) | [optional] 
 **GroupJsonPath** | Pointer to **string** | Specifies the path in the SAML token response from which to read the groups the user belongs to. | [optional] 
 
 ## Methods

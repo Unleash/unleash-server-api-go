@@ -1,6 +1,6 @@
 # \ContextAPI
 
-All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
+All URIs are relative to *https://unleash.example.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -218,7 +218,7 @@ Name | Type | Description  | Notes
 
 ## GetContextFields
 
-> []ContextFieldSchema GetContextFields(ctx).Execute()
+> []ContextFieldSchema GetContextFields(ctx).Include(include).Execute()
 
 Gets configured context fields
 
@@ -237,10 +237,11 @@ import (
 )
 
 func main() {
+	include := "project" // string | Whether the response should include project-specific or root context fields in addition to the fields in the default response. When querying the root context API, `include=project` will yield a response that includes all project-specific context fields in addition to all root context fields. Conversely, when querying a project-specific context API, using `include=root` will yield a response that includes all root context fields in addition to the project-specific context fields. The other combinations have no effect, because the responses already include those fields. When including project-specific context fields via the root-level API, context fields in private projects the user does not have access to will be omitted. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ContextAPI.GetContextFields(context.Background()).Execute()
+	resp, r, err := apiClient.ContextAPI.GetContextFields(context.Background()).Include(include).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ContextAPI.GetContextFields``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -252,12 +253,16 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiGetContextFieldsRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **include** | **string** | Whether the response should include project-specific or root context fields in addition to the fields in the default response. When querying the root context API, &#x60;include&#x3D;project&#x60; will yield a response that includes all project-specific context fields in addition to all root context fields. Conversely, when querying a project-specific context API, using &#x60;include&#x3D;root&#x60; will yield a response that includes all root context fields in addition to the project-specific context fields. The other combinations have no effect, because the responses already include those fields. When including project-specific context fields via the root-level API, context fields in private projects the user does not have access to will be omitted. | 
 
 ### Return type
 

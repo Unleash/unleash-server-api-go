@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** | The name of the environment | 
-**Type** | **string** | The [type of environment](https://docs.getunleash.io/reference/environments#environment-types). | 
+**Type** | **string** | The [type of environment](https://docs.getunleash.io/concepts/environments#environment-types). | 
 **Enabled** | **bool** | &#x60;true&#x60; if the environment is enabled for the project, otherwise &#x60;false&#x60;. | 
 **Protected** | **bool** | &#x60;true&#x60; if the environment is protected, otherwise &#x60;false&#x60;. A *protected* environment can not be deleted. | 
 **SortOrder** | **int32** | Priority of the environment in a list of environments, the lower the value, the higher up in the list the environment will appear. Needs to be an integer | 

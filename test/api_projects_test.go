@@ -34,7 +34,7 @@ func createTempUser(t *testing.T, apiClient *client.APIClient, prefix string) *c
 	resp, httpRes, err := apiClient.UsersAPI.CreateUser(context.Background()).CreateUserSchema(createUserSchema).Execute()
 
 	fmt.Println(err)
-	require.Nil(t, err)
+	requireNoError(t, err)
 	require.NotNil(t, resp)
 	assert.Equal(t, 201, httpRes.StatusCode)
 	return resp
@@ -43,14 +43,14 @@ func createTempUser(t *testing.T, apiClient *client.APIClient, prefix string) *c
 func cleanupTempUser(t *testing.T, apiClient *client.APIClient, userId int32) {
 	httpRes, err := apiClient.UsersAPI.DeleteUser(context.Background(), userId).Execute()
 
-	require.Nil(t, err)
+	requireNoError(t, err)
 	assert.Equal(t, 200, httpRes.StatusCode)
 }
 
 func cleanupProject(t *testing.T, apiClient *client.APIClient, projectId string) {
 	httpRes, err := apiClient.ProjectsAPI.DeleteProject(context.Background(), projectId).Execute()
 
-	require.Nil(t, err)
+	requireNoError(t, err)
 	assert.Equal(t, 200, httpRes.StatusCode)
 }
 
@@ -63,7 +63,7 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 			createProjectSchema.SetId("pet-shop-project")
 			resp, httpRes, err := apiClient.ProjectsAPI.CreateProject(context.Background()).CreateProjectSchema(createProjectSchema).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 201, httpRes.StatusCode)
 		} else {
@@ -78,7 +78,7 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 
 			httpRes, err := apiClient.ProjectsAPI.DeleteProject(context.Background(), projectId).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			assert.Equal(t, 200, httpRes.StatusCode)
 		} else {
 			t.Skip("Enterprise only feature")
@@ -103,7 +103,7 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 			setAccess := client.NewProjectAccessConfigurationSchema(roles)
 			httpRes, err := apiClient.ProjectsAPI.SetProjectAccess(context.Background(), projectId).ProjectAccessConfigurationSchema(*setAccess).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			assert.Equal(t, 200, httpRes.StatusCode)
 		} else {
 			t.Skip("Enterprise only feature")
@@ -120,7 +120,7 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 
 			fmt.Println(err)
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
 			assert.Equal(t, "Owner", resp.Roles[0].Name)
@@ -142,7 +142,7 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 			user := createTempUser(t, apiClient, "some-random-user")
 			defer cleanupTempUser(t, apiClient, user.Id)
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 201, httpRes.StatusCode)
 
@@ -157,12 +157,12 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 
 			apiResponse, err := apiClient.ProjectsAPI.SetProjectAccess(context.Background(), projectId).ProjectAccessConfigurationSchema(accessConfiguration).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, apiResponse)
 
 			projects, projectApiResponse, err := apiClient.ProjectsAPI.GetProjects(context.Background()).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, projectApiResponse)
 			require.NotNil(t, projects)
 
@@ -186,13 +186,13 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 			updateProjectSettingsRequest.SetMode("private")
 
 			_, err := apiClient.ProjectsAPI.UpdateProjectEnterpriseSettings(context.Background(), projectId).UpdateProjectEnterpriseSettingsSchema(updateProjectSettingsRequest).Execute()
-			require.Nil(t, err)
+			requireNoError(t, err)
 
 			defer cleanupProject(t, apiClient, projectId)
 
 			projects, projectApiResponse, err := apiClient.ProjectsAPI.GetProjects(context.Background()).Execute()
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, projectApiResponse)
 			require.NotNil(t, projects)
 
@@ -259,7 +259,7 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 				fmt.Println(err)
 			}
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			assert.Equal(t, 200, httpResp.StatusCode)
 
 			environments, httpResp, err := apiClient.EnvironmentsAPI.GetProjectEnvironments(context.Background(), projectId).Execute()
@@ -268,7 +268,7 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 				fmt.Println(err)
 			}
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, environments)
 			assert.Equal(t, 200, httpResp.StatusCode)
 
@@ -337,7 +337,7 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 				fmt.Println(err)
 			}
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			assert.Equal(t, 200, httpResp.StatusCode)
 
 			httpResp, err = apiClient.ProjectsAPI.RemoveEnvironmentFromProject(context.Background(), projectId, environmentName).Execute()
@@ -346,7 +346,7 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 				fmt.Println(err)
 			}
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			assert.Equal(t, 200, httpResp.StatusCode)
 
 			environments, httpResp, err := apiClient.EnvironmentsAPI.GetProjectEnvironments(context.Background(), projectId).Execute()
@@ -355,7 +355,7 @@ func Test_client_ProjectsAPIService(t *testing.T) {
 				fmt.Println(err)
 			}
 
-			require.Nil(t, err)
+			requireNoError(t, err)
 			require.NotNil(t, environments)
 			assert.Equal(t, 200, httpResp.StatusCode)
 

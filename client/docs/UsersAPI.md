@@ -1,20 +1,91 @@
 # \UsersAPI
 
-All URIs are relative to *https://us.app.unleash-hosted.com/ushosted*
+All URIs are relative to *https://unleash.example.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**CreateGroup**](UsersAPI.md#CreateGroup) | **Post** /api/admin/groups | Create a new group
 [**CreateRole**](UsersAPI.md#CreateRole) | **Post** /api/admin/roles | Create a new role
 [**CreateUser**](UsersAPI.md#CreateUser) | **Post** /api/admin/user-admin | Create a new user
+[**DeleteGroup**](UsersAPI.md#DeleteGroup) | **Delete** /api/admin/groups/{groupId} | Delete a single group
 [**DeleteRole**](UsersAPI.md#DeleteRole) | **Delete** /api/admin/roles/{roleId} | Delete a custom role
 [**DeleteUser**](UsersAPI.md#DeleteUser) | **Delete** /api/admin/user-admin/{id} | Delete a user
+[**GetGroup**](UsersAPI.md#GetGroup) | **Get** /api/admin/groups/{groupId} | Get a single group
+[**GetGroups**](UsersAPI.md#GetGroups) | **Get** /api/admin/groups | Get a list of groups
 [**GetRoleById**](UsersAPI.md#GetRoleById) | **Get** /api/admin/roles/{roleId} | Get a single role
 [**GetRoles**](UsersAPI.md#GetRoles) | **Get** /api/admin/roles | Get a list of roles
 [**GetUser**](UsersAPI.md#GetUser) | **Get** /api/admin/user-admin/{id} | Get user
 [**SearchUsers**](UsersAPI.md#SearchUsers) | **Get** /api/admin/user-admin/search | Search users
+[**UpdateGroup**](UsersAPI.md#UpdateGroup) | **Put** /api/admin/groups/{groupId} | Update a group
 [**UpdateRole**](UsersAPI.md#UpdateRole) | **Put** /api/admin/roles/{roleId} | Update a role
 [**UpdateUser**](UsersAPI.md#UpdateUser) | **Put** /api/admin/user-admin/{id} | Update a user
 
+
+
+## CreateGroup
+
+> GroupSchema CreateGroup(ctx).CreateGroupSchema(createGroupSchema).Execute()
+
+Create a new group
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+	createGroupSchema := *openapiclient.NewCreateGroupSchema("DX team") // CreateGroupSchema | createGroupSchema
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.UsersAPI.CreateGroup(context.Background()).CreateGroupSchema(createGroupSchema).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.CreateGroup``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateGroup`: GroupSchema
+	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.CreateGroup`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateGroupRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **createGroupSchema** | [**CreateGroupSchema**](CreateGroupSchema.md) | createGroupSchema | 
+
+### Return type
+
+[**GroupSchema**](GroupSchema.md)
+
+### Authorization
+
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## CreateRole
@@ -149,6 +220,74 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## DeleteGroup
+
+> DeleteGroup(ctx, groupId).Execute()
+
+Delete a single group
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+	groupId := "groupId_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.UsersAPI.DeleteGroup(context.Background(), groupId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.DeleteGroup``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**groupId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteGroupRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## DeleteRole
 
 > DeleteRole(ctx, roleId).Execute()
@@ -270,6 +409,137 @@ Name | Type | Description  | Notes
 ### Return type
 
  (empty response body)
+
+### Authorization
+
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetGroup
+
+> GroupSchema GetGroup(ctx, groupId).Execute()
+
+Get a single group
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+	groupId := "groupId_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.UsersAPI.GetGroup(context.Background(), groupId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.GetGroup``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetGroup`: GroupSchema
+	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.GetGroup`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**groupId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetGroupRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**GroupSchema**](GroupSchema.md)
+
+### Authorization
+
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetGroups
+
+> GroupsSchema GetGroups(ctx).Execute()
+
+Get a list of groups
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.UsersAPI.GetGroups(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.GetGroups``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetGroups`: GroupsSchema
+	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.GetGroups`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetGroupsRequest struct via the builder pattern
+
+
+### Return type
+
+[**GroupsSchema**](GroupsSchema.md)
 
 ### Authorization
 
@@ -545,6 +815,78 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateGroup
+
+> GroupSchema UpdateGroup(ctx, groupId).CreateGroupSchema(createGroupSchema).Execute()
+
+Update a group
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Unleash/unleash-server-api-go"
+)
+
+func main() {
+	groupId := "groupId_example" // string | 
+	createGroupSchema := *openapiclient.NewCreateGroupSchema("DX team") // CreateGroupSchema | createGroupSchema
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.UsersAPI.UpdateGroup(context.Background(), groupId).CreateGroupSchema(createGroupSchema).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.UpdateGroup``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UpdateGroup`: GroupSchema
+	fmt.Fprintf(os.Stdout, "Response from `UsersAPI.UpdateGroup`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**groupId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateGroupRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **createGroupSchema** | [**CreateGroupSchema**](CreateGroupSchema.md) | createGroupSchema | 
+
+### Return type
+
+[**GroupSchema**](GroupSchema.md)
+
+### Authorization
+
+[bearerToken](../README.md#bearerToken), [apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
